@@ -1,0 +1,16 @@
+# Runtime & temporary files
+orange_hrm/.runtime/
+orange_hrm/lib/confs/Conf.php
+orange_hrm/src/cache/
+orange_hrm/src/log/
+orange_hrm/src/vendor/
+orange_hrm/src/client/node_modules/
+orange_hrm/src/client/.yarn/cache/
+orange_hrm/src/client/.yarn/install-state.gz
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

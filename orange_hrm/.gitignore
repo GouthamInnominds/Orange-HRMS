@@ -1,0 +1,6 @@
+/.runtime/
+/lib/confs/Conf.php
+/src/cache/
+/src/log/
+/src/vendor/
+/src/client/node_modules/
