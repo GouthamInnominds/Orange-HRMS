@@ -1,28 +1,40 @@
-name: QKG Automated Ingestion & Quality Gate
+name: QKG CI/CD Quality Gate & Post-Merge Ingestion
 
 on:
-  push:
-    branches:
-      - v2-main
-      - main
+  # 1. During PR: Read-Only Simulation & Blast Radius Impact Analysis (NO DB INGESTION)
   pull_request:
     branches:
       - v2-main
       - main
     types: [opened, synchronize, reopened]
 
+  # 2. After PR is Approved & Merged (OR closed with merged=true): Actual DB Ingestion
+  pull_request_target:
+    types: [closed]
+    branches:
+      - v2-main
+      - main
+
+  # Fallback for direct approved push merges to v2-main/main
+  push:
+    branches:
+      - v2-main
+
 jobs:
-  qkg-sync-and-gate:
-    name: QKG Incremental Sync & Test Impact Analysis
+  # =========================================================================
+  # JOB 1: PR Quality Gate — Simulation & Impact Analysis Only (NO INGESTION)
+  # =========================================================================
+  pr-quality-gate:
+    name: PR Impact Analysis & Selective Test Recommendation
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     services:
-      neo4j:
+      neo4j-replica:
         image: neo4j:5.20-community
         env:
           NEO4J_AUTH: neo4j/admin123
         ports:
-          - 7474:7474
           - 7687:7687
         options: >-
           --health-cmd "cypher-shell -u neo4j -p admin123 'RETURN 1'"
@@ -31,10 +43,10 @@ jobs:
           --health-retries 10
 
     steps:
-      - name: Checkout Code
+      - name: Checkout PR Branch
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Full history for git diff analysis
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -43,55 +55,34 @@ jobs:
           cache: 'npm'
           cache-dependency-path: tools/package.json
 
-      - name: Install Tool Dependencies
+      - name: Install Dependencies
         working-directory: tools
         run: npm ci
 
-      - name: Determine Git Diff Base and Head
-        id: diff-refs
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "BASE_REF=origin/${{ github.base_ref }}" >> $GITHUB_ENV
-            echo "HEAD_REF=origin/${{ github.head_ref }}" >> $GITHUB_ENV
-          else
-            echo "BASE_REF=HEAD~1" >> $GITHUB_ENV
-            echo "HEAD_REF=HEAD" >> $GITHUB_ENV
-          fi
-
-      - name: Run Baseline Ingestion (if Neo4j is empty)
-        run: |
-          node tools/qkg_engine/full_app_ingest.js
+      - name: Preload Baseline Snapshot on Replica
+        run: node tools/qkg_engine/full_app_ingest.js
         env:
           NEO4J_URI: bolt://localhost:7687
           NEO4J_USER: neo4j
           NEO4J_PASSWORD: admin123
 
-      - name: Run Incremental Git Diff Sync & Test Impact Analysis (TIA)
+      - name: Compute Diff & Run Read-Only Test Impact Analysis (TIA)
         run: |
-          node tools/qkg_engine/incremental_sync.js "$BASE_REF" "$HEAD_REF"
+          node tools/qkg_engine/incremental_sync.js "origin/${{ github.base_ref }}" "origin/${{ github.head_ref }}"
         env:
           NEO4J_URI: bolt://localhost:7687
           NEO4J_USER: neo4j
           NEO4J_PASSWORD: admin123
 
-      - name: Upload Ingestion Audit Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: qkg-ingestion-reports
-          path: |
-            tools/qkg_engine/output/incremental_sync_report.md
-            tools/qkg_engine/output/incremental_sync_report.json
-            tools/qkg_engine/output/full_ingestion_audit_report.json
-
-      - name: Post TIA Report Comment on Pull Request
-        if: github.event_name == 'pull_request'
+      - name: Post TIA & Blast Radius Report on PR
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
             const reportPath = 'tools/qkg_engine/output/incremental_sync_report.md';
             if (fs.existsSync(reportPath)) {
-              const body = fs.readFileSync(reportPath, 'utf8');
+              let body = fs.readFileSync(reportPath, 'utf8');
+              body += '\n\n> [!NOTE]\n> **Gate Status:** Read-only impact simulation complete. Actual Knowledge Graph DB ingestion will execute **only after this PR is reviewed, approved, and merged** into `' + context.payload.pull_request.base.ref + '`.';
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
@@ -100,3 +91,68 @@ jobs:
               });
             }
 
+  # =========================================================================
+  # JOB 2: Post-Merge Database Ingestion (RUNS ONLY AFTER MERGE APPROVAL)
+  # =========================================================================
+  post-merge-db-ingest:
+    name: Production Graph Ingestion (Post-Merge Approved)
+    # Strictly gate: Must be a push to v2-main OR a merged pull request
+    if: >
+      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true) ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/v2-main')
+    runs-on: ubuntu-latest
+
+    services:
+      neo4j-production:
+        image: neo4j:5.20-community
+        env:
+          NEO4J_AUTH: neo4j/admin123
+        ports:
+          - 7687:7687
+        options: >-
+          --health-cmd "cypher-shell -u neo4j -p admin123 'RETURN 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout Merged Target Branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: tools/package.json
+
+      - name: Install Dependencies
+        working-directory: tools
+        run: npm ci
+
+      - name: Initialize Baseline (if needed)
+        run: node tools/qkg_engine/full_app_ingest.js
+        env:
+          NEO4J_URI: bolt://localhost:7687
+          NEO4J_USER: neo4j
+          NEO4J_PASSWORD: admin123
+
+      - name: Execute Incremental Diff Ingestion into Database
+        run: |
+          # Read diff of the merged commit(s)
+          node tools/qkg_engine/incremental_sync.js "HEAD~1" "HEAD"
+        env:
+          NEO4J_URI: bolt://localhost:7687
+          NEO4J_USER: neo4j
+          NEO4J_PASSWORD: admin123
+
+      - name: Upload Post-Merge Ingestion Audit Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-merge-ingestion-audit
+          path: |
+            tools/qkg_engine/output/incremental_sync_report.md
+            tools/qkg_engine/output/incremental_sync_report.json
+            tools/qkg_engine/output/full_ingestion_audit_report.json
