@@ -1,9 +1,9 @@
 /**
- * Automated Cypress API Test Suite for orangehrmCoreOAuthPlugin
- * Total Tests: 25
+ * Automated Cypress API Contract Test Suite for orangehrmCoreOAuthPlugin
+ * Tests: 25
  */
 
-describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
+describe('orangehrmCoreOAuthPlugin - Automated API Contract Tests', function () {
   beforeEach(function () {
     cy.fixture('user').then(({ admin }) => {
       if (cy.apiLogin) cy.apiLogin(admin);
@@ -11,7 +11,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/admin/oauth-clients/{id}', function () {
-    it('TC_API_00611: apiv2_admin_oauth_client [HTTP 200]', function () {
+    it('TC_API_00611: apiv2_admin_oauth_client [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/admin/oauth-clients/1',
@@ -21,7 +21,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00612: apiv2_admin_oauth_client [HTTP 401]', function () {
+    it('TC_API_00612: apiv2_admin_oauth_client [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/admin/oauth-clients/1',
@@ -34,7 +34,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('PUT /api/v2/admin/oauth-clients/{id}', function () {
-    it('TC_API_00613: apiv2_admin_oauth_client [HTTP 200]', function () {
+    it('TC_API_00613: apiv2_admin_oauth_client [Expected: 200]', function () {
       cy.request({
         method: 'PUT',
         url: '/api/v2/admin/oauth-clients/1',
@@ -44,7 +44,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00614: apiv2_admin_oauth_client [HTTP 401]', function () {
+    it('TC_API_00614: apiv2_admin_oauth_client [Expected: 401]', function () {
       cy.request({
         method: 'PUT',
         url: '/api/v2/admin/oauth-clients/1',
@@ -54,7 +54,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00615: apiv2_admin_oauth_client [HTTP 422]', function () {
+    it('TC_API_00615: apiv2_admin_oauth_client [Expected: 422]', function () {
       cy.request({
         method: 'PUT',
         url: '/api/v2/admin/oauth-clients/1',
@@ -67,7 +67,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/admin/oauth-clients', function () {
-    it('TC_API_00616: apiv2_admin_oauth_clients [HTTP 200]', function () {
+    it('TC_API_00616: apiv2_admin_oauth_clients [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/admin/oauth-clients',
@@ -77,7 +77,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00617: apiv2_admin_oauth_clients [HTTP 401]', function () {
+    it('TC_API_00617: apiv2_admin_oauth_clients [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/admin/oauth-clients',
@@ -90,7 +90,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('POST /api/v2/admin/oauth-clients', function () {
-    it('TC_API_00618: apiv2_admin_oauth_clients [HTTP 200]', function () {
+    it('TC_API_00618: apiv2_admin_oauth_clients [Expected: 200]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/admin/oauth-clients',
@@ -100,7 +100,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00619: apiv2_admin_oauth_clients [HTTP 401]', function () {
+    it('TC_API_00619: apiv2_admin_oauth_clients [Expected: 401]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/admin/oauth-clients',
@@ -110,7 +110,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00620: apiv2_admin_oauth_clients [HTTP 422]', function () {
+    it('TC_API_00620: apiv2_admin_oauth_clients [Expected: 422]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/admin/oauth-clients',
@@ -123,7 +123,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('DELETE /api/v2/admin/oauth-clients', function () {
-    it('TC_API_00621: apiv2_admin_oauth_clients [HTTP 200]', function () {
+    it('TC_API_00621: apiv2_admin_oauth_clients [Expected: 200]', function () {
       cy.request({
         method: 'DELETE',
         url: '/api/v2/admin/oauth-clients',
@@ -133,7 +133,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00622: apiv2_admin_oauth_clients [HTTP 401]', function () {
+    it('TC_API_00622: apiv2_admin_oauth_clients [Expected: 401]', function () {
       cy.request({
         method: 'DELETE',
         url: '/api/v2/admin/oauth-clients',
@@ -146,7 +146,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /admin/registerOAuthClient', function () {
-    it('TC_API_00623: admin_view_oauth_client [HTTP 200]', function () {
+    it('TC_API_00623: admin_view_oauth_client [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/admin/registerOAuthClient',
@@ -156,7 +156,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00624: admin_view_oauth_client [HTTP 401]', function () {
+    it('TC_API_00624: admin_view_oauth_client [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/admin/registerOAuthClient',
@@ -169,7 +169,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /admin/editOAuthClient', function () {
-    it('TC_API_00625: admin_edit_oauth_client [HTTP 200]', function () {
+    it('TC_API_00625: admin_edit_oauth_client [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/admin/editOAuthClient',
@@ -179,7 +179,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00626: admin_edit_oauth_client [HTTP 401]', function () {
+    it('TC_API_00626: admin_edit_oauth_client [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/admin/editOAuthClient',
@@ -192,7 +192,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /admin/saveOAuthClient', function () {
-    it('TC_API_00627: admin_save_oauth_client [HTTP 200]', function () {
+    it('TC_API_00627: admin_save_oauth_client [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/admin/saveOAuthClient',
@@ -202,7 +202,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00628: admin_save_oauth_client [HTTP 401]', function () {
+    it('TC_API_00628: admin_save_oauth_client [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/admin/saveOAuthClient',
@@ -215,7 +215,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /oauth2/authorize/consent', function () {
-    it('TC_API_00629: auth_oauth2_consent [HTTP 200]', function () {
+    it('TC_API_00629: auth_oauth2_consent [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/oauth2/authorize/consent',
@@ -225,7 +225,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00630: auth_oauth2_consent [HTTP 401]', function () {
+    it('TC_API_00630: auth_oauth2_consent [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/oauth2/authorize/consent',
@@ -238,7 +238,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /oauth2/authorize', function () {
-    it('TC_API_00631: auth_oauth2_authorize [HTTP 200]', function () {
+    it('TC_API_00631: auth_oauth2_authorize [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/oauth2/authorize',
@@ -248,7 +248,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00632: auth_oauth2_authorize [HTTP 401]', function () {
+    it('TC_API_00632: auth_oauth2_authorize [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/oauth2/authorize',
@@ -261,7 +261,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
   });
 
   describe('POST /oauth2/token', function () {
-    it('TC_API_00633: auth_oauth2_token [HTTP 200]', function () {
+    it('TC_API_00633: auth_oauth2_token [Expected: 200]', function () {
       cy.request({
         method: 'POST',
         url: '/oauth2/token',
@@ -271,7 +271,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00634: auth_oauth2_token [HTTP 401]', function () {
+    it('TC_API_00634: auth_oauth2_token [Expected: 401]', function () {
       cy.request({
         method: 'POST',
         url: '/oauth2/token',
@@ -281,7 +281,7 @@ describe('orangehrmCoreOAuthPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00635: auth_oauth2_token [HTTP 422]', function () {
+    it('TC_API_00635: auth_oauth2_token [Expected: 422]', function () {
       cy.request({
         method: 'POST',
         url: '/oauth2/token',

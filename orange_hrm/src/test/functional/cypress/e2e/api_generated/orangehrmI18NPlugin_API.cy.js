@@ -1,9 +1,9 @@
 /**
- * Automated Cypress API Test Suite for orangehrmI18NPlugin
- * Total Tests: 2
+ * Automated Cypress API Contract Test Suite for orangehrmI18NPlugin
+ * Tests: 2
  */
 
-describe('orangehrmI18NPlugin - Automated API Contracts', function () {
+describe('orangehrmI18NPlugin - Automated API Contract Tests', function () {
   beforeEach(function () {
     cy.fixture('user').then(({ admin }) => {
       if (cy.apiLogin) cy.apiLogin(admin);
@@ -11,7 +11,7 @@ describe('orangehrmI18NPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /core/i18n/messages', function () {
-    it('TC_API_00697: core_i18n_messages [HTTP 200]', function () {
+    it('TC_API_00697: core_i18n_messages [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/core/i18n/messages',
@@ -21,7 +21,7 @@ describe('orangehrmI18NPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00698: core_i18n_messages [HTTP 401]', function () {
+    it('TC_API_00698: core_i18n_messages [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/core/i18n/messages',

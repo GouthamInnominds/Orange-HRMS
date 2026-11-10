@@ -1,9 +1,9 @@
 /**
- * Automated Cypress API Test Suite for orangehrmCorePlugin
- * Total Tests: 16
+ * Automated Cypress API Contract Test Suite for orangehrmCorePlugin
+ * Tests: 16
  */
 
-describe('orangehrmCorePlugin - Automated API Contracts', function () {
+describe('orangehrmCorePlugin - Automated API Contract Tests', function () {
   beforeEach(function () {
     cy.fixture('user').then(({ admin }) => {
       if (cy.apiLogin) cy.apiLogin(admin);
@@ -11,7 +11,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/core/data-groups', function () {
-    it('TC_API_00636: apiv2_core_data_groups [HTTP 200]', function () {
+    it('TC_API_00636: apiv2_core_data_groups [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/core/data-groups',
@@ -21,7 +21,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00637: apiv2_core_data_groups [HTTP 401]', function () {
+    it('TC_API_00637: apiv2_core_data_groups [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/core/data-groups',
@@ -34,7 +34,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
   });
 
   describe('POST /api/v2/core/data-groups', function () {
-    it('TC_API_00638: apiv2_core_data_groups [HTTP 200]', function () {
+    it('TC_API_00638: apiv2_core_data_groups [Expected: 200]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/core/data-groups',
@@ -44,7 +44,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00639: apiv2_core_data_groups [HTTP 401]', function () {
+    it('TC_API_00639: apiv2_core_data_groups [Expected: 401]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/core/data-groups',
@@ -54,7 +54,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00640: apiv2_core_data_groups [HTTP 422]', function () {
+    it('TC_API_00640: apiv2_core_data_groups [Expected: 422]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/core/data-groups',
@@ -67,7 +67,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
   });
 
   describe('DELETE /api/v2/core/data-groups', function () {
-    it('TC_API_00641: apiv2_core_data_groups [HTTP 200]', function () {
+    it('TC_API_00641: apiv2_core_data_groups [Expected: 200]', function () {
       cy.request({
         method: 'DELETE',
         url: '/api/v2/core/data-groups',
@@ -77,7 +77,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00642: apiv2_core_data_groups [HTTP 401]', function () {
+    it('TC_API_00642: apiv2_core_data_groups [Expected: 401]', function () {
       cy.request({
         method: 'DELETE',
         url: '/api/v2/core/data-groups',
@@ -90,7 +90,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/core/about', function () {
-    it('TC_API_00643: apiv2_core_about_organization [HTTP 200]', function () {
+    it('TC_API_00643: apiv2_core_about_organization [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/core/about',
@@ -100,7 +100,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00644: apiv2_core_about_organization [HTTP 401]', function () {
+    it('TC_API_00644: apiv2_core_about_organization [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/core/about',
@@ -113,7 +113,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
   });
 
   describe('POST /events/push', function () {
-    it('TC_API_00645: push_events [HTTP 200]', function () {
+    it('TC_API_00645: push_events [Expected: 200]', function () {
       cy.request({
         method: 'POST',
         url: '/events/push',
@@ -123,7 +123,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00646: push_events [HTTP 401]', function () {
+    it('TC_API_00646: push_events [Expected: 401]', function () {
       cy.request({
         method: 'POST',
         url: '/events/push',
@@ -133,7 +133,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00647: push_events [HTTP 422]', function () {
+    it('TC_API_00647: push_events [Expected: 422]', function () {
       cy.request({
         method: 'POST',
         url: '/events/push',
@@ -146,7 +146,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/core/public/version', function () {
-    it('TC_API_00648: apiv2_core_public_api_version [HTTP 200]', function () {
+    it('TC_API_00648: apiv2_core_public_api_version [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/core/public/version',
@@ -156,7 +156,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00649: apiv2_core_public_api_version [HTTP 401]', function () {
+    it('TC_API_00649: apiv2_core_public_api_version [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/core/public/version',
@@ -169,7 +169,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/core/validation/unique', function () {
-    it('TC_API_00650: apiv2_core_validate_uniqueness [HTTP 200]', function () {
+    it('TC_API_00650: apiv2_core_validate_uniqueness [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/core/validation/unique',
@@ -179,7 +179,7 @@ describe('orangehrmCorePlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00651: apiv2_core_validate_uniqueness [HTTP 401]', function () {
+    it('TC_API_00651: apiv2_core_validate_uniqueness [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/core/validation/unique',

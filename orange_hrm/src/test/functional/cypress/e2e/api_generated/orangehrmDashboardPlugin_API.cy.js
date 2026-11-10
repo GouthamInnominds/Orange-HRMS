@@ -1,9 +1,9 @@
 /**
- * Automated Cypress API Test Suite for orangehrmDashboardPlugin
- * Total Tests: 19
+ * Automated Cypress API Contract Test Suite for orangehrmDashboardPlugin
+ * Tests: 19
  */
 
-describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
+describe('orangehrmDashboardPlugin - Automated API Contract Tests', function () {
   beforeEach(function () {
     cy.fixture('user').then(({ admin }) => {
       if (cy.apiLogin) cy.apiLogin(admin);
@@ -11,7 +11,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/dashboard/employees/leaves', function () {
-    it('TC_API_00674: apiv2_dashboard_employees_on_leave [HTTP 200]', function () {
+    it('TC_API_00674: apiv2_dashboard_employees_on_leave [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/leaves',
@@ -21,7 +21,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00675: apiv2_dashboard_employees_on_leave [HTTP 401]', function () {
+    it('TC_API_00675: apiv2_dashboard_employees_on_leave [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/leaves',
@@ -34,7 +34,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/dashboard/employees/subunit', function () {
-    it('TC_API_00676: apiv2_dashboard_employees_by_subunit [HTTP 200]', function () {
+    it('TC_API_00676: apiv2_dashboard_employees_by_subunit [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/subunit',
@@ -44,7 +44,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00677: apiv2_dashboard_employees_by_subunit [HTTP 401]', function () {
+    it('TC_API_00677: apiv2_dashboard_employees_by_subunit [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/subunit',
@@ -57,7 +57,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/dashboard/shortcuts', function () {
-    it('TC_API_00678: apiv2_dashboard_quick_launch [HTTP 200]', function () {
+    it('TC_API_00678: apiv2_dashboard_quick_launch [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/shortcuts',
@@ -67,7 +67,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00679: apiv2_dashboard_quick_launch [HTTP 401]', function () {
+    it('TC_API_00679: apiv2_dashboard_quick_launch [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/shortcuts',
@@ -80,7 +80,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/dashboard/employees/locations', function () {
-    it('TC_API_00680: apiv2_dashboard_employees_by_location [HTTP 200]', function () {
+    it('TC_API_00680: apiv2_dashboard_employees_by_location [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/locations',
@@ -90,7 +90,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00681: apiv2_dashboard_employees_by_location [HTTP 401]', function () {
+    it('TC_API_00681: apiv2_dashboard_employees_by_location [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/locations',
@@ -103,7 +103,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/dashboard/employees/time-at-work', function () {
-    it('TC_API_00682: apiv2_dashboard_employee_time_at_work [HTTP 200]', function () {
+    it('TC_API_00682: apiv2_dashboard_employee_time_at_work [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/time-at-work',
@@ -113,7 +113,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00683: apiv2_dashboard_employee_time_at_work [HTTP 401]', function () {
+    it('TC_API_00683: apiv2_dashboard_employee_time_at_work [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/time-at-work',
@@ -126,7 +126,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/dashboard/employees/action-summary', function () {
-    it('TC_API_00684: apiv2_dashboard_employee_action_summary [HTTP 200]', function () {
+    it('TC_API_00684: apiv2_dashboard_employee_action_summary [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/action-summary',
@@ -136,7 +136,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00685: apiv2_dashboard_employee_action_summary [HTTP 401]', function () {
+    it('TC_API_00685: apiv2_dashboard_employee_action_summary [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/employees/action-summary',
@@ -149,7 +149,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /api/v2/dashboard/config/employee-on-leave-today', function () {
-    it('TC_API_00686: apiv2_dashboard_employee_on_leave_today_configuration [HTTP 200]', function () {
+    it('TC_API_00686: apiv2_dashboard_employee_on_leave_today_configuration [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/config/employee-on-leave-today',
@@ -159,7 +159,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00687: apiv2_dashboard_employee_on_leave_today_configuration [HTTP 401]', function () {
+    it('TC_API_00687: apiv2_dashboard_employee_on_leave_today_configuration [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/dashboard/config/employee-on-leave-today',
@@ -172,7 +172,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
   });
 
   describe('PUT /api/v2/dashboard/config/employee-on-leave-today', function () {
-    it('TC_API_00688: apiv2_dashboard_employee_on_leave_today_configuration [HTTP 200]', function () {
+    it('TC_API_00688: apiv2_dashboard_employee_on_leave_today_configuration [Expected: 200]', function () {
       cy.request({
         method: 'PUT',
         url: '/api/v2/dashboard/config/employee-on-leave-today',
@@ -182,7 +182,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00689: apiv2_dashboard_employee_on_leave_today_configuration [HTTP 401]', function () {
+    it('TC_API_00689: apiv2_dashboard_employee_on_leave_today_configuration [Expected: 401]', function () {
       cy.request({
         method: 'PUT',
         url: '/api/v2/dashboard/config/employee-on-leave-today',
@@ -192,7 +192,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00690: apiv2_dashboard_employee_on_leave_today_configuration [HTTP 422]', function () {
+    it('TC_API_00690: apiv2_dashboard_employee_on_leave_today_configuration [Expected: 422]', function () {
       cy.request({
         method: 'PUT',
         url: '/api/v2/dashboard/config/employee-on-leave-today',
@@ -205,7 +205,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /dashboard/index', function () {
-    it('TC_API_00691: dashboard_widget [HTTP 200]', function () {
+    it('TC_API_00691: dashboard_widget [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/dashboard/index',
@@ -215,7 +215,7 @@ describe('orangehrmDashboardPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00692: dashboard_widget [HTTP 401]', function () {
+    it('TC_API_00692: dashboard_widget [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/dashboard/index',
