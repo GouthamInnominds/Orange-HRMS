@@ -280,3 +280,4 @@ class PhpAstExtractor {
 }
 
 module.exports = PhpAstExtractor;
+
