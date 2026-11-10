@@ -1,9 +1,9 @@
 /**
- * Automated Cypress API Test Suite for orangehrmLDAPAuthenticationPlugin
- * Total Tests: 13
+ * Automated Cypress API Contract Test Suite for orangehrmLDAPAuthenticationPlugin
+ * Tests: 13
  */
 
-describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function () {
+describe('orangehrmLDAPAuthenticationPlugin - Automated API Contract Tests', function () {
   beforeEach(function () {
     cy.fixture('user').then(({ admin }) => {
       if (cy.apiLogin) cy.apiLogin(admin);
@@ -11,7 +11,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
   });
 
   describe('GET /api/v2/admin/ldap-config', function () {
-    it('TC_API_00699: apiv2_admin_ldap_configuration [HTTP 200]', function () {
+    it('TC_API_00699: apiv2_admin_ldap_configuration [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/admin/ldap-config',
@@ -21,7 +21,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
       });
     });
 
-    it('TC_API_00700: apiv2_admin_ldap_configuration [HTTP 401]', function () {
+    it('TC_API_00700: apiv2_admin_ldap_configuration [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/admin/ldap-config',
@@ -34,7 +34,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
   });
 
   describe('PUT /api/v2/admin/ldap-config', function () {
-    it('TC_API_00701: apiv2_admin_ldap_configuration [HTTP 200]', function () {
+    it('TC_API_00701: apiv2_admin_ldap_configuration [Expected: 200]', function () {
       cy.request({
         method: 'PUT',
         url: '/api/v2/admin/ldap-config',
@@ -44,7 +44,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
       });
     });
 
-    it('TC_API_00702: apiv2_admin_ldap_configuration [HTTP 401]', function () {
+    it('TC_API_00702: apiv2_admin_ldap_configuration [Expected: 401]', function () {
       cy.request({
         method: 'PUT',
         url: '/api/v2/admin/ldap-config',
@@ -54,7 +54,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
       });
     });
 
-    it('TC_API_00703: apiv2_admin_ldap_configuration [HTTP 422]', function () {
+    it('TC_API_00703: apiv2_admin_ldap_configuration [Expected: 422]', function () {
       cy.request({
         method: 'PUT',
         url: '/api/v2/admin/ldap-config',
@@ -67,7 +67,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
   });
 
   describe('POST /api/v2/admin/ldap-test-connection', function () {
-    it('TC_API_00704: apiv2_admin_ldap_test_connection [HTTP 200]', function () {
+    it('TC_API_00704: apiv2_admin_ldap_test_connection [Expected: 200]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/admin/ldap-test-connection',
@@ -77,7 +77,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
       });
     });
 
-    it('TC_API_00705: apiv2_admin_ldap_test_connection [HTTP 401]', function () {
+    it('TC_API_00705: apiv2_admin_ldap_test_connection [Expected: 401]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/admin/ldap-test-connection',
@@ -87,7 +87,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
       });
     });
 
-    it('TC_API_00706: apiv2_admin_ldap_test_connection [HTTP 422]', function () {
+    it('TC_API_00706: apiv2_admin_ldap_test_connection [Expected: 422]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/admin/ldap-test-connection',
@@ -100,7 +100,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
   });
 
   describe('GET /api/v2/admin/ldap/user-sync', function () {
-    it('TC_API_00707: apiv2_admin_ldap_user_sync [HTTP 200]', function () {
+    it('TC_API_00707: apiv2_admin_ldap_user_sync [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/admin/ldap/user-sync',
@@ -110,7 +110,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
       });
     });
 
-    it('TC_API_00708: apiv2_admin_ldap_user_sync [HTTP 401]', function () {
+    it('TC_API_00708: apiv2_admin_ldap_user_sync [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/api/v2/admin/ldap/user-sync',
@@ -123,7 +123,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
   });
 
   describe('POST /api/v2/admin/ldap/user-sync', function () {
-    it('TC_API_00709: apiv2_admin_ldap_user_sync [HTTP 200]', function () {
+    it('TC_API_00709: apiv2_admin_ldap_user_sync [Expected: 200]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/admin/ldap/user-sync',
@@ -133,7 +133,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
       });
     });
 
-    it('TC_API_00710: apiv2_admin_ldap_user_sync [HTTP 401]', function () {
+    it('TC_API_00710: apiv2_admin_ldap_user_sync [Expected: 401]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/admin/ldap/user-sync',
@@ -143,7 +143,7 @@ describe('orangehrmLDAPAuthenticationPlugin - Automated API Contracts', function
       });
     });
 
-    it('TC_API_00711: apiv2_admin_ldap_user_sync [HTTP 422]', function () {
+    it('TC_API_00711: apiv2_admin_ldap_user_sync [Expected: 422]', function () {
       cy.request({
         method: 'POST',
         url: '/api/v2/admin/ldap/user-sync',

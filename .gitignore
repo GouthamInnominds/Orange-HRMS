@@ -14,5 +14,8 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Tools & Local Environment
 .env
+tools/.env
 tools/node_modules/

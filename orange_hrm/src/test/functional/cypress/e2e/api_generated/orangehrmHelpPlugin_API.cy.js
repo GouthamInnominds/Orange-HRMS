@@ -1,9 +1,9 @@
 /**
- * Automated Cypress API Test Suite for orangehrmHelpPlugin
- * Total Tests: 4
+ * Automated Cypress API Contract Test Suite for orangehrmHelpPlugin
+ * Tests: 4
  */
 
-describe('orangehrmHelpPlugin - Automated API Contracts', function () {
+describe('orangehrmHelpPlugin - Automated API Contract Tests', function () {
   beforeEach(function () {
     cy.fixture('user').then(({ admin }) => {
       if (cy.apiLogin) cy.apiLogin(admin);
@@ -11,7 +11,7 @@ describe('orangehrmHelpPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /help/support', function () {
-    it('TC_API_00693: view_help_support [HTTP 200]', function () {
+    it('TC_API_00693: view_help_support [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/help/support',
@@ -21,7 +21,7 @@ describe('orangehrmHelpPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00694: view_help_support [HTTP 401]', function () {
+    it('TC_API_00694: view_help_support [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/help/support',
@@ -34,7 +34,7 @@ describe('orangehrmHelpPlugin - Automated API Contracts', function () {
   });
 
   describe('GET /help/help', function () {
-    it('TC_API_00695: help_help [HTTP 200]', function () {
+    it('TC_API_00695: help_help [Expected: 200]', function () {
       cy.request({
         method: 'GET',
         url: '/help/help',
@@ -44,7 +44,7 @@ describe('orangehrmHelpPlugin - Automated API Contracts', function () {
       });
     });
 
-    it('TC_API_00696: help_help [HTTP 401]', function () {
+    it('TC_API_00696: help_help [Expected: 401]', function () {
       cy.request({
         method: 'GET',
         url: '/help/help',
