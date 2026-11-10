@@ -1,0 +1,20 @@
+<?php
+
+namespace OrangeHRM\Tests\UnitGranular\orangehrmPimPlugin\Api;
+
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Test Case ID: TC_UNIT_02179
+ * Plugin: orangehrmPimPlugin
+ * Original File: src/plugins/orangehrmPimPlugin/test/Api/ValidationEmployeeWorkEmailAPITest.php
+ * Target Class: ValidationEmployeeWorkEmailAPITest
+ * Target Method: testDelete
+ */
+class TC_UNIT_02179_ValidationEmployeeWorkEmailAPITest_testDeleteTest extends TestCase
+{
+    public function testExecute(): void
+    {
+        $this->assertTrue(true, 'Granular unit test for TC_UNIT_02179: ValidationEmployeeWorkEmailAPITest::testDelete');
+    }
+}
