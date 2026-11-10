@@ -1,0 +1,131 @@
+{
+  "audit_timestamp": "2026-11-10T08:43:20.025Z",
+  "baseline_id": "ORANGEHRM_BASELINE_v1.0",
+  "platform_version": "QKG v2.0.0",
+  "commit_sha": "51a2219717d2a3fc7bc6f23696515b22fe791dfd",
+  "summary": {
+    "total_nodes": 18731,
+    "total_relationships": 46367,
+    "total_plugins_ingested": 22,
+    "total_routes_ingested": 738,
+    "total_classes_ingested": 1574,
+    "total_methods_ingested": 8950,
+    "total_testcases_ingested": 6893
+  },
+  "nodes_by_label": [
+    {
+      "label": "Method",
+      "count": 8950
+    },
+    {
+      "label": "TestCase",
+      "count": 6893
+    },
+    {
+      "label": "Class",
+      "count": 1574
+    },
+    {
+      "label": "ApiEndpoint",
+      "count": 738
+    },
+    {
+      "label": "DatabaseTable",
+      "count": 146
+    },
+    {
+      "label": "DatabaseEntity",
+      "count": 146
+    },
+    {
+      "label": "Trait",
+      "count": 92
+    },
+    {
+      "label": "Interface",
+      "count": 53
+    },
+    {
+      "label": "Feature",
+      "count": 30
+    },
+    {
+      "label": "Requirement",
+      "count": 30
+    },
+    {
+      "label": "Plugin",
+      "count": 22
+    },
+    {
+      "label": "RequirementGroup",
+      "count": 20
+    },
+    {
+      "label": "BusinessRule",
+      "count": 15
+    },
+    {
+      "label": "BusinessDomain",
+      "count": 12
+    },
+    {
+      "label": "BusinessWorkflow",
+      "count": 10
+    }
+  ],
+  "relationships_by_type": [
+    {
+      "relationship": "VERIFIES",
+      "count": 32055
+    },
+    {
+      "relationship": "DECLARES",
+      "count": 8950
+    },
+    {
+      "relationship": "EXECUTES_AGAINST",
+      "count": 1678
+    },
+    {
+      "relationship": "USES_TRAIT",
+      "count": 1517
+    },
+    {
+      "relationship": "EXPOSES",
+      "count": 738
+    },
+    {
+      "relationship": "HANDLED_BY",
+      "count": 599
+    },
+    {
+      "relationship": "IMPLEMENTS",
+      "count": 567
+    },
+    {
+      "relationship": "MAPS_TO",
+      "count": 146
+    },
+    {
+      "relationship": "HAS_REQUIREMENT",
+      "count": 30
+    },
+    {
+      "relationship": "DECOMPOSES_TO",
+      "count": 30
+    },
+    {
+      "relationship": "CONTAINS",
+      "count": 22
+    },
+    {
+      "relationship": "HAS_REQUIREMENT_GROUP",
+      "count": 20
+    },
+    {
+      "relationship": "GOVERNED_BY",
+      "count": 15
+    }
+  ]
+}
