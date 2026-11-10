@@ -1,11 +1,14 @@
 /**
  * OrangeHRM QKG Complete End-to-End Ingestion Engine
  * Ingests 100% of all 22 Plugins, 501 Routes (738 discrete endpoints),
- * all Classes/Methods/Entities, all Requirements, and all 6,893 Multi-Tier Test Cases into Neo4j.
+ * all Classes/Methods/Entities, all Requirements, all User Stories,
+ * the entire Vue.js & TypeScript frontend (482 components, 193 pages),
+ * and all 6,893 Multi-Tier Test Cases into Neo4j.
  * 
  * Compliant with Senior Architect Review V2 Ontology:
- * - Decoupled Business Domains, Workflows, Features, RequirementGroups, Requirements, Rules
+ * - Decoupled Business Domains, Workflows, Features, RequirementGroups, Requirements, Rules, Personas, UserStories
  * - Multi-Language AST: Classes, Interfaces, Traits, Methods, Calls, Extensions, Dependencies, ORM Mappings
+ * - Complete Vue.js / TypeScript Frontend: UI Components, Registered Pages, Form Inputs, API calls
  * - Multi-Tier Test Taxonomy: Unit, API, Functional, Security, E2E, Workflow, Data Integrity, UI, Perf
  */
 
@@ -16,6 +19,7 @@ const neo4j = require('../node_modules/neo4j-driver');
 const PhpAstExtractor = require('./php_ast_extractor');
 const RoutesExtractor = require('./routes_extractor');
 const GlobalSpecExtractor = require('./spec_extractor');
+const VueAstExtractor = require('./vue_ast_extractor');
 
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
@@ -25,6 +29,7 @@ const password = process.env.NEO4J_PASSWORD || 'admin123';
 
 const workspaceRoot = path.resolve(__dirname, '..', '..');
 const pluginsDir = path.join(workspaceRoot, 'orange_hrm', 'src', 'plugins');
+const clientSrcDir = path.join(workspaceRoot, 'orange_hrm', 'src', 'client', 'src');
 const baselineDir = path.join(workspaceRoot, 'OrangeHRM_Baseline_v1.0');
 const outputDir = path.join(__dirname, 'output');
 
@@ -78,12 +83,12 @@ const FEATURE_ENDPOINT_PATTERNS = [
 
 async function runFullIngestion() {
   console.log('========================================================================');
-  console.log('   ORANGEHRM QKG: COMPLETE END-TO-END REPOSITORY INGESTION (ALL 22 PLUGINS)');
-  console.log('   Platform: QKG v2.0.0 | Schema: 2.0 | Parser: 2.0.0');
+  console.log('   ORANGEHRM QKG: COMPLETE END-TO-END REPOSITORY INGESTION (FULL-STACK)');
+  console.log('   Platform: QKG v2.0.0 | Schema: 2.0 | Frontend AST + Backend AST');
   console.log('========================================================================\n');
 
   // STEP 1: Scan All 22 Plugins for Routes and PHP Source Files
-  console.log('[Step 1/6] Scanning all 22 plugins across orange_hrm/src/plugins...');
+  console.log('[Step 1/7] Scanning all 22 plugins across orange_hrm/src/plugins...');
   const pluginEntries = fs.readdirSync(pluginsDir, { withFileTypes: true }).filter(e => e.isDirectory());
   const allRoutes = [];
   const allPhpFiles = [];
@@ -115,7 +120,7 @@ async function runFullIngestion() {
   console.log(`✓ Discovered ${allPhpFiles.length} PHP source files.`);
 
   // STEP 2: Multi-Language PHP AST Parsing
-  console.log('\n[Step 2/6] Parsing all PHP source files via Glayzzle AST parser...');
+  console.log('\n[Step 2/7] Parsing all PHP source files via Glayzzle AST parser...');
   const extractor = new PhpAstExtractor();
   const allClasses = [];
   const allEntities = [];
@@ -144,8 +149,15 @@ async function runFullIngestion() {
   console.log(`✓ Resolved ${callCount} Method Calls.`);
   console.log(`✓ Identified ${allEntities.length} Doctrine Entities with Table mappings.`);
 
-  // STEP 3: Specifications and Multi-Tier Test Cases
-  console.log('\n[Step 3/6] Loading All Business Specifications and Multi-Tier Test Suites...');
+  // STEP 3: Vue.js & TypeScript Frontend AST Parsing
+  console.log('\n[Step 3/7] Parsing Vue.js & TypeScript Frontend AST (orange_hrm/src/client/src)...');
+  const vueExtractor = new VueAstExtractor(clientSrcDir);
+  const frontend = vueExtractor.extractAll();
+  console.log(`✓ Extracted ${frontend.components.length} Vue Components & TypeScript Modules.`);
+  console.log(`✓ Extracted ${frontend.pages.length} Registered UI Pages.`);
+
+  // STEP 4: Specifications, User Stories, and Multi-Tier Test Cases
+  console.log('\n[Step 4/7] Loading All Business Specifications, User Stories & Test Suites...');
   const specExtractor = new GlobalSpecExtractor(baselineDir);
   const specs = specExtractor.extractAllSpecifications();
   const testSuites = specExtractor.loadAllTestSuites();
@@ -165,11 +177,12 @@ async function runFullIngestion() {
     testSuites.performance_tests.length;
 
   console.log(`✓ Loaded ${specs.domains.length} Domains, ${specs.workflows.length} Workflows, ${specs.features.length} Features.`);
+  console.log(`✓ Loaded ${specs.personas.length} Personas and ${specs.userStories.length} Whole-Application User Stories.`);
   console.log(`✓ Loaded ${specs.requirements.length} Requirements (FR/NFR) and ${specs.businessRules.length} Business Rules.`);
   console.log(`✓ Loaded ${totalTests} total test cases across all 12 test suites.`);
 
-  // STEP 4: Connect to Neo4j and Initialize Schema Constraints
-  console.log(`\n[Step 4/6] Connecting to Neo4j (${uri}) & Applying Constraints...`);
+  // STEP 5: Connect to Neo4j and Initialize Schema Constraints
+  console.log(`\n[Step 5/7] Connecting to Neo4j (${uri}) & Applying Constraints...`);
   const driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
   const session = driver.session();
 
@@ -184,6 +197,10 @@ async function runFullIngestion() {
     `CREATE CONSTRAINT IF NOT EXISTS FOR (rg:RequirementGroup) REQUIRE rg.group_id IS UNIQUE`,
     `CREATE CONSTRAINT IF NOT EXISTS FOR (r:Requirement) REQUIRE r.requirement_id IS UNIQUE`,
     `CREATE CONSTRAINT IF NOT EXISTS FOR (br:BusinessRule) REQUIRE br.rule_id IS UNIQUE`,
+    `CREATE CONSTRAINT IF NOT EXISTS FOR (per:Persona) REQUIRE per.persona_id IS UNIQUE`,
+    `CREATE CONSTRAINT IF NOT EXISTS FOR (us:UserStory) REQUIRE us.story_id IS UNIQUE`,
+    `CREATE CONSTRAINT IF NOT EXISTS FOR (uic:UIComponent) REQUIRE uic.component_id IS UNIQUE`,
+    `CREATE CONSTRAINT IF NOT EXISTS FOR (uip:UIPage) REQUIRE uip.page_id IS UNIQUE`,
     `CREATE CONSTRAINT IF NOT EXISTS FOR (e:ApiEndpoint) REQUIRE e.endpoint_id IS UNIQUE`,
     `CREATE CONSTRAINT IF NOT EXISTS FOR (c:Class) REQUIRE c.fqcn IS UNIQUE`,
     `CREATE CONSTRAINT IF NOT EXISTS FOR (m:Method) REQUIRE m.signature IS UNIQUE`,
@@ -196,17 +213,17 @@ async function runFullIngestion() {
   }
   console.log('✓ Constraints and indexes active.');
 
-  // STEP 5: High-Speed Ingestion using UNWIND Batches
-  console.log('\n[Step 5/6] Ingesting Graph Entities & Relationships via UNWIND batches...');
+  // STEP 6: High-Speed Ingestion using UNWIND Batches
+  console.log('\n[Step 6/7] Ingesting Graph Entities & Relationships via UNWIND batches...');
 
-  // 5.1 Ingest Plugins
+  // 6.1 Ingest Plugins
   await session.run(`
     UNWIND $plugins AS p
     MERGE (node:Plugin { name: p.name })
   `, { plugins: pluginEntries.map(e => ({ name: e.name })) });
   console.log(`✓ Ingested ${pluginEntries.length} Plugin nodes.`);
 
-  // 5.2 Ingest Domains & Workflows
+  // 6.2 Ingest Domains & Workflows
   await session.run(`
     UNWIND $domains AS d
     MERGE (node:BusinessDomain { domain_id: d.domain_id })
@@ -225,7 +242,7 @@ async function runFullIngestion() {
     MERGE (d)-[:CONTAINS]->(node)
   `, { workflows: specs.workflows });
 
-  // 5.3 Ingest Features & Requirements & Rules
+  // 6.3 Ingest Features, RequirementGroups, Requirements, Rules
   await session.run(`
     UNWIND $features AS f
     MERGE (node:Feature { feature_id: f.feature_id })
@@ -261,9 +278,50 @@ async function runFullIngestion() {
     MATCH (r:Requirement { requirement_id: b.requirement_id })
     MERGE (r)-[:GOVERNED_BY]->(node)
   `, { rules: specs.businessRules });
-  console.log(`✓ Ingested Requirements, Domains, Workflows, and Rules.`);
 
-  // 5.4 Ingest API Endpoints & Link to Plugins
+  // 6.4 Ingest Personas & User Stories
+  await session.run(`
+    UNWIND $personas AS per
+    MERGE (node:Persona { persona_id: per.persona_id })
+    ON CREATE SET node.name = per.name, node.role = per.role
+  `, { personas: specs.personas });
+
+  await session.run(`
+    UNWIND $stories AS s
+    MERGE (us:UserStory { story_id: s.story_id })
+    ON CREATE SET us.title = s.title,
+                  us.statement = s.statement,
+                  us.domain_id = s.domain_id,
+                  us.feature_id = s.feature_id,
+                  us.workflow_id = s.workflow_id,
+                  us.requirement_id = s.requirement_id
+    WITH us, s
+    MATCH (p:Persona { persona_id: s.persona_id })
+    MERGE (p)-[:EXECUTES]->(us)
+    WITH us, s
+    MATCH (f:Feature { feature_id: s.feature_id })
+    MERGE (us)-[:BELONGS_TO]->(f)
+    WITH us, s
+    MATCH (w:BusinessWorkflow { workflow_id: s.workflow_id })
+    MERGE (us)-[:SUPPORTS_WORKFLOW]->(w)
+    WITH us, s
+    MATCH (r:Requirement { requirement_id: s.requirement_id })
+    MERGE (us)-[:REALIZES]->(r)
+  `, { stories: specs.userStories });
+
+  for (const s of specs.userStories) {
+    if (s.rule_ids && s.rule_ids.length > 0) {
+      await session.run(`
+        MATCH (us:UserStory { story_id: $sid })
+        UNWIND $rids AS rid
+        MATCH (br:BusinessRule { rule_id: rid })
+        MERGE (us)-[:GOVERNED_BY]->(br)
+      `, { sid: s.story_id, rids: s.rule_ids });
+    }
+  }
+  console.log(`✓ Ingested Personas, User Stories, Requirements, and Business Rules.`);
+
+  // 6.5 Ingest API Endpoints & Link to Plugins & Features
   const endpointBatches = chunk(allRoutes, 250);
   for (const b of endpointBatches) {
     await session.run(`
@@ -280,9 +338,7 @@ async function runFullIngestion() {
       MERGE (p)-[:EXPOSES]->(e)
     `, { batch: b });
   }
-  console.log(`✓ Ingested ${allRoutes.length} API Endpoints.`);
 
-  // 5.4.1 Link Features to Endpoints
   for (const mapping of FEATURE_ENDPOINT_PATTERNS) {
     for (const pat of mapping.patterns) {
       await session.run(`
@@ -293,9 +349,83 @@ async function runFullIngestion() {
       `, { fid: mapping.feature_id, pat: pat });
     }
   }
-  console.log(`✓ Linked Features to API Endpoints.`);
+  console.log(`✓ Ingested ${allRoutes.length} API Endpoints & linked to Features.`);
 
-  // 5.5 Ingest Classes & Doctrine Entities & Class Inheritance
+  // 6.6 Ingest Frontend Vue Components & Registered Pages
+  const componentBatches = chunk(frontend.components, 150);
+  for (const b of componentBatches) {
+    await session.run(`
+      UNWIND $batch AS c
+      MERGE (uic:UIComponent { component_id: c.component_id })
+      ON CREATE SET uic.name = c.name,
+                    uic.type = c.type,
+                    uic.file = c.file,
+                    uic.plugin = c.plugin,
+                    uic.inputs = c.inputs,
+                    uic.child_components = c.child_components,
+                    uic.line_count = c.line_count
+      WITH uic, c
+      MATCH (p:Plugin) WHERE p.name = c.plugin OR p.name = ('orangehrm' + c.plugin)
+      MERGE (uic)-[:DECLARED_IN]->(p)
+    `, { batch: b });
+
+    // Link UI Component to API Endpoints
+    const apiCallRows = [];
+    for (const c of b) {
+      for (const callUrl of c.api_calls) {
+        apiCallRows.push({ component_id: c.component_id, url: callUrl });
+      }
+    }
+    if (apiCallRows.length > 0) {
+      await session.run(`
+        UNWIND $batch AS ca
+        MATCH (uic:UIComponent { component_id: ca.component_id })
+        MATCH (e:ApiEndpoint) WHERE e.path = ca.url OR ca.url STARTS WITH e.path OR e.path CONTAINS ca.url
+        MERGE (uic)-[r:CALLS_ENDPOINT]->(e)
+        ON CREATE SET r.evidence_type = 'AST', r.confidence = 1.0
+      `, { batch: apiCallRows });
+    }
+  }
+
+  // Ingest UI Pages & Link to UIComponents
+  await session.run(`
+    UNWIND $pages AS pg
+    MERGE (page:UIPage { page_id: pg.page_id })
+    ON CREATE SET page.plugin = pg.plugin,
+                  page.component_name = pg.component_name,
+                  page.source_file = pg.source_file
+    WITH page, pg
+    MATCH (uic:UIComponent { name: pg.component_name })
+    MERGE (page)-[:RENDERS]->(uic)
+  `, { pages: frontend.pages });
+  console.log(`✓ Ingested ${frontend.components.length} UI Components & ${frontend.pages.length} Pages.`);
+
+  // Link User Stories to UIComponents and API Endpoints
+  for (const s of specs.userStories) {
+    if (s.target_ui_components && s.target_ui_components.length > 0) {
+      await session.run(`
+        MATCH (us:UserStory { story_id: $sid })
+        UNWIND $comps AS cName
+        MATCH (uic:UIComponent) WHERE uic.name = cName OR uic.name = replace(cName, '.vue', '')
+        MERGE (us)-[:IMPLEMENTED_BY]->(uic)
+      `, { sid: s.story_id, comps: s.target_ui_components });
+    }
+    if (s.target_endpoints && s.target_endpoints.length > 0) {
+      for (const ep of s.target_endpoints) {
+        const parts = ep.split(' ');
+        const method = parts[0];
+        const epPath = parts[1];
+        await session.run(`
+          MATCH (us:UserStory { story_id: $sid })
+          MATCH (e:ApiEndpoint) WHERE (e.path = $epPath OR e.path CONTAINS $epPath OR $epPath CONTAINS e.path) AND e.http_method = $m
+          MERGE (us)-[:EXECUTES_VIA]->(e)
+        `, { sid: s.story_id, epPath: epPath, m: method });
+      }
+    }
+  }
+  console.log(`✓ Linked User Stories to UI Components and API Endpoints.`);
+
+  // 6.7 Ingest Backend Classes, Interfaces, Traits, Entities
   const classBatches = chunk(allClasses, 250);
   for (const b of classBatches) {
     const classRows = b.map(c => ({
@@ -385,7 +515,7 @@ async function runFullIngestion() {
   `);
   console.log(`✓ Linked API Endpoints to Controller/API Classes.`);
 
-  // 5.6 Ingest Methods & Method Calls
+  // 6.8 Ingest Methods & Method Calls
   const allMethods = [];
   const internalCalls = [];
 
@@ -435,7 +565,6 @@ async function runFullIngestion() {
   }
   console.log(`✓ Ingested ${allMethods.length} Methods.`);
 
-  // Ingest Method-to-Method Calls
   const callBatches = chunk(internalCalls, 500);
   for (const b of callBatches) {
     await session.run(`
@@ -448,7 +577,7 @@ async function runFullIngestion() {
   }
   console.log(`✓ Ingested ${internalCalls.length} internal Method-to-Method Calls.`);
 
-  // 5.7 Ingest Test Cases (All 6,893 tests)
+  // 6.9 Ingest Multi-Tier Test Cases (All 6,893 tests)
   console.log('\nIngesting all 6,893 test cases into Neo4j...');
 
   // Unit tests (2,781)
@@ -548,7 +677,26 @@ async function runFullIngestion() {
       ON CREATE SET rel.evidence_type = 'RTM', rel.confidence = 0.95
     `, { batch: s.tests, targetReq: s.reqTarget });
   }
-  console.log(`✓ Ingested all 875 Specialized Tests (Security, E2E, UI, Data, etc.).`);
+  console.log(`✓ Ingested all 875 Specialized Tests.`);
+
+  // Link UI Component Tests to UIComponents
+  await session.run(`
+    MATCH (tc:TestCase) WHERE tc.level = 'UI' OR tc.testcase_id STARTS WITH 'TC_UI'
+    MATCH (c:UIComponent) WHERE tc.name CONTAINS c.name OR tc.file CONTAINS c.name
+    MERGE (tc)-[r:TESTS_COMPONENT]->(c)
+    ON CREATE SET r.evidence_type = 'SPEC', r.confidence = 0.95
+  `);
+  console.log(`✓ Linked UI Component Tests to UI Components.`);
+
+  // Link TestCases to User Stories
+  await session.run(`
+    MATCH (us:UserStory)
+    MATCH (r:Requirement { requirement_id: us.requirement_id })
+    MATCH (tc:TestCase)-[:VERIFIES]->(r)
+    MERGE (tc)-[r2:VERIFIES_STORY]->(us)
+    ON CREATE SET r2.evidence_type = 'RTM', r2.confidence = 0.95
+  `);
+  console.log(`✓ Linked Test Cases to User Stories.`);
 
   // E2E & Workflow Tests -> BusinessWorkflow
   const workflowSuite = testSuites.workflow_state_tests.concat(testSuites.e2e_tests);
@@ -581,7 +729,6 @@ async function runFullIngestion() {
       ON CREATE SET r.evidence_type = 'SPEC', r.confidence = 0.95
     `, { tcid: t.testcase_id, wfid: targetWf });
   }
-  console.log(`✓ Linked E2E and Workflow State Tests to Business Workflows.`);
 
   // Data Integrity Tests -> BusinessRule
   const dataTests = testSuites.data_integrity_tests;
@@ -603,10 +750,9 @@ async function runFullIngestion() {
       ON CREATE SET r.evidence_type = 'SPEC', r.confidence = 0.95
     `, { tcid: t.testcase_id, rid: targetRule });
   }
-  console.log(`✓ Linked Data Integrity Tests to Business Rules.`);
 
-  // STEP 6: Cross-Check Reconciliation & Detailed Audit
-  console.log('\n[Step 6/6] Executing Final End-to-End Reconciliation Audit...');
+  // STEP 7: Cross-Check Reconciliation & Detailed Audit
+  console.log('\n[Step 7/7] Executing Final End-to-End Reconciliation Audit...');
 
   const nodeStats = await session.run(`
     MATCH (n)
@@ -627,15 +773,19 @@ async function runFullIngestion() {
   const auditReport = {
     audit_timestamp: new Date().toISOString(),
     baseline_id: 'ORANGEHRM_BASELINE_v1.0',
-    platform_version: 'QKG v2.0.0',
-    commit_sha: '51a2219717d2a3fc7bc6f23696515b22fe791dfd',
+    platform_version: 'QKG v2.0.0 (Full-Stack)',
+    commit_sha: 'ac34fb1',
     summary: {
       total_nodes: grandNodes,
       total_relationships: grandRels,
       total_plugins_ingested: pluginEntries.length,
       total_routes_ingested: allRoutes.length,
+      total_frontend_components_ingested: frontend.components.length,
+      total_frontend_pages_ingested: frontend.pages.length,
       total_classes_ingested: allClasses.length,
       total_methods_ingested: allMethods.length,
+      total_user_stories_ingested: specs.userStories.length,
+      total_personas_ingested: specs.personas.length,
       total_testcases_ingested: totalTests
     },
     nodes_by_label: nodeStats.records.map(r => ({ label: r.get('Label'), count: r.get('Count').toNumber() })),

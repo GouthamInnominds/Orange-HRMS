@@ -189,7 +189,20 @@ class GlobalSpecExtractor {
       { rule_id: 'BR_CLM_001', requirement_id: 'FR_CLM_001', name: 'Claim Currency Constraint', description: 'All expense items must adhere to authorized currency for event.' }
     ];
 
-    return { domains, workflows, features, requirementGroups, requirements, businessRules };
+    // 7. Personas
+    const personas = [
+      { persona_id: 'PERSONA_GLOBAL_ADMIN', name: 'Global System Administrator', role: 'Admin' },
+      { persona_id: 'PERSONA_HR_MANAGER', name: 'HR Operations Manager', role: 'HR_Manager' },
+      { persona_id: 'PERSONA_SUPERVISOR', name: 'People Manager / Team Lead', role: 'Supervisor' },
+      { persona_id: 'PERSONA_EMPLOYEE', name: 'General Employee (ESS)', role: 'Employee' },
+      { persona_id: 'PERSONA_APPLICANT', name: 'External Candidate / Job Applicant', role: 'Applicant' }
+    ];
+
+    // 8. User Stories
+    const userStoriesFile = path.join(this.baselineDir, '01_Business_Requirements', 'user_stories.json');
+    const userStories = fs.existsSync(userStoriesFile) ? JSON.parse(fs.readFileSync(userStoriesFile, 'utf8')) : [];
+
+    return { domains, workflows, features, requirementGroups, requirements, businessRules, personas, userStories };
   }
 
   loadAllTestSuites() {

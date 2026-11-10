@@ -15,10 +15,14 @@ module.exports = {
   node_labels: {
     BusinessDomain: 'BusinessDomain',
     BusinessWorkflow: 'BusinessWorkflow',
+    Persona: 'Persona',
+    UserStory: 'UserStory',
     Feature: 'Feature',
     RequirementGroup: 'RequirementGroup',
     Requirement: 'Requirement',
     BusinessRule: 'BusinessRule',
+    UIComponent: 'UIComponent',
+    UIPage: 'UIPage',
     ApiEndpoint: 'ApiEndpoint',
     Plugin: 'Plugin',
     Class: 'Class',
@@ -40,6 +44,18 @@ module.exports = {
     HAS_REQUIREMENT: 'HAS_REQUIREMENT',       // (:RequirementGroup)-[:HAS_REQUIREMENT]->(:Requirement)
     GOVERNED_BY: 'GOVERNED_BY',               // (:Requirement)-[:GOVERNED_BY]->(:BusinessRule)
 
+    // User Stories & Personas
+    EXECUTES: 'EXECUTES',                     // (:Persona)-[:EXECUTES]->(:UserStory)
+    REALIZES: 'REALIZES',                     // (:UserStory)-[:REALIZES]->(:Requirement)
+    SUPPORTS_WORKFLOW: 'SUPPORTS_WORKFLOW',   // (:UserStory)-[:SUPPORTS_WORKFLOW]->(:BusinessWorkflow)
+    BELONGS_TO: 'BELONGS_TO',                 // (:UserStory)-[:BELONGS_TO]->(:Feature), (:UIComponent)-[:BELONGS_TO]->(:Feature)
+    IMPLEMENTED_BY: 'IMPLEMENTED_BY',         // (:UserStory)-[:IMPLEMENTED_BY]->(:UIComponent)
+    EXECUTES_VIA: 'EXECUTES_VIA',             // (:UserStory)-[:EXECUTES_VIA]->(:ApiEndpoint)
+
+    // Frontend UI Layer
+    RENDERS: 'RENDERS',                       // (:UIPage)-[:RENDERS]->(:UIComponent)
+    CALLS_ENDPOINT: 'CALLS_ENDPOINT',         // (:UIComponent)-[:CALLS_ENDPOINT]->(:ApiEndpoint)
+
     // Code & Architecture
     EXPOSES: 'EXPOSES',                       // (:Feature)-[:EXPOSES]->(:ApiEndpoint)
     HANDLED_BY: 'HANDLED_BY',                 // (:ApiEndpoint)-[:HANDLED_BY]->(:Class)
@@ -55,9 +71,13 @@ module.exports = {
 
     // Quality Engineering & Tests
     VERIFIES: 'VERIFIES',                     // (:TestCase)-[:VERIFIES]->(:Requirement)
+    VERIFIES_STORY: 'VERIFIES_STORY',         // (:TestCase)-[:VERIFIES_STORY]->(:UserStory)
     TESTS_WORKFLOW: 'TESTS_WORKFLOW',         // (:TestCase)-[:TESTS_WORKFLOW]->(:BusinessWorkflow)
+    TESTS_COMPONENT: 'TESTS_COMPONENT',       // (:TestCase)-[:TESTS_COMPONENT]->(:UIComponent)
+    TESTS_PAGE: 'TESTS_PAGE',                 // (:TestCase)-[:TESTS_PAGE]->(:UIPage)
     EXECUTES_AGAINST: 'EXECUTES_AGAINST',     // (:TestCase)-[:EXECUTES_AGAINST]->(:ApiEndpoint)
     TESTS: 'TESTS',                           // (:TestCase)-[:TESTS]->(:Method)
+    VALIDATES_RULE: 'VALIDATES_RULE'          // (:TestCase)-[:VALIDATES_RULE]->(:BusinessRule)
     VALIDATES_RULE: 'VALIDATES_RULE',         // (:TestCase)-[:VALIDATES_RULE]->(:BusinessRule)
     HAS_EXECUTION: 'HAS_EXECUTION'            // (:TestCase)-[:HAS_EXECUTION]->(:TestExecution)
   },

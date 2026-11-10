@@ -13,91 +13,85 @@ async function testLiveQueries() {
   const session = driver.session();
 
   try {
-    console.log('================================================================');
-    console.log('   LIVE NEO4J CYPHER QUERIES: QUALITY ENGINEERING INTELLIGENCE');
-    console.log('================================================================\n');
+    console.log('========================================================================');
+    console.log('   FULL-STACK LIVE CYPHER QUERIES: 360-DEGREE QUALITY INTELLIGENCE');
+    console.log('========================================================================\n');
 
-    console.log('1. End-to-End Vertical Traceability Query:');
-    console.log('   (Requirement) <- (Feature) -> (ApiEndpoint) -> (Class) -> (TestCase)\n');
+    console.log('1. Full 360-Degree Vertical Traceability:');
+    console.log('   (Persona) -> (UserStory) -> (UIComponent) -> (ApiEndpoint) -> (Class) -> (Method) -> (TestCase)\n');
 
     const traceQuery = `
-      MATCH (r:Requirement { requirement_id: 'FR_PIM_001' })<-[:HAS_REQUIREMENT]-(rg:RequirementGroup)<-[:HAS_REQUIREMENT_GROUP]-(f:Feature)
-      MATCH (f)-[:EXPOSES]->(e:ApiEndpoint)-[:HANDLED_BY]->(c:Class)
-      MATCH (tc:TestCase)-[:VERIFIES]->(r)
-      RETURN r.title as Requirement,
-             f.name as Feature,
-             count(DISTINCT e) as Endpoints,
-             c.name as HandlerClass,
+      MATCH (p:Persona { persona_id: 'PERSONA_HR_MANAGER' })-[:EXECUTES]->(us:UserStory { story_id: 'US_PIM_001' })
+      MATCH (us)-[:IMPLEMENTED_BY]->(uic:UIComponent)
+      MATCH (uic)-[:CALLS_ENDPOINT]->(e:ApiEndpoint)
+      MATCH (e)-[:HANDLED_BY]->(c:Class)-[:DECLARES]->(m:Method)
+      MATCH (tc:TestCase)-[:VERIFIES_STORY]->(us)
+      RETURN p.name as Persona,
+             us.title as UserStory,
+             uic.name as UIComponent,
+             e.http_method + ' ' + e.path as Endpoint,
+             c.name as BackendClass,
+             m.name as BackendMethod,
              count(DISTINCT tc) as VerifiedTests
       LIMIT 1
     `;
     const traceRes = await session.run(traceQuery);
     for (const record of traceRes.records) {
-      console.log('Vertical Trace Result:', {
-        Requirement: record.get('Requirement'),
-        Feature: record.get('Feature'),
-        Endpoints: record.get('Endpoints').toNumber(),
-        HandlerClass: record.get('HandlerClass'),
+      console.log('360-Degree Trace Result:', {
+        Persona: record.get('Persona'),
+        UserStory: record.get('UserStory'),
+        UIComponent: record.get('UIComponent'),
+        Endpoint: record.get('Endpoint'),
+        BackendClass: record.get('BackendClass'),
+        BackendMethod: record.get('BackendMethod'),
         VerifiedTests: record.get('VerifiedTests').toNumber()
       });
     }
 
-    console.log('\n2. Test Impact Analysis (TIA) Graph Traversal:');
-    console.log('   Simulating change in EmployeeAPI::getOne -> Finding affected business context & tests\n');
+    console.log('\n2. Frontend Change Impact Analysis:');
+    console.log('   Simulating change in Vue component SaveEmployee.vue -> Finding affected stories, endpoints & tests\n');
 
-    const tiaQuery = `
-      MATCH (c:Class { name: 'EmployeeAPI' })-[:DECLARES]->(m:Method { name: 'getOne' })
-      MATCH (e:ApiEndpoint)-[:HANDLED_BY]->(c)
-      MATCH (f:Feature)-[:EXPOSES]->(e)
-      MATCH (w:BusinessWorkflow)-[:DECOMPOSES_TO]->(f)
-      MATCH (f)-[:HAS_REQUIREMENT_GROUP]->()-[:HAS_REQUIREMENT]->(r:Requirement)
-      OPTIONAL MATCH (tc:TestCase)-[:TESTS]->(m)
-      OPTIONAL MATCH (apiTc:TestCase)-[:EXECUTES_AGAINST]->(e)
-      RETURN m.name as ChangedMethod,
-             c.name as Class,
-             count(DISTINCT e) as AffectedEndpoints,
-             f.name as AffectedFeature,
-             w.name as AffectedWorkflow,
-             collect(DISTINCT r.requirement_id) as AffectedRequirements,
-             count(DISTINCT tc) as ImpactedUnitTests,
-             count(DISTINCT apiTc) as ImpactedApiTests
+    const uiTiaQuery = `
+      MATCH (uic:UIComponent { name: 'SaveEmployee' })
+      OPTIONAL MATCH (pg:UIPage)-[:RENDERS]->(uic)
+      OPTIONAL MATCH (us:UserStory)-[:IMPLEMENTED_BY]->(uic)
+      OPTIONAL MATCH (uic)-[:CALLS_ENDPOINT]->(e:ApiEndpoint)
+      OPTIONAL MATCH (tc:TestCase)-[:VERIFIES_STORY]->(us)
+      RETURN uic.name as ChangedComponent,
+             uic.file as File,
+             collect(DISTINCT pg.page_id) as RenderedPages,
+             collect(DISTINCT us.story_id) as AffectedStories,
+             collect(DISTINCT e.path) as InvokedEndpoints,
+             count(DISTINCT tc) as ImpactedTests
     `;
-    const tiaRes = await session.run(tiaQuery);
-    for (const record of tiaRes.records) {
-      console.log('TIA Traversal Result:', {
-        ChangedMethod: record.get('ChangedMethod'),
-        Class: record.get('Class'),
-        AffectedEndpoints: record.get('AffectedEndpoints').toNumber(),
-        AffectedFeature: record.get('AffectedFeature'),
-        AffectedWorkflow: record.get('AffectedWorkflow'),
-        AffectedRequirements: record.get('AffectedRequirements'),
-        ImpactedUnitTests: record.get('ImpactedUnitTests').toNumber(),
-        ImpactedApiTests: record.get('ImpactedApiTests').toNumber()
+    const uiTiaRes = await session.run(uiTiaQuery);
+    for (const record of uiTiaRes.records) {
+      console.log('Frontend TIA Traversal Result:', {
+        ChangedComponent: record.get('ChangedComponent'),
+        File: record.get('File'),
+        RenderedPages: record.get('RenderedPages'),
+        AffectedStories: record.get('AffectedStories'),
+        InvokedEndpoints: record.get('InvokedEndpoints'),
+        ImpactedTests: record.get('ImpactedTests').toNumber()
       });
     }
 
-    console.log('\n3. Code-Level Call Graph & Inheritance Traversal:');
-    const callQuery = `
-      MATCH (m1:Method)-[:CALLS]->(m2:Method)
-      RETURN m1.signature as Caller, m2.signature as Callee
-      LIMIT 3
+    console.log('\n3. Database Table to Entity & Method Lineage:');
+    const tableQuery = `
+      MATCH (dt:DatabaseTable { name: 'ohrm_user' })<-[:MAPS_TO]-(de:DatabaseEntity)
+      MATCH (c:Class { fqcn: de.fqcn })-[:DECLARES]->(m:Method)
+      RETURN dt.name as Table, de.name as Entity, count(m) as DeclaredMethods
     `;
-    const callRes = await session.run(callQuery);
-    for (const record of callRes.records) {
-      console.log(`  [Call] ${record.get('Caller')} -> ${record.get('Callee')}`);
+    const tableRes = await session.run(tableQuery);
+    for (const record of tableRes.records) {
+      console.log('Table Lineage Result:', {
+        Table: record.get('Table'),
+        Entity: record.get('Entity'),
+        DeclaredMethods: record.get('DeclaredMethods').toNumber()
+      });
     }
 
-    console.log('\n4. ORM Entity to Database Table Mapping:');
-    const ormQuery = `
-      MATCH (de:DatabaseEntity)-[:MAPS_TO]->(dt:DatabaseTable)
-      RETURN de.name as Entity, dt.name as Table LIMIT 3
-    `;
-    const ormRes = await session.run(ormQuery);
-    for (const record of ormRes.records) {
-      console.log(`  [ORM] Entity: ${record.get('Entity')} -> Table: ${record.get('Table')}`);
-    }
-
-    console.log('\n================================================================\n');
+    console.log('\n========================================================================\n');
   } finally {
     await session.close();
     await driver.close();
