@@ -1,0 +1,1622 @@
+[
+  {
+    "testcase_id": "TC_INT_ADPT_0001",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 1",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #1).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0002",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 2",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #2).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0003",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 3",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #3).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0004",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 4",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #4).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0005",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 5",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #5).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0006",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 6",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #6).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0007",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 7",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #7).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0008",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 8",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #8).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0009",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 9",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #9).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0010",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 10",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #10).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0011",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 11",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #11).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0012",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 12",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #12).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0013",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 13",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #13).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0014",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 14",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #14).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0015",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 15",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #15).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0016",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 16",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #16).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0017",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 17",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #17).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0018",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 18",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #18).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0019",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 19",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #19).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0020",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 20",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #20).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0021",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 21",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #21).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0022",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 22",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #22).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0023",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 23",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #23).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0024",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 24",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #24).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0025",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 25",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #25).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0026",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 26",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #26).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0027",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 27",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #27).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0028",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 28",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #28).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0029",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 29",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #29).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0030",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 30",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #30).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0031",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 31",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #31).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0032",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 32",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #32).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0033",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 33",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #33).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0034",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 34",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #34).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0035",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 35",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #35).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0036",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 36",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #36).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0037",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 37",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #37).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0038",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 38",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #38).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0039",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 39",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #39).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0040",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 40",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #40).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0041",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 41",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #41).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0042",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 42",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #42).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0043",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 43",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #43).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0044",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 44",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #44).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0045",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 45",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #45).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0046",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 46",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #46).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0047",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 47",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #47).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0048",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 48",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #48).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0049",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 49",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #49).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0050",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 50",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #50).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0051",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 51",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #51).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0052",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 52",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #52).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0053",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 53",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #53).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0054",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 54",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #54).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0055",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 55",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #55).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0056",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 56",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #56).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0057",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 57",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #57).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0058",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 58",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #58).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0059",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 59",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #59).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_INT_ADPT_0060",
+    "test_level": "Integration/External",
+    "test_type": [
+      "FaultTolerance",
+      "Integration",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "FaultTolerance"
+    ],
+    "priority": "High",
+    "testcase_name": "External Adapter Resilience Test 60",
+    "test_objective": "Verify system resilience on external service interruption (SMTP / LDAP / OAuth adapter #60).",
+    "preconditions": [
+      "Simulated latency or socket disconnect on external gateway"
+    ],
+    "test_steps": [
+      "1. Trigger event requiring external service dispatch (e.g. leave notification email, LDAP login)",
+      "2. Capture system log and user-facing error behavior"
+    ],
+    "expected_results": [
+      "System handles timeout gracefully without unhandled fatal crash; message queued for retry."
+    ],
+    "automation_status": "Automated"
+  }
+]

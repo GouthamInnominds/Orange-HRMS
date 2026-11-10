@@ -1,0 +1,2147 @@
+[
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_001",
+    "testcase_name": "Valid login with correct credentials",
+    "test_objective": "Verify a user with correct username and password is authenticated and reaches the home page.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Enter a valid, active username",
+      "3. Enter the correct password",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "AuthProviderChain authenticates via LocalAuthProvider, AuthUser is marked authenticated, a LoginLog record is created, and the user is redirected to the application home page."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_002",
+    "testcase_name": "Login with incorrect password",
+    "test_objective": "Verify login is rejected when the password does not match the stored credentials.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Enter a valid username",
+      "3. Enter an incorrect password",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "AuthenticationService::setCredentials fails, AuthenticationException::invalidCredentials is thrown, generic 'Invalid credentials' flash message is shown, user remains on login page unauthenticated."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_003",
+    "testcase_name": "Login with non-existent username",
+    "test_objective": "Verify login with an unregistered username returns the same generic error as a wrong password (no user enumeration).",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Enter a username that does not exist",
+      "3. Enter any password",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "getCredentials returns no user, invalid_credentials error is shown; message text is identical to the wrong-password case, preventing username enumeration."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_004",
+    "testcase_name": "Login with empty username field",
+    "test_objective": "Verify submitting the login form without a username is handled as invalid credentials.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Leave username blank",
+      "3. Enter a password",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "Request is processed with username='' ; no matching user is found; invalid_credentials error is returned and shown on the login page."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_005",
+    "testcase_name": "Login with empty password field",
+    "test_objective": "Verify submitting the login form without a password is handled as invalid credentials.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Enter a valid username",
+      "3. Leave password blank",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "Credential match fails for blank password; invalid_credentials error is returned and shown on the login page."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_006",
+    "testcase_name": "Login with both username and password empty",
+    "test_objective": "Verify submitting a completely empty login form does not authenticate the user.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Leave both fields blank",
+      "3. Click Login"
+    ],
+    "expected_results": [
+      "UserCredential is created with empty strings, authentication fails, invalid_credentials error shown, no session is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_007",
+    "testcase_name": "SQL injection attempt in username field",
+    "test_objective": "Verify a SQL-injection style payload in the username field cannot bypass authentication.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Enter a payload such as admin' OR '1'='1 in username",
+      "3. Enter any password",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "ORM/DAO uses parameterised queries; no user matches the payload; invalid_credentials error is returned; no unauthorized access or SQL error is exposed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_008",
+    "testcase_name": "Already authenticated user requests the login page",
+    "test_objective": "Verify a user who already has an authenticated session is redirected away from the login form instead of seeing it again.",
+    "test_steps": [
+      "1. Log in successfully",
+      "2. While the session is still active, navigate directly to /auth/login again"
+    ],
+    "expected_results": [
+      "LoginController::handle detects AuthUser::isAuthenticated()=true and redirects to the home page path instead of rendering the login form."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_009",
+    "testcase_name": "Root URL redirects to login page",
+    "test_objective": "Verify hitting the application root path redirects an unauthenticated visitor to the login page.",
+    "test_steps": [
+      "1. Clear any session/cookies",
+      "2. Navigate to the application root URL (/)"
+    ],
+    "expected_results": [
+      "RootController::handle issues a redirect to auth/login."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_010",
+    "testcase_name": "Unexpected error during authentication is handled gracefully",
+    "test_objective": "Verify that an unexpected (non-AuthenticationException) failure during the authentication chain does not crash the login flow.",
+    "test_steps": [
+      "1. Trigger a condition that causes an unhandled Throwable during authenticate() (e.g. simulated backend failure)",
+      "2. Submit valid-looking login credentials"
+    ],
+    "expected_results": [
+      "The generic catch(Throwable) block in ValidateController sets an 'Unexpected error occurred' flash message and redirects back to the login page instead of exposing a stack trace."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_011",
+    "testcase_name": "Successful login is recorded in the login log",
+    "test_objective": "Verify a successful authentication creates an accurate entry in the login log (ohrm_login).",
+    "test_steps": [
+      "1. Log in successfully as a known user",
+      "2. Inspect the ohrm_login table/LoginLog records for the session"
+    ],
+    "expected_results": [
+      "LoginService::addLogin persists a LoginLog row with the correct user id, username, user role name and whether the role is predefined."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Login",
+    "testcase_id": "TC_AUTH_012",
+    "testcase_name": "Login form renders CSRF token and provider options correctly",
+    "test_objective": "Verify the login page pre-render step supplies a CSRF token and the configured social/OpenID login provider list.",
+    "test_steps": [
+      "1. Navigate to /auth/login (unauthenticated)",
+      "2. Inspect the rendered auth-login component props"
+    ],
+    "expected_results": [
+      "A unique 'login' CSRF token is present, and the authenticators prop lists the configured OpenID providers (empty array if none configured)."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "UI"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Logout",
+    "testcase_id": "TC_AUTH_013",
+    "testcase_name": "Logout invalidates the active session",
+    "test_objective": "Verify clicking Logout ends the current authenticated session and returns the user to the login page.",
+    "test_steps": [
+      "1. Log in successfully",
+      "2. Click Logout / navigate to auth/logout"
+    ],
+    "expected_results": [
+      "LogoutController invalidates the Session and issues a redirect to auth/login."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Logout",
+    "testcase_id": "TC_AUTH_014",
+    "testcase_name": "Protected pages are inaccessible immediately after logout",
+    "test_objective": "Verify that after logout, previously accessible authenticated pages can no longer be reached without logging in again.",
+    "test_steps": [
+      "1. Log in and open a protected page (e.g. dashboard)",
+      "2. Logout",
+      "3. Use browser back button or re-navigate to the same protected URL"
+    ],
+    "expected_results": [
+      "AuthenticationSubscriber detects the user is no longer authenticated and forces a redirect/SessionExpiredException back to the login page; protected content is not shown."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Logout",
+    "testcase_id": "TC_AUTH_015",
+    "testcase_name": "Logout with no active session",
+    "test_objective": "Verify hitting the logout endpoint without an existing session does not error out.",
+    "test_steps": [
+      "1. Ensure no active session/cookies exist",
+      "2. Navigate directly to auth/logout"
+    ],
+    "expected_results": [
+      "Session::invalidate() is called safely and the user is redirected to auth/login without an application error."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Logout",
+    "testcase_id": "TC_AUTH_016",
+    "testcase_name": "Logout endpoint does not require a CSRF token",
+    "test_objective": "Verify current behaviour: LogoutController performs no CSRF token validation before invalidating the session, which means logout can be triggered cross-site (documenting current behaviour/gap, not a confirmed protection).",
+    "test_steps": [
+      "1. Log in successfully",
+      "2. From a third-party page/context, issue a GET request to auth/logout without any _token parameter"
+    ],
+    "expected_results": [
+      "The session is invalidated and the browser is redirected to auth/login with no CSRF check performed - confirms no CSRF protection exists on logout in current code."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_017",
+    "testcase_name": "Request reset code with a valid, active registered username",
+    "test_objective": "Verify a valid active user with an assigned employee and work email successfully triggers a password reset email.",
+    "test_steps": [
+      "1. Navigate to /auth/requestPasswordResetCode",
+      "2. Enter a valid, active username",
+      "3. Submit the form"
+    ],
+    "expected_results": [
+      "searchForUserRecord finds the user, logPasswordResetRequest generates a reset code, sends an email to the employee's work email, and the user is redirected to auth/sendPasswordReset (success page)."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_018",
+    "testcase_name": "Request reset code with an unknown/non-existent username",
+    "test_objective": "Verify that requesting a reset for a username that does not exist does not reveal whether the account exists.",
+    "test_steps": [
+      "1. Navigate to /auth/requestPasswordResetCode",
+      "2. Enter a username that does not exist",
+      "3. Submit the form"
+    ],
+    "expected_results": [
+      "searchForUserRecord returns null; the controller still redirects to auth/sendPasswordReset (the same success page as a valid request), so the response does not disclose that the username is invalid."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_019",
+    "testcase_name": "Request reset code for a disabled user account",
+    "test_objective": "Verify a disabled account's owner cannot be distinguished from a valid request via the response, and no email is sent.",
+    "test_steps": [
+      "1. Navigate to /auth/requestPasswordResetCode",
+      "2. Enter the username of a disabled user account",
+      "3. Submit the form"
+    ],
+    "expected_results": [
+      "searchForUserRecord returns null because !$user->getStatus(); no email is sent; user is still redirected to the generic success page (anti-enumeration)."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_020",
+    "testcase_name": "Request reset code for a terminated employee's account",
+    "test_objective": "Verify a terminated employee's account cannot be used to trigger a password reset email, without exposing that fact.",
+    "test_steps": [
+      "1. Navigate to /auth/requestPasswordResetCode",
+      "2. Enter the username tied to a terminated employee",
+      "3. Submit the form"
+    ],
+    "expected_results": [
+      "searchForUserRecord returns null (EmployeeTerminationRecord present); no email sent; generic success redirect shown."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_021",
+    "testcase_name": "Request reset code for a user with no work email configured",
+    "test_objective": "Verify a user whose employee record has no work email cannot complete the reset flow, without exposing that fact.",
+    "test_steps": [
+      "1. Navigate to /auth/requestPasswordResetCode",
+      "2. Enter the username of a user whose employee has no work email set",
+      "3. Submit the form"
+    ],
+    "expected_results": [
+      "searchForUserRecord returns null (empty work email); no email is sent; generic success redirect is still shown."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_022",
+    "testcase_name": "Request reset code with missing CSRF token",
+    "test_objective": "Verify the reset request form rejects submissions without a valid 'request-reset-password' CSRF token.",
+    "test_steps": [
+      "1. Submit the forgot-password form with the _token field removed"
+    ],
+    "expected_results": [
+      "CsrfTokenManager::isValid('request-reset-password', null) fails; AuthenticationException::invalidCsrfToken is thrown."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_023",
+    "testcase_name": "Request reset code with an invalid/tampered CSRF token",
+    "test_objective": "Verify the reset request form rejects a forged or expired CSRF token value.",
+    "test_steps": [
+      "1. Submit the forgot-password form with an arbitrary/incorrect _token value"
+    ],
+    "expected_results": [
+      "Token validation fails and AuthenticationException::invalidCsrfToken is thrown before any user lookup occurs."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_024",
+    "testcase_name": "Forgot password page shown when email is not configured",
+    "test_objective": "Verify the request-password page displays an email configuration warning instead of the reset form when SMTP/email is not set up.",
+    "test_steps": [
+      "1. Ensure EmailService::isConfigSet() is false (no email config)",
+      "2. Navigate to /auth/requestPasswordResetCode"
+    ],
+    "expected_results": [
+      "RequestPasswordController::preRender renders the 'email-configuration-warning' component instead of 'request-reset-password'."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_025",
+    "testcase_name": "Reset email fails to send due to invalid/malicious recipient address",
+    "test_objective": "Verify a work email that fails validation or contains header-injection characters blocks the reset email and routes to the failure page.",
+    "test_steps": [
+      "1. Configure/target an employee whose work email is malformed or contains a CR/LF header-injection sequence",
+      "2. Submit a reset request for that username"
+    ],
+    "expected_results": [
+      "sendPasswordResetCodeEmail rejects the address via filter_var/regex checks (leading '-' or \\r\\n), returns false, and RequestResetPasswordController redirects to auth/sendPasswordResetFailure."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_026",
+    "testcase_name": "Reset request success and failure pages render the correct components",
+    "test_objective": "Verify the dedicated success and failure landing pages render their respective Vue components.",
+    "test_steps": [
+      "1. Trigger a successful reset request and observe auth/sendPasswordReset",
+      "2. Trigger a failed reset request (e.g. email send failure) and observe auth/sendPasswordResetFailure"
+    ],
+    "expected_results": [
+      "RequestPasswordSuccessController renders 'reset-password-success'; RequestPasswordFailureController renders 'reset-password-failure'."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "UI"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Forgot Password - Request Reset Code",
+    "testcase_id": "TC_AUTH_027",
+    "testcase_name": "Multiple consecutive reset requests for the same user",
+    "test_objective": "Verify requesting a new reset code before using a previous one is accepted and generates a fresh code (current behaviour, no throttling found in code).",
+    "test_steps": [
+      "1. Submit a valid reset request for a username",
+      "2. Immediately submit a second reset request for the same username"
+    ],
+    "expected_results": [
+      "Two ResetPasswordRequest rows are created; a new reset code/email is generated each time; no rate limiting or cooldown is enforced in ResetPasswordService/ResetPasswordDao."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_028",
+    "testcase_name": "Open reset link with a valid, unused, unexpired code",
+    "test_objective": "Verify a valid reset link renders the reset-password form pre-filled with the correct username.",
+    "test_steps": [
+      "1. Request a password reset for a valid user",
+      "2. Open the emailed reset link (auth/resetPassword/resetCode/{code})"
+    ],
+    "expected_results": [
+      "ResetPasswordService::validateUrl resolves the user; ResetCodeController renders the 'reset-password' component with username, code, and a 'reset-password' CSRF token."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_029",
+    "testcase_name": "Submit a new password with a valid code and matching username",
+    "test_objective": "Verify a user can successfully set a new password through a valid reset link.",
+    "test_steps": [
+      "1. Open a valid reset link",
+      "2. Enter the matching username and a compliant new password",
+      "3. Submit"
+    ],
+    "expected_results": [
+      "saveResetPassword updates the user's password, updateResetPasswordValid marks the request as used (expired=0), the session is invalidated, and the user is redirected to auth/login."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_030",
+    "testcase_name": "Open reset link with an invalid/non-existent code",
+    "test_objective": "Verify a bogus reset code shows an error state rather than a reset form.",
+    "test_steps": [
+      "1. Navigate to auth/resetPassword/resetCode/{randomInvalidCode}"
+    ],
+    "expected_results": [
+      "getResetPasswordLogByResetCode finds no matching request; ResetCodeController renders the 'reset-password-error' component."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_031",
+    "testcase_name": "Open reset link after it has expired (older than 1 day)",
+    "test_objective": "Verify a reset code becomes unusable once more than one day has elapsed since it was requested.",
+    "test_steps": [
+      "1. Generate a reset code",
+      "2. Wait until hasPasswordResetRequestNotExpired(request) > 0 (more than 1 day elapsed), or manipulate resetRequestDate",
+      "3. Open the reset link"
+    ],
+    "expected_results": [
+      "validateUrl detects the elapsed day count > 0 and returns null; the reset-password-error page is shown."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_032",
+    "testcase_name": "Reuse an older reset code after a newer one was requested",
+    "test_objective": "Verify that once a new reset code is requested for the same email, the previous code is no longer accepted (replay of a stale code).",
+    "test_steps": [
+      "1. Request a password reset (code A)",
+      "2. Request a second password reset for the same account (code B)",
+      "3. Open the link containing code A"
+    ],
+    "expected_results": [
+      "validateUrl compares code A against the latest stored reset code for that email (code B) via getResetPasswordLogByEmail; since they differ, code A is rejected as 'old one & not valid'."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_033",
+    "testcase_name": "Reuse a reset code after it has already been used",
+    "test_objective": "Verify a reset code cannot be used a second time to change the password again.",
+    "test_steps": [
+      "1. Successfully complete a password reset using a valid code",
+      "2. Re-open/resubmit the same reset link"
+    ],
+    "expected_results": [
+      "updateResetPasswordValid already set expired=0 for that email; validateUrl's !$resetPassword->getExpired() check now evaluates true, so the code is treated as expired/invalid and rejected."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_034",
+    "testcase_name": "Submit reset password with a username that does not match the reset code owner",
+    "test_objective": "Verify the reset form rejects a username that does not belong to the resolved reset code.",
+    "test_steps": [
+      "1. Open a valid reset link for user A",
+      "2. Edit/submit the form with a different username, e.g. user B",
+      "3. Submit"
+    ],
+    "expected_results": [
+      "ResetPasswordController compares $user->getUserName() to the submitted username; on mismatch it throws AuthenticationException::invalidResetCode."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_035",
+    "testcase_name": "Submit reset password form with missing or invalid CSRF token",
+    "test_objective": "Verify the reset-password form enforces CSRF protection.",
+    "test_steps": [
+      "1. Open a valid reset link",
+      "2. Submit the form with the _token field removed or altered"
+    ],
+    "expected_results": [
+      "CsrfTokenManager::isValid('reset-password', token) fails; AuthenticationException::invalidCsrfToken is thrown before the password is changed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_036",
+    "testcase_name": "Submit a weak/non-compliant new password via reset password form",
+    "test_objective": "Verify whether the reset-password flow enforces the configured password strength policy before saving (documents current behaviour/possible gap).",
+    "test_steps": [
+      "1. Open a valid reset link",
+      "2. Enter a very short/weak password (e.g. '1234') as the new password",
+      "3. Submit"
+    ],
+    "expected_results": [
+      "ResetPasswordController::handle calls saveResetPassword directly with no PasswordStrengthService/PasswordStrengthValidation check in this controller; verify whether the weak password is accepted (current code path does not call the strength validator here) - flag as a gap if it is accepted."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Reset Password",
+    "testcase_id": "TC_AUTH_037",
+    "testcase_name": "Successful password reset invalidates the current session",
+    "test_objective": "Verify that completing a reset forces any existing session to end, requiring fresh login with the new password.",
+    "test_steps": [
+      "1. While logged in on Browser A, complete a password reset for the same account on Browser B",
+      "2. Interact with Browser A"
+    ],
+    "expected_results": [
+      "ResetPasswordController::handle calls $session->invalidate() after saving the new password; Browser A's session is no longer valid on the next request."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_038",
+    "testcase_name": "Login succeeds but password fails the strength policy while enforcement is on",
+    "test_objective": "Verify a technically-correct login is intercepted and redirected to forced password reset when the password does not meet the configured strength policy.",
+    "test_steps": [
+      "1. Ensure config auth.password_policy.enforce_password_strength = 'on'",
+      "2. Log in with correct credentials for a password that fails isValidPassword()",
+      "3. Observe redirect"
+    ],
+    "expected_results": [
+      "LocalAuthProvider throws PasswordEnforceException, invalidates the session, generates an enforce-password reset code, and ValidateController redirects to changeWeakPassword/resetCode/{code} instead of the home page."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_039",
+    "testcase_name": "Weak password reset page loads with a valid reset code",
+    "test_objective": "Verify the forced reset page correctly identifies the user and renders the change-password form.",
+    "test_steps": [
+      "1. Trigger the weak-password flow to obtain a reset code",
+      "2. Open /auth/changeWeakPassword/resetCode/{code}"
+    ],
+    "expected_results": [
+      "PasswordStrengthService::validateUrl returns true; WeakPasswordResetController renders 'reset-weak-password' with username, code, and a 'reset-weak-password' CSRF token."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_040",
+    "testcase_name": "Weak password reset page with an invalid or already-used code",
+    "test_objective": "Verify an invalid enforce-password reset code shows the invalid-code state rather than the form.",
+    "test_steps": [
+      "1. Navigate to /auth/changeWeakPassword/resetCode/{invalidOrUsedCode}"
+    ],
+    "expected_results": [
+      "validateUrl returns false (no matching record or isExpired()=true); the component receives invalid-code=true and does not expose the change-password fields."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_041",
+    "testcase_name": "Enforce-password reset code expires after 1 hour",
+    "test_objective": "Verify an enforce-password reset code becomes invalid once more than one hour has passed since the request.",
+    "test_steps": [
+      "1. Trigger the weak-password flow to obtain a reset code",
+      "2. Wait over 1 hour (or adjust resetRequestDate) so dateDiffInHours > 1",
+      "3. Open the reset link"
+    ],
+    "expected_results": [
+      "isResetCodeTimeOut returns true; validateUrl marks the request updateEnforcedPasswordValid(...,true) and returns false, showing the invalid-code state."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_042",
+    "testcase_name": "Submit a strong new password with the correct current password",
+    "test_objective": "Verify a user can successfully replace a weak password with a compliant one via the forced-reset form.",
+    "test_steps": [
+      "1. Open a valid weak-password reset link",
+      "2. Enter the correct current password",
+      "3. Enter a new password meeting all policy rules",
+      "4. Submit"
+    ],
+    "expected_results": [
+      "isCurrentPassword validates the current password, saveEnforcedPassword updates the password and marks the enforce request as used (expired=true), and the user is redirected to auth/login."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_043",
+    "testcase_name": "Submit the forced-reset form with an incorrect current password",
+    "test_objective": "Verify the forced-reset flow rejects an incorrect current password.",
+    "test_steps": [
+      "1. Open a valid weak-password reset link",
+      "2. Enter a wrong current password",
+      "3. Enter any new password",
+      "4. Submit"
+    ],
+    "expected_results": [
+      "isCurrentPassword returns false; a FLASH_PASSWORD_ENFORCE_ERROR with 'invalid_credentials' is set and the user is redirected back to the same reset page with an error shown."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_044",
+    "testcase_name": "Submit the forced-reset form with missing/invalid CSRF token",
+    "test_objective": "Verify the forced password reset form enforces CSRF protection.",
+    "test_steps": [
+      "1. Open a valid weak-password reset link",
+      "2. Submit the form with the _token removed or altered"
+    ],
+    "expected_results": [
+      "CsrfTokenManager::isValid('reset-weak-password', token) fails; a FLASH_PASSWORD_ENFORCE_ERROR 'invalid_csrf_token' is set and the user is redirected back to the same page."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_045",
+    "testcase_name": "Submit a new password that still fails the strength policy",
+    "test_objective": "Verify the forced-reset endpoint blocks a replacement password that still does not satisfy the configured complexity rules.",
+    "test_steps": [
+      "1. Open a valid weak-password reset link",
+      "2. Enter the correct current password",
+      "3. Enter a new password that is still weak (e.g. missing a special character)",
+      "4. Submit"
+    ],
+    "expected_results": [
+      "validateParameters() re-checks isValidPassword() and returns false; RequestResetWeakPasswordController::handleBadRequest() is returned, the password is not saved."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_046",
+    "testcase_name": "Reuse an enforce-password reset code after it has already been consumed",
+    "test_objective": "Verify a completed enforce-password reset code cannot be replayed to change the password again.",
+    "test_steps": [
+      "1. Successfully complete a forced password reset using a code",
+      "2. Re-submit the same reset code/form"
+    ],
+    "expected_results": [
+      "The EnforcePasswordRequest was marked expired=true by updateEnforcedPasswordValid; a subsequent validateUrl call returns false because isExpired() is true."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Weak Password Reset (Forced)",
+    "testcase_id": "TC_AUTH_047",
+    "testcase_name": "Username and password field length boundaries on the forced-reset form",
+    "test_objective": "Verify the forced-reset endpoint enforces username length (5-40 chars) and password max length (64 chars) parameter rules.",
+    "test_steps": [
+      "1. Submit the forced-reset form with a username of 4 characters (below USERNAME_MIN_LENGTH)",
+      "2. Repeat with a password longer than 64 characters (MAX_PASSWORD_LENGTH)"
+    ],
+    "expected_results": [
+      "ParamRuleCollection LENGTH rules fail validation in validateParameters(); the request is rejected via handleBadRequest() rather than being processed."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_048",
+    "testcase_name": "Password satisfies all configured policy rules",
+    "test_objective": "Verify a password meeting length, character-class and strength requirements passes validation with no messages.",
+    "test_steps": [
+      "1. Call POST /api/v2/auth/validation/password (or trigger via reset form) with a password of length >= 8 containing upper, lower, digit, special char, no spaces, and a strong zxcvbn score",
+      "2. Inspect the response"
+    ],
+    "expected_results": [
+      "checkPasswordPolicies returns an empty messages array and isValidPassword returns true; API returns strength score with no warning messages."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_049",
+    "testcase_name": "Password shorter than the minimum length (7 characters)",
+    "test_objective": "Verify a password below the configured minimum length (default 8) is flagged.",
+    "test_steps": [
+      "1. Submit a 7-character password for validation"
+    ],
+    "expected_results": [
+      "checkMinPasswordLength returns true; the 'auth.password_min_length' message is included and isValidPassword returns false."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_050",
+    "testcase_name": "Password exactly at the minimum length boundary (8 characters)",
+    "test_objective": "Verify a password exactly at the configured minimum length is accepted (when all other rules are satisfied).",
+    "test_steps": [
+      "1. Submit an 8-character password that also satisfies upper/lower/number/special-char/no-space rules"
+    ],
+    "expected_results": [
+      "checkMinPasswordLength returns false (8 is not < 8); no min-length message is generated."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_051",
+    "testcase_name": "Password exceeding the maximum length (65 characters)",
+    "test_objective": "Verify a password longer than MAX_PASSWORD_LENGTH (64) is flagged.",
+    "test_steps": [
+      "1. Submit a 65-character password for validation"
+    ],
+    "expected_results": [
+      "checkMaxPasswordLength returns true; the 'auth.password_max_length' message is included and isValidPassword returns false."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_052",
+    "testcase_name": "Password exactly at the maximum length boundary (64 characters)",
+    "test_objective": "Verify a password exactly at MAX_PASSWORD_LENGTH is accepted.",
+    "test_steps": [
+      "1. Submit a 64-character password satisfying all other rules"
+    ],
+    "expected_results": [
+      "checkMaxPasswordLength returns false (64 is not > 64); no max-length message is generated."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_053",
+    "testcase_name": "Password missing an uppercase letter",
+    "test_objective": "Verify a password with zero uppercase letters is rejected when the policy requires at least one.",
+    "test_steps": [
+      "1. Submit a password containing only lowercase letters, digits and special characters"
+    ],
+    "expected_results": [
+      "checkMinUppercaseLetters returns true; the 'auth.password_n_uppercase_letters' message is returned."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_054",
+    "testcase_name": "Password missing a lowercase letter",
+    "test_objective": "Verify a password with zero lowercase letters is rejected when the policy requires at least one.",
+    "test_steps": [
+      "1. Submit a password containing only uppercase letters, digits and special characters"
+    ],
+    "expected_results": [
+      "checkMinLowercaseLetters returns true; the 'auth.password_n_lowercase_letters' message is returned."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_055",
+    "testcase_name": "Password missing a numeric digit",
+    "test_objective": "Verify a password with no digits is rejected when the policy requires at least one number.",
+    "test_steps": [
+      "1. Submit a password containing only letters and special characters"
+    ],
+    "expected_results": [
+      "checkMinNumbersInPassword returns true; the 'auth.password_n_numbers' message is returned."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_056",
+    "testcase_name": "Password missing a special character",
+    "test_objective": "Verify a password with no special characters is rejected when the policy requires at least one.",
+    "test_steps": [
+      "1. Submit a password containing only letters and digits"
+    ],
+    "expected_results": [
+      "checkMinSpecialCharacters returns true; the 'auth.password_n_special_characters' message is returned."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_057",
+    "testcase_name": "Password containing spaces when spaces are disallowed",
+    "test_objective": "Verify a password containing whitespace is rejected under the default is_spaces_allowed=false policy.",
+    "test_steps": [
+      "1. Submit a password containing a space character, e.g. 'Str0ng Pass!'"
+    ],
+    "expected_results": [
+      "checkSpacesInPassword returns true; the 'auth.password_spaces_not_allowed' message is returned."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Password Strength Validation",
+    "testcase_id": "TC_AUTH_058",
+    "testcase_name": "Common/guessable password that satisfies character-class rules but has low entropy",
+    "test_objective": "Verify a predictable password (e.g. 'Password1!') that technically satisfies length/character rules is still flagged as guessable via the zxcvbn strength score.",
+    "test_steps": [
+      "1. Submit a common/predictable password like 'Password1!' that meets length and character-class rules",
+      "2. Inspect the strength score and messages"
+    ],
+    "expected_results": [
+      "PasswordStrengthValidation::checkPasswordStrength scores it below the configured default_required_password_strength ('strong'); checkRequiredDefaultPasswordStrength returns true and the 'auth.password_could_be_guessable' message is added since no other messages exist."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "CSRF Protection",
+    "testcase_id": "TC_AUTH_059",
+    "testcase_name": "Login form submitted with a missing CSRF token",
+    "test_objective": "Verify the login POST is rejected when _token is absent.",
+    "test_steps": [
+      "1. Submit the login form (ValidateController) with the _token field stripped out"
+    ],
+    "expected_results": [
+      "CsrfTokenManager::isValid('login', null) returns false; AuthenticationException::invalidCsrfToken is thrown, caught, and the user is redirected to the login page with an error flash before any credential check occurs."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "CSRF Protection",
+    "testcase_id": "TC_AUTH_060",
+    "testcase_name": "Login form submitted with an invalid/tampered CSRF token",
+    "test_objective": "Verify the login POST is rejected when _token does not match the session-issued token.",
+    "test_steps": [
+      "1. Submit the login form with a random/incorrect _token value and otherwise-valid credentials"
+    ],
+    "expected_results": [
+      "Token validation fails first; invalid_csrf_token error is shown even though the credentials themselves were correct."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "CSRF Protection",
+    "testcase_id": "TC_AUTH_061",
+    "testcase_name": "Request-reset-password form missing CSRF token",
+    "test_objective": "Verify the forgot-password request form is protected against CSRF.",
+    "test_steps": [
+      "1. Submit the request-reset-password form with _token removed"
+    ],
+    "expected_results": [
+      "RequestResetPasswordController throws AuthenticationException::invalidCsrfToken before searching for the user."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "CSRF Protection",
+    "testcase_id": "TC_AUTH_062",
+    "testcase_name": "Reset-password form missing or invalid CSRF token",
+    "test_objective": "Verify the final reset-password submission form is protected against CSRF.",
+    "test_steps": [
+      "1. Submit the reset-password form (valid reset code) with _token removed or altered"
+    ],
+    "expected_results": [
+      "ResetPasswordController throws AuthenticationException::invalidCsrfToken before the new password is saved."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "CSRF Protection",
+    "testcase_id": "TC_AUTH_063",
+    "testcase_name": "Reset-weak-password form missing or invalid CSRF token",
+    "test_objective": "Verify the forced weak-password reset form is protected against CSRF.",
+    "test_steps": [
+      "1. Submit the reset-weak-password form with _token removed or altered"
+    ],
+    "expected_results": [
+      "isValid('reset-weak-password', token) fails; a FLASH_PASSWORD_ENFORCE_ERROR invalid_csrf_token is set and the user is redirected back without the password being changed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "CSRF Protection",
+    "testcase_id": "TC_AUTH_064",
+    "testcase_name": "Administrator-access verification form missing or invalid CSRF token",
+    "test_objective": "Verify the step-up admin verification form is protected against CSRF.",
+    "test_steps": [
+      "1. Submit the administrator-access verification form with _token removed or altered, using a correct admin password"
+    ],
+    "expected_results": [
+      "AdministratorVerifyController throws AuthenticationException::invalidCsrfToken even though the password was correct; FLASH_VERIFY_ERROR is set and the user is forwarded back to the verification page."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "CSRF Protection",
+    "testcase_id": "TC_AUTH_065",
+    "testcase_name": "Token issued for one form cannot validate a different form",
+    "test_objective": "Verify each form uses a distinct CSRF token namespace (id) so a token cannot be replayed across unrelated forms.",
+    "test_steps": [
+      "1. Capture the CSRF token rendered on the login page ('login' id)",
+      "2. Attempt to submit the reset-password form using that token value as _token"
+    ],
+    "expected_results": [
+      "CsrfTokenManager::isValid('reset-password', loginToken) returns false because the token id differs, so validation fails."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "CSRF Protection",
+    "testcase_id": "TC_AUTH_066",
+    "testcase_name": "A fresh, unique CSRF token is issued on every relevant page load",
+    "test_objective": "Verify token freshness/uniqueness so tokens are not trivially predictable or globally shared.",
+    "test_steps": [
+      "1. Load the login page twice in separate sessions",
+      "2. Compare the rendered 'token' prop values"
+    ],
+    "expected_results": [
+      "Each session receives its own token value bound to that session's TokenStorage, per Symfony CsrfTokenManager semantics."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "CSRF Protection",
+    "testcase_id": "TC_AUTH_067",
+    "testcase_name": "Expired session token replay after logout",
+    "test_objective": "Verify a CSRF token captured before logout cannot be used to perform a state-changing action after the session ends.",
+    "test_steps": [
+      "1. Log in and capture the login page's CSRF token",
+      "2. Logout",
+      "3. Attempt to submit an authenticated form action using the captured token"
+    ],
+    "expected_results": [
+      "Because the session/token storage was invalidated on logout, the previously captured token no longer validates against the new session state."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Admin Access Control",
+    "testcase_id": "TC_AUTH_068",
+    "testcase_name": "User without admin-verify permission is forwarded to Forbidden page",
+    "test_objective": "Verify a user lacking the 'auth_admin_verify' data-group read permission cannot reach the admin verification step.",
+    "test_steps": [
+      "1. Log in as a user/role without permission on data group 'auth_admin_verify'",
+      "2. Trigger an action that invokes AdministratorVerifyController"
+    ],
+    "expected_results": [
+      "getDataGroupPermissions('auth_admin_verify')->canRead() is false; a RequestForwardableException forwards the request to ForbiddenController, rendering the 403 'auth-forbidden' page."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Admin Access Control",
+    "testcase_id": "TC_AUTH_069",
+    "testcase_name": "Authorized admin submits correct password on the verification page",
+    "test_objective": "Verify a permitted user can step up to admin access by re-entering their password correctly.",
+    "test_steps": [
+      "1. Navigate to an admin-privileged action, triggering the Administrator Access page",
+      "2. Enter the correct account password",
+      "3. Submit"
+    ],
+    "expected_results": [
+      "AuthenticationService::setCredentials succeeds; AuthUser::setHasAdminAccess(true) is set, the login is logged, and the user is forwarded to the originally requested (forward) URL."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Admin Access Control",
+    "testcase_id": "TC_AUTH_070",
+    "testcase_name": "Authorized admin submits an incorrect password on the verification page",
+    "test_objective": "Verify re-authentication fails safely when the wrong password is supplied on the step-up form.",
+    "test_steps": [
+      "1. Navigate to the Administrator Access page",
+      "2. Enter an incorrect password",
+      "3. Submit"
+    ],
+    "expected_results": [
+      "setCredentials returns false, AuthenticationException::invalidCredentials is thrown, FLASH_VERIFY_ERROR is set, and the user is forwarded back to AdministratorAccessController with the error shown; hasAdminAccess remains false."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Admin Access Control",
+    "testcase_id": "TC_AUTH_071",
+    "testcase_name": "Admin access flag is not sticky across page navigation",
+    "test_objective": "Verify that gaining admin access on one page does not silently grant it on subsequent unrelated pages, per AdministratorAccessSubscriber.",
+    "test_steps": [
+      "1. Successfully verify admin access for one privileged action",
+      "2. Navigate to a different Vue-rendered controller that does not implement AdminPrivilegeController"
+    ],
+    "expected_results": [
+      "AdministratorAccessSubscriber::onControllerEvent resets AuthUser::setHasAdminAccess(false) for any AbstractVueController that is not an instance of AdminPrivilegeController, forcing re-verification for the next privileged action."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Admin Access Control",
+    "testcase_id": "TC_AUTH_072",
+    "testcase_name": "Administrator Access page respects the 'forward' query parameter",
+    "test_objective": "Verify the intended destination after verification is captured from the 'forward' query string.",
+    "test_steps": [
+      "1. Navigate to auth/admin/access?forward=/some/admin/path"
+    ],
+    "expected_results": [
+      "The forward URL is stored on AuthUser::ADMIN_ACCESS_FORWARD_URL and used to redirect after a successful verification."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Admin Access Control",
+    "testcase_id": "TC_AUTH_073",
+    "testcase_name": "Administrator Access page falls back to the home page as the back URL",
+    "test_objective": "Verify that without an explicit 'back' query parameter (and no prior flash error), the back-url defaults to the user's home page path.",
+    "test_steps": [
+      "1. Navigate directly to the Administrator Access page with no 'back' query parameter and no pending FLASH_VERIFY_ERROR"
+    ],
+    "expected_results": [
+      "backUrl is computed as '/' + HomePageService::getHomePagePath() and passed to the component as the 'back-url' prop."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Admin Access Control",
+    "testcase_id": "TC_AUTH_074",
+    "testcase_name": "Forward/back session attributes are cleared after successful verification",
+    "test_objective": "Verify stale forward/back URLs do not leak into subsequent unrelated privileged actions.",
+    "test_steps": [
+      "1. Successfully complete admin verification with a forward URL set",
+      "2. Inspect AuthUser attributes afterward"
+    ],
+    "expected_results": [
+      "AdministratorVerifyController removes ADMIN_ACCESS_FORWARD_URL and ADMIN_ACCESS_BACK_URL from AuthUser after a successful redirect."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Admin Access Control",
+    "testcase_id": "TC_AUTH_075",
+    "testcase_name": "Terminated or disabled admin user cannot pass step-up verification",
+    "test_objective": "Verify that even with the correct password, a disabled or terminated admin account fails the re-authentication check.",
+    "test_steps": [
+      "1. As a disabled or terminated admin user with an existing session, trigger the Administrator Access verification",
+      "2. Enter the correct (still valid) password",
+      "3. Submit"
+    ],
+    "expected_results": [
+      "AuthenticationService::setCredentialsForUser throws userDisabled/employeeTerminated before hasAdminAccess can be set to true; verification fails."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Admin Access Control",
+    "testcase_id": "TC_AUTH_076",
+    "testcase_name": "Forbidden page renders the correct 403 component",
+    "test_objective": "Verify the Forbidden landing page displays the expected UI when access is denied.",
+    "test_steps": [
+      "1. Trigger any RequestForwardableException route to ForbiddenController (e.g. lacking admin_verify permission)"
+    ],
+    "expected_results": [
+      "ForbiddenController::preRender renders the 'auth-forbidden' Vue component with an HTTP 403 status."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "UI"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Session Handling/Expiry",
+    "testcase_id": "TC_AUTH_077",
+    "testcase_name": "Session times out while browsing an authenticated view page",
+    "test_objective": "Verify an expired/invalidated session on a standard (view) controller redirects the user to the login page instead of showing stale content.",
+    "test_steps": [
+      "1. Log in",
+      "2. Force the session to become unauthenticated (e.g. expire it server-side)",
+      "3. Navigate to any authenticated view page"
+    ],
+    "expected_results": [
+      "AuthenticationSubscriber::onControllerEvent detects the controller is not PublicControllerInterface, throws SessionExpiredException, and onExceptionEvent redirects to auth/login."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Session Handling/Expiry",
+    "testcase_id": "TC_AUTH_078",
+    "testcase_name": "Session times out during a REST API call",
+    "test_objective": "Verify an expired session hitting a REST endpoint returns a structured 401 instead of an HTML redirect.",
+    "test_steps": [
+      "1. Log in and obtain a session",
+      "2. Invalidate/expire the session",
+      "3. Call any authenticated REST V2 API endpoint"
+    ],
+    "expected_results": [
+      "AuthenticationSubscriber throws UnauthorizedException carrying an HTTP 401 JSON error body ('Session expired'); onExceptionEvent returns that response directly."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Session Handling/Expiry",
+    "testcase_id": "TC_AUTH_079",
+    "testcase_name": "Account is disabled by an admin while the user has an active session",
+    "test_objective": "Verify a mid-session account disable takes effect on the very next request rather than waiting for re-login.",
+    "test_steps": [
+      "1. Log in as user X in Session A",
+      "2. In a separate admin session, disable user X's account",
+      "3. Perform any action in Session A"
+    ],
+    "expected_results": [
+      "resolveAuthenticatedUserException detects isLoggedInUserActive()=false, logoutCurrentSession invalidates the session and sets a 'user_disabled' flash message; the user is forced back to the login page."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Session Handling/Expiry",
+    "testcase_id": "TC_AUTH_080",
+    "testcase_name": "Employee is terminated while the user has an active session",
+    "test_objective": "Verify a mid-session employee termination immediately revokes access.",
+    "test_steps": [
+      "1. Log in as user X in an active session",
+      "2. Terminate the associated employee record",
+      "3. Perform any subsequent action"
+    ],
+    "expected_results": [
+      "resolveAuthenticatedUserException detects the EmployeeTerminationRecord and forces a logout with an 'employee_terminated' message."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Session Handling/Expiry",
+    "testcase_id": "TC_AUTH_081",
+    "testcase_name": "User record is modified elsewhere, invalidating the current session token",
+    "test_objective": "Verify that if the logged-in user's dateModified timestamp changes (e.g. edited by an admin) the current session is treated as stale and ended.",
+    "test_steps": [
+      "1. Log in as user X",
+      "2. Have an admin modify user X's record (changing dateModified)",
+      "3. Perform any subsequent action as user X in the original session"
+    ],
+    "expected_results": [
+      "hasUserLastModifiedChanged returns true; a 'session_expired' AuthenticationException triggers logoutCurrentSession, forcing re-login."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Session Handling/Expiry",
+    "testcase_id": "TC_AUTH_082",
+    "testcase_name": "Re-login after session timeout returns the user to the originally requested page",
+    "test_objective": "Verify the post-timeout login flow restores the user's original destination rather than always going to the home page.",
+    "test_steps": [
+      "1. Attempt to open a deep-linked authenticated page while the session is expired (captures SESSION_TIMEOUT_REDIRECT_URL)",
+      "2. Log back in successfully"
+    ],
+    "expected_results": [
+      "handleSessionTimeoutRedirect reads and clears AuthUser::SESSION_TIMEOUT_REDIRECT_URL and ValidateController redirects there instead of the default home page, provided it differs from the login/logout URLs."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Session Handling/Expiry",
+    "testcase_id": "TC_AUTH_083",
+    "testcase_name": "Public authentication pages remain reachable without a session",
+    "test_objective": "Verify login, forgot-password and reset-password pages are excluded from the session-expiry enforcement.",
+    "test_steps": [
+      "1. With no active session, navigate to /auth/login, /auth/requestPasswordResetCode, and a valid /auth/resetPassword/resetCode/{code} link"
+    ],
+    "expected_results": [
+      "Each controller implements PublicControllerInterface; AuthenticationSubscriber::onControllerEvent returns early for these routes without throwing SessionExpiredException."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Session Handling/Expiry",
+    "testcase_id": "TC_AUTH_084",
+    "testcase_name": "Unauthenticated request to a protected page never exposes protected content",
+    "test_objective": "Verify an unauthenticated user hitting a non-public controller is always intercepted before any business content renders.",
+    "test_steps": [
+      "1. With no session/cookies, navigate directly to a known authenticated-only URL"
+    ],
+    "expected_results": [
+      "onRequestEvent stops propagation since isAuthenticated() is false, and onControllerEvent subsequently throws SessionExpiredException (or 401 for REST), so protected data is never rendered."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Account Lockout/Disabled/Terminated User Login",
+    "testcase_id": "TC_AUTH_085",
+    "testcase_name": "Login attempt with a disabled user account and correct password",
+    "test_objective": "Verify a disabled account cannot log in even when the password is correct, and receives a specific message.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Enter the username of a disabled account",
+      "3. Enter the correct password",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "setCredentialsForUser detects !$user->getStatus() and throws AuthenticationException::userDisabled ('Account disabled'); login is refused."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Account Lockout/Disabled/Terminated User Login",
+    "testcase_id": "TC_AUTH_086",
+    "testcase_name": "Login attempt with a terminated employee's user account",
+    "test_objective": "Verify an account belonging to a terminated employee cannot log in even with correct credentials.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Enter the username tied to a terminated employee",
+      "3. Enter the correct password",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "setCredentialsForUser detects an EmployeeTerminationRecord and throws AuthenticationException::employeeTerminated ('Employee is terminated'); login is refused."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Account Lockout/Disabled/Terminated User Login",
+    "testcase_id": "TC_AUTH_087",
+    "testcase_name": "Login attempt with a user account that has no linked employee",
+    "test_objective": "Verify a system user account without an associated employee record cannot complete login.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Enter the username of a user with empNumber = null",
+      "3. Enter the correct password",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "setCredentialsForUser throws AuthenticationException::employeeNotAssigned ('Employee not assigned'); login is refused."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Account Lockout/Disabled/Terminated User Login",
+    "testcase_id": "TC_AUTH_088",
+    "testcase_name": "Login attempt with a deleted user account",
+    "test_objective": "Verify a soft-deleted user account is rejected with the generic invalid-credentials message rather than a specific status message.",
+    "test_steps": [
+      "1. Navigate to /auth/login",
+      "2. Enter the username of a user where isDeleted()=true",
+      "3. Enter any password",
+      "4. Click Login"
+    ],
+    "expected_results": [
+      "setCredentialsForUser returns false immediately for a deleted user (no specific exception), so AuthProviderChain reports failure and ValidateController shows the generic invalid_credentials message - distinct from the disabled/terminated messaging."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Account Lockout/Disabled/Terminated User Login",
+    "testcase_id": "TC_AUTH_089",
+    "testcase_name": "Forced password-save flows reject disabled/terminated users at the final save step",
+    "test_objective": "Verify that even if a reset/enforce-password code is otherwise valid, the underlying save is blocked for a disabled or terminated account.",
+    "test_steps": [
+      "1. Obtain a valid reset-password or enforce-password reset code for a user",
+      "2. Disable the user's account or terminate their employee record before completing the reset",
+      "3. Submit the new password"
+    ],
+    "expected_results": [
+      "ResetPasswordService::validateUser / PasswordStrengthService's user validation reject the account (returns null for a terminated employee), so saveResetPassword/saveEnforcedPassword does not update the credentials."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Account Lockout/Disabled/Terminated User Login",
+    "testcase_id": "TC_AUTH_090",
+    "testcase_name": "Previously issued reset links become unusable once the account is disabled mid-flow",
+    "test_objective": "Verify a reset code requested while the account was active cannot be exploited after the account is disabled before the code is used.",
+    "test_steps": [
+      "1. Request a password reset for an active account (obtain code)",
+      "2. Disable the account before the code is used",
+      "3. Attempt to complete the reset using the code"
+    ],
+    "expected_results": [
+      "validateUser in ResetPasswordService checks the employee's termination status at save time; combined with searchForUserRecord's status checks at request time, a disabled account cannot have its password changed via a stale link."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Account Lockout/Disabled/Terminated User Login",
+    "testcase_id": "TC_AUTH_091",
+    "testcase_name": "No lockout after repeated failed login attempts",
+    "test_objective": "Document current behaviour: verify whether the application locks or throttles an account after multiple consecutive failed login attempts.",
+    "test_steps": [
+      "1. Attempt to log in with a valid username and an incorrect password 10+ times in quick succession",
+      "2. Attempt login again with the correct password"
+    ],
+    "expected_results": [
+      "No brute-force lockout, delay, or CAPTCHA mechanism was found in LocalAuthProvider/AuthenticationService/ValidateController; the correct-password attempt succeeds immediately afterward, confirming no rate limiting is currently implemented (gap, not a verified protection)."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Account Lockout/Disabled/Terminated User Login",
+    "testcase_id": "TC_AUTH_092",
+    "testcase_name": "Error messages differentiate account-status reasons but not username validity",
+    "test_objective": "Verify that while wrong-password and unknown-username both return a generic message, disabled/terminated/unassigned states return distinct messages that could allow limited account-status enumeration.",
+    "test_steps": [
+      "1. Attempt login against a non-existent username",
+      "2. Attempt login against a known-disabled username with any password",
+      "3. Attempt login against a known-terminated-employee username with any password",
+      "4. Compare the three error messages"
+    ],
+    "expected_results": [
+      "Steps 1 uses the generic 'invalid_credentials' message, while steps 2 and 3 return distinct 'user_disabled' / 'employee_terminated' messages - confirming an attacker could infer that a disabled/terminated username exists, unlike a wrong password or unknown username."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  }
+]

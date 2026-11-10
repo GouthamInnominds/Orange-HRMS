@@ -1,0 +1,2432 @@
+[
+  {
+    "testcase_id": "TC_DATA_INT_0001",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 1",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #1.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0002",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 2",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #2.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0003",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 3",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #3.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0004",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 4",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #4.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0005",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 5",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #5.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0006",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 6",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #6.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0007",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 7",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #7.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0008",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 8",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #8.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0009",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 9",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #9.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0010",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 10",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #10.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0011",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 11",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #11.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0012",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 12",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #12.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0013",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 13",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #13.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0014",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 14",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #14.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0015",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 15",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #15.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0016",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 16",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #16.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0017",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 17",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #17.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0018",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 18",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #18.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0019",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 19",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #19.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0020",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 20",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #20.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0021",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 21",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #21.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0022",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 22",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #22.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0023",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 23",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #23.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0024",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 24",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #24.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0025",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 25",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #25.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0026",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 26",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #26.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0027",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 27",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #27.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0028",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 28",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #28.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0029",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 29",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #29.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0030",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 30",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #30.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0031",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 31",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #31.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0032",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 32",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #32.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0033",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 33",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #33.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0034",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 34",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #34.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0035",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 35",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #35.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0036",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 36",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #36.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0037",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 37",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #37.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0038",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 38",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #38.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0039",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 39",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #39.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0040",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 40",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #40.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0041",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 41",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #41.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0042",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 42",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #42.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0043",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 43",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #43.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0044",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 44",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #44.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0045",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 45",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #45.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0046",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 46",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #46.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0047",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 47",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #47.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0048",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 48",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #48.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0049",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 49",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #49.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0050",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 50",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #50.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0051",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 51",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #51.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0052",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 52",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #52.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0053",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 53",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #53.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0054",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 54",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #54.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0055",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 55",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #55.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0056",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 56",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #56.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0057",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 57",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #57.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0058",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 58",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #58.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0059",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 59",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #59.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0060",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 60",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #60.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0061",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 61",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #61.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0062",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 62",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #62.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0063",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 63",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #63.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0064",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 64",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #64.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0065",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 65",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #65.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0066",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 66",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #66.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0067",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 67",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #67.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0068",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 68",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #68.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0069",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 69",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #69.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0070",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 70",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #70.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0071",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 71",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #71.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0072",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 72",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #72.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0073",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 73",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #73.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0074",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 74",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #74.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0075",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 75",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #75.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0076",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 76",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #76.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0077",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 77",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #77.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0078",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 78",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #78.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0079",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 79",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #79.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0080",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 80",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #80.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0081",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 81",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #81.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0082",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 82",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #82.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0083",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 83",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #83.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0084",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 84",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #84.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0085",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 85",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #85.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0086",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 86",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #86.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0087",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 87",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #87.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0088",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 88",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #88.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0089",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 89",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #89.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_DATA_INT_0090",
+    "test_level": "Integration/Database",
+    "test_type": [
+      "DataIntegrity",
+      "CascadeLock",
+      "ReferentialIntegrity"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Consistency"
+    ],
+    "priority": "High",
+    "testcase_name": "Data Integrity Test 90",
+    "test_objective": "Verify database referential integrity and cascade deletion rules for Entity Relation #90.",
+    "preconditions": [
+      "Parent entity is bound to one or more active child entities in database"
+    ],
+    "test_steps": [
+      "1. Attempt hard/soft delete on parent reference entity",
+      "2. Query child table and audit log"
+    ],
+    "expected_results": [
+      "System prevents deletion when active foreign dependencies exist or performs clean soft-delete without orphan records."
+    ],
+    "automation_status": "Automated"
+  }
+]

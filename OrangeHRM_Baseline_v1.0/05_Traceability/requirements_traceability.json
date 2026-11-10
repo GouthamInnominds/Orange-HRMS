@@ -1,0 +1,20 @@
+{
+  "baseline_id": "ORANGEHRM_BASELINE_v1.0",
+  "commit_sha": "4b88be22f8ae75561e2ff14a2b5fc31feb36d214",
+  "generated_at": "2026-11-10T06:51:12.377Z",
+  "total_testcases": 6893,
+  "traceability_summary": {
+    "unit_tests": 2781,
+    "api_tests": 1678,
+    "functional_tests": 1559,
+    "ui_component_tests": 250,
+    "workflow_state_tests": 120,
+    "security_tests": 140,
+    "data_integrity_tests": 90,
+    "file_upload_tests": 70,
+    "integration_adapter_tests": 60,
+    "e2e_tests": 60,
+    "i18n_accessibility_tests": 50,
+    "performance_tests": 35
+  }
+}

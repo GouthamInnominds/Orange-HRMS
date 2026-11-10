@@ -1,0 +1,1892 @@
+[
+  {
+    "testcase_id": "TC_FILE_UPL_0001",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 1",
+    "test_objective": "Validate attachment handling for file payload condition #1.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #1 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0002",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 2",
+    "test_objective": "Validate attachment handling for file payload condition #2.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #2 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0003",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 3",
+    "test_objective": "Validate attachment handling for file payload condition #3.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #3 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0004",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 4",
+    "test_objective": "Validate attachment handling for file payload condition #4.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #4 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0005",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 5",
+    "test_objective": "Validate attachment handling for file payload condition #5.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #5 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0006",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 6",
+    "test_objective": "Validate attachment handling for file payload condition #6.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #6 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0007",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 7",
+    "test_objective": "Validate attachment handling for file payload condition #7.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #7 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0008",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 8",
+    "test_objective": "Validate attachment handling for file payload condition #8.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #8 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0009",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 9",
+    "test_objective": "Validate attachment handling for file payload condition #9.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #9 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0010",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 10",
+    "test_objective": "Validate attachment handling for file payload condition #10.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #10 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0011",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 11",
+    "test_objective": "Validate attachment handling for file payload condition #11.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #11 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0012",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 12",
+    "test_objective": "Validate attachment handling for file payload condition #12.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #12 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0013",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 13",
+    "test_objective": "Validate attachment handling for file payload condition #13.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #13 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0014",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 14",
+    "test_objective": "Validate attachment handling for file payload condition #14.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #14 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0015",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 15",
+    "test_objective": "Validate attachment handling for file payload condition #15.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #15 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0016",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 16",
+    "test_objective": "Validate attachment handling for file payload condition #16.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #16 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0017",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 17",
+    "test_objective": "Validate attachment handling for file payload condition #17.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #17 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0018",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 18",
+    "test_objective": "Validate attachment handling for file payload condition #18.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #18 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0019",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 19",
+    "test_objective": "Validate attachment handling for file payload condition #19.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #19 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0020",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 20",
+    "test_objective": "Validate attachment handling for file payload condition #20.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #20 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0021",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 21",
+    "test_objective": "Validate attachment handling for file payload condition #21.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #21 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0022",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 22",
+    "test_objective": "Validate attachment handling for file payload condition #22.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #22 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0023",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 23",
+    "test_objective": "Validate attachment handling for file payload condition #23.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #23 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0024",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 24",
+    "test_objective": "Validate attachment handling for file payload condition #24.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #24 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0025",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 25",
+    "test_objective": "Validate attachment handling for file payload condition #25.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #25 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0026",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 26",
+    "test_objective": "Validate attachment handling for file payload condition #26.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #26 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0027",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 27",
+    "test_objective": "Validate attachment handling for file payload condition #27.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #27 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0028",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 28",
+    "test_objective": "Validate attachment handling for file payload condition #28.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #28 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0029",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 29",
+    "test_objective": "Validate attachment handling for file payload condition #29.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #29 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0030",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 30",
+    "test_objective": "Validate attachment handling for file payload condition #30.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #30 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0031",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 31",
+    "test_objective": "Validate attachment handling for file payload condition #31.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #31 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0032",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 32",
+    "test_objective": "Validate attachment handling for file payload condition #32.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #32 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0033",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 33",
+    "test_objective": "Validate attachment handling for file payload condition #33.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #33 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0034",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 34",
+    "test_objective": "Validate attachment handling for file payload condition #34.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #34 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0035",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 35",
+    "test_objective": "Validate attachment handling for file payload condition #35.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #35 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0036",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 36",
+    "test_objective": "Validate attachment handling for file payload condition #36.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #36 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0037",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 37",
+    "test_objective": "Validate attachment handling for file payload condition #37.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #37 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0038",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 38",
+    "test_objective": "Validate attachment handling for file payload condition #38.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #38 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0039",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 39",
+    "test_objective": "Validate attachment handling for file payload condition #39.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #39 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0040",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 40",
+    "test_objective": "Validate attachment handling for file payload condition #40.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #40 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0041",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 41",
+    "test_objective": "Validate attachment handling for file payload condition #41.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #41 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0042",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 42",
+    "test_objective": "Validate attachment handling for file payload condition #42.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #42 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0043",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 43",
+    "test_objective": "Validate attachment handling for file payload condition #43.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #43 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0044",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 44",
+    "test_objective": "Validate attachment handling for file payload condition #44.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #44 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0045",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 45",
+    "test_objective": "Validate attachment handling for file payload condition #45.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #45 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0046",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 46",
+    "test_objective": "Validate attachment handling for file payload condition #46.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #46 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0047",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 47",
+    "test_objective": "Validate attachment handling for file payload condition #47.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #47 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0048",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 48",
+    "test_objective": "Validate attachment handling for file payload condition #48.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #48 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0049",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 49",
+    "test_objective": "Validate attachment handling for file payload condition #49.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #49 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0050",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 50",
+    "test_objective": "Validate attachment handling for file payload condition #50.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #50 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0051",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 51",
+    "test_objective": "Validate attachment handling for file payload condition #51.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #51 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0052",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 52",
+    "test_objective": "Validate attachment handling for file payload condition #52.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #52 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0053",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 53",
+    "test_objective": "Validate attachment handling for file payload condition #53.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #53 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0054",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 54",
+    "test_objective": "Validate attachment handling for file payload condition #54.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #54 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0055",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 55",
+    "test_objective": "Validate attachment handling for file payload condition #55.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #55 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0056",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 56",
+    "test_objective": "Validate attachment handling for file payload condition #56.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #56 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0057",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 57",
+    "test_objective": "Validate attachment handling for file payload condition #57.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #57 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0058",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 58",
+    "test_objective": "Validate attachment handling for file payload condition #58.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #58 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0059",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 59",
+    "test_objective": "Validate attachment handling for file payload condition #59.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #59 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0060",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 60",
+    "test_objective": "Validate attachment handling for file payload condition #60.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #60 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0061",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 61",
+    "test_objective": "Validate attachment handling for file payload condition #61.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #61 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0062",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 62",
+    "test_objective": "Validate attachment handling for file payload condition #62.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #62 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0063",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 63",
+    "test_objective": "Validate attachment handling for file payload condition #63.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #63 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0064",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 64",
+    "test_objective": "Validate attachment handling for file payload condition #64.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #64 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0065",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 65",
+    "test_objective": "Validate attachment handling for file payload condition #65.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #65 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0066",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 66",
+    "test_objective": "Validate attachment handling for file payload condition #66.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #66 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0067",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 67",
+    "test_objective": "Validate attachment handling for file payload condition #67.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #67 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0068",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 68",
+    "test_objective": "Validate attachment handling for file payload condition #68.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #68 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0069",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "High",
+    "testcase_name": "File Upload Boundary & Security Test 69",
+    "test_objective": "Validate attachment handling for file payload condition #69.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #69 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_FILE_UPL_0070",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Boundary",
+      "Security",
+      "FileUpload"
+    ],
+    "quality_attributes": [
+      "Security",
+      "InputValidation"
+    ],
+    "priority": "Critical",
+    "testcase_name": "File Upload Boundary & Security Test 70",
+    "test_objective": "Validate attachment handling for file payload condition #70.",
+    "preconditions": [
+      "Target entity screen with attachment capability open (e.g. Job Spec, Resume, Picture)"
+    ],
+    "test_steps": [
+      "1. Upload file with condition #70 (e.g. polyglot file, 0-byte, max-size + 1, non-standard extension)",
+      "2. Submit form and inspect validation response"
+    ],
+    "expected_results": [
+      "MIME inspection and size limits strictly enforced; malicious extensions blocked."
+    ],
+    "automation_status": "Automated"
+  }
+]

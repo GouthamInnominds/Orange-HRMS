@@ -1,0 +1,247 @@
+{
+  "baseline_id": "ORANGEHRM_BASELINE_v1.0",
+  "application": "OrangeHRM Starter Edition",
+  "version": "5.x Starter",
+  "repository": "https://github.com/GouthamInnominds/Orange-HRMS.git",
+  "branch": "main",
+  "commit_sha": "4b88be22f8ae75561e2ff14a2b5fc31feb36d214",
+  "timestamp": "2026-11-10T06:49:31.009Z",
+  "environment": {
+    "php_target": "8.1 / 8.2",
+    "framework": "Symfony 5.x / Doctrine DBAL & ORM",
+    "frontend": "Vue 3 / TypeScript / Pinia",
+    "database": "MySQL 8.0 / MariaDB 10.x"
+  },
+  "inventory_summary": {
+    "total_plugins": 22,
+    "total_api_routes": 501,
+    "total_entities": 151,
+    "total_services": 109,
+    "total_daos": 91,
+    "total_apis": 196,
+    "total_test_files": 566,
+    "total_phpunit_methods": 2781
+  },
+  "plugins": [
+    {
+      "name": "orangehrmAdminPlugin",
+      "routes": 105,
+      "entities": 23,
+      "services": 20,
+      "daos": 20,
+      "apis": 32,
+      "test_files": 85,
+      "test_methods": 471
+    },
+    {
+      "name": "orangehrmAttendancePlugin",
+      "routes": 21,
+      "entities": 1,
+      "services": 1,
+      "daos": 1,
+      "apis": 12,
+      "test_files": 14,
+      "test_methods": 68
+    },
+    {
+      "name": "orangehrmAuthenticationPlugin",
+      "routes": 14,
+      "entities": 4,
+      "services": 4,
+      "daos": 3,
+      "apis": 0,
+      "test_files": 10,
+      "test_methods": 45
+    },
+    {
+      "name": "orangehrmBuzzPlugin",
+      "routes": 14,
+      "entities": 7,
+      "services": 2,
+      "daos": 3,
+      "apis": 9,
+      "test_files": 23,
+      "test_methods": 92
+    },
+    {
+      "name": "orangehrmClaimPlugin",
+      "routes": 28,
+      "entities": 5,
+      "services": 1,
+      "daos": 1,
+      "apis": 7,
+      "test_files": 17,
+      "test_methods": 62
+    },
+    {
+      "name": "orangehrmCoreOAuthPlugin",
+      "routes": 8,
+      "entities": 4,
+      "services": 2,
+      "daos": 1,
+      "apis": 1,
+      "test_files": 14,
+      "test_methods": 60
+    },
+    {
+      "name": "orangehrmCorePlugin",
+      "routes": 5,
+      "entities": 34,
+      "services": 14,
+      "daos": 10,
+      "apis": 1,
+      "test_files": 51,
+      "test_methods": 271
+    },
+    {
+      "name": "orangehrmCorporateBrandingPlugin",
+      "routes": 5,
+      "entities": 1,
+      "services": 2,
+      "daos": 1,
+      "apis": 2,
+      "test_files": 11,
+      "test_methods": 27
+    },
+    {
+      "name": "orangehrmCorporateDirectoryPlugin",
+      "routes": 3,
+      "entities": 0,
+      "services": 1,
+      "daos": 1,
+      "apis": 1,
+      "test_files": 4,
+      "test_methods": 12
+    },
+    {
+      "name": "orangehrmDashboardPlugin",
+      "routes": 8,
+      "entities": 0,
+      "services": 5,
+      "daos": 5,
+      "apis": 7,
+      "test_files": 16,
+      "test_methods": 57
+    },
+    {
+      "name": "orangehrmHelpPlugin",
+      "routes": 2,
+      "entities": 0,
+      "services": 2,
+      "daos": 0,
+      "apis": 0,
+      "test_files": 3,
+      "test_methods": 17
+    },
+    {
+      "name": "orangehrmI18NPlugin",
+      "routes": 1,
+      "entities": 6,
+      "services": 2,
+      "daos": 1,
+      "apis": 0,
+      "test_files": 3,
+      "test_methods": 29
+    },
+    {
+      "name": "orangehrmLDAPAuthenticationPlugin",
+      "routes": 3,
+      "entities": 1,
+      "services": 4,
+      "daos": 1,
+      "apis": 3,
+      "test_files": 15,
+      "test_methods": 65
+    },
+    {
+      "name": "orangehrmLeavePlugin",
+      "routes": 49,
+      "entities": 12,
+      "services": 12,
+      "daos": 8,
+      "apis": 22,
+      "test_files": 51,
+      "test_methods": 369
+    },
+    {
+      "name": "orangehrmMaintenancePlugin",
+      "routes": 8,
+      "entities": 0,
+      "services": 2,
+      "daos": 2,
+      "apis": 2,
+      "test_files": 44,
+      "test_methods": 112
+    },
+    {
+      "name": "orangehrmMobilePlugin",
+      "routes": 1,
+      "entities": 0,
+      "services": 0,
+      "daos": 0,
+      "apis": 1,
+      "test_files": 1,
+      "test_methods": 7
+    },
+    {
+      "name": "orangehrmOpenidAuthenticationPlugin",
+      "routes": 6,
+      "entities": 3,
+      "services": 1,
+      "daos": 1,
+      "apis": 1,
+      "test_files": 6,
+      "test_methods": 23
+    },
+    {
+      "name": "orangehrmPerformancePlugin",
+      "routes": 37,
+      "entities": 8,
+      "services": 4,
+      "daos": 4,
+      "apis": 15,
+      "test_files": 29,
+      "test_methods": 135
+    },
+    {
+      "name": "orangehrmPimPlugin",
+      "routes": 94,
+      "entities": 26,
+      "services": 23,
+      "daos": 21,
+      "apis": 40,
+      "test_files": 103,
+      "test_methods": 537
+    },
+    {
+      "name": "orangehrmRecruitmentPlugin",
+      "routes": 45,
+      "entities": 9,
+      "services": 3,
+      "daos": 3,
+      "apis": 19,
+      "test_files": 29,
+      "test_methods": 138
+    },
+    {
+      "name": "orangehrmSystemCheckPlugin",
+      "routes": 2,
+      "entities": 0,
+      "services": 0,
+      "daos": 0,
+      "apis": 0,
+      "test_files": 0,
+      "test_methods": 0
+    },
+    {
+      "name": "orangehrmTimePlugin",
+      "routes": 42,
+      "entities": 7,
+      "services": 4,
+      "daos": 4,
+      "apis": 21,
+      "test_files": 37,
+      "test_methods": 184
+    }
+  ]
+}

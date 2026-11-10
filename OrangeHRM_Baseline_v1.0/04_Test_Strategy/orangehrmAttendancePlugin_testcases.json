@@ -1,0 +1,2089 @@
+[
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_001",
+    "testcase_name": "Punch in successfully with valid date, time and timezone",
+    "test_objective": "Verify an employee can punch in successfully with all valid required fields.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Time > Attendance > Punch In/Out",
+      "3. Confirm current date, time, timezoneOffset and timezoneName are populated",
+      "4. Click Punch In"
+    ],
+    "expected_results": [
+      "Attendance record is created with state 'PUNCHED IN' and punch-in date/time/timezone are saved correctly."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_002",
+    "testcase_name": "Punch in fails when date field is missing",
+    "test_objective": "Verify punch in request is rejected when the required 'date' field is not provided.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send Punch In request without 'date' parameter"
+    ],
+    "expected_results": [
+      "API returns a validation error indicating 'date' is required; no attendance record is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_003",
+    "testcase_name": "Punch in fails when time field is missing",
+    "test_objective": "Verify punch in request is rejected when the required 'time' field is not provided.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send Punch In request without 'time' parameter"
+    ],
+    "expected_results": [
+      "API returns a validation error indicating 'time' is required; no attendance record is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_004",
+    "testcase_name": "Punch in fails when timezoneOffset is missing",
+    "test_objective": "Verify punch in request is rejected when the required 'timezoneOffset' field is not provided.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send Punch In request without 'timezoneOffset' parameter"
+    ],
+    "expected_results": [
+      "API returns a validation error for missing timezoneOffset; no attendance record is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_005",
+    "testcase_name": "Punch in fails when timezoneName is missing",
+    "test_objective": "Verify punch in request is rejected when the required 'timezoneName' field is not provided.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send Punch In request without 'timezoneName' parameter"
+    ],
+    "expected_results": [
+      "API returns a validation error for missing timezoneName; no attendance record is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_006",
+    "testcase_name": "Punch in fails with invalid time format",
+    "test_objective": "Verify punch in rejects a time value that does not match the required 'H:i' format.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send Punch In request with time='25:99' (invalid format)"
+    ],
+    "expected_results": [
+      "API returns a TIME format validation error and no attendance record is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_007",
+    "testcase_name": "Punch in note accepted up to 250 characters",
+    "test_objective": "Verify the punch-in note field is accepted when it is at the maximum allowed length of 250 characters.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Enter a punch-in note of exactly 250 characters",
+      "3. Click Punch In"
+    ],
+    "expected_results": [
+      "Punch in succeeds and the 250-character note is saved without truncation."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_008",
+    "testcase_name": "Punch in fails when note exceeds 250 characters",
+    "test_objective": "Verify punch in is rejected when the note field exceeds the 250 character maximum length.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Enter a punch-in note of 251 characters",
+      "3. Click Punch In"
+    ],
+    "expected_results": [
+      "API returns a LENGTH validation error for punchInNote/note and no attendance record is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_009",
+    "testcase_name": "Punch in blocked when an overlapping punched-in record already exists",
+    "test_objective": "Verify punch in is rejected with 'Punch-In Overlap Found' when the employee already has an overlapping open attendance record.",
+    "test_steps": [
+      "1. Login as ESS user who already has an active punched-in record",
+      "2. Attempt to Punch In again with a date/time that overlaps the existing open record"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'Punch-In Overlap Found'; no new record is created."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_010",
+    "testcase_name": "Punch in rejected when system time is altered beyond tolerance and 'Allow employees to change time' is disabled",
+    "test_objective": "Verify punch in fails with 'Provided Date And Time Invalid' when the configuration disallows changing current time and the supplied date/time differs from the actual server time by more than 180 seconds.",
+    "test_steps": [
+      "1. As Admin, disable 'Allow Employees to Change Punch In/Out Time' in Attendance Configuration",
+      "2. Login as ESS user",
+      "3. Submit Punch In with a date/time more than 3 minutes different from the real current time"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'Provided Date And Time Invalid'; punch in is rejected."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_011",
+    "testcase_name": "Punch in succeeds when time is within +/-180 second tolerance and time-change is disabled",
+    "test_objective": "Verify punch in succeeds when 'Allow employees to change time' is disabled but the supplied date/time is within the 180-second margin of the actual current time.",
+    "test_steps": [
+      "1. As Admin, disable 'Allow Employees to Change Punch In/Out Time'",
+      "2. Login as ESS user",
+      "3. Submit Punch In using the real current date/time (within 3 minutes)"
+    ],
+    "expected_results": [
+      "Punch in succeeds and attendance record is created with state 'PUNCHED IN'."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch In",
+    "testcase_id": "TC_ATT_012",
+    "testcase_name": "Punch in succeeds without an optional note",
+    "test_objective": "Verify punch in succeeds when the optional 'note' field is left blank.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Leave the punch-in note field empty",
+      "3. Click Punch In"
+    ],
+    "expected_results": [
+      "Punch in succeeds and the attendance record is saved with a null/empty note."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Out",
+    "testcase_id": "TC_ATT_013",
+    "testcase_name": "Punch out successfully after an active punch in",
+    "test_objective": "Verify an employee who is currently punched in can punch out successfully.",
+    "test_steps": [
+      "1. Login as ESS user who is currently punched in",
+      "2. Navigate to Time > Attendance > Punch In/Out",
+      "3. Click Punch Out with valid date/time/timezone"
+    ],
+    "expected_results": [
+      "The open attendance record is updated to state 'PUNCHED OUT' with punch-out date/time/timezone saved."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Out",
+    "testcase_id": "TC_ATT_014",
+    "testcase_name": "Punch out fails when employee has no active punch-in record",
+    "test_objective": "Verify punch out is rejected with 'Cannot Proceed Punch Out Employee Already Punched Out' when there is no open punch-in record.",
+    "test_steps": [
+      "1. Login as ESS user who is already punched out (no open record)",
+      "2. Attempt to Punch Out"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'Cannot Proceed Punch Out Employee Already Punched Out'."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Out",
+    "testcase_id": "TC_ATT_015",
+    "testcase_name": "Punch out fails when date field is missing",
+    "test_objective": "Verify punch out request is rejected when the required 'date' field is not provided.",
+    "test_steps": [
+      "1. Login as ESS user who is punched in",
+      "2. Send Punch Out request without 'date' parameter"
+    ],
+    "expected_results": [
+      "API returns a validation error indicating 'date' is required; record remains in PUNCHED IN state."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Out",
+    "testcase_id": "TC_ATT_016",
+    "testcase_name": "Punch out fails when time field is missing",
+    "test_objective": "Verify punch out request is rejected when the required 'time' field is not provided.",
+    "test_steps": [
+      "1. Login as ESS user who is punched in",
+      "2. Send Punch Out request without 'time' parameter"
+    ],
+    "expected_results": [
+      "API returns a validation error indicating 'time' is required; record remains in PUNCHED IN state."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Out",
+    "testcase_id": "TC_ATT_017",
+    "testcase_name": "Punch out fails with invalid timezoneOffset value",
+    "test_objective": "Verify punch out is rejected when timezoneOffset does not match the expected TIMEZONE_OFFSET format.",
+    "test_steps": [
+      "1. Login as ESS user who is punched in",
+      "2. Send Punch Out request with timezoneOffset='ABC'"
+    ],
+    "expected_results": [
+      "API returns a TIMEZONE_OFFSET validation error; punch out is rejected."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Out",
+    "testcase_id": "TC_ATT_018",
+    "testcase_name": "Punch out blocked when new punch-out time overlaps another attendance record",
+    "test_objective": "Verify punch out is rejected with 'Punch-Out Overlap Found' when the resulting punched interval overlaps an existing attendance record.",
+    "test_steps": [
+      "1. Login as ESS user who is punched in",
+      "2. Enter a punch-out date/time that overlaps another existing attendance record",
+      "3. Click Punch Out"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'Punch-Out Overlap Found'; record is not updated."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Out",
+    "testcase_id": "TC_ATT_019",
+    "testcase_name": "Punch out succeeds with an optional note within limit",
+    "test_objective": "Verify punch out succeeds when an optional note of valid length is provided.",
+    "test_steps": [
+      "1. Login as ESS user who is punched in",
+      "2. Enter a punch-out note of 50 characters",
+      "3. Click Punch Out"
+    ],
+    "expected_results": [
+      "Punch out succeeds and the note is saved with the attendance record."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Out",
+    "testcase_id": "TC_ATT_020",
+    "testcase_name": "Punch out rejected when system time is altered beyond tolerance and time-change is disabled",
+    "test_objective": "Verify punch out fails with 'Provided Date And Time Invalid' when 'Allow employees to change time' is disabled and supplied time differs from actual time by more than 180 seconds.",
+    "test_steps": [
+      "1. As Admin, disable 'Allow Employees to Change Punch In/Out Time'",
+      "2. Login as ESS user who is punched in",
+      "3. Submit Punch Out with a date/time more than 3 minutes off from real current time"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'Provided Date And Time Invalid'; punch out is rejected."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_021",
+    "testcase_name": "Edit punch-in time of an active (currently punched-in) record",
+    "test_objective": "Verify a user with edit permission can successfully update the punch-in date/time of a record that is still in PUNCHED IN state.",
+    "test_steps": [
+      "1. Login as ESS user with an active punched-in record",
+      "2. Navigate to the attendance record and edit the punch-in time",
+      "3. Save changes via PUT /attendance/records/{id}"
+    ],
+    "expected_results": [
+      "Record is updated with the new punch-in date/time/note; no overlap detected."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_022",
+    "testcase_name": "Edit both punch-in and punch-out time of a completed record",
+    "test_objective": "Verify a user can update both punch-in and punch-out date/time of a fully punched-out attendance record.",
+    "test_steps": [
+      "1. Login as user with edit permission on a completed attendance record",
+      "2. Edit punch-in date/time and punch-out date/time",
+      "3. Save changes"
+    ],
+    "expected_results": [
+      "Record is updated successfully with both new punch-in and punch-out timestamps."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_023",
+    "testcase_name": "Edit fails when only timezoneOffset is supplied without timezoneName",
+    "test_objective": "Verify editing a record fails with 'Valid Timezone Offset and Timezone Name Must Be Provided' when only one of the timezone fields is supplied.",
+    "test_steps": [
+      "1. Login as user with edit permission",
+      "2. Submit edit request with punchInOffset set but punchInTimezoneName omitted",
+      "3. Save changes"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'Valid Timezone Offset and Timezone Name Must Be Provided'."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_024",
+    "testcase_name": "Edit completed record fails when punchOutTime is missing while punchOutDate is provided",
+    "test_objective": "Verify editing a PUNCHED OUT record fails with 'Punch Out Date And Time Should Not Be Null' when punchOutDate is given but punchOutTime is null.",
+    "test_steps": [
+      "1. Login as user with edit permission on a completed record",
+      "2. Submit edit request with punchOutDate set and punchOutTime omitted",
+      "3. Save changes"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'Punch Out Date And Time Should Not Be Null'."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_025",
+    "testcase_name": "Edit blocked when new punch-in time overlaps another record",
+    "test_objective": "Verify editing the punch-in time is rejected with 'Punch-In Overlap Found' if the new time overlaps an existing attendance record for the same employee.",
+    "test_steps": [
+      "1. Login as user with edit permission",
+      "2. Edit punch-in time to a value overlapping another existing record",
+      "3. Save changes"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'Punch-In Overlap Found'; record is not updated."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_026",
+    "testcase_name": "Edit blocked when new punch-out time overlaps another record",
+    "test_objective": "Verify editing punch-out time of a completed record is rejected with 'Punch-Out Overlap Found' when the new interval overlaps another attendance record.",
+    "test_steps": [
+      "1. Login as user with edit permission on a completed record",
+      "2. Edit punch-out time to a value overlapping another existing record",
+      "3. Save changes"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'Punch-Out Overlap Found'; record is not updated."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_027",
+    "testcase_name": "Edit denied for a record the user is not authorized to modify",
+    "test_objective": "Verify a user without the appropriate edit-punch-time workflow permission for the record's owner receives a 403 Forbidden.",
+    "test_steps": [
+      "1. Login as an ESS user with no supervisory relationship to the record owner",
+      "2. Attempt PUT /attendance/records/{id} for another employee's record"
+    ],
+    "expected_results": [
+      "API returns HTTP 403 Forbidden; record is not modified."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_028",
+    "testcase_name": "Edit fails for a non-existent attendance record ID",
+    "test_objective": "Verify editing an attendance record with an ID that does not exist returns a 404 Record Not Found error.",
+    "test_steps": [
+      "1. Login as an authorized user",
+      "2. Send PUT /attendance/records/{id} using an ID that does not exist in the system"
+    ],
+    "expected_results": [
+      "API returns HTTP 404 Record Not Found."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_029",
+    "testcase_name": "Delete attendance record via /attendance/records/{id} is not implemented",
+    "test_objective": "Verify calling DELETE on the single-record attendance endpoint returns a Not Implemented response, confirming deletion must go through the employee-scoped delete endpoint.",
+    "test_steps": [
+      "1. Login as any user",
+      "2. Send DELETE /api/v2/attendance/records/{id}"
+    ],
+    "expected_results": [
+      "API returns a Not Implemented (405/501) response; no record is deleted."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_030",
+    "testcase_name": "Edit fails with invalid punchInDate format",
+    "test_objective": "Verify editing a record is rejected when punchInDate does not conform to the expected API date format.",
+    "test_steps": [
+      "1. Login as user with edit permission",
+      "2. Submit edit request with punchInDate='13/40/2026' (invalid format)",
+      "3. Save changes"
+    ],
+    "expected_results": [
+      "API returns an API_DATE validation error; record is not updated."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Edit",
+    "testcase_id": "TC_ATT_031",
+    "testcase_name": "Edit record ID parameter must be a positive integer",
+    "test_objective": "Verify editing an attendance record fails validation when the {id} path parameter is not a positive integer (e.g. 0 or negative).",
+    "test_steps": [
+      "1. Login as user with edit permission",
+      "2. Send PUT /attendance/records/-1"
+    ],
+    "expected_results": [
+      "API returns a POSITIVE rule validation error; request is rejected before any DB lookup."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Delete",
+    "testcase_id": "TC_ATT_032",
+    "testcase_name": "Delete a single own attendance record successfully",
+    "test_objective": "Verify an employee with delete permission can delete one of their own attendance records.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to My Attendance Records",
+      "3. Select one record and click Delete",
+      "4. Confirm deletion"
+    ],
+    "expected_results": [
+      "The selected record is removed and returned in the response's list of deleted IDs."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Delete",
+    "testcase_id": "TC_ATT_033",
+    "testcase_name": "Delete multiple own attendance records in a single request",
+    "test_objective": "Verify an employee can delete several of their own attendance records in one DELETE request using an array of IDs.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Select multiple attendance records",
+      "3. Click Delete and confirm"
+    ],
+    "expected_results": [
+      "All selected records are deleted successfully and returned in the response."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Delete",
+    "testcase_id": "TC_ATT_034",
+    "testcase_name": "Delete fails when ids array is empty",
+    "test_objective": "Verify deletion is rejected with 'No IDs Found' when an empty ids array is submitted.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send DELETE request to /attendance/employees/{empNumber}/records with ids=[]"
+    ],
+    "expected_results": [
+      "API returns HTTP 400 Bad Request with message 'No IDs Found'; nothing is deleted."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Delete",
+    "testcase_id": "TC_ATT_035",
+    "testcase_name": "Delete fails when attempting to delete a record not owned by the requesting employee",
+    "test_objective": "Verify deletion is denied with 403 Forbidden when one or more supplied record IDs do not belong to the target employee.",
+    "test_steps": [
+      "1. Login as ESS user A",
+      "2. Send DELETE request including an attendance record ID that belongs to employee B"
+    ],
+    "expected_results": [
+      "API returns HTTP 403 Forbidden; no records are deleted."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Delete",
+    "testcase_id": "TC_ATT_036",
+    "testcase_name": "Delete own record denied when 'Employee can edit/delete own attendance' is disabled",
+    "test_objective": "Verify an ESS user cannot delete their own attendance record when the corresponding attendance configuration is turned off.",
+    "test_steps": [
+      "1. As Admin, disable 'Employee can edit/delete own attendance records' in Attendance Configuration",
+      "2. Login as ESS user",
+      "3. Attempt to delete an own attendance record"
+    ],
+    "expected_results": [
+      "API returns HTTP 403 Forbidden; the record remains in the system."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - Delete",
+    "testcase_id": "TC_ATT_037",
+    "testcase_name": "Delete fails when ids parameter is not an array",
+    "test_objective": "Verify the delete request is rejected by validation when the 'ids' parameter is not of array type.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send DELETE request with ids='5' (string instead of array)"
+    ],
+    "expected_results": [
+      "API returns an ARRAY_TYPE validation error; request is rejected."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - List",
+    "testcase_id": "TC_ATT_038",
+    "testcase_name": "List own attendance records defaults to today's date when no filters supplied",
+    "test_objective": "Verify that when no date, fromDate or toDate is supplied, the record list defaults to showing only today's attendance records.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to My Attendance Records without applying any filter"
+    ],
+    "expected_results": [
+      "Only attendance records for the current date are displayed along with total count and total worked-hours summary."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - List",
+    "testcase_id": "TC_ATT_039",
+    "testcase_name": "List own attendance records filtered by a specific date",
+    "test_objective": "Verify filtering attendance records by the 'date' query parameter returns only records for that date.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Apply date filter for a specific past date",
+      "3. View results"
+    ],
+    "expected_results": [
+      "Only records matching the specified date are returned."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - List",
+    "testcase_id": "TC_ATT_040",
+    "testcase_name": "List own attendance records using a fromDate/toDate range",
+    "test_objective": "Verify filtering by fromDate and toDate returns all attendance records within that inclusive date range.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Set fromDate and toDate spanning a week",
+      "3. View results"
+    ],
+    "expected_results": [
+      "All attendance records between fromDate 00:00:00 and toDate 23:59:59 are returned."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - List",
+    "testcase_id": "TC_ATT_041",
+    "testcase_name": "List fails when fromDate is later than toDate",
+    "test_objective": "Verify the API rejects the request with an invalid parameter error when fromDate is chronologically after toDate.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Set fromDate=2026-08-10 and toDate=2026-08-01",
+      "3. Submit the filter"
+    ],
+    "expected_results": [
+      "API returns an invalid parameter error referencing fromDate and toDate; no results are returned."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - List",
+    "testcase_id": "TC_ATT_042",
+    "testcase_name": "List own attendance records with pagination",
+    "test_objective": "Verify limit and offset query parameters correctly paginate the attendance record list.",
+    "test_steps": [
+      "1. Login as ESS user with more than 10 attendance records",
+      "2. Request the list with limit=5 and offset=5"
+    ],
+    "expected_results": [
+      "Exactly 5 records starting from the 6th record are returned, with correct 'total' meta value."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - List",
+    "testcase_id": "TC_ATT_043",
+    "testcase_name": "List own attendance records sorted by punch-in time",
+    "test_objective": "Verify the sortField and sortOrder parameters correctly order the returned attendance records.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Request the list with sortField=punchInUserTime and sortOrder=DESC"
+    ],
+    "expected_results": [
+      "Records are returned in descending order of punch-in time."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "My Attendance Records - List",
+    "testcase_id": "TC_ATT_044",
+    "testcase_name": "Total worked-hours summary is calculated correctly for the filtered period",
+    "test_objective": "Verify the 'sum' meta object (hours, minutes, label) accurately reflects the total working time of the returned records.",
+    "test_steps": [
+      "1. Login as ESS user with multiple completed attendance records for the day",
+      "2. Request the attendance record list for that day"
+    ],
+    "expected_results": [
+      "The 'sum' object in meta reflects the correct total hours and minutes worked, matching the sum of individual record durations."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_045",
+    "testcase_name": "Admin adds a punch-in record on behalf of a subordinate employee",
+    "test_objective": "Verify an Admin user can create (proxy punch in) an attendance record for any employee via /attendance/employees/{empNumber}/records.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Navigate to Employee Attendance and select an employee",
+      "3. Enter punch-in date/time/timezone and save"
+    ],
+    "expected_results": [
+      "A new attendance record is created for the selected employee with state 'PUNCHED IN'."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_046",
+    "testcase_name": "Supervisor adds a punch-in record for a direct subordinate",
+    "test_objective": "Verify a Supervisor with proxy punch-in permission can add an attendance record for their direct report.",
+    "test_steps": [
+      "1. Login as Supervisor",
+      "2. Select a direct subordinate employee",
+      "3. Enter punch-in details and save"
+    ],
+    "expected_results": [
+      "Attendance record is created for the subordinate employee."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_047",
+    "testcase_name": "Supervisor is blocked from adding a punch-in record for an employee outside their reporting hierarchy",
+    "test_objective": "Verify a Supervisor cannot create an attendance record for an employee who is not their subordinate.",
+    "test_steps": [
+      "1. Login as Supervisor",
+      "2. Attempt to POST an attendance record using the empNumber of a non-subordinate employee"
+    ],
+    "expected_results": [
+      "API returns a validation/forbidden error (IN_ACCESSIBLE_EMP_NUMBERS); no record is created."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_048",
+    "testcase_name": "Supervisor punches out (proxy) a subordinate who is currently punched in",
+    "test_objective": "Verify a Supervisor can complete (punch out) an open attendance record for a subordinate employee.",
+    "test_steps": [
+      "1. Login as Supervisor",
+      "2. Select a subordinate with an active punch-in record",
+      "3. Enter punch-out date/time and save"
+    ],
+    "expected_results": [
+      "The subordinate's record is updated to state 'PUNCHED OUT' with correct punch-out details."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_049",
+    "testcase_name": "Admin deletes an attendance record belonging to any employee",
+    "test_objective": "Verify an Admin can delete attendance record(s) belonging to any employee in the system.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Navigate to an employee's attendance records",
+      "3. Select a record and delete it"
+    ],
+    "expected_results": [
+      "The record is deleted successfully regardless of which employee owns it."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_050",
+    "testcase_name": "Supervisor delete of subordinate's record blocked when 'Supervisor can modify attendance' is disabled",
+    "test_objective": "Verify a Supervisor cannot delete a subordinate's attendance record when the corresponding configuration toggle is turned off.",
+    "test_steps": [
+      "1. As Admin, disable 'Supervisor can add/edit/delete subordinate attendance records'",
+      "2. Login as Supervisor",
+      "3. Attempt to delete a subordinate's attendance record"
+    ],
+    "expected_results": [
+      "API returns HTTP 403 Forbidden; the record is not deleted."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_051",
+    "testcase_name": "Supervisor lists attendance records for a specific subordinate via empNumber",
+    "test_objective": "Verify a Supervisor can retrieve the attendance record list of a subordinate by specifying the empNumber query parameter.",
+    "test_steps": [
+      "1. Login as Supervisor",
+      "2. Request GET /attendance/employees/{empNumber}/records for a subordinate"
+    ],
+    "expected_results": [
+      "Attendance records for the specified subordinate are returned along with total count and worked-time summary."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_052",
+    "testcase_name": "List employee attendance records fails when empNumber is not provided",
+    "test_objective": "Verify the employee-scoped attendance record list requires the empNumber path parameter and rejects requests without it.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Send GET /attendance/employees/records without a valid empNumber"
+    ],
+    "expected_results": [
+      "API returns a required-field validation error for empNumber."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_053",
+    "testcase_name": "List employee attendance records fails for a non-existent employee number",
+    "test_objective": "Verify the API rejects the request when empNumber does not correspond to an existing employee (ENTITY_ID_EXISTS rule).",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Send GET /attendance/employees/999999/records using a non-existent empNumber"
+    ],
+    "expected_results": [
+      "API returns an ENTITY_ID_EXISTS validation error; no records are returned."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Attendance Records (Admin/Supervisor)",
+    "testcase_id": "TC_ATT_054",
+    "testcase_name": "ESS user is forbidden from viewing another employee's attendance records directly",
+    "test_objective": "Verify an ESS-role user without supervisory relationship cannot view another employee's attendance records, per EmployeeDataGroupReadPermissionRule.",
+    "test_steps": [
+      "1. Login as an ESS user with no subordinates",
+      "2. Attempt GET /attendance/employees/{otherEmpNumber}/records for an unrelated employee"
+    ],
+    "expected_results": [
+      "API returns a Forbidden error; attendance records are not disclosed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Summary Report",
+    "testcase_id": "TC_ATT_055",
+    "testcase_name": "Get attendance summary for all accessible employees for the current day",
+    "test_objective": "Verify the summary report defaults to today's date and lists summary rows for all employees accessible to the logged-in user when no empNumber is specified.",
+    "test_steps": [
+      "1. Login as Admin or Supervisor",
+      "2. Navigate to Attendance Summary report without filters"
+    ],
+    "expected_results": [
+      "Summary rows are returned for all accessible employees for the current date, with a correct total count."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Summary Report",
+    "testcase_id": "TC_ATT_056",
+    "testcase_name": "Get attendance summary filtered by a specific employee",
+    "test_objective": "Verify supplying the empNumber query parameter restricts the summary report to that single employee.",
+    "test_steps": [
+      "1. Login as Supervisor",
+      "2. Apply empNumber filter for one subordinate",
+      "3. View the summary report"
+    ],
+    "expected_results": [
+      "Only the summary row for the specified employee is returned."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Summary Report",
+    "testcase_id": "TC_ATT_057",
+    "testcase_name": "Get attendance summary using a fromDate/toDate range",
+    "test_objective": "Verify the summary report correctly aggregates data across a custom date range.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Set fromDate and toDate spanning one month",
+      "3. View the summary report"
+    ],
+    "expected_results": [
+      "Summary rows reflect aggregated attendance data for the full date range specified."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Summary Report",
+    "testcase_id": "TC_ATT_058",
+    "testcase_name": "Attendance summary fails when fromDate is after toDate",
+    "test_objective": "Verify the summary report rejects an invalid date range where fromDate is later than toDate.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Set fromDate=2026-09-30 and toDate=2026-09-01",
+      "3. Submit the filter"
+    ],
+    "expected_results": [
+      "API returns an invalid parameter error for fromDate/toDate; no summary is returned."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Summary Report",
+    "testcase_id": "TC_ATT_059",
+    "testcase_name": "Attendance summary blocked for an employee outside the supervisor's scope",
+    "test_objective": "Verify a Supervisor cannot retrieve the attendance summary of an employee who is not their subordinate.",
+    "test_steps": [
+      "1. Login as Supervisor",
+      "2. Request summary with empNumber of a non-subordinate employee"
+    ],
+    "expected_results": [
+      "API returns a Forbidden/validation error (IN_ACCESSIBLE_ENTITY_ID); summary is not returned."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Summary Report",
+    "testcase_id": "TC_ATT_060",
+    "testcase_name": "Attendance summary supports sorting and pagination",
+    "test_objective": "Verify sortField, sortOrder, limit and offset parameters work correctly on the summary endpoint.",
+    "test_steps": [
+      "1. Login as Admin with more than 10 employees",
+      "2. Request summary with limit=5, offset=0, sortField=employeeName"
+    ],
+    "expected_results": [
+      "Exactly 5 summary rows are returned, sorted by employee name."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Summary Report",
+    "testcase_id": "TC_ATT_061",
+    "testcase_name": "Attendance summary fails for a non-existent employee number",
+    "test_objective": "Verify the summary endpoint validates that the supplied empNumber corresponds to an existing employee.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Request summary with empNumber=999999 (does not exist)"
+    ],
+    "expected_results": [
+      "API returns an ENTITY_ID_EXISTS validation error."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Summary Report",
+    "testcase_id": "TC_ATT_062",
+    "testcase_name": "ESS user's attendance summary is scoped to only their own record",
+    "test_objective": "Verify that when an ESS user (with no subordinates) requests the summary without empNumber, only their own accessible record is included.",
+    "test_steps": [
+      "1. Login as ESS user with no subordinates",
+      "2. Request the attendance summary without any empNumber filter"
+    ],
+    "expected_results": [
+      "Only the logged-in user's own summary row is returned, based on their accessible employee IDs."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Configuration",
+    "testcase_id": "TC_ATT_063",
+    "testcase_name": "Admin retrieves current attendance configuration",
+    "test_objective": "Verify Admin can fetch the current values of all three attendance configuration toggles.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Navigate to Admin > Configuration > Attendance"
+    ],
+    "expected_results": [
+      "The response returns canUserChangeCurrentTime, canUserModifyAttendance and canSupervisorModifyAttendance with their current boolean values."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Configuration",
+    "testcase_id": "TC_ATT_064",
+    "testcase_name": "Admin enables 'Allow Employees to Change Punch In/Out Time'",
+    "test_objective": "Verify enabling canUserChangeCurrentTime is persisted and reflected in subsequent punch actions.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Set canUserChangeCurrentTime=true",
+      "3. Save configuration"
+    ],
+    "expected_results": [
+      "Configuration is updated successfully; employees can now submit punch times different from the real current time."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Configuration",
+    "testcase_id": "TC_ATT_065",
+    "testcase_name": "Admin disables 'Employee can edit/delete own attendance records'",
+    "test_objective": "Verify disabling canUserModifyAttendance prevents ESS users from editing/deleting their own attendance going forward.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Set canUserModifyAttendance=false",
+      "3. Save configuration"
+    ],
+    "expected_results": [
+      "Configuration is updated; subsequent edit/delete attempts by ESS users on their own records are forbidden."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Configuration",
+    "testcase_id": "TC_ATT_066",
+    "testcase_name": "Admin enables 'Supervisor can add/edit/delete subordinate attendance records'",
+    "test_objective": "Verify enabling canSupervisorModifyAttendance allows supervisors to manage subordinate attendance records.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Set canSupervisorModifyAttendance=true",
+      "3. Save configuration"
+    ],
+    "expected_results": [
+      "Configuration is updated; supervisors can now add/edit/delete records for their subordinates."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Configuration",
+    "testcase_id": "TC_ATT_067",
+    "testcase_name": "Update configuration fails when a required boolean field is missing",
+    "test_objective": "Verify the update request is rejected when one of the three required configuration fields is omitted.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Send PUT /attendance/configs without canSupervisorModifyAttendance"
+    ],
+    "expected_results": [
+      "API returns a required-field validation error; configuration is not changed."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Configuration",
+    "testcase_id": "TC_ATT_068",
+    "testcase_name": "Update configuration fails with a non-boolean value",
+    "test_objective": "Verify the update request is rejected when a configuration field is supplied as a non-boolean type (e.g., string 'yes').",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Send PUT /attendance/configs with canUserChangeCurrentTime='yes'"
+    ],
+    "expected_results": [
+      "API returns a BOOL_TYPE validation error; configuration is not changed."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Configuration",
+    "testcase_id": "TC_ATT_069",
+    "testcase_name": "Non-admin user is forbidden from accessing attendance configuration",
+    "test_objective": "Verify a user without Admin privileges cannot view or update the attendance configuration.",
+    "test_steps": [
+      "1. Login as ESS/Supervisor user",
+      "2. Attempt to access Admin > Configuration > Attendance"
+    ],
+    "expected_results": [
+      "Access is denied (403 Forbidden or menu item not visible)."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Attendance Configuration",
+    "testcase_id": "TC_ATT_070",
+    "testcase_name": "Configuration changes persist after being saved",
+    "test_objective": "Verify that after updating the configuration, re-fetching it returns the newly saved values.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Update all three configuration toggles to new values and save",
+      "3. Refresh/re-fetch GET /attendance/configs"
+    ],
+    "expected_results": [
+      "The GET response reflects the exact values that were saved in the previous update."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Overlap Validation",
+    "testcase_id": "TC_ATT_071",
+    "testcase_name": "Check punch-in overlap for a free (non-overlapping) time slot returns valid=true",
+    "test_objective": "Verify GET /attendance/punch-in/overlaps returns valid=true for a date/time that does not overlap any existing record.",
+    "test_steps": [
+      "1. Login as ESS user with no attendance record at the checked time",
+      "2. Call GET /attendance/punch-in/overlaps with date, time, timezoneOffset"
+    ],
+    "expected_results": [
+      "Response returns {valid: true}, indicating no punch-in overlap."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Overlap Validation",
+    "testcase_id": "TC_ATT_072",
+    "testcase_name": "Check punch-in overlap for a time slot within an existing open record returns valid=false",
+    "test_objective": "Verify the punch-in overlap check correctly detects an overlap with an existing punched-in record.",
+    "test_steps": [
+      "1. Login as ESS user with an active punched-in record",
+      "2. Call GET /attendance/punch-in/overlaps using a time that falls inside the existing record's interval"
+    ],
+    "expected_results": [
+      "Response returns {valid: false}, indicating a punch-in overlap was found."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Overlap Validation",
+    "testcase_id": "TC_ATT_073",
+    "testcase_name": "Punch-in overlap check fails when required 'date' parameter is missing",
+    "test_objective": "Verify the punch-in overlap check endpoint enforces the required date parameter.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call GET /attendance/punch-in/overlaps without the 'date' parameter"
+    ],
+    "expected_results": [
+      "API returns a required-field validation error for 'date'."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Overlap Validation",
+    "testcase_id": "TC_ATT_074",
+    "testcase_name": "Check punch-out overlap for a free time slot returns valid=true",
+    "test_objective": "Verify GET /attendance/punch-out/overlaps returns valid=true when the proposed punch-out time does not overlap any other record.",
+    "test_steps": [
+      "1. Login as ESS user who is punched in",
+      "2. Call GET /attendance/punch-out/overlaps with a non-conflicting date/time"
+    ],
+    "expected_results": [
+      "Response returns {valid: true}."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Overlap Validation",
+    "testcase_id": "TC_ATT_075",
+    "testcase_name": "Check punch-out overlap for a conflicting time slot returns valid=false",
+    "test_objective": "Verify the punch-out overlap check correctly detects a conflict with another existing attendance record.",
+    "test_steps": [
+      "1. Login as ESS user who is punched in",
+      "2. Call GET /attendance/punch-out/overlaps using a time that overlaps another existing record"
+    ],
+    "expected_results": [
+      "Response returns {valid: false}."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Overlap Validation",
+    "testcase_id": "TC_ATT_076",
+    "testcase_name": "Edit punch-in overlap check returns 404 for a non-existent recordId",
+    "test_objective": "Verify GET /attendance/records/punch-in-overlaps returns Record Not Found when recordId does not exist.",
+    "test_steps": [
+      "1. Login as authorized user",
+      "2. Call GET /attendance/records/punch-in-overlaps with recordId=999999"
+    ],
+    "expected_results": [
+      "API returns HTTP 404 Record Not Found."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Overlap Validation",
+    "testcase_id": "TC_ATT_077",
+    "testcase_name": "Edit punch-in overlap check denied for a record the user cannot access",
+    "test_objective": "Verify a user without visibility into another employee's attendance record is forbidden from checking its punch-in overlap.",
+    "test_steps": [
+      "1. Login as ESS user with no relation to the record owner",
+      "2. Call GET /attendance/records/punch-in-overlaps with recordId belonging to an unrelated employee"
+    ],
+    "expected_results": [
+      "API returns HTTP 403 Forbidden."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Overlap Validation",
+    "testcase_id": "TC_ATT_078",
+    "testcase_name": "Edit punch-out overlap check requires both punchOutDate and punchOutTime",
+    "test_objective": "Verify GET /attendance/records/punch-out-overlaps enforces punchOutDate and punchOutTime as required parameters (unlike the punch-in overlap edit check where they are optional).",
+    "test_steps": [
+      "1. Login as authorized user",
+      "2. Call GET /attendance/records/punch-out-overlaps with a valid recordId but omit punchOutDate"
+    ],
+    "expected_results": [
+      "API returns a required-field validation error for punchOutDate."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Punch Overlap Validation",
+    "testcase_id": "TC_ATT_079",
+    "testcase_name": "Supervisor checks punch-in overlap for a subordinate using empNumber",
+    "test_objective": "Verify a Supervisor can check punch-in overlap on behalf of a subordinate by supplying the empNumber query parameter.",
+    "test_steps": [
+      "1. Login as Supervisor",
+      "2. Call GET /attendance/punch-in/overlaps with empNumber of a subordinate and a valid date/time"
+    ],
+    "expected_results": [
+      "Response correctly returns the overlap validity for the specified subordinate's attendance records."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Timezone Selection",
+    "testcase_id": "TC_ATT_080",
+    "testcase_name": "List all available timezones with their current UTC offsets",
+    "test_objective": "Verify GET /attendance/timezones returns the full list of system timezones with name, label and offset.",
+    "test_steps": [
+      "1. Login as any user",
+      "2. Navigate to Punch In/Out and open the Timezone dropdown"
+    ],
+    "expected_results": [
+      "All available timezones are listed, each with a name, +/-HH:mm label and numeric offset."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Timezone Selection",
+    "testcase_id": "TC_ATT_081",
+    "testcase_name": "Filter timezones by partial name match",
+    "test_objective": "Verify supplying the timezoneName query parameter filters the timezone list to matching entries only.",
+    "test_steps": [
+      "1. Login as any user",
+      "2. Call GET /attendance/timezones?timezoneName=America"
+    ],
+    "expected_results": [
+      "Only timezone identifiers containing 'America' (case-insensitive) are returned."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Timezone Selection",
+    "testcase_id": "TC_ATT_082",
+    "testcase_name": "Filter timezones with a name that matches no entries returns an empty list",
+    "test_objective": "Verify searching for a non-matching timezone name returns an empty result set instead of an error.",
+    "test_steps": [
+      "1. Login as any user",
+      "2. Call GET /attendance/timezones?timezoneName=Xyzabc123"
+    ],
+    "expected_results": [
+      "Response returns an empty data array and total=0, with HTTP 200."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Timezone Selection",
+    "testcase_id": "TC_ATT_083",
+    "testcase_name": "Timezone list is sorted by UTC offset",
+    "test_objective": "Verify the returned timezone list is ordered from the lowest to the highest UTC offset for usability in the dropdown.",
+    "test_steps": [
+      "1. Login as any user",
+      "2. Retrieve the full timezone list",
+      "3. Inspect the order of the 'offset' values"
+    ],
+    "expected_results": [
+      "Timezones appear in ascending order of offset value."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "UI"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Current Date/Time",
+    "testcase_id": "TC_ATT_084",
+    "testcase_name": "Get current server date and time in UTC",
+    "test_objective": "Verify GET /attendance/current-datetime returns the server's current date and time normalized to UTC.",
+    "test_steps": [
+      "1. Login as any user",
+      "2. Open Punch In/Out page which loads the current date/time",
+      "3. Call GET /attendance/current-datetime"
+    ],
+    "expected_results": [
+      "Response returns the current date and time in UTC, matching the server clock within a few seconds."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Current Date/Time",
+    "testcase_id": "TC_ATT_085",
+    "testcase_name": "Current date/time response format is valid",
+    "test_objective": "Verify the DateTimeModel response contains correctly structured date/time fields consumable by the client.",
+    "test_steps": [
+      "1. Login as any user",
+      "2. Call GET /attendance/current-datetime",
+      "3. Inspect the response payload structure"
+    ],
+    "expected_results": [
+      "Response 'data' object contains a well-formed date/time value with no null or malformed fields."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Current Date/Time",
+    "testcase_id": "TC_ATT_086",
+    "testcase_name": "Current date/time endpoint ignores an 'id' path parameter",
+    "test_objective": "Verify the endpoint excludes the standard 'id' parameter from validation since it is a singleton resource with no identifier.",
+    "test_steps": [
+      "1. Login as any user",
+      "2. Call GET /attendance/current-datetime (no id required)"
+    ],
+    "expected_results": [
+      "Request succeeds without requiring or validating an 'id' parameter."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Latest Attendance Record",
+    "testcase_id": "TC_ATT_087",
+    "testcase_name": "Get the latest attendance record for the logged-in user",
+    "test_objective": "Verify GET /attendance/records/latest returns the most recent attendance record for the authenticated user when no empNumber is supplied.",
+    "test_steps": [
+      "1. Login as ESS user with at least one attendance record",
+      "2. Call GET /attendance/records/latest without empNumber"
+    ],
+    "expected_results": [
+      "The most recent attendance record belonging to the logged-in user is returned."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Latest Attendance Record",
+    "testcase_id": "TC_ATT_088",
+    "testcase_name": "Get the latest attendance record for another employee via empNumber",
+    "test_objective": "Verify a Supervisor/Admin can retrieve the latest attendance record of a specific employee by supplying empNumber, subject to accessible-employee validation.",
+    "test_steps": [
+      "1. Login as Supervisor",
+      "2. Call GET /attendance/records/latest?empNumber={subordinateEmpNumber}"
+    ],
+    "expected_results": [
+      "The latest attendance record for the specified subordinate is returned."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Latest Attendance Record",
+    "testcase_id": "TC_ATT_089",
+    "testcase_name": "Latest attendance record returns 404 when the employee has no records",
+    "test_objective": "Verify the endpoint returns a Record Not Found error when the target employee has no attendance records at all.",
+    "test_steps": [
+      "1. Login as ESS user with zero attendance records",
+      "2. Call GET /attendance/records/latest"
+    ],
+    "expected_results": [
+      "API returns HTTP 404 Record Not Found."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  }
+]

@@ -1,0 +1,1402 @@
+[
+  {
+    "testcase_id": "TC_I18N_A11Y_0001",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 1",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #1).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0002",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 2",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #2).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0003",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 3",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #3).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0004",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 4",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #4).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0005",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 5",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #5).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0006",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 6",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #6).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0007",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 7",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #7).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0008",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 8",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #8).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0009",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 9",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #9).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0010",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 10",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #10).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0011",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 11",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #11).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0012",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 12",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #12).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0013",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 13",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #13).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0014",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 14",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #14).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0015",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 15",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #15).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0016",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 16",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #16).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0017",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 17",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #17).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0018",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 18",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #18).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0019",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 19",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #19).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0020",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 20",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #20).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0021",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 21",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #21).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0022",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 22",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #22).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0023",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 23",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #23).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0024",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 24",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #24).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0025",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 25",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #25).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0026",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 26",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #26).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0027",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 27",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #27).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0028",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 28",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #28).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0029",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 29",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #29).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0030",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 30",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #30).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0031",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 31",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #31).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0032",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 32",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #32).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0033",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 33",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #33).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0034",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 34",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #34).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0035",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 35",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #35).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0036",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 36",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #36).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0037",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 37",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #37).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0038",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 38",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #38).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0039",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 39",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #39).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0040",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 40",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #40).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0041",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 41",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #41).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0042",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 42",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #42).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0043",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 43",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #43).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0044",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 44",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #44).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0045",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 45",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #45).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0046",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 46",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #46).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0047",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 47",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #47).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0048",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 48",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #48).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0049",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "Medium",
+    "testcase_name": "I18N & Accessibility Test 49",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #49).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_I18N_A11Y_0050",
+    "test_level": "Non-Functional/Accessibility",
+    "test_type": [
+      "Accessibility",
+      "Localization",
+      "I18N"
+    ],
+    "quality_attributes": [
+      "Accessibility",
+      "Localization",
+      "Internationalization"
+    ],
+    "priority": "High",
+    "testcase_name": "I18N & Accessibility Test 50",
+    "test_objective": "Verify UTF-8 multi-language encoding, RTL layout, and WCAG 2.1 AA keyboard navigation (Scenario #50).",
+    "preconditions": [
+      "Browser locale configured to target language (Arabic, German, Japanese, Spanish)"
+    ],
+    "test_steps": [
+      "1. Render target UI module and input non-ASCII unicode characters",
+      "2. Execute automated Axe-Core accessibility scan on DOM tree"
+    ],
+    "expected_results": [
+      "Zero critical WCAG violations; text renders correctly without mojibake or layout breaking."
+    ],
+    "automation_status": "Automated"
+  }
+]

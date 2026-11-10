@@ -1,0 +1,2381 @@
+[
+  {
+    "feature": "Create Post - Text",
+    "testcase_id": "TC_BUZZ_001",
+    "testcase_name": "Create text post with valid text",
+    "test_objective": "Verify user can create a text-only Buzz post with valid content.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Enter valid text in post box (e.g. Happy Friday everyone)",
+      "4. Select post type as text",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Post is created successfully and appears at the top of the Buzz feed with entered text, author name, and timestamp."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Text",
+    "testcase_id": "TC_BUZZ_002",
+    "testcase_name": "Create text post with empty text",
+    "test_objective": "Verify system rejects a text post submitted without any text.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Leave post text field empty",
+      "4. Select post type as text",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Validation error is shown (text is required) and post is not created."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Text",
+    "testcase_id": "TC_BUZZ_003",
+    "testcase_name": "Create text post with text at max boundary length (65530 chars)",
+    "test_objective": "Verify a text post with text exactly at the 65530 character maximum length is accepted.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Enter text of exactly 65530 characters",
+      "4. Select post type as text",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Post is created successfully without truncation or error."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Text",
+    "testcase_id": "TC_BUZZ_004",
+    "testcase_name": "Create text post exceeding max length (65531 chars)",
+    "test_objective": "Verify system rejects text post content exceeding the 65530 character limit.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Enter text of 65531 characters",
+      "4. Select post type as text",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Validation error is shown and post is not created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Text",
+    "testcase_id": "TC_BUZZ_005",
+    "testcase_name": "Create post with invalid type value",
+    "test_objective": "Verify system rejects a post submitted with a type value outside of text, photo, and video.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send create post request with type=audio",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns a validation error since type is not in the allowed list (text, photo, video)."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Text",
+    "testcase_id": "TC_BUZZ_006",
+    "testcase_name": "Create text post with special characters and emoji",
+    "test_objective": "Verify a text post containing special characters and emoji is stored and displayed correctly.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Enter text with emoji and special characters (e.g. Great job! plus emoji and hashtag)",
+      "4. Click Post button"
+    ],
+    "expected_results": [
+      "Post is created and text renders exactly as entered, including emoji and special characters."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Text",
+    "testcase_id": "TC_BUZZ_007",
+    "testcase_name": "Create text post with only whitespace text",
+    "test_objective": "Verify system behavior when post text contains only spaces.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Enter only spaces as text",
+      "4. Click Post button"
+    ],
+    "expected_results": [
+      "Post text is either rejected as invalid or trimmed per business rule; whitespace-only content should not bypass required-field validation."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Photo",
+    "testcase_id": "TC_BUZZ_008",
+    "testcase_name": "Create photo post with 1 valid image",
+    "test_objective": "Verify user can create a Buzz post with a single valid photo attachment.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as photo",
+      "4. Upload one valid JPG image under 2MB",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Post is created successfully with the photo displayed in the feed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Photo",
+    "testcase_id": "TC_BUZZ_009",
+    "testcase_name": "Create photo post with 5 valid images (max allowed)",
+    "test_objective": "Verify user can attach the maximum allowed 5 photos to a single post.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as photo",
+      "4. Upload 5 valid images (jpg png or gif) each under 2MB",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Post is created successfully with all 5 photos attached and displayed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Photo",
+    "testcase_id": "TC_BUZZ_010",
+    "testcase_name": "Create photo post with 6 images (exceeds max)",
+    "test_objective": "Verify system rejects a photo post when more than 5 photos are attached.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as photo",
+      "4. Upload 6 valid images",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Validation error is returned for the photos field and post is not created."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Photo",
+    "testcase_id": "TC_BUZZ_011",
+    "testcase_name": "Create photo post with zero photos (empty array)",
+    "test_objective": "Verify system rejects a photo-type post submitted with no photos attached.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send create post request with type=photo and photos as an empty array",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "Validation error is returned since the photos array must not be empty for a photo post."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Photo",
+    "testcase_id": "TC_BUZZ_012",
+    "testcase_name": "Create photo post with unsupported file type",
+    "test_objective": "Verify system rejects photo uploads whose MIME type or extension is not in the allowed list (gif jpeg jpg jfif png).",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as photo",
+      "4. Attempt to upload a .bmp or .pdf file",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Validation error is shown indicating unsupported file type and post is not created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Photo",
+    "testcase_id": "TC_BUZZ_013",
+    "testcase_name": "Create photo post with image exceeding 2MB size limit",
+    "test_objective": "Verify system rejects a photo attachment larger than the 2MB (2097152 byte) maximum allowed size.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as photo",
+      "4. Upload an image file larger than 2MB",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Validation error is shown indicating the file exceeds the maximum allowed size and post is not created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Photo",
+    "testcase_id": "TC_BUZZ_014",
+    "testcase_name": "Create photo post with image exactly at 2MB boundary",
+    "test_objective": "Verify a photo attachment exactly at the 2097152 byte size limit is accepted.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as photo",
+      "4. Upload an image file of exactly 2097152 bytes",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Photo is accepted and post is created successfully."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Photo",
+    "testcase_id": "TC_BUZZ_015",
+    "testcase_name": "Create photo post with filename exceeding 100 characters",
+    "test_objective": "Verify system rejects a photo whose filename exceeds the 100 character maximum length.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as photo",
+      "4. Upload an image with a filename longer than 100 characters",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Validation error is returned and post is not created."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Video Link",
+    "testcase_id": "TC_BUZZ_016",
+    "testcase_name": "Create video post with valid YouTube URL",
+    "test_objective": "Verify a Buzz post can be created using a valid YouTube video URL.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as video",
+      "4. Enter a valid YouTube URL (e.g. youtube.com/watch?v=abc12345678)",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Post is created successfully and the video is embedded, with the link converted to https://www.youtube.com/embed/<id> format."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Video Link",
+    "testcase_id": "TC_BUZZ_017",
+    "testcase_name": "Create video post with valid Vimeo URL",
+    "test_objective": "Verify a Buzz post can be created using a valid Vimeo video URL.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as video",
+      "4. Enter a valid Vimeo URL (e.g. vimeo.com/123456789)",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Post is created successfully and the video link is converted to the embedded player.vimeo.com/video/ URL."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Video Link",
+    "testcase_id": "TC_BUZZ_018",
+    "testcase_name": "Create video post with valid Dailymotion URL",
+    "test_objective": "Verify a Buzz post can be created using a valid Dailymotion video URL.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as video",
+      "4. Enter a valid Dailymotion URL (e.g. dailymotion.com/video/x7abcde)",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Post is created successfully and the video link is converted to the embedded dailymotion.com/embed/video/ URL."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Video Link",
+    "testcase_id": "TC_BUZZ_019",
+    "testcase_name": "Create video post with unsupported domain URL",
+    "test_objective": "Verify system rejects video URLs from domains other than YouTube Vimeo or Dailymotion.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as video",
+      "4. Enter a non-supported video URL (e.g. a Facebook or generic video link)",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Validation error is shown for the link field and post is not created."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Video Link",
+    "testcase_id": "TC_BUZZ_020",
+    "testcase_name": "Create video post with malformed YouTube URL",
+    "test_objective": "Verify system rejects a URL that contains youtube but does not match a valid YouTube video URL pattern.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as video",
+      "4. Enter malformed URL such as https://www.youtube.com/ with no video id",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Validation error (Invalid YouTube URL) is returned and post is not created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Video Link",
+    "testcase_id": "TC_BUZZ_021",
+    "testcase_name": "Create video post with empty link field",
+    "test_objective": "Verify system rejects a video-type post submitted without a video link.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Send create post request with type=video and link left blank",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "Validation error is returned since link is required for the video post type."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Create Post - Video Link",
+    "testcase_id": "TC_BUZZ_022",
+    "testcase_name": "Create video post using an already-embedded YouTube URL",
+    "test_objective": "Verify system accepts a URL already in embedded format without modification.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Select post type as video",
+      "4. Enter an already-embedded YouTube URL (https://www.youtube.com/embed/abc123)",
+      "5. Click Post button"
+    ],
+    "expected_results": [
+      "Post is created successfully and the embedded URL is stored as-is."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Video URL Validation",
+    "testcase_id": "TC_BUZZ_023",
+    "testcase_name": "Validate a valid YouTube short URL",
+    "test_objective": "Verify the link validation endpoint returns valid true for a correct YouTube URL.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/validation/links with url=https://youtu.be/abc12345678",
+      "2. Inspect response"
+    ],
+    "expected_results": [
+      "Response returns valid=true along with the generated embeddedURL in youtube.com/embed format."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Video URL Validation",
+    "testcase_id": "TC_BUZZ_024",
+    "testcase_name": "Validate a valid Vimeo URL",
+    "test_objective": "Verify the link validation endpoint returns valid true for a correct Vimeo URL.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/validation/links with url=https://vimeo.com/123456789",
+      "2. Inspect response"
+    ],
+    "expected_results": [
+      "Response returns valid=true and embeddedURL in player.vimeo.com/video/ format."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Video URL Validation",
+    "testcase_id": "TC_BUZZ_025",
+    "testcase_name": "Validate a valid Dailymotion short (dai.ly) URL",
+    "test_objective": "Verify the link validation endpoint returns valid true for a correct Dailymotion short URL.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/validation/links with url=https://dai.ly/x7abcde",
+      "2. Inspect response"
+    ],
+    "expected_results": [
+      "Response returns valid=true and embeddedURL in dailymotion.com/embed/video/ format."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Validation"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Video URL Validation",
+    "testcase_id": "TC_BUZZ_026",
+    "testcase_name": "Validate URL from an unsupported domain",
+    "test_objective": "Verify the endpoint returns valid false for a URL that does not belong to YouTube Vimeo or Dailymotion.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/validation/links with url=https://www.example.com/video/1",
+      "2. Inspect response"
+    ],
+    "expected_results": [
+      "Response returns valid=false with url and embeddedURL fields set to null."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Video URL Validation",
+    "testcase_id": "TC_BUZZ_027",
+    "testcase_name": "Validate request missing required url query parameter",
+    "test_objective": "Verify request fails validation when the required url query parameter is not supplied.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/validation/links without a url parameter",
+      "2. Inspect response"
+    ],
+    "expected_results": [
+      "API returns a validation error (400) indicating url is required."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Video URL Validation",
+    "testcase_id": "TC_BUZZ_028",
+    "testcase_name": "Validate malformed Vimeo URL containing keyword but invalid pattern",
+    "test_objective": "Verify the endpoint correctly flags a URL containing vimeo text but not matching a valid Vimeo pattern as invalid.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/validation/links with url=https://vimeo.com/notanumber",
+      "2. Inspect response"
+    ],
+    "expected_results": [
+      "Response returns valid=false (Invalid Vimeo URL) since no numeric video ID could be extracted."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "View Buzz Feed",
+    "testcase_id": "TC_BUZZ_029",
+    "testcase_name": "View Buzz feed in default order",
+    "test_objective": "Verify the Buzz feed lists posts in descending order of creation time by default.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. Observe the list of posts"
+    ],
+    "expected_results": [
+      "Posts are displayed with the most recently created or shared post at the top (sorted by share.createdAtUtc descending)."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "View Buzz Feed",
+    "testcase_id": "TC_BUZZ_030",
+    "testcase_name": "Sort Buzz feed by number of likes",
+    "test_objective": "Verify the feed can be sorted by share.numOfLikes.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/feed?sortField=share.numOfLikes&sortOrder=DESC",
+      "2. Inspect response order"
+    ],
+    "expected_results": [
+      "Posts are returned ordered by number of likes in descending order."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "View Buzz Feed",
+    "testcase_id": "TC_BUZZ_031",
+    "testcase_name": "Sort Buzz feed by number of comments",
+    "test_objective": "Verify the feed can be sorted by share.numOfComments.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/feed?sortField=share.numOfComments&sortOrder=ASC",
+      "2. Inspect response order"
+    ],
+    "expected_results": [
+      "Posts are returned ordered by number of comments in ascending order."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "View Buzz Feed",
+    "testcase_id": "TC_BUZZ_032",
+    "testcase_name": "Paginate Buzz feed using limit and offset",
+    "test_objective": "Verify the feed supports pagination via limit and offset query parameters.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/feed?limit=5&offset=0",
+      "2. Call GET /api/v2/buzz/feed?limit=5&offset=5",
+      "3. Compare results"
+    ],
+    "expected_results": [
+      "Each call returns a distinct non-overlapping page of at most 5 posts and meta.total reflects the total post count."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "View Buzz Feed",
+    "testcase_id": "TC_BUZZ_033",
+    "testcase_name": "View Buzz feed with invalid sortField value",
+    "test_objective": "Verify the feed rejects a sortField value that is not in the allowed list.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/feed?sortField=invalidField",
+      "2. Inspect response"
+    ],
+    "expected_results": [
+      "API returns a validation error since sortField is not one of the allowed values (share.createdAtUtc, share.numOfLikes, share.numOfComments)."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "View Post Detail",
+    "testcase_id": "TC_BUZZ_034",
+    "testcase_name": "Get a post by valid ID with default model",
+    "test_objective": "Verify a single post can be retrieved by its ID using the default model.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call GET /api/v2/buzz/posts/{id} for an existing post",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "Post details are returned matching the default BuzzPostModel structure."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "View Post Detail",
+    "testcase_id": "TC_BUZZ_035",
+    "testcase_name": "Get a post by valid ID with detailed model",
+    "test_objective": "Verify a single post can be retrieved with the detailed feed-post model including likes and comments summary.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call GET /api/v2/buzz/posts/{id}?model=detailed",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "Post details are returned matching the detailed BuzzFeedPostModel, including comment/like counts and the current user's like status."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "View Post Detail",
+    "testcase_id": "TC_BUZZ_036",
+    "testcase_name": "Get a post with a non-existent ID",
+    "test_objective": "Verify system returns a record-not-found error when requesting a post ID that does not exist.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call GET /api/v2/buzz/posts/99999999",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "API returns a 404 Record Not Found error."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Text",
+    "testcase_id": "TC_BUZZ_037",
+    "testcase_name": "Edit own text post with valid new text",
+    "test_objective": "Verify a user can successfully edit the text of their own Buzz post.",
+    "test_steps": [
+      "1. Login as the ESS user who authored a text post",
+      "2. Navigate to Buzz feed",
+      "3. Click Edit on own post",
+      "4. Update the text content",
+      "5. Save changes"
+    ],
+    "expected_results": [
+      "Post is updated successfully and the new text is displayed in the feed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Text",
+    "testcase_id": "TC_BUZZ_038",
+    "testcase_name": "Attempt to edit another employee's post",
+    "test_objective": "Verify a regular ESS user cannot edit a Buzz post authored by another employee.",
+    "test_steps": [
+      "1. Login as ESS user A",
+      "2. Call PUT /api/v2/buzz/posts/{id} for a post authored by employee B",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 403 Forbidden and the post remains unchanged."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Text",
+    "testcase_id": "TC_BUZZ_039",
+    "testcase_name": "Edit text post exceeding max length (65531 chars)",
+    "test_objective": "Verify system rejects an edit request where the updated text exceeds the 65530 character limit.",
+    "test_steps": [
+      "1. Login as post owner",
+      "2. Edit own text post",
+      "3. Enter text of 65531 characters",
+      "4. Save changes"
+    ],
+    "expected_results": [
+      "Validation error is returned and post is not updated."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Text",
+    "testcase_id": "TC_BUZZ_040",
+    "testcase_name": "Attempt to change post type from text to video during edit",
+    "test_objective": "Verify system prevents changing a post's type from text to video through the edit operation.",
+    "test_steps": [
+      "1. Login as owner of a text post",
+      "2. Call PUT /api/v2/buzz/posts/{id} with type=video and a link value",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns an invalid-parameter error and the post type remains text; text posts cannot be converted to video posts."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Photo",
+    "testcase_id": "TC_BUZZ_041",
+    "testcase_name": "Add new photos to an existing photo post within limit",
+    "test_objective": "Verify additional photos can be added to an existing photo post as long as the total stays within 5.",
+    "test_steps": [
+      "1. Login as owner of a photo post with 2 existing photos",
+      "2. Edit the post",
+      "3. Add 2 more valid photos",
+      "4. Save changes"
+    ],
+    "expected_results": [
+      "Post is updated with 4 total photos displayed."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Photo",
+    "testcase_id": "TC_BUZZ_042",
+    "testcase_name": "Delete specific photos from an existing photo post",
+    "test_objective": "Verify specific photos can be removed from a post via the deletedPhotos parameter.",
+    "test_steps": [
+      "1. Login as owner of a photo post with 3 photos",
+      "2. Edit the post and select 1 photo to delete",
+      "3. Save changes"
+    ],
+    "expected_results": [
+      "The selected photo is removed and the remaining 2 photos are still displayed."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Photo",
+    "testcase_id": "TC_BUZZ_043",
+    "testcase_name": "Add photos exceeding the 5-photo total limit on edit",
+    "test_objective": "Verify system rejects adding photos when the resulting total (existing plus new minus deleted) would exceed 5.",
+    "test_steps": [
+      "1. Login as owner of a photo post that already has 4 photos",
+      "2. Attempt to add 3 more photos without deleting any",
+      "3. Save changes"
+    ],
+    "expected_results": [
+      "Validation error is returned and the photo set is not updated."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Photo",
+    "testcase_id": "TC_BUZZ_044",
+    "testcase_name": "Delete photo IDs that do not belong to the post",
+    "test_objective": "Verify system rejects a request to delete photo IDs that are not associated with the given post.",
+    "test_steps": [
+      "1. Login as post owner",
+      "2. Call PUT /api/v2/buzz/posts/{id} with deletedPhotos containing a photo ID from a different post",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns an invalid-parameter error and no photos are deleted."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Video",
+    "testcase_id": "TC_BUZZ_045",
+    "testcase_name": "Edit video post link with a valid new video URL",
+    "test_objective": "Verify the video link of an existing video post can be updated to a new valid URL.",
+    "test_steps": [
+      "1. Login as owner of a video post",
+      "2. Edit the post",
+      "3. Replace the link with a new valid YouTube Vimeo or Dailymotion URL",
+      "4. Save changes"
+    ],
+    "expected_results": [
+      "Post is updated and the new embedded video is displayed."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Video",
+    "testcase_id": "TC_BUZZ_046",
+    "testcase_name": "Edit video post link with an invalid URL",
+    "test_objective": "Verify system rejects updating a video post's link with an unsupported or invalid URL.",
+    "test_steps": [
+      "1. Login as owner of a video post",
+      "2. Edit the post",
+      "3. Replace the link with an invalid/unsupported URL",
+      "4. Save changes"
+    ],
+    "expected_results": [
+      "Validation error is returned and the original video link remains unchanged."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Post - Video",
+    "testcase_id": "TC_BUZZ_047",
+    "testcase_name": "Attempt to change post type from video to photo during edit",
+    "test_objective": "Verify system prevents changing a video post's type to photo through the edit operation.",
+    "test_steps": [
+      "1. Login as owner of a video post",
+      "2. Call PUT /api/v2/buzz/posts/{id} with type=photo and a photos array",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns an invalid-parameter error and the post type remains video."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Post",
+    "testcase_id": "TC_BUZZ_048",
+    "testcase_name": "Delete own post",
+    "test_objective": "Verify a user can delete their own Buzz post.",
+    "test_steps": [
+      "1. Login as post owner",
+      "2. Navigate to Buzz feed",
+      "3. Click Delete on own post",
+      "4. Confirm deletion"
+    ],
+    "expected_results": [
+      "Post and its associated photos, comments, and likes are removed from the feed successfully."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Post",
+    "testcase_id": "TC_BUZZ_049",
+    "testcase_name": "Attempt to delete another employee's post",
+    "test_objective": "Verify a regular ESS user cannot delete a Buzz post authored by another employee.",
+    "test_steps": [
+      "1. Login as ESS user A",
+      "2. Call DELETE /api/v2/buzz/shares/{id} for a post authored by employee B",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 403 Forbidden and the post is not deleted."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Post",
+    "testcase_id": "TC_BUZZ_050",
+    "testcase_name": "Delete a post with a non-existent share ID",
+    "test_objective": "Verify system returns an error when attempting to delete a post using an ID that does not exist.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call DELETE /api/v2/buzz/shares/99999999",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns an invalid-parameter/not-found error and no data is changed."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Post",
+    "testcase_id": "TC_BUZZ_051",
+    "testcase_name": "Admin deletes any employee's post",
+    "test_objective": "Verify a user with admin-level Buzz permissions can delete any employee's post.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Navigate to Buzz feed",
+      "3. Click Delete on a post authored by another employee",
+      "4. Confirm deletion"
+    ],
+    "expected_results": [
+      "Post is deleted successfully regardless of ownership, per admin data-group permissions."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Add Comment",
+    "testcase_id": "TC_BUZZ_052",
+    "testcase_name": "Add a valid comment to a post",
+    "test_objective": "Verify a user can add a comment to an existing Buzz post or share.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Open a post in the Buzz feed",
+      "3. Enter comment text",
+      "4. Click Comment/Submit"
+    ],
+    "expected_results": [
+      "Comment is saved and displayed under the post; the post's comment count increases by 1."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Add Comment",
+    "testcase_id": "TC_BUZZ_053",
+    "testcase_name": "Add a comment with empty text",
+    "test_objective": "Verify system rejects a comment submitted with empty text.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Open a post",
+      "3. Leave the comment field empty",
+      "4. Click Submit"
+    ],
+    "expected_results": [
+      "Validation error is returned and no comment is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Add Comment",
+    "testcase_id": "TC_BUZZ_054",
+    "testcase_name": "Add a comment exceeding max length (65531 chars)",
+    "test_objective": "Verify system rejects comment text exceeding the 65530 character limit.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Open a post",
+      "3. Enter comment text of 65531 characters",
+      "4. Click Submit"
+    ],
+    "expected_results": [
+      "Validation error is returned and comment is not created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Add Comment",
+    "testcase_id": "TC_BUZZ_055",
+    "testcase_name": "Add a comment to a non-existent share ID",
+    "test_objective": "Verify system rejects comment creation when the target shareId does not exist.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call POST /api/v2/buzz/shares/99999999/comments with valid text",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns an invalid-parameter error and no comment is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Add Comment",
+    "testcase_id": "TC_BUZZ_056",
+    "testcase_name": "Add comment at maximum boundary length (65530 chars)",
+    "test_objective": "Verify a comment with text exactly at the 65530 character limit is accepted.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Open a post",
+      "3. Enter comment text of exactly 65530 characters",
+      "4. Click Submit"
+    ],
+    "expected_results": [
+      "Comment is created successfully without truncation."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Add Comment",
+    "testcase_id": "TC_BUZZ_057",
+    "testcase_name": "Verify comment count increments correctly with multiple comments",
+    "test_objective": "Verify the post's number-of-comments counter increases correctly with each new comment added.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Open a post with 0 comments",
+      "3. Add 3 separate comments",
+      "4. Refresh the post view"
+    ],
+    "expected_results": [
+      "Comment count on the post displays 3 and all 3 comments are listed."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Comment",
+    "testcase_id": "TC_BUZZ_058",
+    "testcase_name": "Edit own comment with valid text",
+    "test_objective": "Verify a user can edit the text of their own comment.",
+    "test_steps": [
+      "1. Login as comment author",
+      "2. Open the post containing own comment",
+      "3. Click Edit on the comment",
+      "4. Update the text",
+      "5. Save changes"
+    ],
+    "expected_results": [
+      "Comment text is updated successfully and displayed with the updated content."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Comment",
+    "testcase_id": "TC_BUZZ_059",
+    "testcase_name": "Attempt to edit another employee's comment",
+    "test_objective": "Verify a regular ESS user cannot edit a comment authored by another employee.",
+    "test_steps": [
+      "1. Login as ESS user A",
+      "2. Call PUT /api/v2/buzz/shares/{shareId}/comments/{commentId} for a comment authored by employee B",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 403 Forbidden and the comment remains unchanged."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Comment",
+    "testcase_id": "TC_BUZZ_060",
+    "testcase_name": "Edit comment with text exceeding max length",
+    "test_objective": "Verify system rejects edited comment text exceeding the 65530 character limit.",
+    "test_steps": [
+      "1. Login as comment author",
+      "2. Edit own comment",
+      "3. Enter text of 65531 characters",
+      "4. Save changes"
+    ],
+    "expected_results": [
+      "Validation error is returned and comment is not updated."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Comment",
+    "testcase_id": "TC_BUZZ_061",
+    "testcase_name": "Edit a comment that does not exist",
+    "test_objective": "Verify system returns a not-found error when editing a comment ID that does not exist.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call PUT /api/v2/buzz/shares/{shareId}/comments/99999999 with valid text",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns a 404 Record Not Found error."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Comment",
+    "testcase_id": "TC_BUZZ_062",
+    "testcase_name": "Delete own comment",
+    "test_objective": "Verify a user can delete their own comment from a post.",
+    "test_steps": [
+      "1. Login as comment author",
+      "2. Open the post containing own comment",
+      "3. Click Delete on the comment",
+      "4. Confirm deletion"
+    ],
+    "expected_results": [
+      "Comment is removed and the post's comment count decreases by 1."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Comment",
+    "testcase_id": "TC_BUZZ_063",
+    "testcase_name": "Attempt to delete another employee's comment",
+    "test_objective": "Verify a regular ESS user cannot delete a comment authored by another employee.",
+    "test_steps": [
+      "1. Login as ESS user A",
+      "2. Call DELETE /api/v2/buzz/shares/{shareId}/comments/{commentId} for a comment authored by employee B",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 403 Forbidden and the comment is not deleted."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Comment",
+    "testcase_id": "TC_BUZZ_064",
+    "testcase_name": "Delete a comment that does not exist",
+    "test_objective": "Verify system returns a not-found error when deleting a non-existent comment ID.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call DELETE /api/v2/buzz/shares/{shareId}/comments/99999999",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns a 404 Record Not Found error."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Comment",
+    "testcase_id": "TC_BUZZ_065",
+    "testcase_name": "Admin deletes any employee's comment",
+    "test_objective": "Verify a user with admin-level Buzz comment permissions can delete any employee's comment.",
+    "test_steps": [
+      "1. Login as Admin",
+      "2. Open a post containing another employee's comment",
+      "3. Click Delete on that comment",
+      "4. Confirm deletion"
+    ],
+    "expected_results": [
+      "Comment is deleted successfully and comment count decreases by 1, regardless of ownership."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "List Comments",
+    "testcase_id": "TC_BUZZ_066",
+    "testcase_name": "List all comments on a post in chronological order",
+    "test_objective": "Verify comments on a post are listed sorted by creation time (comment.createdAtUtc).",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call GET /api/v2/buzz/shares/{shareId}/comments",
+      "3. Inspect order of returned comments"
+    ],
+    "expected_results": [
+      "Comments are returned in order of createdAtUtc with the correct total count."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "List Comments",
+    "testcase_id": "TC_BUZZ_067",
+    "testcase_name": "Paginate comments list using limit and offset",
+    "test_objective": "Verify the comments list supports pagination.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/shares/{shareId}/comments?limit=2&offset=0",
+      "2. Call the same endpoint with offset=2",
+      "3. Compare results"
+    ],
+    "expected_results": [
+      "Each call returns a distinct page of up to 2 comments and meta.total reflects the full comment count."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "List Comments",
+    "testcase_id": "TC_BUZZ_068",
+    "testcase_name": "List comments with detailed model parameter",
+    "test_objective": "Verify comments can be retrieved using the detailed model returning extended comment information.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/shares/{shareId}/comments?model=detailed",
+      "2. Inspect response structure"
+    ],
+    "expected_results": [
+      "Response returns comments in the detailed BuzzDetailedCommentModel format including additional metadata such as like status."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Post",
+    "testcase_id": "TC_BUZZ_069",
+    "testcase_name": "Like a post for the first time",
+    "test_objective": "Verify a user can like a Buzz post/share that they have not previously liked.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Open the Buzz feed",
+      "3. Click the Like button on a post not yet liked by the user",
+      "4. Observe result"
+    ],
+    "expected_results": [
+      "Like is registered, the post's like count increases by 1, and the Like button changes to a Liked state."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Post",
+    "testcase_id": "TC_BUZZ_070",
+    "testcase_name": "Attempt to like a post that is already liked",
+    "test_objective": "Verify system prevents a user from liking the same post twice.",
+    "test_steps": [
+      "1. Login as ESS user who has already liked a post",
+      "2. Call POST /api/v2/buzz/shares/{shareId}/likes again for the same post",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 400 Bad Request with message Already liked and the like count does not increase further."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Post",
+    "testcase_id": "TC_BUZZ_071",
+    "testcase_name": "Unlike a previously liked post",
+    "test_objective": "Verify a user can remove their like from a post they previously liked.",
+    "test_steps": [
+      "1. Login as ESS user who has liked a post",
+      "2. Click the Unlike/Liked button on that post",
+      "3. Observe result"
+    ],
+    "expected_results": [
+      "Like is removed, the post's like count decreases by 1, and the button reverts to a Like state."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Post",
+    "testcase_id": "TC_BUZZ_072",
+    "testcase_name": "Attempt to unlike a post that was never liked",
+    "test_objective": "Verify system rejects an unlike request for a post the user has not liked.",
+    "test_steps": [
+      "1. Login as ESS user who has not liked a specific post",
+      "2. Call DELETE /api/v2/buzz/shares/{shareId}/likes",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 400 Bad Request with message Not previously liked and no changes occur."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Post",
+    "testcase_id": "TC_BUZZ_073",
+    "testcase_name": "List all users who liked a post",
+    "test_objective": "Verify the list of likes for a given post/share can be retrieved.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call GET /api/v2/buzz/shares/{shareId}/likes",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "Response returns the list of employees who liked the post along with the total like count."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Post",
+    "testcase_id": "TC_BUZZ_074",
+    "testcase_name": "Like a post with a non-existent share ID",
+    "test_objective": "Verify system rejects a like request for a share ID that does not exist.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call POST /api/v2/buzz/shares/99999999/likes",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns an invalid-parameter error and no like is recorded."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Comment",
+    "testcase_id": "TC_BUZZ_075",
+    "testcase_name": "Like a comment for the first time",
+    "test_objective": "Verify a user can like a comment that they have not previously liked.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Open a post with a comment",
+      "3. Click Like on the comment",
+      "4. Observe result"
+    ],
+    "expected_results": [
+      "Like is registered and the comment's like count increases by 1."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Comment",
+    "testcase_id": "TC_BUZZ_076",
+    "testcase_name": "Attempt to like a comment that is already liked",
+    "test_objective": "Verify system prevents a user from liking the same comment twice.",
+    "test_steps": [
+      "1. Login as ESS user who has already liked a comment",
+      "2. Call POST /api/v2/buzz/comments/{commentId}/likes again",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 400 Bad Request with message Already liked and the like count remains unchanged."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Comment",
+    "testcase_id": "TC_BUZZ_077",
+    "testcase_name": "Unlike a previously liked comment",
+    "test_objective": "Verify a user can remove their like from a comment they previously liked.",
+    "test_steps": [
+      "1. Login as ESS user who has liked a comment",
+      "2. Click Unlike on the comment",
+      "3. Observe result"
+    ],
+    "expected_results": [
+      "Like is removed and the comment's like count decreases by 1."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Comment",
+    "testcase_id": "TC_BUZZ_078",
+    "testcase_name": "Attempt to unlike a comment that was never liked",
+    "test_objective": "Verify system rejects an unlike request for a comment the user has not liked.",
+    "test_steps": [
+      "1. Login as ESS user who has not liked a specific comment",
+      "2. Call DELETE /api/v2/buzz/comments/{commentId}/likes",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 400 Bad Request with message Not previously liked."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Like/Unlike Comment",
+    "testcase_id": "TC_BUZZ_079",
+    "testcase_name": "List all likes on a comment sorted by liked date",
+    "test_objective": "Verify likes on a comment can be listed and sorted by likedAtUtc.",
+    "test_steps": [
+      "1. Call GET /api/v2/buzz/comments/{commentId}/likes?sortField=commentLike.likedAtUtc&sortOrder=DESC",
+      "2. Inspect response order"
+    ],
+    "expected_results": [
+      "Likes are returned ordered by most recently liked first, with the correct total count."
+    ],
+    "priority": "Low",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Share Post",
+    "testcase_id": "TC_BUZZ_080",
+    "testcase_name": "Share an existing post without additional text",
+    "test_objective": "Verify a user can re-share an existing post to the feed without adding extra text.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Open a post in the feed",
+      "3. Click Share",
+      "4. Leave caption text empty",
+      "5. Submit share"
+    ],
+    "expected_results": [
+      "A new share entry (type=share) referencing the original post is created and appears in the feed under the sharing employee."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Share Post",
+    "testcase_id": "TC_BUZZ_081",
+    "testcase_name": "Share an existing post with additional caption text",
+    "test_objective": "Verify a user can re-share an existing post along with their own caption text.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Open a post in the feed",
+      "3. Click Share",
+      "4. Enter caption text",
+      "5. Submit share"
+    ],
+    "expected_results": [
+      "A new share entry is created with the caption text displayed alongside the original shared post content."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Share Post",
+    "testcase_id": "TC_BUZZ_082",
+    "testcase_name": "Share a post using a non-existent shareId",
+    "test_objective": "Verify system rejects a share request referencing a shareId that does not exist.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call POST /api/v2/buzz/shares with shareId=99999999",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns an invalid-parameter error and no share is created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Share Post",
+    "testcase_id": "TC_BUZZ_083",
+    "testcase_name": "Share a post with caption text exceeding max length",
+    "test_objective": "Verify system rejects share caption text exceeding the 65530 character limit.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Attempt to share a post with caption text of 65531 characters",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "Validation error is returned and the share is not created."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Share Post",
+    "testcase_id": "TC_BUZZ_084",
+    "testcase_name": "List all shares/reposts of a given post",
+    "test_objective": "Verify all shares of a specific post can be retrieved via the post shares listing endpoint.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Call GET /api/v2/buzz/posts/{id}/shares",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "Response returns all share records (type=share) referencing that post, with the correct total count."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Share Post",
+    "testcase_id": "TC_BUZZ_085",
+    "testcase_name": "Multiple employees independently share the same post",
+    "test_objective": "Verify multiple different employees can each independently share the same original post.",
+    "test_steps": [
+      "1. Login as Employee A and share Post X",
+      "2. Login as Employee B and share the same Post X",
+      "3. Verify the feed"
+    ],
+    "expected_results": [
+      "Two separate share entries are created, both referencing the same original post, and each appears under its respective sharer's name in the feed."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Share",
+    "testcase_id": "TC_BUZZ_086",
+    "testcase_name": "Edit own share's caption text",
+    "test_objective": "Verify a user can edit the caption text of their own re-shared post.",
+    "test_steps": [
+      "1. Login as employee who shared a post with caption text",
+      "2. Click Edit on own share",
+      "3. Update caption text",
+      "4. Save changes"
+    ],
+    "expected_results": [
+      "Share caption text is updated successfully."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Share",
+    "testcase_id": "TC_BUZZ_087",
+    "testcase_name": "Attempt to edit an original post via the shares edit endpoint",
+    "test_objective": "Verify system blocks editing an original post (type=post) through the /buzz/shares/{id} update endpoint.",
+    "test_steps": [
+      "1. Login as post owner",
+      "2. Call PUT /api/v2/buzz/shares/{id} where id refers to the original post's share record (type=post)",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns an invalid-parameter error, since original posts must be edited via /buzz/posts/{id}, not /buzz/shares/{id}."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Negative"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Edit Share",
+    "testcase_id": "TC_BUZZ_088",
+    "testcase_name": "Attempt to edit another employee's share",
+    "test_objective": "Verify a regular ESS user cannot edit a re-share authored by another employee.",
+    "test_steps": [
+      "1. Login as ESS user A",
+      "2. Call PUT /api/v2/buzz/shares/{id} for a share authored by employee B",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 403 Forbidden and the share remains unchanged."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Share (Unshare)",
+    "testcase_id": "TC_BUZZ_089",
+    "testcase_name": "Delete own re-share without affecting the original post",
+    "test_objective": "Verify deleting a re-share (type=share) removes only that share entry and leaves the original post intact.",
+    "test_steps": [
+      "1. Login as employee who re-shared a post",
+      "2. Click Delete/Unshare on own share entry",
+      "3. Confirm deletion",
+      "4. Verify original post still exists in feed"
+    ],
+    "expected_results": [
+      "Only the share record is deleted; the original post and other shares of it remain visible in the feed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Share (Unshare)",
+    "testcase_id": "TC_BUZZ_090",
+    "testcase_name": "Delete original post via the shares delete endpoint",
+    "test_objective": "Verify deleting a share record of type post removes the entire original post, cascading photos, comments, likes, and shares.",
+    "test_steps": [
+      "1. Login as post owner",
+      "2. Call DELETE /api/v2/buzz/shares/{id} where id is the original post's share record",
+      "3. Confirm deletion"
+    ],
+    "expected_results": [
+      "The original post and its associated content are permanently deleted, and any re-shares of it are also removed from the feed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Delete Share (Unshare)",
+    "testcase_id": "TC_BUZZ_091",
+    "testcase_name": "Attempt to delete another employee's re-share",
+    "test_objective": "Verify a regular ESS user cannot delete or unshare a re-share entry created by another employee.",
+    "test_steps": [
+      "1. Login as ESS user A",
+      "2. Call DELETE /api/v2/buzz/shares/{id} for a share authored by employee B",
+      "3. Submit request"
+    ],
+    "expected_results": [
+      "API returns 403 Forbidden and the share is not deleted."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Security"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Work Anniversary Feed",
+    "testcase_id": "TC_BUZZ_092",
+    "testcase_name": "View upcoming work anniversaries within next 30 days",
+    "test_objective": "Verify employees whose joining-date anniversary falls within the next 0 to 30 days are listed.",
+    "test_steps": [
+      "1. Login as ESS user",
+      "2. Navigate to Buzz module",
+      "3. View the Upcoming Anniversaries widget/feed"
+    ],
+    "expected_results": [
+      "All employees whose work anniversary date (based on joinedDate) falls between today and 30 days from now are listed."
+    ],
+    "priority": "High",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Work Anniversary Feed",
+    "testcase_id": "TC_BUZZ_093",
+    "testcase_name": "Anniversary falling exactly today is included (0-day boundary)",
+    "test_objective": "Verify an employee whose anniversary date is exactly today (date difference equals 0) is included in the list.",
+    "test_steps": [
+      "1. Set up an employee whose joinedDate month and day match today's date in a prior year",
+      "2. Call GET /api/v2/buzz/anniversaries",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "The employee is included in the anniversary list."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Work Anniversary Feed",
+    "testcase_id": "TC_BUZZ_094",
+    "testcase_name": "Anniversary exactly 30 days away is included (upper boundary)",
+    "test_objective": "Verify an employee whose anniversary date is exactly 30 days from today is included in the results.",
+    "test_steps": [
+      "1. Set up an employee whose anniversary date is exactly 30 days from today",
+      "2. Call GET /api/v2/buzz/anniversaries",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "The employee is included in the anniversary list since the date difference equals the max boundary of 30."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Work Anniversary Feed",
+    "testcase_id": "TC_BUZZ_095",
+    "testcase_name": "Anniversary 31 days away is excluded",
+    "test_objective": "Verify an employee whose anniversary date is 31 days from today is excluded from the upcoming anniversaries list.",
+    "test_steps": [
+      "1. Set up an employee whose anniversary date is 31 days from today",
+      "2. Call GET /api/v2/buzz/anniversaries",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "The employee is not included in the results, since 31 exceeds the maximum of 30 days."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Boundary"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Work Anniversary Feed",
+    "testcase_id": "TC_BUZZ_096",
+    "testcase_name": "Employee who joined in the current year is excluded",
+    "test_objective": "Verify an employee whose joinedDate year equals the current year is excluded from the anniversary list since they have not completed a full year.",
+    "test_steps": [
+      "1. Set up an employee who joined earlier this calendar year",
+      "2. Call GET /api/v2/buzz/anniversaries",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "The newly joined employee does not appear in the upcoming anniversaries list."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  },
+  {
+    "feature": "Employee Work Anniversary Feed",
+    "testcase_id": "TC_BUZZ_097",
+    "testcase_name": "Terminated or purged employees are excluded from anniversary list",
+    "test_objective": "Verify employees with a termination record or purged status are excluded from the upcoming anniversaries feed even if their anniversary date falls within range.",
+    "test_steps": [
+      "1. Set up a terminated employee and a purged employee both with anniversary dates within the next 30 days",
+      "2. Call GET /api/v2/buzz/anniversaries",
+      "3. Inspect response"
+    ],
+    "expected_results": [
+      "Neither the terminated nor the purged employee appears in the results."
+    ],
+    "priority": "Medium",
+    "test_type": [
+      "Functional"
+    ],
+    "test_level": "Component/Feature",
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "automation_status": "Automated",
+    "execution_status": "Ready"
+  }
+]

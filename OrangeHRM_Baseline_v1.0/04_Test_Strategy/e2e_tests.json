@@ -1,0 +1,1862 @@
+[
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0001",
+    "journey_name": "Employee Onboarding & Organizational Placement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 1 - Employee Onboarding & Organizational Placement",
+    "test_objective": "Execute complete cross-module workflow for Employee Onboarding & Organizational Placement (Scenario #1).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Employee Onboarding & Organizational Placement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0002",
+    "journey_name": "Leave Application, Manager Approval & Balance Audit",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 2 - Leave Application, Manager Approval & Balance Audit",
+    "test_objective": "Execute complete cross-module workflow for Leave Application, Manager Approval & Balance Audit (Scenario #2).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Leave Application, Manager Approval & Balance Audit",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0003",
+    "journey_name": "Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 3 - Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_objective": "Execute complete cross-module workflow for Timesheet Period Creation, Submission & Supervisor Sign-off (Scenario #3).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Timesheet Period Creation, Submission & Supervisor Sign-off",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0004",
+    "journey_name": "Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 4 - Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_objective": "Execute complete cross-module workflow for Recruitment Vacancy, Candidate Application, Interview & Hiring (Scenario #4).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Recruitment Vacancy, Candidate Application, Interview & Hiring",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0005",
+    "journey_name": "Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 5 - Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_objective": "Execute complete cross-module workflow for Annual Performance Review, KPI Self-Assessment & Supervisor Rating (Scenario #5).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0006",
+    "journey_name": "Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 6 - Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_objective": "Execute complete cross-module workflow for Travel Expense Submission, Receipt Verification & Claim Settlement (Scenario #6).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Travel Expense Submission, Receipt Verification & Claim Settlement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0007",
+    "journey_name": "Emergency Contact & Dependent Update with Document Verification",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 7 - Emergency Contact & Dependent Update with Document Verification",
+    "test_objective": "Execute complete cross-module workflow for Emergency Contact & Dependent Update with Document Verification (Scenario #7).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Emergency Contact & Dependent Update with Document Verification",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0008",
+    "journey_name": "Hire-to-Retire Lifecycle",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 8 - Hire-to-Retire Lifecycle",
+    "test_objective": "Execute complete cross-module workflow for Hire-to-Retire Lifecycle (Scenario #8).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Hire-to-Retire Lifecycle",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0009",
+    "journey_name": "Employee Onboarding & Organizational Placement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 9 - Employee Onboarding & Organizational Placement",
+    "test_objective": "Execute complete cross-module workflow for Employee Onboarding & Organizational Placement (Scenario #9).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Employee Onboarding & Organizational Placement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0010",
+    "journey_name": "Leave Application, Manager Approval & Balance Audit",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 10 - Leave Application, Manager Approval & Balance Audit",
+    "test_objective": "Execute complete cross-module workflow for Leave Application, Manager Approval & Balance Audit (Scenario #10).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Leave Application, Manager Approval & Balance Audit",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0011",
+    "journey_name": "Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 11 - Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_objective": "Execute complete cross-module workflow for Timesheet Period Creation, Submission & Supervisor Sign-off (Scenario #11).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Timesheet Period Creation, Submission & Supervisor Sign-off",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0012",
+    "journey_name": "Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 12 - Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_objective": "Execute complete cross-module workflow for Recruitment Vacancy, Candidate Application, Interview & Hiring (Scenario #12).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Recruitment Vacancy, Candidate Application, Interview & Hiring",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0013",
+    "journey_name": "Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 13 - Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_objective": "Execute complete cross-module workflow for Annual Performance Review, KPI Self-Assessment & Supervisor Rating (Scenario #13).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0014",
+    "journey_name": "Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 14 - Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_objective": "Execute complete cross-module workflow for Travel Expense Submission, Receipt Verification & Claim Settlement (Scenario #14).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Travel Expense Submission, Receipt Verification & Claim Settlement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0015",
+    "journey_name": "Emergency Contact & Dependent Update with Document Verification",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 15 - Emergency Contact & Dependent Update with Document Verification",
+    "test_objective": "Execute complete cross-module workflow for Emergency Contact & Dependent Update with Document Verification (Scenario #15).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Emergency Contact & Dependent Update with Document Verification",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0016",
+    "journey_name": "Hire-to-Retire Lifecycle",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 16 - Hire-to-Retire Lifecycle",
+    "test_objective": "Execute complete cross-module workflow for Hire-to-Retire Lifecycle (Scenario #16).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Hire-to-Retire Lifecycle",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0017",
+    "journey_name": "Employee Onboarding & Organizational Placement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 17 - Employee Onboarding & Organizational Placement",
+    "test_objective": "Execute complete cross-module workflow for Employee Onboarding & Organizational Placement (Scenario #17).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Employee Onboarding & Organizational Placement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0018",
+    "journey_name": "Leave Application, Manager Approval & Balance Audit",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 18 - Leave Application, Manager Approval & Balance Audit",
+    "test_objective": "Execute complete cross-module workflow for Leave Application, Manager Approval & Balance Audit (Scenario #18).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Leave Application, Manager Approval & Balance Audit",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0019",
+    "journey_name": "Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 19 - Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_objective": "Execute complete cross-module workflow for Timesheet Period Creation, Submission & Supervisor Sign-off (Scenario #19).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Timesheet Period Creation, Submission & Supervisor Sign-off",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0020",
+    "journey_name": "Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 20 - Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_objective": "Execute complete cross-module workflow for Recruitment Vacancy, Candidate Application, Interview & Hiring (Scenario #20).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Recruitment Vacancy, Candidate Application, Interview & Hiring",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0021",
+    "journey_name": "Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 21 - Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_objective": "Execute complete cross-module workflow for Annual Performance Review, KPI Self-Assessment & Supervisor Rating (Scenario #21).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0022",
+    "journey_name": "Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 22 - Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_objective": "Execute complete cross-module workflow for Travel Expense Submission, Receipt Verification & Claim Settlement (Scenario #22).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Travel Expense Submission, Receipt Verification & Claim Settlement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0023",
+    "journey_name": "Emergency Contact & Dependent Update with Document Verification",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 23 - Emergency Contact & Dependent Update with Document Verification",
+    "test_objective": "Execute complete cross-module workflow for Emergency Contact & Dependent Update with Document Verification (Scenario #23).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Emergency Contact & Dependent Update with Document Verification",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0024",
+    "journey_name": "Hire-to-Retire Lifecycle",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 24 - Hire-to-Retire Lifecycle",
+    "test_objective": "Execute complete cross-module workflow for Hire-to-Retire Lifecycle (Scenario #24).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Hire-to-Retire Lifecycle",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0025",
+    "journey_name": "Employee Onboarding & Organizational Placement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 25 - Employee Onboarding & Organizational Placement",
+    "test_objective": "Execute complete cross-module workflow for Employee Onboarding & Organizational Placement (Scenario #25).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Employee Onboarding & Organizational Placement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0026",
+    "journey_name": "Leave Application, Manager Approval & Balance Audit",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 26 - Leave Application, Manager Approval & Balance Audit",
+    "test_objective": "Execute complete cross-module workflow for Leave Application, Manager Approval & Balance Audit (Scenario #26).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Leave Application, Manager Approval & Balance Audit",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0027",
+    "journey_name": "Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 27 - Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_objective": "Execute complete cross-module workflow for Timesheet Period Creation, Submission & Supervisor Sign-off (Scenario #27).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Timesheet Period Creation, Submission & Supervisor Sign-off",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0028",
+    "journey_name": "Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 28 - Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_objective": "Execute complete cross-module workflow for Recruitment Vacancy, Candidate Application, Interview & Hiring (Scenario #28).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Recruitment Vacancy, Candidate Application, Interview & Hiring",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0029",
+    "journey_name": "Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 29 - Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_objective": "Execute complete cross-module workflow for Annual Performance Review, KPI Self-Assessment & Supervisor Rating (Scenario #29).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0030",
+    "journey_name": "Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 30 - Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_objective": "Execute complete cross-module workflow for Travel Expense Submission, Receipt Verification & Claim Settlement (Scenario #30).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Travel Expense Submission, Receipt Verification & Claim Settlement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0031",
+    "journey_name": "Emergency Contact & Dependent Update with Document Verification",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 31 - Emergency Contact & Dependent Update with Document Verification",
+    "test_objective": "Execute complete cross-module workflow for Emergency Contact & Dependent Update with Document Verification (Scenario #31).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Emergency Contact & Dependent Update with Document Verification",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0032",
+    "journey_name": "Hire-to-Retire Lifecycle",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 32 - Hire-to-Retire Lifecycle",
+    "test_objective": "Execute complete cross-module workflow for Hire-to-Retire Lifecycle (Scenario #32).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Hire-to-Retire Lifecycle",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0033",
+    "journey_name": "Employee Onboarding & Organizational Placement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 33 - Employee Onboarding & Organizational Placement",
+    "test_objective": "Execute complete cross-module workflow for Employee Onboarding & Organizational Placement (Scenario #33).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Employee Onboarding & Organizational Placement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0034",
+    "journey_name": "Leave Application, Manager Approval & Balance Audit",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 34 - Leave Application, Manager Approval & Balance Audit",
+    "test_objective": "Execute complete cross-module workflow for Leave Application, Manager Approval & Balance Audit (Scenario #34).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Leave Application, Manager Approval & Balance Audit",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0035",
+    "journey_name": "Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 35 - Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_objective": "Execute complete cross-module workflow for Timesheet Period Creation, Submission & Supervisor Sign-off (Scenario #35).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Timesheet Period Creation, Submission & Supervisor Sign-off",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0036",
+    "journey_name": "Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 36 - Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_objective": "Execute complete cross-module workflow for Recruitment Vacancy, Candidate Application, Interview & Hiring (Scenario #36).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Recruitment Vacancy, Candidate Application, Interview & Hiring",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0037",
+    "journey_name": "Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 37 - Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_objective": "Execute complete cross-module workflow for Annual Performance Review, KPI Self-Assessment & Supervisor Rating (Scenario #37).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0038",
+    "journey_name": "Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 38 - Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_objective": "Execute complete cross-module workflow for Travel Expense Submission, Receipt Verification & Claim Settlement (Scenario #38).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Travel Expense Submission, Receipt Verification & Claim Settlement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0039",
+    "journey_name": "Emergency Contact & Dependent Update with Document Verification",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 39 - Emergency Contact & Dependent Update with Document Verification",
+    "test_objective": "Execute complete cross-module workflow for Emergency Contact & Dependent Update with Document Verification (Scenario #39).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Emergency Contact & Dependent Update with Document Verification",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0040",
+    "journey_name": "Hire-to-Retire Lifecycle",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 40 - Hire-to-Retire Lifecycle",
+    "test_objective": "Execute complete cross-module workflow for Hire-to-Retire Lifecycle (Scenario #40).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Hire-to-Retire Lifecycle",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0041",
+    "journey_name": "Employee Onboarding & Organizational Placement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 41 - Employee Onboarding & Organizational Placement",
+    "test_objective": "Execute complete cross-module workflow for Employee Onboarding & Organizational Placement (Scenario #41).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Employee Onboarding & Organizational Placement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0042",
+    "journey_name": "Leave Application, Manager Approval & Balance Audit",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 42 - Leave Application, Manager Approval & Balance Audit",
+    "test_objective": "Execute complete cross-module workflow for Leave Application, Manager Approval & Balance Audit (Scenario #42).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Leave Application, Manager Approval & Balance Audit",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0043",
+    "journey_name": "Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 43 - Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_objective": "Execute complete cross-module workflow for Timesheet Period Creation, Submission & Supervisor Sign-off (Scenario #43).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Timesheet Period Creation, Submission & Supervisor Sign-off",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0044",
+    "journey_name": "Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 44 - Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_objective": "Execute complete cross-module workflow for Recruitment Vacancy, Candidate Application, Interview & Hiring (Scenario #44).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Recruitment Vacancy, Candidate Application, Interview & Hiring",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0045",
+    "journey_name": "Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 45 - Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_objective": "Execute complete cross-module workflow for Annual Performance Review, KPI Self-Assessment & Supervisor Rating (Scenario #45).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0046",
+    "journey_name": "Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 46 - Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_objective": "Execute complete cross-module workflow for Travel Expense Submission, Receipt Verification & Claim Settlement (Scenario #46).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Travel Expense Submission, Receipt Verification & Claim Settlement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0047",
+    "journey_name": "Emergency Contact & Dependent Update with Document Verification",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 47 - Emergency Contact & Dependent Update with Document Verification",
+    "test_objective": "Execute complete cross-module workflow for Emergency Contact & Dependent Update with Document Verification (Scenario #47).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Emergency Contact & Dependent Update with Document Verification",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0048",
+    "journey_name": "Hire-to-Retire Lifecycle",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 48 - Hire-to-Retire Lifecycle",
+    "test_objective": "Execute complete cross-module workflow for Hire-to-Retire Lifecycle (Scenario #48).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Hire-to-Retire Lifecycle",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0049",
+    "journey_name": "Employee Onboarding & Organizational Placement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 49 - Employee Onboarding & Organizational Placement",
+    "test_objective": "Execute complete cross-module workflow for Employee Onboarding & Organizational Placement (Scenario #49).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Employee Onboarding & Organizational Placement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0050",
+    "journey_name": "Leave Application, Manager Approval & Balance Audit",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 50 - Leave Application, Manager Approval & Balance Audit",
+    "test_objective": "Execute complete cross-module workflow for Leave Application, Manager Approval & Balance Audit (Scenario #50).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Leave Application, Manager Approval & Balance Audit",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0051",
+    "journey_name": "Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 51 - Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_objective": "Execute complete cross-module workflow for Timesheet Period Creation, Submission & Supervisor Sign-off (Scenario #51).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Timesheet Period Creation, Submission & Supervisor Sign-off",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0052",
+    "journey_name": "Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 52 - Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_objective": "Execute complete cross-module workflow for Recruitment Vacancy, Candidate Application, Interview & Hiring (Scenario #52).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Recruitment Vacancy, Candidate Application, Interview & Hiring",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0053",
+    "journey_name": "Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 53 - Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+    "test_objective": "Execute complete cross-module workflow for Annual Performance Review, KPI Self-Assessment & Supervisor Rating (Scenario #53).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Annual Performance Review, KPI Self-Assessment & Supervisor Rating",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0054",
+    "journey_name": "Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 54 - Travel Expense Submission, Receipt Verification & Claim Settlement",
+    "test_objective": "Execute complete cross-module workflow for Travel Expense Submission, Receipt Verification & Claim Settlement (Scenario #54).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Travel Expense Submission, Receipt Verification & Claim Settlement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0055",
+    "journey_name": "Emergency Contact & Dependent Update with Document Verification",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 55 - Emergency Contact & Dependent Update with Document Verification",
+    "test_objective": "Execute complete cross-module workflow for Emergency Contact & Dependent Update with Document Verification (Scenario #55).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Emergency Contact & Dependent Update with Document Verification",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0056",
+    "journey_name": "Hire-to-Retire Lifecycle",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 56 - Hire-to-Retire Lifecycle",
+    "test_objective": "Execute complete cross-module workflow for Hire-to-Retire Lifecycle (Scenario #56).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Hire-to-Retire Lifecycle",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0057",
+    "journey_name": "Employee Onboarding & Organizational Placement",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 57 - Employee Onboarding & Organizational Placement",
+    "test_objective": "Execute complete cross-module workflow for Employee Onboarding & Organizational Placement (Scenario #57).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Employee Onboarding & Organizational Placement",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0058",
+    "journey_name": "Leave Application, Manager Approval & Balance Audit",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 58 - Leave Application, Manager Approval & Balance Audit",
+    "test_objective": "Execute complete cross-module workflow for Leave Application, Manager Approval & Balance Audit (Scenario #58).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Leave Application, Manager Approval & Balance Audit",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0059",
+    "journey_name": "Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 59 - Timesheet Period Creation, Submission & Supervisor Sign-off",
+    "test_objective": "Execute complete cross-module workflow for Timesheet Period Creation, Submission & Supervisor Sign-off (Scenario #59).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Timesheet Period Creation, Submission & Supervisor Sign-off",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_E2E_JOURNEY_0060",
+    "journey_name": "Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_level": "E2E",
+    "test_type": [
+      "UserJourney",
+      "EndToEnd",
+      "Workflow"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness",
+      "SystemReliability",
+      "Usability"
+    ],
+    "priority": "Critical",
+    "testcase_name": "E2E Journey 60 - Recruitment Vacancy, Candidate Application, Interview & Hiring",
+    "test_objective": "Execute complete cross-module workflow for Recruitment Vacancy, Candidate Application, Interview & Hiring (Scenario #60).",
+    "preconditions": [
+      "Clean test company organization structure loaded",
+      "Test user accounts active across all roles"
+    ],
+    "test_steps": [
+      "1. Log in as Initiator role and trigger starting step for Recruitment Vacancy, Candidate Application, Interview & Hiring",
+      "2. Hand off to Reviewer / Supervisor role and process intermediate approvals",
+      "3. Complete terminal state in workflow and assert cross-table persistence"
+    ],
+    "expected_results": [
+      "End-to-end journey executes with 100% data fidelity across UI, APIs, and database tables."
+    ],
+    "automation_status": "Automated"
+  }
+]

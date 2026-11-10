@@ -1,0 +1,4342 @@
+[
+  {
+    "testcase_id": "TC_SEC_OWASP_0001",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 1 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #1).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0002",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 2 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #2).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0003",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 3 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #3).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0004",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 4 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #4).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0005",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 5 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #5).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0006",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 6 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #6).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0007",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 7 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #7).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0008",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 8 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #8).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0009",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 9 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #9).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0010",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 10 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #10).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0011",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 11 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #11).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0012",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 12 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #12).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0013",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 13 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #13).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0014",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 14 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #14).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0015",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 15 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #15).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0016",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 16 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #16).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0017",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 17 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #17).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0018",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 18 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #18).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0019",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 19 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #19).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0020",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 20 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #20).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0021",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 21 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #21).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0022",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 22 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #22).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0023",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 23 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #23).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0024",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 24 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #24).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0025",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 25 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #25).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0026",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 26 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #26).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0027",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 27 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #27).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0028",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 28 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #28).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0029",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 29 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #29).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0030",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 30 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #30).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0031",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 31 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #31).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0032",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 32 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #32).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0033",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 33 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #33).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0034",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 34 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #34).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0035",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 35 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #35).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0036",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 36 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #36).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0037",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 37 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #37).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0038",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 38 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #38).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0039",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 39 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #39).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0040",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 40 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #40).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0041",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 41 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #41).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0042",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 42 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #42).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0043",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 43 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #43).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0044",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 44 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #44).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0045",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 45 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #45).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0046",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 46 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #46).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0047",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 47 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #47).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0048",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 48 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #48).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0049",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 49 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #49).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0050",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 50 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #50).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0051",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 51 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #51).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0052",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 52 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #52).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0053",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 53 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #53).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0054",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 54 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #54).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0055",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 55 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #55).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0056",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 56 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #56).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0057",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 57 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #57).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0058",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 58 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #58).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0059",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 59 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #59).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0060",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 60 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #60).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0061",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 61 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #61).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0062",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 62 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #62).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0063",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 63 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #63).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0064",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 64 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #64).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0065",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 65 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #65).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0066",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 66 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #66).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0067",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 67 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #67).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0068",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 68 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #68).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0069",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 69 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #69).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0070",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 70 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #70).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0071",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 71 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #71).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0072",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 72 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #72).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0073",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 73 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #73).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0074",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 74 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #74).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0075",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 75 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #75).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0076",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 76 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #76).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0077",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 77 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #77).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0078",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 78 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #78).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0079",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 79 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #79).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0080",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 80 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #80).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0081",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 81 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #81).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0082",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 82 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #82).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0083",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 83 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #83).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0084",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 84 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #84).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0085",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 85 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #85).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0086",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 86 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #86).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0087",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 87 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #87).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0088",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 88 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #88).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0089",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 89 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #89).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0090",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 90 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #90).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0091",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 91 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #91).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0092",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 92 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #92).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0093",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 93 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #93).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0094",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 94 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #94).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0095",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 95 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #95).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0096",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 96 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #96).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0097",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 97 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #97).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0098",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 98 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #98).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0099",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 99 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #99).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0100",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 100 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #100).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0101",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 101 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #101).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0102",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 102 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #102).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0103",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 103 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #103).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0104",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 104 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #104).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0105",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 105 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #105).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0106",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 106 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #106).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0107",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 107 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #107).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0108",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 108 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #108).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0109",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 109 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #109).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0110",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 110 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #110).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0111",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 111 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #111).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0112",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 112 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #112).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0113",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 113 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #113).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0114",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 114 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #114).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0115",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 115 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #115).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0116",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 116 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #116).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0117",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 117 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #117).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0118",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 118 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #118).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0119",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 119 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #119).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0120",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 120 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #120).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0121",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 121 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #121).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0122",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 122 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #122).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0123",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 123 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #123).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0124",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 124 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #124).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0125",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 125 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #125).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0126",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 126 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #126).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0127",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 127 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #127).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0128",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 128 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #128).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0129",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 129 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #129).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0130",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 130 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #130).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0131",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 131 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #131).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0132",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 132 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #132).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0133",
+    "owasp_category": "Brute_Force_Lockout",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 133 - Brute_Force_Lockout",
+    "test_objective": "Verify OrangeHRM defenses against Brute_Force_Lockout attack vectors (Attack Vector #133).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Brute_Force_Lockout into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0134",
+    "owasp_category": "Session_Fixation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 134 - Session_Fixation",
+    "test_objective": "Verify OrangeHRM defenses against Session_Fixation attack vectors (Attack Vector #134).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Session_Fixation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0135",
+    "owasp_category": "Privilege_Escalation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 135 - Privilege_Escalation",
+    "test_objective": "Verify OrangeHRM defenses against Privilege_Escalation attack vectors (Attack Vector #135).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Privilege_Escalation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0136",
+    "owasp_category": "BOLA_IDOR",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 136 - BOLA_IDOR",
+    "test_objective": "Verify OrangeHRM defenses against BOLA_IDOR attack vectors (Attack Vector #136).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting BOLA_IDOR into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0137",
+    "owasp_category": "Stored_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 137 - Stored_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Stored_XSS attack vectors (Attack Vector #137).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Stored_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0138",
+    "owasp_category": "Reflected_XSS",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 138 - Reflected_XSS",
+    "test_objective": "Verify OrangeHRM defenses against Reflected_XSS attack vectors (Attack Vector #138).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting Reflected_XSS into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0139",
+    "owasp_category": "SQL_Injection",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 139 - SQL_Injection",
+    "test_objective": "Verify OrangeHRM defenses against SQL_Injection attack vectors (Attack Vector #139).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting SQL_Injection into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_SEC_OWASP_0140",
+    "owasp_category": "CSRF_Validation",
+    "test_level": "Non-Functional/Security",
+    "test_type": [
+      "Security",
+      "Vulnerability",
+      "Abuse"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Confidentiality",
+      "Integrity"
+    ],
+    "priority": "Critical",
+    "testcase_name": "OWASP Security Test 140 - CSRF_Validation",
+    "test_objective": "Verify OrangeHRM defenses against CSRF_Validation attack vectors (Attack Vector #140).",
+    "preconditions": [
+      "Security test runner initialized with attack payloads"
+    ],
+    "test_steps": [
+      "1. Inject malicious payload targeting CSRF_Validation into parameter or header",
+      "2. Dispatch request to target controller / API",
+      "3. Inspect response payload, HTTP status, and database content"
+    ],
+    "expected_results": [
+      "Attack payload is safely sanitized, escaped, or rejected",
+      "No sensitive data leak or unauthorized privilege elevation occurs"
+    ],
+    "automation_status": "Automated"
+  }
+]

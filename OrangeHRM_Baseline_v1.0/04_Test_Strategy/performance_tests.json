@@ -1,0 +1,982 @@
+[
+  {
+    "testcase_id": "TC_PERF_BENCH_0001",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 1",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #1).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0002",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 2",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #2).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0003",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 3",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #3).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0004",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 4",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #4).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0005",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 5",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #5).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0006",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 6",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #6).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0007",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 7",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #7).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0008",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 8",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #8).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0009",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 9",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #9).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0010",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 10",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #10).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0011",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 11",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #11).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0012",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 12",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #12).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0013",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 13",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #13).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0014",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 14",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #14).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0015",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 15",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #15).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0016",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 16",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #16).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0017",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 17",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #17).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0018",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 18",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #18).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0019",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 19",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #19).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0020",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 20",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #20).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0021",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 21",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #21).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0022",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 22",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #22).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0023",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 23",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #23).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0024",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 24",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #24).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0025",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 25",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #25).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0026",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 26",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #26).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0027",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 27",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #27).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0028",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 28",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #28).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0029",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 29",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #29).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0030",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 30",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #30).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0031",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 31",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #31).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0032",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 32",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #32).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0033",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 33",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #33).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0034",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 34",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #34).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  },
+  {
+    "testcase_id": "TC_PERF_BENCH_0035",
+    "test_level": "Non-Functional/Performance",
+    "test_type": [
+      "Performance",
+      "Load",
+      "LatencyBenchmark"
+    ],
+    "quality_attributes": [
+      "Performance",
+      "Throughput",
+      "Scalability"
+    ],
+    "priority": "High",
+    "testcase_name": "Performance Latency Benchmark Test 35",
+    "test_objective": "Verify endpoint p95 latency remains <= 450ms under concurrent load (Benchmark Scenario #35).",
+    "preconditions": [
+      "Database populated with 10,000 employee records and 50,000 attendance rows"
+    ],
+    "test_steps": [
+      "1. Execute k6 load test ramping from 1 to 50 concurrent virtual users",
+      "2. Measure request rate, error rate, and response latency percentiles"
+    ],
+    "expected_results": [
+      "p95 response time <= 450 ms; error rate < 0.01% under nominal workload."
+    ],
+    "automation_status": "Automated"
+  }
+]
