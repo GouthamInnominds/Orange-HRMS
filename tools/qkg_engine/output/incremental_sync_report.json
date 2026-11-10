@@ -1,0 +1,28 @@
+{
+  "sync_timestamp": "2026-11-10T09:41:41.911Z",
+  "base_ref": "HEAD~1",
+  "head_ref": "HEAD",
+  "diff_summary": {
+    "total_files_changed": 4,
+    "added": 4,
+    "modified": 0,
+    "deleted": 0
+  },
+  "delta_ingestion": {
+    "classes_updated": 0,
+    "methods_updated": 0,
+    "endpoints_updated": 0,
+    "ui_components_updated": 0,
+    "relationships_created": 0,
+    "nodes_deleted": 0
+  },
+  "graph_totals": {
+    "total_nodes": 19413,
+    "total_relationships": 101426
+  },
+  "test_impact_analysis": {
+    "affected_user_stories": [],
+    "recommended_regression_tests_count": 0,
+    "sample_tests": []
+  }
+}
