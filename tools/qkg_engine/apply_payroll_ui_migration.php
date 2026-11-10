@@ -78,3 +78,4 @@ foreach ($databases as $db) {
     }
 }
 echo "\nMigration execution finished.\n";
+

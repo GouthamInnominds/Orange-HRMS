@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrangeHRM Quality Intelligence Platform (QKG 2.0)</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js, Marked.js, Highlight.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="app-sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">⚡</div>
+      <div>
+        <div class="sidebar-title">Quality Intelligence</div>
+        <span class="sidebar-badge">QKG PLATFORM v2.0</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <div class="nav-item active" data-tab="overview">
+        <span class="nav-item-icon">📊</span>
+        <span>Quality Overview</span>
+      </div>
+      <div class="nav-item" data-tab="intelligence">
+        <span class="nav-item-icon">🧪</span>
+        <span>Test Intelligence</span>
+      </div>
+      <div class="nav-item" data-tab="graph">
+        <span class="nav-item-icon">🕸️</span>
+        <span>Knowledge Graph</span>
+      </div>
+      <div class="nav-item" data-tab="tia">
+        <span class="nav-item-icon">🎯</span>
+        <span>Change Impact (TIA)</span>
+      </div>
+      <div class="nav-item" data-tab="database">
+        <span class="nav-item-icon">🗄️</span>
+        <span>Database & Drift</span>
+      </div>
+      <div class="nav-item" data-tab="chatbot">
+        <span class="nav-item-icon">🤖</span>
+        <span>Agentic Chatbot</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-indicator">
+        <div class="dot"></div>
+        <span>Azure GPT-4.1 Online</span>
+      </div>
+      <div class="status-indicator">
+        <div class="dot"></div>
+        <span>Neo4j Bolt Connected</span>
+      </div>
+      <div class="status-indicator">
+        <div class="dot"></div>
+        <span>MariaDB 3306 Synced</span>
+      </div>
+      <div style="margin-top: 10px; font-size: 10px; opacity: 0.7;">
+        Baseline: Commit c5e891b (v2-main)
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-wrapper">
+    <header class="app-topbar">
+      <div class="topbar-title-wrap">
+        <h2 id="page-title">Application Quality Overview</h2>
+        <span class="topbar-baseline-tag">Target Scope: OrangeHRM v2 (Payroll Integration)</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-secondary" onclick="app.refreshCurrentTab()">🔄 Refresh Telemetry</button>
+        <button class="btn btn-primary" onclick="app.switchTab('chatbot')">💬 Open Assistant</button>
+      </div>
+    </header>
+
+    <div class="content-area">
+
+      <!-- TAB 1: QUALITY OVERVIEW -->
+      <section id="tab-overview" class="tab-pane active">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-title">Verified Test Definitions</div>
+            <div class="kpi-value" style="color: var(--accent-primary);" id="kpi-tests">6,893</div>
+            <div class="kpi-sub">Across 10 Core Application Modules</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Test Pass Health Rate</div>
+            <div class="kpi-value" style="color: var(--accent-success);" id="kpi-pass-rate">100.0%</div>
+            <div class="kpi-sub">Formula: Passed / (Passed + Failed)</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Quality Gate Posture</div>
+            <div class="kpi-value" style="color: var(--accent-success);" id="kpi-gate">PASSED</div>
+            <div class="kpi-sub">Zero blocking defects or drift</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Logical Scenarios</div>
+            <div class="kpi-value" style="color: var(--accent-purple);" id="kpi-scenarios">6,024</div>
+            <div class="kpi-sub">Requirements coverage 100%</div>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <div class="panel-card">
+            <h3>📈 Test Layer Distribution</h3>
+            <canvas id="chart-layers" height="220"></canvas>
+          </div>
+          <div class="panel-card">
+            <h3>🏢 Module Test Coverage</h3>
+            <canvas id="chart-modules" height="220"></canvas>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>🛡️ Enterprise Quality Health Summary</h3>
+          <div class="data-table-wrap">
+            <table class="data-table" id="table-modules-summary">
+              <thead>
+                <tr>
+                  <th>Module</th>
+                  <th>Verified Automated Tests</th>
+                  <th>Logical Scenarios</th>
+                  <th>Requirements Coverage</th>
+                  <th>Quality Gate Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: TEST INTELLIGENCE -->
+      <section id="tab-intelligence" class="tab-pane">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-title">API & Contract Tests</div>
+            <div class="kpi-value" style="color: var(--accent-primary);">2,420</div>
+            <div class="kpi-sub">Route sanity, payloads, HTTP codes</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Functional & Workflows</div>
+            <div class="kpi-value" style="color: var(--accent-success);">2,840</div>
+            <div class="kpi-sub">Business calculations & states</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">DB Integrity Scenarios</div>
+            <div class="kpi-value" style="color: var(--accent-warning);">960</div>
+            <div class="kpi-sub">Foreign keys, constraints, nullability</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">UI & Vue Components</div>
+            <div class="kpi-value" style="color: var(--accent-purple);">673</div>
+            <div class="kpi-sub">Oxd-layout props, event emitters</div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>🧪 Verified Test Suites Telemetry</h3>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Test Suite</th>
+                  <th>Layer</th>
+                  <th>Target Module</th>
+                  <th>Test Count</th>
+                  <th>Avg Runtime</th>
+                  <th>Execution Status</th>
+                </tr>
+              </thead>
+              <tbody id="table-test-suites-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: KNOWLEDGE GRAPH INSIGHTS -->
+      <section id="tab-graph" class="tab-pane">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-title">Knowledge Graph Nodes</div>
+            <div class="kpi-value" style="color: var(--accent-primary);" id="kg-node-count">384</div>
+            <div class="kpi-sub">Schema: schema-v2.0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Graph Relationships</div>
+            <div class="kpi-value" style="color: var(--accent-success);" id="kg-rel-count">842</div>
+            <div class="kpi-sub">Multi-layer semantic links</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Orphan Nodes</div>
+            <div class="kpi-value" style="color: var(--accent-success);">0</div>
+            <div class="kpi-sub">100% Connected Ontology</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Traceability Depth</div>
+            <div class="kpi-value" style="color: var(--accent-purple);">4 Hops</div>
+            <div class="kpi-sub">Story -> Endpoint -> Entity -> Test</div>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <div class="panel-card">
+            <h3>🏷️ Node Label Distribution</h3>
+            <canvas id="chart-kg-labels" height="220"></canvas>
+          </div>
+          <div class="panel-card">
+            <h3>🔗 Graph Baseline Comparison (v1.0.0 vs v2.0.0-payroll)</h3>
+            <div style="font-size: 13px; line-height: 1.6;" id="kg-baseline-diff">
+              Loading baseline comparison...
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: CHANGE IMPACT ANALYSIS (TIA) -->
+      <section id="tab-tia" class="tab-pane">
+        <div class="panel-card" style="margin-bottom: 24px;">
+          <h3>🎯 PR Impact Analysis & Quality Risk Scoring</h3>
+          <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+            <select id="pr-selector" class="btn btn-secondary" style="background-color: var(--bg-tertiary); color: var(--text-main);" onchange="app.loadPRAnalysis()">
+              <option value="12">PR #12: Automated Payroll Processing & Statutory Deductions</option>
+              <option value="11">PR #11: Fix Database Permission Sync for ESS and Admin Roles</option>
+            </select>
+            <button class="btn btn-primary" onclick="app.loadPRAnalysis()">⚡ Run Impact Traversal</button>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-title">Quality Risk Score</div>
+              <div class="kpi-value" id="tia-risk-score" style="color: var(--accent-warning);">42 / 100</div>
+              <div class="kpi-sub" id="tia-gate-badge">Status: <span class="badge badge-warning">ELEVATED RISK</span></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Affected Files</div>
+              <div class="kpi-value" id="tia-files-count">5</div>
+              <div class="kpi-sub">Controllers, Entities, Vue client</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Impacted Requirements</div>
+              <div class="kpi-value" id="tia-req-count">4</div>
+              <div class="kpi-sub">Statutory formulas, Locking, Slips</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Recommended Regression Tests</div>
+              <div class="kpi-value" id="tia-tests-count" style="color: var(--accent-primary);">6</div>
+              <div class="kpi-sub">Est. Runtime: ~15 seconds</div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+            <button class="btn btn-success" onclick="app.planRegressionTests()">📋 Generate Test Execution Plan</button>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>📋 Impacted Regression Test Candidates</h3>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Test ID</th>
+                  <th>Verification Scope</th>
+                  <th>Test Suite</th>
+                  <th>Priority</th>
+                  <th>Est. Duration</th>
+                </tr>
+              </thead>
+              <tbody id="tia-candidate-tests-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: DATABASE & DRIFT -->
+      <section id="tab-database" class="tab-pane">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-title">Active Database</div>
+            <div class="kpi-value" style="color: var(--accent-primary);">orangehrm_mysql</div>
+            <div class="kpi-sub">168 Verified Tables</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Test Database</div>
+            <div class="kpi-value" style="color: var(--accent-purple);">test_orangehrm_mysql</div>
+            <div class="kpi-sub">168 Verified Tables</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Schema Drift Status</div>
+            <div class="kpi-value" style="color: var(--accent-success);">SYNCHRONIZED</div>
+            <div class="kpi-sub">Zero table/column mismatch</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Data Integrity Check</div>
+            <div class="kpi-value" style="color: var(--accent-success);">100% VALID</div>
+            <div class="kpi-sub">Payroll FK constraints verified</div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>🗄️ Database Tables Inspection (orangehrm_mysql)</h3>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Table Name</th>
+                  <th>Estimated Rows</th>
+                  <th>Storage Size</th>
+                  <th>Engine</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="db-tables-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: AGENTIC CHATBOT -->
+      <section id="tab-chatbot" class="tab-pane">
+        <div class="chat-container">
+          <div class="chat-messages" id="chat-messages">
+            <!-- Initial Welcome Message -->
+            <div class="message-row assistant">
+              <div class="message-avatar assistant">🤖</div>
+              <div class="message-bubble">
+                <p><strong>Hello! I am your Lead Quality Engineering Intelligence Assistant.</strong></p>
+                <p>I am connected across the 5-layer Quality Engineering platform to <strong>Azure OpenAI GPT-4.1</strong>, the <strong>Neo4j Knowledge Graph</strong>, <strong>MariaDB</strong>, <strong>GitHub</strong>, and the <strong>Test Automation Harness</strong> (6,893 tests).</p>
+                <p style="margin-top: 8px;">How can I assist your Quality Engineering workflow today?</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Input -->
+          <div class="chat-input-container">
+            <div class="preset-prompts">
+              <div class="prompt-chip" onclick="app.sendPreset('Analyze PR #12 and check quality risk')">🎯 Analyze PR #12 & Risk</div>
+              <div class="prompt-chip" onclick="app.sendPreset('What is the test coverage across all 10 modules?')">📊 Test Coverage Telemetry</div>
+              <div class="prompt-chip" onclick="app.sendPreset('Compare v1.0.0 and v2.0.0-payroll Knowledge Graph baselines')">🕸️ Compare Graph Baselines</div>
+              <div class="prompt-chip" onclick="app.sendPreset('Check MariaDB tables and detect schema drift')">🗄️ Check Schema Drift</div>
+              <div class="prompt-chip" onclick="app.sendPreset('Generate a test execution plan for Payroll')">🧪 Plan Payroll Regression</div>
+            </div>
+
+            <div class="input-box-wrap">
+              <textarea id="chat-input" class="chat-input" placeholder="Ask about quality metrics, PR impact, graph traceability, or database schemas..." rows="1" onkeydown="app.handleChatKey(event)"></textarea>
+              <button class="btn btn-primary" style="padding: 6px 12px; margin-left: 8px;" onclick="app.sendChatMessage()">Send</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

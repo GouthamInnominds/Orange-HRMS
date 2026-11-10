@@ -8,9 +8,11 @@
     "tia:simulate": "node qkg_engine/run_tia_simulation.js"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^16.4.7",
+    "express": "^5.3.0",
+    "mysql2": "^3.24.6",
     "neo4j-driver": "^5.27.0",
     "php-parser": "^3.1.5"
   }
 }
-

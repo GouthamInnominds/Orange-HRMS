@@ -213,3 +213,4 @@ class PayrollPayPeriod
         return $this->updatedAt;
     }
 }
+

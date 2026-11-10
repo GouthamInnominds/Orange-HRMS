@@ -34,3 +34,4 @@ class MySalarySlipsController extends AbstractVueController
         $this->setComponent($component);
     }
 }
+

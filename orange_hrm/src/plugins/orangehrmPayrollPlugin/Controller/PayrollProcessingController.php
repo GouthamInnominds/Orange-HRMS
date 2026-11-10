@@ -34,3 +34,4 @@ class PayrollProcessingController extends AbstractVueController
         $this->setComponent($component);
     }
 }
+

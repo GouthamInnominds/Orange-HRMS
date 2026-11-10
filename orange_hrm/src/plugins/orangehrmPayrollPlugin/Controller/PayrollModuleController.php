@@ -36,3 +36,4 @@ class PayrollModuleController extends AbstractModuleController
         return $this->redirect($defaultPath ?? 'payroll/viewPayrollProcessing');
     }
 }
+
