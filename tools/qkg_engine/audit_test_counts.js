@@ -50,3 +50,4 @@ console.log(`Generated Non-Unit Scripts : ${totalScript} / ${totalJson} (${((tot
 console.log(`PHPUnit Unit Tests         : 2781 / 2781 (100.0%)`);
 console.log(`GRAND TOTAL AUTOMATION     : ${totalScript + 2781} / 6893 (${(((totalScript + 2781)/6893)*100).toFixed(2)}%)`);
 console.log('========================================================================\n');
+
