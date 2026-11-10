@@ -14,6 +14,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+.phpunit.result.cache
 
 # Tools & Local Environment
 tools/node_modules/
