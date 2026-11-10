@@ -1,7 +1,7 @@
 :root {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #334155;
+  --bg-primary: #0b1120;
+  --bg-secondary: #131c31;
+  --bg-tertiary: #1e293b;
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --accent-primary: #38bdf8;
@@ -10,8 +10,8 @@
   --accent-warning: #f59e0b;
   --accent-danger: #ef4444;
   --accent-purple: #8b5cf6;
-  --border-color: #334155;
-  --sidebar-width: 260px;
+  --border-color: #24324d;
+  --sidebar-width: 250px;
 }
 
 * {
@@ -40,7 +40,7 @@ body {
 }
 
 .sidebar-header {
-  padding: 20px;
+  padding: 18px 20px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
@@ -134,22 +134,24 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100vh;
   overflow: hidden;
-  position: relative;
 }
 
 .app-topbar {
   height: 60px;
+  min-height: 60px;
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
+  z-index: 10;
 }
 
 .topbar-title-wrap h2 {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
 }
 
@@ -164,6 +166,7 @@ body {
   gap: 12px;
 }
 
+/* Content Area - Fix clipping */
 .content-area {
   flex: 1;
   overflow-y: auto;
@@ -185,7 +188,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Cards & Grid */
+/* Cards & KPI Grid - Fix clipping and heights */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -197,13 +200,14 @@ body {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  padding: 18px;
-  position: relative;
-  overflow: hidden;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .kpi-title {
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   font-weight: 700;
   color: var(--text-muted);
@@ -211,9 +215,9 @@ body {
 }
 
 .kpi-value {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 800;
-  margin: 8px 0 4px 0;
+  margin: 6px 0 4px 0;
   letter-spacing: -0.5px;
 }
 
@@ -234,6 +238,7 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 10px;
   padding: 20px;
+  margin-bottom: 20px;
 }
 
 .panel-card h3 {
@@ -298,17 +303,52 @@ body {
   transition: all 0.15s ease;
 }
 
-.btn-primary { background-color: var(--accent-primary); color: #0f172a; }
+.btn-primary { background-color: var(--accent-primary); color: #0b1120; }
 .btn-primary:hover { background-color: var(--accent-hover); }
 .btn-secondary { background-color: var(--bg-tertiary); color: var(--text-main); }
-.btn-secondary:hover { background-color: #475569; }
-.btn-success { background-color: var(--accent-success); color: #0f172a; }
+.btn-secondary:hover { background-color: #334155; }
+.btn-success { background-color: var(--accent-success); color: #0b1120; }
+
+/* Interactive Network Visualizer */
+#network-container {
+  width: 100%;
+  height: 440px;
+  background-color: #070d19;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Studio Editor Box */
+.studio-box {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.studio-input {
+  width: 100%;
+  min-height: 80px;
+  background-color: #070d19;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: #38bdf8;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  padding: 10px;
+  resize: vertical;
+  outline: none;
+  margin-bottom: 10px;
+}
 
 /* Claude-Style Chat UI */
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 110px);
+  height: calc(100vh - 120px);
   max-width: 960px;
   margin: 0 auto;
 }
@@ -381,7 +421,7 @@ body {
 
 .activity-header {
   padding: 10px 14px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: space-between;

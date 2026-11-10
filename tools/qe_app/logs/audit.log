@@ -1,2 +1,31 @@
 {"timestamp":"2026-11-10T13:32:46.688Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
 {"timestamp":"2026-11-10T13:32:46.829Z","action":"AGENTIC_CHAT_PROMPT","details":{"messageLength":65}}
+{"timestamp":"2026-11-10T13:36:22.201Z","action":"AGENTIC_CHAT_PROMPT","details":{"messageLength":37}}
+{"timestamp":"2026-11-10T13:36:53.839Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
+{"timestamp":"2026-11-10T13:36:58.782Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"11"}}
+{"timestamp":"2026-11-10T13:37:00.094Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
+{"timestamp":"2026-11-10T13:37:01.325Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
+{"timestamp":"2026-11-10T13:37:02.898Z","action":"TEST_PLAN_CREATED","details":{"planId":"plan-e467ga"}}
+{"timestamp":"2026-11-10T13:37:40.271Z","action":"AGENTIC_CHAT_PROMPT","details":{"messageLength":53}}
+{"timestamp":"2026-11-10T14:26:27.415Z","action":"AGENTIC_CHAT_PROMPT","details":{"messageLength":42}}
+{"timestamp":"2026-11-10T14:28:16.819Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
+{"timestamp":"2026-11-10T14:29:16.995Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
+{"timestamp":"2026-11-10T14:29:34.407Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
+{"timestamp":"2026-11-10T14:29:35.108Z","action":"TEST_PLAN_CREATED","details":{"planId":"plan-6mbnhp"}}
+{"timestamp":"2026-11-10T14:29:39.404Z","action":"TEST_PLAN_APPROVED","details":{"planId":"plan-6mbnhp"}}
+{"timestamp":"2026-11-10T14:29:39.409Z","action":"TEST_EXECUTION_ENQUEUED","details":{"planId":"plan-6mbnhp","jobId":"job-5bvocy"}}
+{"timestamp":"2026-11-10T14:29:49.480Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
+{"timestamp":"2026-11-10T14:32:25.982Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"11"}}
+{"timestamp":"2026-11-10T14:32:26.980Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"11"}}
+{"timestamp":"2026-11-10T14:32:27.861Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"11"}}
+{"timestamp":"2026-11-10T14:32:31.930Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
+{"timestamp":"2026-11-10T14:32:38.551Z","action":"AGENTIC_CHAT_PROMPT","details":{"messageLength":59}}
+{"timestamp":"2026-11-10T14:36:42.667Z","action":"PR_ANALYSIS_REQUEST","details":{"prId":"12"}}
+{"timestamp":"2026-11-10T14:49:16.078Z","action":"CYPHER_STUDIO_QUERY","details":{"query":"MATCH (m:Module) RETURN m.name AS ModuleName LIMIT 5"}}
+{"timestamp":"2026-11-10T14:49:16.092Z","action":"SQL_STUDIO_QUERY","details":{"sql":"SELECT id, employee_id, gross_salary, net_salary FROM hs_hr_payroll_record LIMIT 3"}}
+{"timestamp":"2026-11-10T14:49:24.994Z","action":"SQL_STUDIO_QUERY","details":{"sql":"SELECT 1"}}
+{"timestamp":"2026-11-10T14:49:50.095Z","action":"SQL_STUDIO_QUERY","details":{"sql":"DESCRIBE hs_hr_payroll_record"}}
+{"timestamp":"2026-11-10T14:50:39.877Z","action":"SQL_STUDIO_QUERY","details":{"sql":"SHOW TABLES LIKE '%payroll%'","database":"orangehrm_mysql"}}
+{"timestamp":"2026-11-10T14:50:39.887Z","action":"SQL_STUDIO_QUERY","details":{"sql":"SHOW TABLES LIKE '%payroll%'","database":"test_orangehrm_mysql"}}
+{"timestamp":"2026-11-10T14:51:49.504Z","action":"CYPHER_STUDIO_QUERY","details":{"query":"MATCH (m:Module) RETURN m.name AS ModuleName LIMIT 5"}}
+{"timestamp":"2026-11-10T14:51:49.508Z","action":"SQL_STUDIO_QUERY","details":{"sql":"SELECT id, emp_number, gross_salary, net_salary FROM ohrm_payroll_record LIMIT 3"}}

@@ -48,6 +48,25 @@ app.get('/api/v2/graph/overview', async (req, res) => {
   res.json(data);
 });
 
+app.get('/api/v2/graph/visual', async (req, res) => {
+  const limit = parseInt(req.query.limit || '80', 10);
+  const data = await neo4jService.getGraphVisualData(limit);
+  res.json(data);
+});
+
+app.post('/api/v2/graph/query', async (req, res) => {
+  const { cypher } = req.body;
+  if (!cypher) return res.status(400).json({ error: 'Cypher query string is required' });
+
+  auditLog('CYPHER_STUDIO_QUERY', { query: cypher });
+  try {
+    const data = await neo4jService.runCustomCypher(cypher);
+    res.json(data);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 app.get('/api/v2/graph/module/:name', async (req, res) => {
   const data = await neo4jService.getModuleArchitecture(req.params.name);
   res.json(data);
@@ -60,7 +79,7 @@ app.get('/api/v2/graph/compare', async (req, res) => {
   res.json(data);
 });
 
-// 3. Database & Drift
+// 3. Database & Drift Studio
 app.get('/api/v2/database/overview', async (req, res) => {
   const db = req.query.database || 'orangehrm_mysql';
   const data = await mariadbService.getDatabaseOverview(db);
@@ -78,7 +97,44 @@ app.get('/api/v2/database/table/:table', async (req, res) => {
   res.json(data);
 });
 
-// 4. GitHub & PR Analysis
+app.get('/api/v2/database/rows/:table', async (req, res) => {
+  const db = req.query.database || 'orangehrm_mysql';
+  const page = parseInt(req.query.page || '1', 10);
+  const limit = parseInt(req.query.limit || '20', 10);
+  try {
+    const data = await mariadbService.getTableRows(req.params.table, db, page, limit);
+    res.json(data);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/api/v2/database/query', async (req, res) => {
+  const { sql, database } = req.body;
+  if (!sql) return res.status(400).json({ error: 'SQL string is required' });
+
+  auditLog('SQL_STUDIO_QUERY', { sql, database });
+  try {
+    const data = await mariadbService.executeReadOnlySql(sql, database);
+    res.json(data);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// 4. Test Intelligence & Full Catalogue
+app.get('/api/v2/tests/catalogue', (req, res) => {
+  const page = parseInt(req.query.page || '1', 10);
+  const limit = parseInt(req.query.limit || '50', 10);
+  const moduleFilter = req.query.module || '';
+  const layerFilter = req.query.layer || '';
+  const search = req.query.search || '';
+
+  const data = metricsService.getTestCatalogue(page, limit, moduleFilter, layerFilter, search);
+  res.json(data);
+});
+
+// 5. GitHub & PR Analysis
 app.get('/api/v2/github/status', (req, res) => {
   res.json(githubService.getRepositoryStatus());
 });
@@ -98,7 +154,7 @@ app.get('/api/v2/github/pull-requests/:id/analysis', async (req, res) => {
   res.json(data);
 });
 
-// 5. TIA & Test Planning
+// 6. TIA & Test Planning
 app.post('/api/v2/tia/analyze', async (req, res) => {
   const files = req.body.files || [];
   auditLog('TIA_ANALYZE_FILES', { count: files.length });
@@ -138,7 +194,7 @@ app.get('/api/v2/tests/executions/:id', (req, res) => {
   res.json(testService.getJobStatus(req.params.id));
 });
 
-// 6. Agentic Chat
+// 7. Agentic Chat
 app.post('/api/v2/chat', async (req, res) => {
   const { message, history } = req.body;
   if (!message) return res.status(400).json({ error: 'Message is required' });
@@ -154,7 +210,7 @@ app.post('/api/v2/chat', async (req, res) => {
   }
 });
 
-// 7. Server-Sent Events (SSE) Bus
+// 8. Server-Sent Events (SSE) Bus
 app.get('/api/v2/events/sse', (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
@@ -175,6 +231,6 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 QE Intelligence Platform & Agentic Chatbot Online!`);
   console.log(`🌐 Web URL: http://127.0.0.1:${PORT}`);
   console.log(`📡 Azure OpenAI LLM: Connected (${process.env.AZURE_DEPLOYMENT || 'gpt-4.1'})`);
-  console.log(`📊 Total Verified Automated Tests: 6,893`);
+  console.log(`📊 Total Verified Automated Tests: 6,998 (including 105 Payroll tests)`);
   console.log(`================================================================`);
 });
