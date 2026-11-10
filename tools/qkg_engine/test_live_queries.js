@@ -17,21 +17,23 @@ async function testLiveQueries() {
     console.log('   LIVE NEO4J CYPHER QUERIES: QUALITY ENGINEERING INTELLIGENCE');
     console.log('================================================================\n');
 
-    console.log('1. End-to-End Traceability Query:');
-    console.log('   (Requirement) <-> (Feature) <-> (ApiEndpoint) <-> (Class) <-> (TestCase)\n');
+    console.log('1. End-to-End Vertical Traceability Query:');
+    console.log('   (Requirement) <- (Feature) -> (ApiEndpoint) -> (Class) -> (TestCase)\n');
 
     const traceQuery = `
-      MATCH (r:Requirement { requirement_id: 'FR_PIM_001' })<-[:HAS_REQUIREMENT]-(rg:RequirementGroup)<-[:HAS_REQUIREMENT_GROUP]-(f:Feature)-[:EXPOSES]->(e:ApiEndpoint)-[:HANDLED_BY]->(c:Class)
+      MATCH (r:Requirement { requirement_id: 'FR_PIM_001' })<-[:HAS_REQUIREMENT]-(rg:RequirementGroup)<-[:HAS_REQUIREMENT_GROUP]-(f:Feature)
+      MATCH (f)-[:EXPOSES]->(e:ApiEndpoint)-[:HANDLED_BY]->(c:Class)
       MATCH (tc:TestCase)-[:VERIFIES]->(r)
       RETURN r.title as Requirement,
              f.name as Feature,
              count(DISTINCT e) as Endpoints,
              c.name as HandlerClass,
              count(DISTINCT tc) as VerifiedTests
+      LIMIT 1
     `;
     const traceRes = await session.run(traceQuery);
     for (const record of traceRes.records) {
-      console.log('Trace Result:', {
+      console.log('Vertical Trace Result:', {
         Requirement: record.get('Requirement'),
         Feature: record.get('Feature'),
         Endpoints: record.get('Endpoints').toNumber(),
@@ -41,20 +43,24 @@ async function testLiveQueries() {
     }
 
     console.log('\n2. Test Impact Analysis (TIA) Graph Traversal:');
-    console.log('   Simulating change in EmployeeAPI::getOne -> Finding affected business context\n');
+    console.log('   Simulating change in EmployeeAPI::getOne -> Finding affected business context & tests\n');
 
     const tiaQuery = `
       MATCH (c:Class { name: 'EmployeeAPI' })-[:DECLARES]->(m:Method { name: 'getOne' })
       MATCH (e:ApiEndpoint)-[:HANDLED_BY]->(c)
       MATCH (f:Feature)-[:EXPOSES]->(e)
-      MATCH (f)-[:HAS_REQUIREMENT_GROUP]->()-[:HAS_REQUIREMENT]->(r:Requirement)
       MATCH (w:BusinessWorkflow)-[:DECOMPOSES_TO]->(f)
+      MATCH (f)-[:HAS_REQUIREMENT_GROUP]->()-[:HAS_REQUIREMENT]->(r:Requirement)
+      OPTIONAL MATCH (tc:TestCase)-[:TESTS]->(m)
+      OPTIONAL MATCH (apiTc:TestCase)-[:EXECUTES_AGAINST]->(e)
       RETURN m.name as ChangedMethod,
              c.name as Class,
              count(DISTINCT e) as AffectedEndpoints,
              f.name as AffectedFeature,
              w.name as AffectedWorkflow,
-             collect(DISTINCT r.requirement_id) as AffectedRequirements
+             collect(DISTINCT r.requirement_id) as AffectedRequirements,
+             count(DISTINCT tc) as ImpactedUnitTests,
+             count(DISTINCT apiTc) as ImpactedApiTests
     `;
     const tiaRes = await session.run(tiaQuery);
     for (const record of tiaRes.records) {
@@ -64,18 +70,31 @@ async function testLiveQueries() {
         AffectedEndpoints: record.get('AffectedEndpoints').toNumber(),
         AffectedFeature: record.get('AffectedFeature'),
         AffectedWorkflow: record.get('AffectedWorkflow'),
-        AffectedRequirements: record.get('AffectedRequirements')
+        AffectedRequirements: record.get('AffectedRequirements'),
+        ImpactedUnitTests: record.get('ImpactedUnitTests').toNumber(),
+        ImpactedApiTests: record.get('ImpactedApiTests').toNumber()
       });
     }
 
-    console.log('\n3. ORM Entity to Database Table Mapping:');
+    console.log('\n3. Code-Level Call Graph & Inheritance Traversal:');
+    const callQuery = `
+      MATCH (m1:Method)-[:CALLS]->(m2:Method)
+      RETURN m1.signature as Caller, m2.signature as Callee
+      LIMIT 3
+    `;
+    const callRes = await session.run(callQuery);
+    for (const record of callRes.records) {
+      console.log(`  [Call] ${record.get('Caller')} -> ${record.get('Callee')}`);
+    }
+
+    console.log('\n4. ORM Entity to Database Table Mapping:');
     const ormQuery = `
       MATCH (de:DatabaseEntity)-[:MAPS_TO]->(dt:DatabaseTable)
-      RETURN de.name as Entity, dt.name as Table LIMIT 5
+      RETURN de.name as Entity, dt.name as Table LIMIT 3
     `;
     const ormRes = await session.run(ormQuery);
     for (const record of ormRes.records) {
-      console.log(`  Entity: ${record.get('Entity')} -> Table: ${record.get('Table')}`);
+      console.log(`  [ORM] Entity: ${record.get('Entity')} -> Table: ${record.get('Table')}`);
     }
 
     console.log('\n================================================================\n');
@@ -89,4 +108,3 @@ testLiveQueries().catch(err => {
   console.error('[FATAL]', err);
   process.exit(1);
 });
-

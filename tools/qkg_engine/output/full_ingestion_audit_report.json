@@ -1,11 +1,11 @@
 {
-  "audit_timestamp": "2026-11-10T08:43:20.025Z",
+  "audit_timestamp": "2026-11-10T08:51:35.913Z",
   "baseline_id": "ORANGEHRM_BASELINE_v1.0",
   "platform_version": "QKG v2.0.0",
   "commit_sha": "51a2219717d2a3fc7bc6f23696515b22fe791dfd",
   "summary": {
     "total_nodes": 18731,
-    "total_relationships": 46367,
+    "total_relationships": 52006,
     "total_plugins_ingested": 22,
     "total_routes_ingested": 738,
     "total_classes_ingested": 1574,
@@ -30,11 +30,11 @@
       "count": 738
     },
     {
-      "label": "DatabaseTable",
+      "label": "DatabaseEntity",
       "count": 146
     },
     {
-      "label": "DatabaseEntity",
+      "label": "DatabaseTable",
       "count": 146
     },
     {
@@ -84,6 +84,14 @@
       "count": 8950
     },
     {
+      "relationship": "CALLS",
+      "count": 2693
+    },
+    {
+      "relationship": "TESTS",
+      "count": 1739
+    },
+    {
       "relationship": "EXECUTES_AGAINST",
       "count": 1678
     },
@@ -93,7 +101,7 @@
     },
     {
       "relationship": "EXPOSES",
-      "count": 738
+      "count": 1109
     },
     {
       "relationship": "HANDLED_BY",
@@ -104,15 +112,27 @@
       "count": 567
     },
     {
+      "relationship": "EXTENDS",
+      "count": 566
+    },
+    {
+      "relationship": "TESTS_WORKFLOW",
+      "count": 180
+    },
+    {
       "relationship": "MAPS_TO",
       "count": 146
     },
     {
-      "relationship": "HAS_REQUIREMENT",
-      "count": 30
+      "relationship": "VALIDATES_RULE",
+      "count": 90
     },
     {
       "relationship": "DECOMPOSES_TO",
+      "count": 30
+    },
+    {
+      "relationship": "HAS_REQUIREMENT",
       "count": 30
     },
     {
