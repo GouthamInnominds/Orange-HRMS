@@ -60,3 +60,22 @@ orangehrm_payroll_slip_download:
   methods: [GET]
   defaults:
     _api: OrangeHRM\Payroll\Api\SalarySlipAPI
+
+##########################
+#        Screens
+##########################
+
+payroll_module:
+  path: /payroll/viewPayrollModule
+  controller: OrangeHRM\Payroll\Controller\PayrollModuleController::handle
+  methods: [ GET ]
+
+payroll_processing_screen:
+  path: /payroll/viewPayrollProcessing
+  controller: OrangeHRM\Payroll\Controller\PayrollProcessingController::handle
+  methods: [ GET ]
+
+payroll_my_slips_screen:
+  path: /payroll/viewMySalarySlips
+  controller: OrangeHRM\Payroll\Controller\MySalarySlipsController::handle
+  methods: [ GET ]

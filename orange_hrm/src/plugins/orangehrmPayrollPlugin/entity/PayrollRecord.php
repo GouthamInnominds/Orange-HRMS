@@ -45,12 +45,12 @@ class PayrollRecord
     private int $id;
 
     /**
-     * @var PayPeriod
+     * @var PayrollPayPeriod
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\PayPeriod", inversedBy="payrollRecords")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\PayrollPayPeriod", inversedBy="payrollRecords")
      * @ORM\JoinColumn(name="pay_period_id", referencedColumnName="id", nullable=false)
      */
-    private PayPeriod $payPeriod;
+    private PayrollPayPeriod $payPeriod;
 
     /**
      * @var int
@@ -130,12 +130,12 @@ class PayrollRecord
         $this->id = $id;
     }
 
-    public function getPayPeriod(): PayPeriod
+    public function getPayPeriod(): PayrollPayPeriod
     {
         return $this->payPeriod;
     }
 
-    public function setPayPeriod(PayPeriod $payPeriod): void
+    public function setPayPeriod(PayrollPayPeriod $payPeriod): void
     {
         $this->payPeriod = $payPeriod;
     }

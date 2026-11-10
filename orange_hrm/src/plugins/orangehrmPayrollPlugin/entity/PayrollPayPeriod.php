@@ -28,7 +28,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ohrm_pay_period")
  * @ORM\Entity
  */
-class PayPeriod
+class PayrollPayPeriod
 {
     public const STATUS_DRAFT = 'Draft';
     public const STATUS_CALCULATING = 'Calculating';
@@ -87,20 +87,36 @@ class PayPeriod
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=30)
+     * @ORM\Column(name="status", type="string", length=20)
      */
     private string $status = self::STATUS_DRAFT;
 
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PayrollRecord", mappedBy="payPeriod")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PayrollRecord", mappedBy="payPeriod", cascade={"persist", "remove"})
      */
     private Collection $payrollRecords;
+
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private DateTime $createdAt;
+
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private DateTime $updatedAt;
 
     public function __construct()
     {
         $this->payrollRecords = new ArrayCollection();
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     public function getId(): int
@@ -171,10 +187,29 @@ class PayPeriod
     public function setStatus(string $status): void
     {
         $this->status = $status;
+        $this->updatedAt = new DateTime();
     }
 
     public function getPayrollRecords(): Collection
     {
         return $this->payrollRecords;
+    }
+
+    public function addPayrollRecord(PayrollRecord $record): void
+    {
+        if (!$this->payrollRecords->contains($record)) {
+            $this->payrollRecords->add($record);
+            $record->setPayPeriod($this);
+        }
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
     }
 }

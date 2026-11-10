@@ -82,6 +82,7 @@
             "OrangeHRM\\SystemCheck\\": "./plugins/orangehrmSystemCheckPlugin",
             "OrangeHRM\\Mobile\\": "./plugins/orangehrmMobilePlugin",
             "OrangeHRM\\Claim\\": "./plugins/orangehrmClaimPlugin",
+            "OrangeHRM\\Payroll\\": "./plugins/orangehrmPayrollPlugin",
             "OrangeHRM\\Installer\\": "../installer",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
@@ -99,6 +100,7 @@
                 "./plugins/orangehrmLDAPAuthenticationPlugin/entity",
                 "./plugins/orangehrmBuzzPlugin/entity",
                 "./plugins/orangehrmClaimPlugin/entity",
+                "./plugins/orangehrmPayrollPlugin/entity",
                 "./plugins/orangehrmOpenidAuthenticationPlugin/entity"
             ]
         }
