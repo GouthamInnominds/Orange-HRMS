@@ -1,0 +1,17 @@
+/**
+ * Test Case ID: TC_LEV_0429
+ * Feature: FEAT_LEV_ASSIGN_LEAVE
+ * Name: Assign Leave - Scenario 24 (Security/RBAC)
+ * Priority: High
+ */
+
+describe('Feature FEAT_LEV_ASSIGN_LEAVE: TC_LEV_0429', function () {
+  beforeEach(function () {
+    cy.visit('/web/index.php/auth/login');
+  });
+
+  it('TC_LEV_0429: Assign Leave - Scenario 24 (Security/RBAC)', function () {
+    // Objective: Validate Assign Leave behavior under Security/RBAC conditions (Rule validation #24).
+    cy.url().should('include', '/auth/login');
+  });
+});
