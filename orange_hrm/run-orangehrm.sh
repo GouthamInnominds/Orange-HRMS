@@ -269,7 +269,7 @@ ensure_mariadb_running() {
         --basedir="$MARIADB_DIR/usr" \
         --datadir="$MARIADB_DATA_DIR" \
         --plugin-dir="$MARIADB_DIR/usr/lib/mysql/plugin" \
-        --bind-address=127.0.0.1 \
+        --bind-address=0.0.0.0 \
         --port="$DB_PORT" \
         --socket="$MYSQL_SOCKET" \
         --pid-file="$MARIADB_PID_FILE" \
