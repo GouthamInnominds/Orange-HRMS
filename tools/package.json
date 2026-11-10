@@ -1,0 +1,15 @@
+{
+  "name": "orangehrm-qkg-tools",
+  "version": "2.0.0",
+  "description": "Quality Knowledge Graph Parser & Ingestion Engine for OrangeHRM",
+  "main": "qkg_engine/index.js",
+  "scripts": {
+    "ingest:pim": "node qkg_engine/run_pim_slice.js",
+    "tia:simulate": "node qkg_engine/run_tia_simulation.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "neo4j-driver": "^5.27.0",
+    "php-parser": "^3.1.5"
+  }
+}
