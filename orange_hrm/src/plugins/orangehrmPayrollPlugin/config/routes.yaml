@@ -1,0 +1,62 @@
+orangehrm_payroll_pay_periods:
+  path: /api/v2/payroll/pay-periods
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET, POST]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayPeriodAPI
+
+orangehrm_payroll_pay_period_detail:
+  path: /api/v2/payroll/pay-periods/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET, PUT, DELETE]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayPeriodAPI
+
+orangehrm_payroll_calculate:
+  path: /api/v2/payroll/pay-periods/{id}/calculate
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [POST]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+
+orangehrm_payroll_records:
+  path: /api/v2/payroll/pay-periods/{id}/records
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+
+orangehrm_payroll_record_adjust:
+  path: /api/v2/payroll/records/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET, PUT]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+
+orangehrm_payroll_approve:
+  path: /api/v2/payroll/pay-periods/{id}/approve
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [PUT]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+
+orangehrm_payroll_lock:
+  path: /api/v2/payroll/pay-periods/{id}/lock
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [PUT]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+
+orangehrm_payroll_my_slips:
+  path: /api/v2/payroll/my-salary-slips
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\SalarySlipAPI
+
+orangehrm_payroll_slip_download:
+  path: /api/v2/payroll/salary-slips/{id}/download
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\SalarySlipAPI
