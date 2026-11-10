@@ -17,3 +17,4 @@ foreach ($tables as $t) {
 }
 
 echo "Cleaned reset password table.\n";
+
