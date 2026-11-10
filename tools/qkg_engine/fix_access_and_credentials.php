@@ -39,3 +39,4 @@ $stmt2 = $pdo->query('SELECT Host, User FROM mysql.user');
 while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
     echo "Host: " . $row['Host'] . " | User: " . $row['User'] . "\n";
 }
+
