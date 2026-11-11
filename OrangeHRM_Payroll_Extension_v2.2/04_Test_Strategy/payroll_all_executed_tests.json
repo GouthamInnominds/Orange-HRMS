@@ -1,0 +1,2193 @@
+[
+  {
+    "id": "TC_PAY_UNIT_001",
+    "testcase_id": "TC_PAY_UNIT_001",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "MoneyTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "FinancialPrecision",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "Precision"
+    ],
+    "priority": "P1",
+    "name": "MoneyTest::testArithmeticAndRoundingModes",
+    "objective": "Verify fixed-point INR arithmetic (add, subtract, multiply, divide) and HALF_UP rounding across paise boundaries.",
+    "requirement_ids": [
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_009",
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "N/A (Internal Utility)",
+      "handler": "OrangeHRM\\Payroll\\Util\\Money::ofMinor"
+    },
+    "preconditions": [
+      "Fixed-point currency code INR"
+    ],
+    "test_steps": [
+      "Construct Money instances in INR paise and string decimals",
+      "Execute addition, subtraction, scalar multiplication, and percentage allocation",
+      "Assert exact 2-decimal INR formatting and HALF_UP tie-breaking"
+    ],
+    "expected": "Zero IEEE-754 float drift; deterministic INR arithmetic",
+    "expected_results": [
+      "Zero IEEE-754 float drift; deterministic INR arithmetic"
+    ],
+    "actual_result": "PASSED (part of 18 tests, 108 assertions)",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 85
+  },
+  {
+    "id": "TC_PAY_UNIT_002",
+    "testcase_id": "TC_PAY_UNIT_002",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "MoneyTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "Boundary",
+      "Statutory"
+    ],
+    "quality_attributes": [
+      "Compliance",
+      "Precision"
+    ],
+    "priority": "P1",
+    "name": "MoneyTest::testEsicCeilRupeeRounding",
+    "objective": "Verify ESIC employee/employer contribution ceil-to-next-whole-rupee statutory rounding.",
+    "requirement_ids": [
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_010"
+    ],
+    "target_interface": {
+      "endpoint": "N/A (Internal Utility)",
+      "handler": "OrangeHRM\\Payroll\\Util\\Money::ceilRupee"
+    },
+    "preconditions": [
+      "India ESIC statutory rounding rule"
+    ],
+    "test_steps": [
+      "Compute fractional ESIC rupee values above exact whole rupee boundaries",
+      "Invoke ceilRupee()",
+      "Assert fractional paise > 0 round up to next whole INR"
+    ],
+    "expected": "Fractional ESIC paise round up to next whole INR",
+    "expected_results": [
+      "Fractional ESIC paise round up to next whole INR"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 85
+  },
+  {
+    "id": "TC_PAY_UNIT_003",
+    "testcase_id": "TC_PAY_UNIT_003",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "MoneyTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "Statutory",
+      "Boundary"
+    ],
+    "quality_attributes": [
+      "Compliance",
+      "Precision"
+    ],
+    "priority": "P1",
+    "name": "MoneyTest::testSection288BRoundingToNearestTen",
+    "objective": "Verify Income Tax Act Sec 288B rounding of annual tax payable to the nearest INR 10.",
+    "requirement_ids": [
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "N/A (Internal Utility)",
+      "handler": "OrangeHRM\\Payroll\\Util\\Money::roundNearestTenRupees"
+    },
+    "preconditions": [
+      "Annual tax amounts around Rs. 5 boundary"
+    ],
+    "test_steps": [
+      "Pass amounts ending in <5 and >=5 INR to Sec 288B rounding helper",
+      "Assert <5 floors to lower multiple of 10 and >=5 rounds up to next multiple of 10"
+    ],
+    "expected": "Annual tax rounded strictly to nearest Rs. 10",
+    "expected_results": [
+      "Annual tax rounded strictly to nearest Rs. 10"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 85
+  },
+  {
+    "id": "TC_PAY_UNIT_004",
+    "testcase_id": "TC_PAY_UNIT_004",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "MoneyTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "Resilience"
+    ],
+    "quality_attributes": [
+      "Portability",
+      "Precision"
+    ],
+    "priority": "P2",
+    "name": "MoneyTest::testBigStringMultiplicationFallbackWithoutBcmath",
+    "objective": "Verify pure-PHP big-integer string multiplication fallback handles large INR totals without bcmath.",
+    "requirement_ids": [
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "N/A (Internal Utility)",
+      "handler": "OrangeHRM\\Payroll\\Util\\Money"
+    },
+    "preconditions": [
+      "Multi-crore INR paise arithmetic"
+    ],
+    "test_steps": [
+      "Execute large string multiplication path",
+      "Assert zero integer overflow on 64-bit bounds"
+    ],
+    "expected": "Exact decimal multiplication without bcmath extension requirement",
+    "expected_results": [
+      "Exact decimal multiplication without bcmath extension requirement"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 85
+  },
+  {
+    "id": "TC_PAY_UNIT_005",
+    "testcase_id": "TC_PAY_UNIT_005",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "MoneyTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "Negative"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "DataIntegrity"
+    ],
+    "priority": "P1",
+    "name": "MoneyTest::testCurrencyMismatchThrowsException",
+    "objective": "Verify PayrollException is thrown when mixing INR with non-INR currency values.",
+    "requirement_ids": [
+      "FR_PAY_004"
+    ],
+    "story_ids": [
+      "US_PAY_002",
+      "US_PAY_004"
+    ],
+    "rule_ids": [
+      "BR_PAY_001"
+    ],
+    "target_interface": {
+      "endpoint": "N/A (Internal Utility)",
+      "handler": "OrangeHRM\\Payroll\\Util\\Money::assertSameCurrency"
+    },
+    "preconditions": [
+      "Money(INR) and Money(USD)"
+    ],
+    "test_steps": [
+      "Attempt Money::add() between INR and USD instances"
+    ],
+    "expected": "PayrollException raised on currency mismatch",
+    "expected_results": [
+      "PayrollException raised on currency mismatch"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 85
+  },
+  {
+    "id": "TC_PAY_UNIT_006",
+    "testcase_id": "TC_PAY_UNIT_006",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "IndianStatutoryCalculatorTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "Statutory",
+      "Boundary"
+    ],
+    "quality_attributes": [
+      "Compliance",
+      "Accuracy"
+    ],
+    "priority": "P1",
+    "name": "IndianStatutoryCalculatorTest::testEpfCapToggleSplitsEpsAndDiffCorrectly",
+    "objective": "Verify 12% EPF employee deduction, optional Rs. 15,000 wage cap (Rs. 1,800), and employer 8.33% EPS (capped Rs. 1,250) + 3.67% EPF diff.",
+    "requirement_ids": [
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_009"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\IndianStatutoryCalculator::calculate"
+    },
+    "preconditions": [
+      "Configured EPF rules with cap=true and cap=false"
+    ],
+    "test_steps": [
+      "Compute statutory deductions with Basic > 15,000 INR with cap enabled vs disabled",
+      "Assert capped EPF = 1,800 INR, EPS = 1,250 INR, EPF diff = 550 INR",
+      "Assert uncapped EPF scales at 12% while EPS caps at 1,250 INR"
+    ],
+    "expected": "Exact EPF/EPS/EPF-diff split under both capped and uncapped modes",
+    "expected_results": [
+      "Exact EPF/EPS/EPF-diff split under both capped and uncapped modes"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_UNIT_007",
+    "testcase_id": "TC_PAY_UNIT_007",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "IndianStatutoryCalculatorTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "Statutory",
+      "Boundary"
+    ],
+    "quality_attributes": [
+      "Compliance",
+      "Accuracy"
+    ],
+    "priority": "P1",
+    "name": "IndianStatutoryCalculatorTest::testEsicCeilingBoundaryAndClaimExclusion",
+    "objective": "Verify ESIC 0.75%/3.25% applies <= Rs. 21,000 statutory gross excluding reimbursed expense claims.",
+    "requirement_ids": [
+      "FR_PAY_007",
+      "FR_PAY_008"
+    ],
+    "story_ids": [
+      "US_PAY_007",
+      "US_PAY_008"
+    ],
+    "rule_ids": [
+      "BR_PAY_008",
+      "BR_PAY_010"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\IndianStatutoryCalculator::calculate"
+    },
+    "preconditions": [
+      "Employee gross = 20,000 INR + 3,500 INR approved claim"
+    ],
+    "test_steps": [
+      "Compute ESIC with 20,000 INR wage gross + 3,500 INR approved claim reimbursement",
+      "Compute ESIC when statutory wage gross is 21,001 INR",
+      "Assert claim reimbursement does not disqualify ESIC <= 21,000 INR; wage > 21,000 INR gives 0 ESIC"
+    ],
+    "expected": "ESIC evaluated strictly on statutory wage gross excluding claim reimbursements",
+    "expected_results": [
+      "ESIC evaluated strictly on statutory wage gross excluding claim reimbursements"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_UNIT_008",
+    "testcase_id": "TC_PAY_UNIT_008",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "IndianStatutoryCalculatorTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "Statutory",
+      "Boundary"
+    ],
+    "quality_attributes": [
+      "Compliance",
+      "Accuracy"
+    ],
+    "priority": "P1",
+    "name": "IndianStatutoryCalculatorTest::testMaharashtraFebruaryPtSlabOverride",
+    "objective": "Verify Maharashtra Professional Tax Rs. 300 statutory February override vs regular Rs. 200 month.",
+    "requirement_ids": [
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_011"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\IndianStatutoryCalculator::calculate"
+    },
+    "preconditions": [
+      "PT state = MH, payroll months 11 and 2"
+    ],
+    "test_steps": [
+      "Calculate MH PT for regular month (e.g., Nov = Rs. 200)",
+      "Calculate MH PT for February (month = 2 -> february_employee_amount = Rs. 300)"
+    ],
+    "expected": "MH PT = Rs. 200 in regular months and Rs. 300 in February",
+    "expected_results": [
+      "MH PT = Rs. 200 in regular months and Rs. 300 in February"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_UNIT_009",
+    "testcase_id": "TC_PAY_UNIT_009",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "IndianStatutoryCalculatorTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "Statutory",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Compliance",
+      "Accuracy"
+    ],
+    "priority": "P1",
+    "name": "IndianStatutoryCalculatorTest::testFy2026TdsNewVsOldRegimeRebateCessAndLwpProRata",
+    "objective": "Verify FY 2026-27 New Regime (115BAC Rs. 75k std ded, Sec 87A 12L rebate) vs Old Regime (Rs. 50k std ded, Chapter VI-A 80C/80D/HRA) and 4% cess.",
+    "requirement_ids": [
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\IndianStatutoryCalculator::calculate"
+    },
+    "preconditions": [
+      "FY 2026-27 NEW_115BAC and OLD tax brackets loaded"
+    ],
+    "test_steps": [
+      "Evaluate NEW_115BAC at <= 12L taxable income (Sec 87A rebate -> 0 TDS)",
+      "Evaluate NEW_115BAC > 12L taxable income (slabs + Sec 288B + 4% cess)",
+      "Evaluate OLD regime with 80C=1,50,000, 80D, HRA and LWP pro-ration"
+    ],
+    "expected": "Accurate TDS, Sec 87A cliff, Chapter VI-A deductions, and 4% cess",
+    "expected_results": [
+      "Accurate TDS, Sec 87A cliff, Chapter VI-A deductions, and 4% cess"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_UNIT_010",
+    "testcase_id": "TC_PAY_UNIT_010",
+    "feature_id": "FEAT_PAY_CROSS",
+    "suite": "OvertimePolicyServiceTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "Policy",
+      "Boundary"
+    ],
+    "quality_attributes": [
+      "Compliance",
+      "Accuracy"
+    ],
+    "priority": "P1",
+    "name": "OvertimePolicyServiceTest::testOvertimeEligibleAndCeilingBlocking",
+    "objective": "Verify 2.0x Factories Act overtime applies below/equal overtime_eligible_max_basic (Rs. 50,000) and blocks above ceiling.",
+    "requirement_ids": [
+      "FR_PAY_006"
+    ],
+    "story_ids": [
+      "US_PAY_006"
+    ],
+    "rule_ids": [
+      "BR_PAY_007"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\OvertimePolicyService::calculateOvertime"
+    },
+    "preconditions": [
+      "overtimeMultiplier=2.0, overtimeEligibleMaxBasic=50000"
+    ],
+    "test_steps": [
+      "Evaluate employee with basic <= 50,000 INR and 8 OT hours",
+      "Evaluate employee with basic > 50,000 INR and 8 OT hours"
+    ],
+    "expected": "Eligible employee receives 2.0x OT pay; basic > 50,000 INR yields 0 OT pay",
+    "expected_results": [
+      "Eligible employee receives 2.0x OT pay; basic > 50,000 INR yields 0 OT pay"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 85
+  },
+  {
+    "id": "TC_PAY_UNIT_011",
+    "testcase_id": "TC_PAY_UNIT_011",
+    "feature_id": "FEAT_PAY_CROSS",
+    "suite": "CrossModuleAdaptersTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "IntegrationAdapter"
+    ],
+    "quality_attributes": [
+      "Interoperability",
+      "Accuracy"
+    ],
+    "priority": "P1",
+    "name": "CrossModuleAdaptersTest::testLeaveLwpDivisorModes",
+    "objective": "Verify LeavePayrollAdapter consumes Scheduled (2) / Taken (3) leaves and maps LWP divisor modes.",
+    "requirement_ids": [
+      "FR_PAY_005"
+    ],
+    "story_ids": [
+      "US_PAY_005"
+    ],
+    "rule_ids": [
+      "BR_PAY_005"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\LeavePayrollAdapter::summarizePeriodLeave"
+    },
+    "preconditions": [
+      "Mocked Leave records and PayrollLeavePolicy table"
+    ],
+    "test_steps": [
+      "Pass mix of PAID, UNPAID_LWP, HALF_PAID leaves",
+      "Verify exact LWP days across divisor modes"
+    ],
+    "expected": "Paid leaves produce 0 LWP; LWP and half-paid deduct according to policy multiplier",
+    "expected_results": [
+      "Paid leaves produce 0 LWP; LWP and half-paid deduct according to policy multiplier"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_UNIT_012",
+    "testcase_id": "TC_PAY_UNIT_012",
+    "feature_id": "FEAT_PAY_CROSS",
+    "suite": "CrossModuleAdaptersTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "IntegrationAdapter"
+    ],
+    "quality_attributes": [
+      "Interoperability",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "CrossModuleAdaptersTest::testTimeAndAttendanceNeverDoubleCountsHours",
+    "objective": "Verify TimeAttendancePayrollAdapter uses single primary hours source and flags discrepancy warnings instead of summing.",
+    "requirement_ids": [
+      "FR_PAY_006"
+    ],
+    "story_ids": [
+      "US_PAY_006"
+    ],
+    "rule_ids": [
+      "BR_PAY_006"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\TimeAttendancePayrollAdapter::summarizeWorkedHours"
+    },
+    "preconditions": [
+      "Both Attendance punches and Timesheet items present"
+    ],
+    "test_steps": [
+      "Execute adapter under ATTENDANCE_ONLY and TIMESHEET_PRIMARY_ATTENDANCE_VALIDATION",
+      "Assert hours match primary source only and variance emits warning"
+    ],
+    "expected": "Zero double counting of Attendance + Timesheet worked hours",
+    "expected_results": [
+      "Zero double counting of Attendance + Timesheet worked hours"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 85
+  },
+  {
+    "id": "TC_PAY_UNIT_013",
+    "testcase_id": "TC_PAY_UNIT_013",
+    "feature_id": "FEAT_PAY_CROSS",
+    "suite": "CrossModuleAdaptersTest",
+    "layer": "Unit / Calculation Tests",
+    "module": "Payroll",
+    "test_level": "Unit",
+    "test_type": [
+      "Unit",
+      "IntegrationAdapter"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "CrossModuleAdaptersTest::testClaimReservationLockAndReleaseLifecycle",
+    "objective": "Verify ClaimSettlementAdapter reserves APPROVED INR claims with active lock and releases locks upon reversal.",
+    "requirement_ids": [
+      "FR_PAY_008"
+    ],
+    "story_ids": [
+      "US_PAY_008",
+      "US_PAY_011"
+    ],
+    "rule_ids": [
+      "BR_PAY_008"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\ClaimSettlementAdapter::reserveApprovedClaimsForEmployee"
+    },
+    "preconditions": [
+      "Mocked APPROVED INR claim request"
+    ],
+    "test_steps": [
+      "Reserve approved claim for Run #1",
+      "Release locks when Run #1 reverses",
+      "Confirm clean state transition"
+    ],
+    "expected": "Claim locked exclusively to one run and cleanly released on reversal",
+    "expected_results": [
+      "Claim locked exclusively to one run and cleanly released on reversal"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_INT_001",
+    "testcase_id": "TC_PAY_INT_001",
+    "feature_id": "FEAT_PAY_CROSS",
+    "suite": "PayrollWorkflowAndStatutoryIntegrationTest",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Integration",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Accuracy",
+      "Interoperability"
+    ],
+    "priority": "P1",
+    "name": "PayrollWorkflowAndStatutoryIntegrationTest::testLeaveLwpDivisorsCalendarWorkingAndFixed30",
+    "objective": "Verify end-to-end LWP pro-ration across CALENDAR_DAYS, WORKING_DAYS, and FIXED_30 divisor modes.",
+    "requirement_ids": [
+      "FR_PAY_005"
+    ],
+    "story_ids": [
+      "US_PAY_005"
+    ],
+    "rule_ids": [
+      "BR_PAY_005"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\PayrollCalculationService::calculateRun"
+    },
+    "preconditions": [
+      "30-day period, 21 working days, 1 LWP day"
+    ],
+    "test_steps": [
+      "Evaluate LWP deduction under CALENDAR_DAYS (1/30), WORKING_DAYS (1/21), and FIXED_30 (1/30)"
+    ],
+    "expected": "Distinct policy-driven LWP deductions match configured divisor mode",
+    "expected_results": [
+      "Distinct policy-driven LWP deductions match configured divisor mode"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_INT_002",
+    "testcase_id": "TC_PAY_INT_002",
+    "feature_id": "FEAT_PAY_CROSS",
+    "suite": "PayrollWorkflowAndStatutoryIntegrationTest",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Integration",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Reliability",
+      "Interoperability"
+    ],
+    "priority": "P1",
+    "name": "PayrollWorkflowAndStatutoryIntegrationTest::testTimeAttendanceNonDoubleCountingAndVarianceWarnings",
+    "objective": "Verify primary time source preference and non-blocking variance warning emission in workflow calculation.",
+    "requirement_ids": [
+      "FR_PAY_006"
+    ],
+    "story_ids": [
+      "US_PAY_006"
+    ],
+    "rule_ids": [
+      "BR_PAY_006"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\TimeAttendancePayrollAdapter"
+    },
+    "preconditions": [
+      "Attendance != Timesheet hours"
+    ],
+    "test_steps": [
+      "Assert warning payload includes mismatch alert without inflating worked hours"
+    ],
+    "expected": "Variance surfaced as warning; OT computed once from primary source",
+    "expected_results": [
+      "Variance surfaced as warning; OT computed once from primary source"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_INT_003",
+    "testcase_id": "TC_PAY_INT_003",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "PayrollWorkflowAndStatutoryIntegrationTest",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Integration",
+      "Statutory"
+    ],
+    "quality_attributes": [
+      "Compliance",
+      "Accuracy"
+    ],
+    "priority": "P1",
+    "name": "PayrollWorkflowAndStatutoryIntegrationTest::testSec87ARebateThresholdEpfCapAndYtdReconciliation",
+    "objective": "Verify Sec 87A Rs. 12L rebate cliff (taxable <= 12L -> 0 vs 12.10L > 0) and YTD TDS reconciliation.",
+    "requirement_ids": [
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_009",
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Service\\IndianStatutoryCalculator::calculate"
+    },
+    "preconditions": [
+      "FY 2026-27 New Regime brackets, YTD tax paid prior months"
+    ],
+    "test_steps": [
+      "Assert zero TDS at exact 12,00,000 INR taxable annual income",
+      "Assert non-zero TDS above cliff with YTD offset adjustment across remaining FY months"
+    ],
+    "expected": "Exact Sec 87A rebate cliff and smooth monthly YTD TDS reconciliation",
+    "expected_results": [
+      "Exact Sec 87A rebate cliff and smooth monthly YTD TDS reconciliation"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_INT_004",
+    "testcase_id": "TC_PAY_INT_004",
+    "feature_id": "FEAT_PAY_WF",
+    "suite": "PayrollWorkflowAndStatutoryIntegrationTest",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Workflow",
+      "Security"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Auditability"
+    ],
+    "priority": "P1",
+    "name": "PayrollWorkflowAndStatutoryIntegrationTest::testWorkflowSeparationOfDutiesAndLifecycleGuards",
+    "objective": "Verify PayrollWorkflowService enforces Maker-Checker SoD (blocks creator/submitter approval) and state transitions.",
+    "requirement_ids": [
+      "FR_PAY_009",
+      "FR_PAY_010"
+    ],
+    "story_ids": [
+      "US_PAY_009",
+      "US_PAY_010"
+    ],
+    "rule_ids": [
+      "BR_PAY_013",
+      "BR_PAY_014"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/approve",
+      "handler": "OrangeHRM\\Payroll\\Service\\PayrollWorkflowService::approveRun"
+    },
+    "preconditions": [
+      "Run created & submitted by Maker userId=1 with SoD enabled"
+    ],
+    "test_steps": [
+      "Attempt approval as userId=1 -> expect PayrollException (SoD)",
+      "Approve as distinct Checker userId=5 -> APPROVED",
+      "Reject without reason -> rejected; Lock -> LOCKED & slips PUBLISHED"
+    ],
+    "expected": "Self-approval blocked; Maker-Checker state transitions strictly guarded",
+    "expected_results": [
+      "Self-approval blocked; Maker-Checker state transitions strictly guarded"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "TC_PAY_INT_005",
+    "testcase_id": "TC_PAY_INT_005",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "suite": "PayrollWorkflowAndStatutoryIntegrationTest",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "Component/Integration",
+    "test_type": [
+      "Security",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Privacy",
+      "Security"
+    ],
+    "priority": "P1",
+    "name": "PayrollWorkflowAndStatutoryIntegrationTest::testHtmlPayslipMasksBankAccountAndFormatsInrSafely",
+    "objective": "Verify renderHtmlPayslip() outputs HTML-escaped INR symbols (&#8377;), masks bank accounts (XXXX5678), and formats LWP safely.",
+    "requirement_ids": [
+      "FR_PAY_003",
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_003",
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /payroll/slips/{id}/download",
+      "handler": "OrangeHRM\\Payroll\\Service\\PayrollCalculationService::renderHtmlPayslip"
+    },
+    "preconditions": [
+      "PayrollRecord with bank XXXX5678, net 104158.33, LWP 1.00"
+    ],
+    "test_steps": [
+      "Render HTML payslip for Aarav Sharma (EMP-IN-001)",
+      "Assert masked account XXXX5678, INR &#8377;104,158.33, PUBLISHED / FINAL, LWP Days: 1.00"
+    ],
+    "expected": "INR HTML payslip renders cleanly without exposing raw bank account numbers",
+    "expected_results": [
+      "INR HTML payslip renders cleanly without exposing raw bank account numbers"
+    ],
+    "actual_result": "PASSED",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "PHPUnit 9.6.16 (--testsuite Payroll)",
+    "durationMs": 86
+  },
+  {
+    "id": "E2E-AUTH-01",
+    "testcase_id": "E2E-AUTH-01",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Security",
+      "Authentication"
+    ],
+    "quality_attributes": [
+      "Security"
+    ],
+    "priority": "P1",
+    "name": "E2E-AUTH-01: Admin, PayrollApprover (fin.approver), and ESS (aarav.ess) login cleanly",
+    "objective": "Admin, PayrollApprover (fin.approver), and ESS (aarav.ess) login cleanly",
+    "requirement_ids": [
+      "FR_PAY_001",
+      "FR_PAY_010",
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_001",
+      "US_PAY_010",
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_013",
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "POST /auth/validate",
+      "handler": "OrangeHRM\\Authentication\\Controller\\ValidateController"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-AUTH-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: Admin->http://127.0.0.1:5121/web/index.php/dashboard/index, Approver->http://127.0.0.1:5121/web/index.php/dashboard/index, ESS->http://127.0.0.1:5121/web/index.php/dashboard/index"
+    ],
+    "expected": "Admin->http://127.0.0.1:5121/web/index.php/dashboard/index, Approver->http://127.0.0.1:5121/web/index.php/dashboard/index, ESS->http://127.0.0.1:5121/web/index.php/dashboard/index",
+    "expected_results": [
+      "Admin->http://127.0.0.1:5121/web/index.php/dashboard/index, Approver->http://127.0.0.1:5121/web/index.php/dashboard/index, ESS->http://127.0.0.1:5121/web/index.php/dashboard/index"
+    ],
+    "actual_result": "Admin->http://127.0.0.1:5121/web/index.php/dashboard/index, Approver->http://127.0.0.1:5121/web/index.php/dashboard/index, ESS->http://127.0.0.1:5121/web/index.php/dashboard/index",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 33131
+  },
+  {
+    "id": "E2E-CFG-01",
+    "testcase_id": "E2E-CFG-01",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "API",
+      "Contract",
+      "Configuration"
+    ],
+    "quality_attributes": [
+      "Interoperability"
+    ],
+    "priority": "P1",
+    "name": "E2E-CFG-01: India Config, FY 2026-27 Slabs, Statutory Rules & Leave Policies",
+    "objective": "India Config, FY 2026-27 Slabs, Statutory Rules & Leave Policies",
+    "requirement_ids": [
+      "FR_PAY_001"
+    ],
+    "story_ids": [
+      "US_PAY_001"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_005",
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/{config,tax-brackets,statutory-rules,leave-policies}",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollConfigAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-CFG-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: jurisdiction=IN, currency=INR, makerChecker=True, slabs=7, rules=12, leavePolicies=3"
+    ],
+    "expected": "jurisdiction=IN, currency=INR, makerChecker=True, slabs=7, rules=12, leavePolicies=3",
+    "expected_results": [
+      "jurisdiction=IN, currency=INR, makerChecker=True, slabs=7, rules=12, leavePolicies=3"
+    ],
+    "actual_result": "jurisdiction=IN, currency=INR, makerChecker=True, slabs=7, rules=12, leavePolicies=3",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 30597
+  },
+  {
+    "id": "E2E-PER-01",
+    "testcase_id": "E2E-PER-01",
+    "feature_id": "FEAT_PAY_PERIOD",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Functional",
+      "API"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "priority": "P1",
+    "name": "E2E-PER-01: Create India Monthly INR Pay Period (November 2026)",
+    "objective": "Create India Monthly INR Pay Period (November 2026)",
+    "requirement_ids": [
+      "FR_PAY_002"
+    ],
+    "story_ids": [
+      "US_PAY_002"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_002"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/pay-periods",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayPeriodAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-PER-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: POST /pay-periods status=200, id=1, fy=2026-27"
+    ],
+    "expected": "POST /pay-periods status=200, id=1, fy=2026-27",
+    "expected_results": [
+      "POST /pay-periods status=200, id=1, fy=2026-27"
+    ],
+    "actual_result": "POST /pay-periods status=200, id=1, fy=2026-27",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 14301
+  },
+  {
+    "id": "E2E-PER-02",
+    "testcase_id": "E2E-PER-02",
+    "feature_id": "FEAT_PAY_PERIOD",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Negative",
+      "Boundary",
+      "API"
+    ],
+    "quality_attributes": [
+      "DataIntegrity"
+    ],
+    "priority": "P1",
+    "name": "E2E-PER-02: Overlap Guard rejects overlapping date range",
+    "objective": "Overlap Guard rejects overlapping date range",
+    "requirement_ids": [
+      "FR_PAY_002"
+    ],
+    "story_ids": [
+      "US_PAY_002"
+    ],
+    "rule_ids": [
+      "BR_PAY_002"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/pay-periods",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayPeriodAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-PER-02 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: Overlapping date range rejected with HTTP 400: {'error': {'status': '400', 'message': 'Pay period [2026-11-15 to 2026-12-10] overlaps with an existing pay period.'}}"
+    ],
+    "expected": "Overlapping date range rejected with HTTP 400: {'error': {'status': '400', 'message': 'Pay period [2026-11-15 to 2026-12-10] overlaps with an existing pay period.'}}",
+    "expected_results": [
+      "Overlapping date range rejected with HTTP 400: {'error': {'status': '400', 'message': 'Pay period [2026-11-15 to 2026-12-10] overlaps with an existing pay period.'}}"
+    ],
+    "actual_result": "Overlapping date range rejected with HTTP 400: {'error': {'status': '400', 'message': 'Pay period [2026-11-15 to 2026-12-10] overlaps with an existing pay period.'}}",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 5897
+  },
+  {
+    "id": "E2E-RUN-01",
+    "testcase_id": "E2E-RUN-01",
+    "feature_id": "FEAT_PAY_SNAPSHOT",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Functional",
+      "Idempotency"
+    ],
+    "quality_attributes": [
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "E2E-RUN-01: Create Draft Run with Idempotency Key deduplication",
+    "objective": "Create Draft Run with Idempotency Key deduplication",
+    "requirement_ids": [
+      "FR_PAY_004"
+    ],
+    "story_ids": [
+      "US_PAY_004"
+    ],
+    "rule_ids": [
+      "BR_PAY_003"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollRunAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-RUN-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: runId=1, idempotentSameId=True, status=DRAFT"
+    ],
+    "expected": "runId=1, idempotentSameId=True, status=DRAFT",
+    "expected_results": [
+      "runId=1, idempotentSameId=True, status=DRAFT"
+    ],
+    "actual_result": "runId=1, idempotentSameId=True, status=DRAFT",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 11405
+  },
+  {
+    "id": "E2E-CALC-01",
+    "testcase_id": "E2E-CALC-01",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "Calculation"
+    ],
+    "quality_attributes": [
+      "Accuracy",
+      "Compliance"
+    ],
+    "priority": "P1",
+    "name": "E2E-CALC-01: Calculate November 2026 Batch across 6 employees",
+    "objective": "Calculate November 2026 Batch across 6 employees",
+    "requirement_ids": [
+      "FR_PAY_004",
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_004",
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_004",
+      "BR_PAY_009",
+      "BR_PAY_010",
+      "BR_PAY_011",
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollRunCalculateAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-CALC-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: status=CALCULATED, eligible=4, exceptions=4, gross=312865.47, net=260845.47"
+    ],
+    "expected": "status=CALCULATED, eligible=4, exceptions=4, gross=312865.47, net=260845.47",
+    "expected_results": [
+      "status=CALCULATED, eligible=4, exceptions=4, gross=312865.47, net=260845.47"
+    ],
+    "actual_result": "status=CALCULATED, eligible=4, exceptions=4, gross=312865.47, net=260845.47",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 9258
+  },
+  {
+    "id": "E2E-CALC-02",
+    "testcase_id": "E2E-CALC-02",
+    "feature_id": "FEAT_PAY_CROSS",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "CrossModule",
+      "Security"
+    ],
+    "quality_attributes": [
+      "Accuracy",
+      "Privacy"
+    ],
+    "priority": "P1",
+    "name": "E2E-CALC-02: Verify PIM/Leave/Time/Claim/EPF/ESIC/PT/TDS/Masking/Skips",
+    "objective": "Verify PIM/Leave/Time/Claim/EPF/ESIC/PT/TDS/Masking/Skips",
+    "requirement_ids": [
+      "FR_PAY_003",
+      "FR_PAY_004",
+      "FR_PAY_005",
+      "FR_PAY_006",
+      "FR_PAY_007",
+      "FR_PAY_008"
+    ],
+    "story_ids": [
+      "US_PAY_003",
+      "US_PAY_004",
+      "US_PAY_005",
+      "US_PAY_006",
+      "US_PAY_007",
+      "US_PAY_008"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_004",
+      "BR_PAY_005",
+      "BR_PAY_006",
+      "BR_PAY_007",
+      "BR_PAY_008",
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/runs/{runId}/records",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollRecordAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-CALC-02 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: Aarav(lwp=1,claim=3450,tax=0,net=104158.33), Meera(regime=OLD,tax=48048), Rajesh(otHrs=8,otAmt=857.14,esic=142), Ananya(lwp=0.5,warns=['MISSING_BANK_ACCOUNT_DETAILS']), Skipped=['0001', 'EMP-IN-005', 'EMP-IN-006'], MaskedBankOnly=True"
+    ],
+    "expected": "Aarav(lwp=1,claim=3450,tax=0,net=104158.33), Meera(regime=OLD,tax=48048), Rajesh(otHrs=8,otAmt=857.14,esic=142), Ananya(lwp=0.5,warns=['MISSING_BANK_ACCOUNT_DETAILS']), Skipped=['0001', 'EMP-IN-005', 'EMP-IN-006'], MaskedBankOnly=True",
+    "expected_results": [
+      "Aarav(lwp=1,claim=3450,tax=0,net=104158.33), Meera(regime=OLD,tax=48048), Rajesh(otHrs=8,otAmt=857.14,esic=142), Ananya(lwp=0.5,warns=['MISSING_BANK_ACCOUNT_DETAILS']), Skipped=['0001', 'EMP-IN-005', 'EMP-IN-006'], MaskedBankOnly=True"
+    ],
+    "actual_result": "Aarav(lwp=1,claim=3450,tax=0,net=104158.33), Meera(regime=OLD,tax=48048), Rajesh(otHrs=8,otAmt=857.14,esic=142), Ananya(lwp=0.5,warns=['MISSING_BANK_ACCOUNT_DETAILS']), Skipped=['0001', 'EMP-IN-005', 'EMP-IN-006'], MaskedBankOnly=True",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 9581
+  },
+  {
+    "id": "E2E-ADJ-01",
+    "testcase_id": "E2E-ADJ-01",
+    "feature_id": "FEAT_PAY_ADJUSTMENT",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Functional",
+      "Auditability"
+    ],
+    "quality_attributes": [
+      "Auditability",
+      "Accuracy"
+    ],
+    "priority": "P1",
+    "name": "E2E-ADJ-01: Apply audited INR manual adjustment to Rajesh Kumar",
+    "objective": "Apply audited INR manual adjustment to Rajesh Kumar",
+    "requirement_ids": [
+      "FR_PAY_009"
+    ],
+    "story_ids": [
+      "US_PAY_009"
+    ],
+    "rule_ids": [
+      "BR_PAY_014"
+    ],
+    "target_interface": {
+      "endpoint": "PUT /api/v2/payroll/records/{id}/adjustment",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollAdjustmentAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-ADJ-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: recordId=3, adj=1000, net=18435.14"
+    ],
+    "expected": "recordId=3, adj=1000, net=18435.14",
+    "expected_results": [
+      "recordId=3, adj=1000, net=18435.14"
+    ],
+    "actual_result": "recordId=3, adj=1000, net=18435.14",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 4533
+  },
+  {
+    "id": "E2E-SEC-01",
+    "testcase_id": "E2E-SEC-01",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Security",
+      "RBAC",
+      "IDOR"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Privacy"
+    ],
+    "priority": "P1",
+    "name": "E2E-SEC-01: ESS blocked (403) from Payroll calculate, cross-employee payslips & config",
+    "objective": "ESS blocked (403) from Payroll calculate, cross-employee payslips & config",
+    "requirement_ids": [
+      "FR_PAY_001",
+      "FR_PAY_003",
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_001",
+      "US_PAY_003",
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/employees/{empNumber}/payslips",
+      "handler": "OrangeHRM\\Payroll\\Api\\EmployeePayslipsAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-SEC-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: ESS calculate=403, otherEmpPayslips(IDOR)=403, modifyConfig=403"
+    ],
+    "expected": "ESS calculate=403, otherEmpPayslips(IDOR)=403, modifyConfig=403",
+    "expected_results": [
+      "ESS calculate=403, otherEmpPayslips(IDOR)=403, modifyConfig=403"
+    ],
+    "actual_result": "ESS calculate=403, otherEmpPayslips(IDOR)=403, modifyConfig=403",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 18593
+  },
+  {
+    "id": "E2E-WF-01",
+    "testcase_id": "E2E-WF-01",
+    "feature_id": "FEAT_PAY_WF",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "Workflow",
+      "Security"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "E2E-WF-01: Submit -> Self-Approve 403 -> Reject -> Resubmit -> Approve -> Lock",
+    "objective": "Submit -> Self-Approve 403 -> Reject -> Resubmit -> Approve -> Lock",
+    "requirement_ids": [
+      "FR_PAY_009",
+      "FR_PAY_010"
+    ],
+    "story_ids": [
+      "US_PAY_009",
+      "US_PAY_010"
+    ],
+    "rule_ids": [
+      "BR_PAY_013",
+      "BR_PAY_014"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/{submit,approve,reject,lock}",
+      "handler": "OrangeHRM\\Payroll\\Service\\PayrollWorkflowService"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-WF-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: submit=200, adminSelfApprove=403 (SoD!), lockedAdj=400, reject=200, resubmit=200, approve=200, lock=200"
+    ],
+    "expected": "submit=200, adminSelfApprove=403 (SoD!), lockedAdj=400, reject=200, resubmit=200, approve=200, lock=200",
+    "expected_results": [
+      "submit=200, adminSelfApprove=403 (SoD!), lockedAdj=400, reject=200, resubmit=200, approve=200, lock=200"
+    ],
+    "actual_result": "submit=200, adminSelfApprove=403 (SoD!), lockedAdj=400, reject=200, resubmit=200, approve=200, lock=200",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 44680
+  },
+  {
+    "id": "E2E-ESS-01",
+    "testcase_id": "E2E-ESS-01",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "Security",
+      "IDOR"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Privacy"
+    ],
+    "priority": "P1",
+    "name": "E2E-ESS-01: ESS fetches/downloads own PUBLISHED slip and gets 403 on peer slip",
+    "objective": "ESS fetches/downloads own PUBLISHED slip and gets 403 on peer slip",
+    "requirement_ids": [
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/my-salary-slips & /payroll/slips/{id}/download",
+      "handler": "OrangeHRM\\Payroll\\Api\\SalarySlipDocumentAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-ESS-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: aaravSlipId=1, downloadHTTP=200, meeraSlipId=2, idorJson=403, idorDownload=403"
+    ],
+    "expected": "aaravSlipId=1, downloadHTTP=200, meeraSlipId=2, idorJson=403, idorDownload=403",
+    "expected_results": [
+      "aaravSlipId=1, downloadHTTP=200, meeraSlipId=2, idorJson=403, idorDownload=403"
+    ],
+    "actual_result": "aaravSlipId=1, downloadHTTP=200, meeraSlipId=2, idorJson=403, idorDownload=403",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 35347
+  },
+  {
+    "id": "E2E-PAY-01",
+    "testcase_id": "E2E-PAY-01",
+    "feature_id": "FEAT_PAY_PAYMENT",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "DataIntegrity",
+      "Negative"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "FunctionalCorrectness"
+    ],
+    "priority": "P1",
+    "name": "E2E-PAY-01: NEFT Missing-Bank Guard -> Export CSV -> UTR Reconcile -> Claim PAID",
+    "objective": "NEFT Missing-Bank Guard -> Export CSV -> UTR Reconcile -> Claim PAID",
+    "requirement_ids": [
+      "FR_PAY_003",
+      "FR_PAY_008",
+      "FR_PAY_011"
+    ],
+    "story_ids": [
+      "US_PAY_003",
+      "US_PAY_008",
+      "US_PAY_011"
+    ],
+    "rule_ids": [
+      "BR_PAY_008",
+      "BR_PAY_015"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/payment-batches/{batchId}/{export,reconcile}",
+      "handler": "OrangeHRM\\Payroll\\Service\\PayrollPaymentService"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-PAY-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: batchId=1, missingBankBlockedHTTP=400, ananyaProfileUpd=200, exportCSV=200 (rows=5), reconcile=200 (UTR=HDFCN20261201001), claimDB={'c_status': 'PAID', 'settlement_status': 'PAID_RECONCILED', 'reconciled_at': '2026-11-11 11:55:50'}"
+    ],
+    "expected": "batchId=1, missingBankBlockedHTTP=400, ananyaProfileUpd=200, exportCSV=200 (rows=5), reconcile=200 (UTR=HDFCN20261201001), claimDB={'c_status': 'PAID', 'settlement_status': 'PAID_RECONCILED', 'reconciled_at': '2026-11-11 11:55:50'}",
+    "expected_results": [
+      "batchId=1, missingBankBlockedHTTP=400, ananyaProfileUpd=200, exportCSV=200 (rows=5), reconcile=200 (UTR=HDFCN20261201001), claimDB={'c_status': 'PAID', 'settlement_status': 'PAID_RECONCILED', 'reconciled_at': '2026-11-11 11:55:50'}"
+    ],
+    "actual_result": "batchId=1, missingBankBlockedHTTP=400, ananyaProfileUpd=200, exportCSV=200 (rows=5), reconcile=200 (UTR=HDFCN20261201001), claimDB={'c_status': 'PAID', 'settlement_status': 'PAID_RECONCILED', 'reconciled_at': '2026-11-11 11:55:50'}",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 29331
+  },
+  {
+    "id": "E2E-AUD-01",
+    "testcase_id": "E2E-AUD-01",
+    "feature_id": "FEAT_PAY_ADJUSTMENT",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Database & Referential Integrity",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "DataIntegrity",
+      "Auditability"
+    ],
+    "quality_attributes": [
+      "Auditability",
+      "DataIntegrity"
+    ],
+    "priority": "P1",
+    "name": "E2E-AUD-01: Verify immutable audit trail records full lifecycle",
+    "objective": "Verify immutable audit trail records full lifecycle",
+    "requirement_ids": [
+      "FR_PAY_009",
+      "FR_PAY_010",
+      "FR_PAY_011"
+    ],
+    "story_ids": [
+      "US_PAY_009",
+      "US_PAY_010",
+      "US_PAY_011"
+    ],
+    "rule_ids": [
+      "BR_PAY_013",
+      "BR_PAY_014",
+      "BR_PAY_015"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/audit-events",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollAuditAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-AUD-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: count=14, missingExpected=[]"
+    ],
+    "expected": "count=14, missingExpected=[]",
+    "expected_results": [
+      "count=14, missingExpected=[]"
+    ],
+    "actual_result": "count=14, missingExpected=[]",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 3489
+  },
+  {
+    "id": "UI-PAY-01",
+    "testcase_id": "UI-PAY-01",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-01: Dashboard & Sidebar OXD Payroll Navigation Alignment",
+    "objective": "Dashboard & Sidebar OXD Payroll Navigation Alignment",
+    "requirement_ids": [
+      "FR_PAY_001"
+    ],
+    "story_ids": [
+      "US_PAY_001"
+    ],
+    "rule_ids": [
+      "BR_PAY_001"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/dashboard/index",
+      "handler": "SidePanel.vue / payroll-icon.scss"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/dashboard/index via Chromium Playwright",
+      "Assert visual & DOM condition: Payroll at idx 11 (between Claim=10 and Buzz=12), svg=22px"
+    ],
+    "expected": "Payroll at idx 11 (between Claim=10 and Buzz=12), svg=22px",
+    "expected_results": [
+      "Payroll at idx 11 (between Claim=10 and Buzz=12), svg=22px"
+    ],
+    "actual_result": "Payroll at idx 11 (between Claim=10 and Buzz=12), svg=22px",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 51429
+  },
+  {
+    "id": "UI-PAY-02",
+    "testcase_id": "UI-PAY-02",
+    "feature_id": "FEAT_PAY_PERIOD",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-02: Pay Periods OXD Table & INR Calendar Verification",
+    "objective": "Pay Periods OXD Table & INR Calendar Verification",
+    "requirement_ids": [
+      "FR_PAY_002"
+    ],
+    "story_ids": [
+      "US_PAY_002"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_002"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayPeriods",
+      "handler": "PayPeriods.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayPeriods via Chromium Playwright",
+      "Assert visual & DOM condition: November 2026 Pay Period and India FY 2026-27 visible"
+    ],
+    "expected": "November 2026 Pay Period and India FY 2026-27 visible",
+    "expected_results": [
+      "November 2026 Pay Period and India FY 2026-27 visible"
+    ],
+    "actual_result": "November 2026 Pay Period and India FY 2026-27 visible",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 15875
+  },
+  {
+    "id": "UI-PAY-03",
+    "testcase_id": "UI-PAY-03",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-03: Payroll Processing Metrics, Records, Exceptions & Approval History Tabs",
+    "objective": "Payroll Processing Metrics, Records, Exceptions & Approval History Tabs",
+    "requirement_ids": [
+      "FR_PAY_004",
+      "FR_PAY_007",
+      "FR_PAY_009",
+      "FR_PAY_010"
+    ],
+    "story_ids": [
+      "US_PAY_004",
+      "US_PAY_007",
+      "US_PAY_009",
+      "US_PAY_010"
+    ],
+    "rule_ids": [
+      "BR_PAY_004",
+      "BR_PAY_009",
+      "BR_PAY_013",
+      "BR_PAY_014"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayrollProcessing",
+      "handler": "PayrollProcessing.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayrollProcessing via Chromium Playwright",
+      "Assert visual & DOM condition: Rendered ₹ metrics, Employee Records, Skipped & Warnings (EMP-IN-005/006), and Maker-Checker Approval History"
+    ],
+    "expected": "Rendered ₹ metrics, Employee Records, Skipped & Warnings (EMP-IN-005/006), and Maker-Checker Approval History",
+    "expected_results": [
+      "Rendered ₹ metrics, Employee Records, Skipped & Warnings (EMP-IN-005/006), and Maker-Checker Approval History"
+    ],
+    "actual_result": "Rendered ₹ metrics, Employee Records, Skipped & Warnings (EMP-IN-005/006), and Maker-Checker Approval History",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 30356
+  },
+  {
+    "id": "UI-PAY-04",
+    "testcase_id": "UI-PAY-04",
+    "feature_id": "FEAT_PAY_PAYMENT",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-04: Payroll Payments NEFT Batch & UTR Reconciliation Display",
+    "objective": "Payroll Payments NEFT Batch & UTR Reconciliation Display",
+    "requirement_ids": [
+      "FR_PAY_011"
+    ],
+    "story_ids": [
+      "US_PAY_011"
+    ],
+    "rule_ids": [
+      "BR_PAY_015"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayrollPayments",
+      "handler": "PayrollPayments.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayrollPayments via Chromium Playwright",
+      "Assert visual & DOM condition: UTR HDFCN20261201001 / Reconciled NEFT batch rendered with ₹ INR"
+    ],
+    "expected": "UTR HDFCN20261201001 / Reconciled NEFT batch rendered with ₹ INR",
+    "expected_results": [
+      "UTR HDFCN20261201001 / Reconciled NEFT batch rendered with ₹ INR"
+    ],
+    "actual_result": "UTR HDFCN20261201001 / Reconciled NEFT batch rendered with ₹ INR",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 16889
+  },
+  {
+    "id": "UI-PAY-05",
+    "testcase_id": "UI-PAY-05",
+    "feature_id": "FEAT_PAY_ADJUSTMENT",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-05: Payroll Immutable Audit Trail Event Feed",
+    "objective": "Payroll Immutable Audit Trail Event Feed",
+    "requirement_ids": [
+      "FR_PAY_009",
+      "FR_PAY_010",
+      "FR_PAY_011"
+    ],
+    "story_ids": [
+      "US_PAY_009",
+      "US_PAY_010",
+      "US_PAY_011"
+    ],
+    "rule_ids": [
+      "BR_PAY_014"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayrollAuditTrail",
+      "handler": "PayrollAuditTrail.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayrollAuditTrail via Chromium Playwright",
+      "Assert visual & DOM condition: Immutable payroll workflow & adjustment events visible"
+    ],
+    "expected": "Immutable payroll workflow & adjustment events visible",
+    "expected_results": [
+      "Immutable payroll workflow & adjustment events visible"
+    ],
+    "actual_result": "Immutable payroll workflow & adjustment events visible",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 18019
+  },
+  {
+    "id": "UI-PAY-06",
+    "testcase_id": "UI-PAY-06",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-06: Payroll Configuration All 4 India Sub-Tabs",
+    "objective": "Payroll Configuration All 4 India Sub-Tabs",
+    "requirement_ids": [
+      "FR_PAY_001"
+    ],
+    "story_ids": [
+      "US_PAY_001"
+    ],
+    "rule_ids": [
+      "BR_PAY_005",
+      "BR_PAY_006",
+      "BR_PAY_007",
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayrollConfiguration",
+      "handler": "PayrollConfiguration.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayrollConfiguration via Chromium Playwright",
+      "Assert visual & DOM condition: Visited 4 sub-tabs: ['Organization Settings', 'Income Tax Slabs (FY 2026-27)', 'EPF / ESIC / PT Rules', 'Leave LWP Mapping']"
+    ],
+    "expected": "Visited 4 sub-tabs: ['Organization Settings', 'Income Tax Slabs (FY 2026-27)', 'EPF / ESIC / PT Rules', 'Leave LWP Mapping']",
+    "expected_results": [
+      "Visited 4 sub-tabs: ['Organization Settings', 'Income Tax Slabs (FY 2026-27)', 'EPF / ESIC / PT Rules', 'Leave LWP Mapping']"
+    ],
+    "actual_result": "Visited 4 sub-tabs: ['Organization Settings', 'Income Tax Slabs (FY 2026-27)', 'EPF / ESIC / PT Rules', 'Leave LWP Mapping']",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 29931
+  },
+  {
+    "id": "UI-PIM-01",
+    "testcase_id": "UI-PIM-01",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PIM-01: PIM Left-Menu Integration: Aarav Salary Slips Tab",
+    "objective": "PIM Left-Menu Integration: Aarav Salary Slips Tab",
+    "requirement_ids": [
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewEmployeePayslips/empNumber/2",
+      "handler": "EmployeePayslips.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewEmployeePayslips/empNumber/2 via Chromium Playwright",
+      "Assert visual & DOM condition: Rendered inside native OrangeHRM PIM EditEmployeeLayout with ₹ slip row"
+    ],
+    "expected": "Rendered inside native OrangeHRM PIM EditEmployeeLayout with ₹ slip row",
+    "expected_results": [
+      "Rendered inside native OrangeHRM PIM EditEmployeeLayout with ₹ slip row"
+    ],
+    "actual_result": "Rendered inside native OrangeHRM PIM EditEmployeeLayout with ₹ slip row",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 27604
+  },
+  {
+    "id": "UI-PIM-02",
+    "testcase_id": "UI-PIM-02",
+    "feature_id": "FEAT_PAY_SNAPSHOT",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PIM-02: PIM Left-Menu Integration: Aarav Statutory & Masked Bank Profile",
+    "objective": "PIM Left-Menu Integration: Aarav Statutory & Masked Bank Profile",
+    "requirement_ids": [
+      "FR_PAY_003"
+    ],
+    "story_ids": [
+      "US_PAY_003"
+    ],
+    "rule_ids": [
+      "BR_PAY_004",
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewEmployeeStatutoryProfile/empNumber/2",
+      "handler": "EmployeeStatutoryProfile.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewEmployeeStatutoryProfile/empNumber/2 via Chromium Playwright",
+      "Assert visual & DOM condition: India PAN/UAN/Tax Regime/CTC split & masked bank rendered inside PIM layout"
+    ],
+    "expected": "India PAN/UAN/Tax Regime/CTC split & masked bank rendered inside PIM layout",
+    "expected_results": [
+      "India PAN/UAN/Tax Regime/CTC split & masked bank rendered inside PIM layout"
+    ],
+    "actual_result": "India PAN/UAN/Tax Regime/CTC split & masked bank rendered inside PIM layout",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 24102
+  },
+  {
+    "id": "UI-ESS-01",
+    "testcase_id": "UI-ESS-01",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-ESS-01: ESS My Salary Slips Table & Interactive Payslip Preview Modal",
+    "objective": "ESS My Salary Slips Table & Interactive Payslip Preview Modal",
+    "requirement_ids": [
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewMySalarySlips",
+      "handler": "MySalarySlips.vue / PayslipPreviewModal.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewMySalarySlips via Chromium Playwright",
+      "Assert visual & DOM condition: ESS sidebar=9 items, INR payslip list & PayslipPreviewModal verified"
+    ],
+    "expected": "ESS sidebar=9 items, INR payslip list & PayslipPreviewModal verified",
+    "expected_results": [
+      "ESS sidebar=9 items, INR payslip list & PayslipPreviewModal verified"
+    ],
+    "actual_result": "ESS sidebar=9 items, INR payslip list & PayslipPreviewModal verified",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 70694
+  },
+  {
+    "id": "UI-TEL-01",
+    "testcase_id": "UI-TEL-01",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "BrowserTelemetry"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-TEL-01: Zero Browser Console Errors, Uncaught Page Errors & HTTP >=400 Responses",
+    "objective": "Zero Browser Console Errors, Uncaught Page Errors & HTTP >=400 Responses",
+    "requirement_ids": [
+      "FR_PAY_001",
+      "FR_PAY_003",
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_001",
+      "US_PAY_003",
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "ALL 9 Payroll & PIM UI Routes",
+      "handler": "usePayrollPermissions.ts / app.js"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render ALL 9 Payroll & PIM UI Routes via Chromium Playwright",
+      "Assert visual & DOM condition: 0 console.error, 0 pageerror, 0 HTTP >= 400 responses across all 9 routes & ESS modal"
+    ],
+    "expected": "0 console.error, 0 pageerror, 0 HTTP >= 400 responses across all 9 routes & ESS modal",
+    "expected_results": [
+      "0 console.error, 0 pageerror, 0 HTTP >= 400 responses across all 9 routes & ESS modal"
+    ],
+    "actual_result": "0 console.error, 0 pageerror, 0 HTTP >= 400 responses across all 9 routes & ESS modal",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 0
+  }
+]

@@ -33,8 +33,8 @@ const app = {
 
     const titles = {
       overview: 'Application Quality Overview',
-      intelligence: 'Test Intelligence & Catalogue (6,998 Tests)',
-      graph: 'Knowledge Graph Insights (Neo4j)',
+      intelligence: 'Test Intelligence & Executed Catalogue (6,934 Tests)',
+      graph: 'Knowledge Graph Insights (Neo4j v2.2-india-payroll)',
       tia: 'Change Impact Analysis (TIA Studio)',
       database: 'Database & SQL Studio (MariaDB)',
       chatbot: 'Agentic AI Quality Engineering Workspace'
@@ -142,6 +142,22 @@ const app = {
 
   // 2. Test Intelligence (Full Catalogue Explorer)
   async loadIntelligence() {
+    try {
+      const mRes = await fetch('/api/v2/quality/metrics');
+      const mData = await mRes.json();
+      const apiL = mData.layers.find(l => l.layer.includes('API'));
+      const funcL = mData.layers.find(l => l.layer.includes('Functional'));
+      const dbL = mData.layers.find(l => l.layer.includes('Database'));
+      const payM = mData.modules.find(m => m.module === 'Payroll');
+      if (apiL) document.getElementById('kpi-layer-api').innerText = Number(apiL.count).toLocaleString();
+      if (funcL) document.getElementById('kpi-layer-func').innerText = Number(funcL.count).toLocaleString();
+      if (dbL) document.getElementById('kpi-layer-db').innerText = Number(dbL.count).toLocaleString();
+      if (payM) document.getElementById('kpi-payroll-count').innerText = Number(payM.tests).toLocaleString();
+      const titleEl = document.getElementById('catalogue-panel-title');
+      if (titleEl) titleEl.innerText = `🧪 Verified Test Catalogue Explorer (${Number(mData.overview.totalVerifiedTests).toLocaleString()} Tests)`;
+    } catch (e) {
+      console.warn('Could not sync layer KPIs:', e);
+    }
     this.filterTestCatalogue();
   },
 
@@ -212,8 +228,8 @@ const app = {
       const res = await fetch('/api/v2/graph/overview');
       const data = await res.json();
 
-      document.getElementById('kg-node-count').innerText = data.totalNodes || 489;
-      document.getElementById('kg-rel-count').innerText = data.totalRelationships || 947;
+      document.getElementById('kg-node-count').innerText = (data.totalNodes ?? 0).toLocaleString();
+      document.getElementById('kg-rel-count').innerText = (data.totalRelationships ?? 0).toLocaleString();
 
       // Render Horizontal Bar Chart for Node Labels (All 20 labels cleanly visible!)
       this.renderNodeLabelHorizontalBar(data.labels || []);
@@ -287,8 +303,8 @@ const app = {
           smooth: { type: 'continuous' }
         },
         physics: {
-          stabilization: false,
-          barnesHut: { gravitationalConstant: -3000, springLength: 95 }
+          stabilization: { enabled: true, iterations: 120, updateInterval: 25 },
+          barnesHut: { gravitationalConstant: -3500, springLength: 105 }
         },
         interaction: { hover: true, tooltipDelay: 100 }
       };
@@ -318,10 +334,10 @@ const app = {
   loadCypherPreset() {
     const val = document.getElementById('cypher-preset-select').value;
     const presets = {
-      '1': 'MATCH (us:UserStory)-[:VERIFIED_BY]->(tc:TestCase) RETURN us.key AS Story, us.title AS Title, count(tc) AS VerifiedTests ORDER BY VerifiedTests DESC',
-      '2': 'MATCH (c:Controller)-[:EXPOSES_ENDPOINT]->(e:ApiEndpoint) RETURN c.name AS Controller, count(e) AS Endpoints LIMIT 10',
-      '3': 'MATCH (n) RETURN labels(n)[0] AS Label, count(n) AS Count ORDER BY Count DESC LIMIT 10',
-      '4': 'MATCH (e:Entity)-[:MODELS_TABLE]->(t:DatabaseTable) RETURN e.name AS Entity, t.name AS Table'
+      '1': "MATCH (us:UserStory {version: 'v2.2-india-payroll'})<-[:VERIFIES_STORY]-(tc:TestCase) RETURN us.story_id AS Story, us.title AS Title, count(tc) AS ExecutedTests ORDER BY Story ASC",
+      '2': "MATCH (p:Plugin {name: 'orangehrmPayrollPlugin'})-[:EXPOSES]->(e:ApiEndpoint)-[:HANDLED_BY]->(c:Class) RETURN c.name AS APIHandler, count(e) AS Endpoints ORDER BY Endpoints DESC",
+      '3': "MATCH (n) WHERE n.version = 'v2.2-india-payroll' RETURN labels(n)[0] AS Label, count(n) AS Count ORDER BY Count DESC",
+      '4': "MATCH (e:DatabaseEntity {version: 'v2.2-india-payroll'})-[:MAPS_TO]->(t:DatabaseTable) RETURN e.name AS Entity, t.name AS Table ORDER BY Table ASC"
     };
     document.getElementById('cypher-input').value = presets[val] || presets['1'];
   },
@@ -410,15 +426,29 @@ const app = {
   // 5. Database Studio & SQL Console
   async loadDatabase() {
     try {
-      const res = await fetch('/api/v2/database/overview');
-      const data = await res.json();
+      const [ovRes, driftRes] = await Promise.all([
+        fetch('/api/v2/database/overview'),
+        fetch('/api/v2/database/drift')
+      ]);
+      const data = await ovRes.json();
+      const drift = await driftRes.json();
+
+      const activeSub = document.getElementById('db-active-sub');
+      const testSub = document.getElementById('db-test-sub');
+      const driftEl = document.getElementById('db-drift-status');
+      if (activeSub && data.totalTables) activeSub.innerText = `${data.totalTables} Verified Tables (${data.payrollTablesCount} Payroll)`;
+      if (testSub && drift.targetTableCount) testSub.innerText = `${drift.targetTableCount} Verified Tables`;
+      if (driftEl) {
+        driftEl.innerText = drift.isSynchronized ? 'SYNCHRONIZED' : 'DRIFT DETECTED';
+        driftEl.style.color = drift.isSynchronized ? 'var(--accent-success)' : 'var(--accent-danger)';
+      }
 
       const tbody = document.getElementById('db-tables-body');
       if (tbody && data.sampleTables) {
         tbody.innerHTML = data.sampleTables.map(t => `
           <tr>
-            <td style="font-weight: 600; color: ${t.tableName.includes('payroll') ? 'var(--accent-success)' : 'var(--accent-primary)'};">
-              ${t.tableName.includes('payroll') ? '✨ ' : ''}${t.tableName}
+            <td style="font-weight: 600; color: ${t.tableName.includes('payroll') || t.tableName.includes('pay_period') || t.tableName.includes('salary_slip') ? 'var(--accent-success)' : 'var(--accent-primary)'};">
+              ${t.tableName.includes('payroll') || t.tableName.includes('pay_period') || t.tableName.includes('salary_slip') ? '✨ ' : ''}${t.tableName}
             </td>
             <td>${t.rowEstimate} rows</td>
             <td>${t.sizeMb} MB</td>
@@ -435,8 +465,8 @@ const app = {
   loadSqlPreset() {
     const val = document.getElementById('sql-preset-select').value;
     const presets = {
-      '1': 'SELECT id, employee_id, pay_period_id, gross_salary, total_tax, net_salary, status FROM ohrm_payroll_record LIMIT 10',
-      '2': 'SELECT id, name, status, start_date, end_date FROM ohrm_pay_period LIMIT 10',
+      '1': 'SELECT id, emp_number, pay_period_id, gross_salary, total_tax, net_salary, currency_id, status FROM ohrm_payroll_record LIMIT 10',
+      '2': 'SELECT id, name, financial_year, jurisdiction_code, currency_id, status, start_date, end_date FROM ohrm_pay_period LIMIT 10',
       '3': "SELECT id, name, status, display_name FROM ohrm_module WHERE name='payroll'",
       '4': 'SELECT emp_number, emp_firstname, emp_lastname, emp_middle_name FROM hs_hr_employee LIMIT 5'
     };

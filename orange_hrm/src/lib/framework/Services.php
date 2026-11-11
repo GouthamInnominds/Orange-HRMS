@@ -455,4 +455,63 @@ final class Services
      * @see \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
      */
     public const SOCIAL_MEDIA_AUTH_SERVICE = 'oidc.social_media_auth_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Payroll plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\PayrollConfigService
+     */
+    public const PAYROLL_CONFIG_SERVICE = 'payroll.payroll_config_service';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\PayrollEmployeeSnapshotService
+     */
+    public const PAYROLL_SNAPSHOT_SERVICE = 'payroll.payroll_snapshot_service';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\LeavePayrollAdapter
+     */
+    public const PAYROLL_LEAVE_ADAPTER = 'payroll.payroll_leave_adapter';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\TimeAttendancePayrollAdapter
+     */
+    public const PAYROLL_TIME_ADAPTER = 'payroll.payroll_time_adapter';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\ClaimSettlementAdapter
+     */
+    public const PAYROLL_CLAIM_ADAPTER = 'payroll.payroll_claim_adapter';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\IndianStatutoryCalculator
+     */
+    public const PAYROLL_STATUTORY_CALCULATOR = 'payroll.payroll_statutory_calculator';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\PayrollCalculationService
+     */
+    public const PAYROLL_CALCULATION_SERVICE = 'payroll.payroll_calculation_service';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\PayrollWorkflowService
+     */
+    public const PAYROLL_WORKFLOW_SERVICE = 'payroll.payroll_workflow_service';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\PayrollApplicationService
+     */
+    public const PAYROLL_APPLICATION_SERVICE = 'payroll.payroll_application_service';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\PayrollPaymentService
+     */
+    public const PAYROLL_PAYMENT_SERVICE = 'payroll.payroll_payment_service';
+
+    /**
+     * @see \OrangeHRM\Payroll\Service\PayrollSlipService
+     */
+    public const PAYROLL_SLIP_SERVICE = 'payroll.payroll_slip_service';
 }

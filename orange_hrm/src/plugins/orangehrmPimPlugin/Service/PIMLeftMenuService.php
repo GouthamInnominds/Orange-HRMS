@@ -80,6 +80,16 @@ class PIMLeftMenuService
             'data_groups' => ['salary_details', 'salary_attachment', 'salary_custom_fields'],
             'label' => 'Salary'
         ],
+        'viewEmployeePayslips' => [
+            'module' => 'payroll',
+            'data_groups' => ['payroll_employee_payslips'],
+            'label' => 'Payslips'
+        ],
+        'viewEmployeeStatutoryProfile' => [
+            'module' => 'payroll',
+            'data_groups' => ['payroll_statutory_profile'],
+            'label' => 'Statutory Profile'
+        ],
         'viewUsTaxExemptions' => [
             'module' => 'pim',
             'data_groups' => ['tax_exemptions', 'tax_attachment', 'tax_custom_fields'],

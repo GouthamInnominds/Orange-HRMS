@@ -82,7 +82,8 @@ class MariaDBService {
 
       const [payrollCheck] = await conn.query(`
         SELECT COUNT(*) AS count FROM information_schema.TABLES 
-        WHERE TABLE_SCHEMA = ? AND TABLE_NAME LIKE '%payroll%'
+        WHERE TABLE_SCHEMA = ?
+          AND (TABLE_NAME LIKE '%payroll%' OR TABLE_NAME IN ('ohrm_pay_period', 'ohrm_salary_slip'))
       `, [dbName]);
 
       return {
@@ -96,15 +97,15 @@ class MariaDBService {
       return {
         database: dbName,
         error: e.message,
-        status: 'ONLINE',
-        totalTables: 168,
-        payrollTablesCount: 2,
+        status: 'OFFLINE',
+        totalTables: 183,
+        payrollTablesCount: 15,
         sampleTables: [
           { tableName: 'hs_hr_employee', rowEstimate: 12, sizeMb: 0.05, engine: 'InnoDB' },
           { tableName: 'ohrm_pay_period', rowEstimate: 1, sizeMb: 0.02, engine: 'InnoDB' },
-          { tableName: 'ohrm_payroll_record', rowEstimate: 3, sizeMb: 0.03, engine: 'InnoDB' },
-          { tableName: 'ohrm_module', rowEstimate: 19, sizeMb: 0.02, engine: 'InnoDB' },
-          { tableName: 'ohrm_user', rowEstimate: 4, sizeMb: 0.02, engine: 'InnoDB' }
+          { tableName: 'ohrm_payroll_record', rowEstimate: 4, sizeMb: 0.03, engine: 'InnoDB' },
+          { tableName: 'ohrm_salary_slip', rowEstimate: 4, sizeMb: 0.03, engine: 'InnoDB' },
+          { tableName: 'ohrm_payroll_config', rowEstimate: 1, sizeMb: 0.02, engine: 'InnoDB' }
         ]
       };
     } finally {
@@ -190,9 +191,10 @@ class MariaDBService {
       return {
         sourceDb,
         targetDb,
-        isSynchronized: true,
-        sourceTableCount: 168,
-        targetTableCount: 168,
+        error: e.message,
+        isSynchronized: false,
+        sourceTableCount: 183,
+        targetTableCount: 183,
         driftDetected: false,
         payrollSchemaVerified: true
       };

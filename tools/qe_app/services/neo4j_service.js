@@ -95,83 +95,79 @@ class Neo4jService {
       };
     } catch (err) {
       return {
-        status: 'CONNECTED',
-        totalNodes: 489,
-        totalRelationships: 947,
-        availableVersions: ['v1.0.0', 'v2.0.0-payroll'],
-        labels: [
-          { label: 'TestCase', count: 105 },
-          { label: 'TestSuite', count: 149 },
-          { label: 'ApiEndpoint', count: 76 },
-          { label: 'DatabaseTable', count: 64 },
-          { label: 'Entity', count: 62 },
-          { label: 'Controller', count: 48 },
-          { label: 'UserStory', count: 39 },
-          { label: 'Module', count: 19 }
-        ],
-        relationships: [
-          { relType: 'CONTAINS_TEST', count: 105 },
-          { relType: 'VERIFIED_BY', count: 105 },
-          { relType: 'EXPOSES_ENDPOINT', count: 76 },
-          { relType: 'MODELS_TABLE', count: 64 },
-          { relType: 'CONTAINS_CONTROLLER', count: 48 }
-        ]
+        status: 'DEGRADED',
+        error: err.message,
+        totalNodes: 0,
+        totalRelationships: 0,
+        availableVersions: ['v1.0', 'v2.2-india-payroll'],
+        labels: [],
+        relationships: []
       };
     }
   }
 
-  // Generates interactive network data for vis-network
+  // Generates interactive network data for vis-network using live Neo4j ontology labels
   async getGraphVisualData(limit = 80) {
     try {
+      const safeLimit = neo4j.int(Math.max(10, Math.min(200, parseInt(limit, 10) || 80)));
       const cypher = `
         MATCH (n)-[r]->(m)
-        WHERE (n:Module OR n:Controller OR n:ApiEndpoint OR n:Entity OR n:UserStory OR n:TestSuite)
-          AND (m:Module OR m:Controller OR m:ApiEndpoint OR m:Entity OR m:UserStory OR m:TestSuite OR m:TestCase)
-        RETURN id(n) AS srcId, labels(n)[0] AS srcLabel, coalesce(n.name, n.title, n.path, n.key, labels(n)[0]) AS srcName,
-               id(m) AS tgtId, labels(m)[0] AS tgtLabel, coalesce(m.name, m.title, m.path, m.key, labels(m)[0]) AS tgtName,
+        WHERE NOT n:Release AND NOT m:Release
+          AND (n:Plugin OR n:BusinessDomain OR n:BusinessWorkflow OR n:Feature OR n:Requirement OR n:UserStory OR n:BusinessRule OR n:ApiEndpoint OR n:DatabaseEntity OR n:DatabaseTable OR n:UIComponent OR n:TestSuite)
+          AND (m:Plugin OR m:BusinessDomain OR m:BusinessWorkflow OR m:Feature OR m:Requirement OR m:UserStory OR m:BusinessRule OR m:ApiEndpoint OR m:DatabaseEntity OR m:DatabaseTable OR m:UIComponent OR m:TestSuite OR m:TestCase)
+          AND (coalesce(n.version, '') STARTS WITH 'v2.2' OR coalesce(m.version, '') STARTS WITH 'v2.2' OR coalesce(n.plugin, '') = 'orangehrmPayrollPlugin')
+          AND type(r) IN ['DECLARES', 'EXPOSES', 'MAPS_TO', 'CONTAINS_TEST', 'GOVERNED_BY', 'VERIFIED_BY', 'HAS_FEATURE', 'IMPLEMENTS']
+        RETURN id(n) AS srcId, labels(n)[0] AS srcLabel, coalesce(n.name, n.title, n.path, n.story_id, n.requirement_id, n.rule_id, n.testcase_id, labels(n)[0]) AS srcName,
+               id(m) AS tgtId, labels(m)[0] AS tgtLabel, coalesce(m.name, m.title, m.path, m.story_id, m.requirement_id, m.rule_id, m.testcase_id, labels(m)[0]) AS tgtName,
                type(r) AS relType, n.version AS nVer, m.version AS mVer
         LIMIT $limit
       `;
-      const rows = await this.runQuery(cypher, { limit });
+      const rows = await this.runQuery(cypher, { limit: safeLimit });
 
       const nodeMap = new Map();
       const edges = [];
 
       const colorMap = {
-        Module: '#38bdf8',
-        Controller: '#a855f7',
+        Plugin: '#38bdf8',
+        Class: '#a855f7',
         ApiEndpoint: '#10b981',
-        Entity: '#f59e0b',
+        DatabaseEntity: '#f59e0b',
+        DatabaseTable: '#eab308',
         UserStory: '#ec4899',
+        Requirement: '#f472b6',
+        Feature: '#8b5cf6',
         TestSuite: '#6366f1',
-        TestCase: '#14b8a6',
-        DatabaseTable: '#eab308'
+        TestCase: '#14b8a6'
       };
 
+      const toNum = (v) => (v && typeof v.toNumber === 'function' ? v.toNumber() : Number(v));
+
       rows.forEach(r => {
-        if (!nodeMap.has(r.srcId)) {
-          const isV2 = r.nVer && r.nVer.includes('payroll');
-          nodeMap.set(r.srcId, {
-            id: r.srcId,
-            label: `${r.srcLabel}\n${r.srcName.substring(0, 18)}`,
+        const sId = toNum(r.srcId);
+        const tId = toNum(r.tgtId);
+        if (!nodeMap.has(sId)) {
+          const isV2 = r.nVer && r.nVer.includes('v2.2');
+          nodeMap.set(sId, {
+            id: sId,
+            label: `${r.srcLabel}\n${String(r.srcName).substring(0, 18)}`,
             group: r.srcLabel,
             color: isV2 ? '#22c55e' : (colorMap[r.srcLabel] || '#64748b'),
-            title: `[${r.srcLabel}] ${r.srcName} (${r.nVer || 'v1.0.0'})`
+            title: `[${r.srcLabel}] ${r.srcName} (${r.nVer || 'v1.0'})`
           });
         }
-        if (!nodeMap.has(r.tgtId)) {
-          const isV2 = r.mVer && r.mVer.includes('payroll');
-          nodeMap.set(r.tgtId, {
-            id: r.tgtId,
-            label: `${r.tgtLabel}\n${r.tgtName.substring(0, 18)}`,
+        if (!nodeMap.has(tId)) {
+          const isV2 = r.mVer && r.mVer.includes('v2.2');
+          nodeMap.set(tId, {
+            id: tId,
+            label: `${r.tgtLabel}\n${String(r.tgtName).substring(0, 18)}`,
             group: r.tgtLabel,
             color: isV2 ? '#22c55e' : (colorMap[r.tgtLabel] || '#64748b'),
-            title: `[${r.tgtLabel}] ${r.tgtName} (${r.mVer || 'v1.0.0'})`
+            title: `[${r.tgtLabel}] ${r.tgtName} (${r.mVer || 'v1.0'})`
           });
         }
         edges.push({
-          from: r.srcId,
-          to: r.tgtId,
+          from: sId,
+          to: tId,
           label: r.relType,
           arrows: 'to',
           color: { color: 'rgba(255,255,255,0.2)', highlight: '#38bdf8' }
@@ -183,117 +179,102 @@ class Neo4jService {
         edges
       };
     } catch (e) {
-      // Fallback network data showcasing rich nodes & edges
-      const fallbackNodes = [
-        { id: 1, label: 'Module\nPayroll', group: 'Module', color: '#22c55e', title: 'Module: payroll (v2.0.0-payroll)' },
-        { id: 2, label: 'Controller\nPayrollProc', group: 'Controller', color: '#a855f7', title: 'PayrollProcessingController' },
-        { id: 3, label: 'Endpoint\n/calculate', group: 'ApiEndpoint', color: '#10b981', title: 'POST /api/v2/payroll/pay-periods/{id}/calculate' },
-        { id: 4, label: 'Endpoint\n/lock', group: 'ApiEndpoint', color: '#10b981', title: 'POST /api/v2/payroll/pay-periods/{id}/lock' },
-        { id: 5, label: 'Entity\nPayrollRecord', group: 'Entity', color: '#f59e0b', title: 'PayrollRecord Entity' },
-        { id: 6, label: 'UserStory\nUS-PAY-001', group: 'UserStory', color: '#ec4899', title: 'US-PAY-001: Automatic Salary Batch Processing' },
-        { id: 7, label: 'TestSuite\nTS_Payroll_Calc', group: 'TestSuite', color: '#6366f1', title: 'TS_Payroll_Calculation_Unit (40 Tests)' },
-        { id: 8, label: 'Module\nPIM', group: 'Module', color: '#38bdf8', title: 'Module: PIM (v1.0.0)' },
-        { id: 9, label: 'Entity\nEmployee', group: 'Entity', color: '#f59e0b', title: 'Employee Entity' }
-      ];
-
-      const fallbackEdges = [
-        { from: 1, to: 2, label: 'CONTAINS_CONTROLLER', arrows: 'to' },
-        { from: 2, to: 3, label: 'EXPOSES_ENDPOINT', arrows: 'to' },
-        { from: 2, to: 4, label: 'EXPOSES_ENDPOINT', arrows: 'to' },
-        { from: 1, to: 5, label: 'HAS_ENTITY', arrows: 'to' },
-        { from: 6, to: 1, label: 'APPLIES_TO', arrows: 'to' },
-        { from: 6, to: 7, label: 'VERIFIED_BY', arrows: 'to' },
-        { from: 5, to: 9, label: 'REFERENCES_EMPLOYEE', arrows: 'to' },
-        { from: 8, to: 9, label: 'HAS_ENTITY', arrows: 'to' }
-      ];
-
-      return { nodes: fallbackNodes, edges: fallbackEdges };
+      return { nodes: [], edges: [], error: e.message };
     }
   }
 
   async getModuleArchitecture(moduleName) {
     try {
       const cypher = `
-        MATCH (m:Module {name: $moduleName})
-        OPTIONAL MATCH (m)-[:CONTAINS_CONTROLLER]->(c:Controller)
-        OPTIONAL MATCH (c)-[:EXPOSES_ENDPOINT]->(e:ApiEndpoint)
-        OPTIONAL MATCH (m)-[:HAS_ENTITY]->(ent:Entity)
-        RETURN m.name AS module,
+        MATCH (p:Plugin)
+        WHERE toLower(p.name) CONTAINS toLower($moduleName)
+        OPTIONAL MATCH (p)-[:EXPOSES]->(e:ApiEndpoint)
+        OPTIONAL MATCH (p)-[:DECLARES]->(c:Class)
+        OPTIONAL MATCH (p)-[:DECLARES]->(ent:DatabaseEntity)
+        RETURN p.name AS module,
                collect(DISTINCT c.name) AS controllers,
                collect(DISTINCT e.path) AS endpoints,
                collect(DISTINCT ent.name) AS entities
       `;
       const res = await this.runQuery(cypher, { moduleName });
-      if (res.length > 0) return res[0];
+      if (res.length > 0 && res[0].module) return res[0];
 
-      return {
-        module: moduleName,
-        controllers: [`${moduleName}ModuleController`, `${moduleName}Controller`],
-        endpoints: [`/api/v2/${moduleName.toLowerCase()}`],
-        entities: [`${moduleName}Record`]
-      };
+      return { module: moduleName, controllers: [], endpoints: [], entities: [] };
     } catch (e) {
-      return {
-        module: moduleName,
-        controllers: [`${moduleName}ModuleController`],
-        endpoints: [`/api/v2/${moduleName.toLowerCase()}`],
-        entities: [`${moduleName}Record`]
-      };
+      return { module: moduleName, controllers: [], endpoints: [], entities: [], error: e.message };
     }
   }
 
   async getRequirementTraceability(storyId) {
     try {
       const cypher = `
-        MATCH (s:UserStory) WHERE s.id = $storyId OR s.key = $storyId
-        OPTIONAL MATCH (s)-[:VERIFIED_BY]->(t)
-        OPTIONAL MATCH (s)-[:COVERS_REQUIREMENT]->(req)
-        RETURN s.title AS story,
-               s.key AS storyKey,
-               collect(DISTINCT t.name) AS testSuites
+        MATCH (s)
+        WHERE (s:UserStory AND (s.story_id = $storyId OR s.key = $storyId))
+           OR (s:Requirement AND s.requirement_id = $storyId)
+        OPTIONAL MATCH (tc:TestCase)-[:VERIFIES_STORY|VERIFIES]->(s)
+        OPTIONAL MATCH (ts:TestSuite)-[:CONTAINS_TEST]->(tc)
+        OPTIONAL MATCH (s)-[:EXECUTES_VIA]->(ep:ApiEndpoint)
+        RETURN coalesce(s.title, '') AS story,
+               coalesce(s.story_id, s.requirement_id, $storyId) AS storyKey,
+               collect(DISTINCT ts.name) AS testSuites,
+               collect(DISTINCT tc.testcase_id) AS testCases,
+               collect(DISTINCT ep.path) AS endpoints
       `;
       const res = await this.runQuery(cypher, { storyId });
-      return res[0] || { storyKey: storyId, testSuites: [`TS_Payroll_Calculation_Unit`] };
+      return res[0] || { storyKey: storyId, testSuites: [], testCases: [], endpoints: [] };
     } catch (e) {
-      return {
-        storyKey: storyId,
-        story: `Story ${storyId}`,
-        testSuites: [`TS_Payroll_Calculation_Unit`, `TS_Payroll_API_Contract`]
-      };
+      return { storyKey: storyId, testSuites: [], testCases: [], endpoints: [], error: e.message };
     }
   }
 
-  async compareGraphBaselines(sourceVersion = 'v1.0.0', targetVersion = 'v2.0.0-payroll') {
-    return {
-      sourceVersion,
-      targetVersion,
-      summary: {
-        addedModules: 1,
-        addedEntities: 2,
-        addedEndpoints: 4,
-        addedUserStories: 4,
-        addedTestSuites: 5,
-        addedTestCases: 105
-      },
-      addedArtifacts: [
-        { type: 'Module', name: 'payroll (ID: 19)', scope: 'Payroll Processing & Slips' },
-        { type: 'Entity', name: 'PayrollRecord', table: 'hs_hr_payroll_record' },
-        { type: 'Entity', name: 'PayrollPayPeriod', table: 'hs_hr_payroll_period' },
-        { type: 'ApiEndpoint', name: 'POST /api/v2/payroll/pay-periods/{id}/calculate', status: 'ACTIVE' },
-        { type: 'ApiEndpoint', name: 'POST /api/v2/payroll/pay-periods/{id}/lock', status: 'ACTIVE' },
-        { type: 'ApiEndpoint', name: 'GET /api/v2/payroll/pay-periods/{id}/records', status: 'ACTIVE' },
-        { type: 'ApiEndpoint', name: 'GET /api/v2/payroll/my-salary-slips', status: 'ACTIVE' },
-        { type: 'UserStory', name: 'US-PAY-001', title: 'Automatic Salary Batch Processing' },
-        { type: 'UserStory', name: 'US-PAY-002', title: 'Statutory EPF & PAYE Deductions' },
-        { type: 'UserStory', name: 'US-PAY-003', title: 'Pay Period Locking & Immutability' },
-        { type: 'UserStory', name: 'US-PAY-004', title: 'Employee Salary Slip Download' },
-        { type: 'TestSuite', name: 'TS_Payroll_Calculation_Unit', testsCount: 40 },
-        { type: 'TestSuite', name: 'TS_Payroll_API_Contract', testsCount: 25 },
-        { type: 'TestSuite', name: 'TS_Payroll_Lifecycle_Security', testsCount: 15 },
-        { type: 'TestSuite', name: 'TS_Payroll_DB_Integrity', testsCount: 15 },
-        { type: 'TestSuite', name: 'TS_Payroll_UI_Sanity', testsCount: 10 }
-      ]
-    };
+  async compareGraphBaselines(sourceVersion = 'v1.0', targetVersion = 'v2.2-india-payroll') {
+    try {
+      const countsRes = await this.runQuery(`
+        MATCH (rel:Release { version_id: $targetVersion })<-[:INTRODUCED_IN]-(n)
+        RETURN labels(n)[0] AS label, count(n) AS cnt ORDER BY cnt DESC
+      `, { targetVersion });
+
+      const artifactsRes = await this.runQuery(`
+        MATCH (rel:Release { version_id: $targetVersion })<-[:INTRODUCED_IN]-(n)
+        WHERE n:Plugin OR n:DatabaseEntity OR n:ApiEndpoint OR n:UserStory OR n:TestSuite
+        RETURN labels(n)[0] AS type,
+               coalesce(n.name, n.path, n.story_id) AS name,
+               coalesce(n.title, n.http_method, n.fqcn, n.display_name, '') AS detail
+        ORDER BY type, name
+        LIMIT 40
+      `, { targetVersion });
+
+      const countMap = {};
+      countsRes.forEach(r => {
+        const c = r.cnt && typeof r.cnt.toNumber === 'function' ? r.cnt.toNumber() : Number(r.cnt);
+        countMap[r.label] = c;
+      });
+
+      return {
+        sourceVersion,
+        targetVersion,
+        summary: {
+          addedPlugins: countMap.Plugin || 0,
+          addedTables: countMap.DatabaseTable || 0,
+          addedEntities: countMap.DatabaseEntity || 0,
+          addedClasses: countMap.Class || 0,
+          addedEndpoints: countMap.ApiEndpoint || 0,
+          addedUserStories: countMap.UserStory || 0,
+          addedRequirements: countMap.Requirement || 0,
+          addedBusinessRules: countMap.BusinessRule || 0,
+          addedTestSuites: countMap.TestSuite || 0,
+          addedTestCases: countMap.TestCase || 0
+        },
+        countsByLabel: countMap,
+        addedArtifacts: artifactsRes.map(a => ({
+          type: a.type,
+          name: a.name,
+          detail: a.detail
+        }))
+      };
+    } catch (e) {
+      return { sourceVersion, targetVersion, error: e.message, summary: {}, addedArtifacts: [] };
+    }
   }
 
   async close() {

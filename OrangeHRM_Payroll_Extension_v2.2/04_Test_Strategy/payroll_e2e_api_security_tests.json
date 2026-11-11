@@ -1,0 +1,716 @@
+[
+  {
+    "id": "E2E-AUTH-01",
+    "testcase_id": "E2E-AUTH-01",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Security",
+      "Authentication"
+    ],
+    "quality_attributes": [
+      "Security"
+    ],
+    "priority": "P1",
+    "name": "E2E-AUTH-01: Admin, PayrollApprover (fin.approver), and ESS (aarav.ess) login cleanly",
+    "objective": "Admin, PayrollApprover (fin.approver), and ESS (aarav.ess) login cleanly",
+    "requirement_ids": [
+      "FR_PAY_001",
+      "FR_PAY_010",
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_001",
+      "US_PAY_010",
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_013",
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "POST /auth/validate",
+      "handler": "OrangeHRM\\Authentication\\Controller\\ValidateController"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-AUTH-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: Admin->http://127.0.0.1:5121/web/index.php/dashboard/index, Approver->http://127.0.0.1:5121/web/index.php/dashboard/index, ESS->http://127.0.0.1:5121/web/index.php/dashboard/index"
+    ],
+    "expected": "Admin->http://127.0.0.1:5121/web/index.php/dashboard/index, Approver->http://127.0.0.1:5121/web/index.php/dashboard/index, ESS->http://127.0.0.1:5121/web/index.php/dashboard/index",
+    "expected_results": [
+      "Admin->http://127.0.0.1:5121/web/index.php/dashboard/index, Approver->http://127.0.0.1:5121/web/index.php/dashboard/index, ESS->http://127.0.0.1:5121/web/index.php/dashboard/index"
+    ],
+    "actual_result": "Admin->http://127.0.0.1:5121/web/index.php/dashboard/index, Approver->http://127.0.0.1:5121/web/index.php/dashboard/index, ESS->http://127.0.0.1:5121/web/index.php/dashboard/index",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 33131
+  },
+  {
+    "id": "E2E-CFG-01",
+    "testcase_id": "E2E-CFG-01",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "API",
+      "Contract",
+      "Configuration"
+    ],
+    "quality_attributes": [
+      "Interoperability"
+    ],
+    "priority": "P1",
+    "name": "E2E-CFG-01: India Config, FY 2026-27 Slabs, Statutory Rules & Leave Policies",
+    "objective": "India Config, FY 2026-27 Slabs, Statutory Rules & Leave Policies",
+    "requirement_ids": [
+      "FR_PAY_001"
+    ],
+    "story_ids": [
+      "US_PAY_001"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_005",
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/{config,tax-brackets,statutory-rules,leave-policies}",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollConfigAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-CFG-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: jurisdiction=IN, currency=INR, makerChecker=True, slabs=7, rules=12, leavePolicies=3"
+    ],
+    "expected": "jurisdiction=IN, currency=INR, makerChecker=True, slabs=7, rules=12, leavePolicies=3",
+    "expected_results": [
+      "jurisdiction=IN, currency=INR, makerChecker=True, slabs=7, rules=12, leavePolicies=3"
+    ],
+    "actual_result": "jurisdiction=IN, currency=INR, makerChecker=True, slabs=7, rules=12, leavePolicies=3",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 30597
+  },
+  {
+    "id": "E2E-PER-01",
+    "testcase_id": "E2E-PER-01",
+    "feature_id": "FEAT_PAY_PERIOD",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Functional",
+      "API"
+    ],
+    "quality_attributes": [
+      "FunctionalCorrectness"
+    ],
+    "priority": "P1",
+    "name": "E2E-PER-01: Create India Monthly INR Pay Period (November 2026)",
+    "objective": "Create India Monthly INR Pay Period (November 2026)",
+    "requirement_ids": [
+      "FR_PAY_002"
+    ],
+    "story_ids": [
+      "US_PAY_002"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_002"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/pay-periods",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayPeriodAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-PER-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: POST /pay-periods status=200, id=1, fy=2026-27"
+    ],
+    "expected": "POST /pay-periods status=200, id=1, fy=2026-27",
+    "expected_results": [
+      "POST /pay-periods status=200, id=1, fy=2026-27"
+    ],
+    "actual_result": "POST /pay-periods status=200, id=1, fy=2026-27",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 14301
+  },
+  {
+    "id": "E2E-PER-02",
+    "testcase_id": "E2E-PER-02",
+    "feature_id": "FEAT_PAY_PERIOD",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Negative",
+      "Boundary",
+      "API"
+    ],
+    "quality_attributes": [
+      "DataIntegrity"
+    ],
+    "priority": "P1",
+    "name": "E2E-PER-02: Overlap Guard rejects overlapping date range",
+    "objective": "Overlap Guard rejects overlapping date range",
+    "requirement_ids": [
+      "FR_PAY_002"
+    ],
+    "story_ids": [
+      "US_PAY_002"
+    ],
+    "rule_ids": [
+      "BR_PAY_002"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/pay-periods",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayPeriodAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-PER-02 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: Overlapping date range rejected with HTTP 400: {'error': {'status': '400', 'message': 'Pay period [2026-11-15 to 2026-12-10] overlaps with an existing pay period.'}}"
+    ],
+    "expected": "Overlapping date range rejected with HTTP 400: {'error': {'status': '400', 'message': 'Pay period [2026-11-15 to 2026-12-10] overlaps with an existing pay period.'}}",
+    "expected_results": [
+      "Overlapping date range rejected with HTTP 400: {'error': {'status': '400', 'message': 'Pay period [2026-11-15 to 2026-12-10] overlaps with an existing pay period.'}}"
+    ],
+    "actual_result": "Overlapping date range rejected with HTTP 400: {'error': {'status': '400', 'message': 'Pay period [2026-11-15 to 2026-12-10] overlaps with an existing pay period.'}}",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 5897
+  },
+  {
+    "id": "E2E-RUN-01",
+    "testcase_id": "E2E-RUN-01",
+    "feature_id": "FEAT_PAY_SNAPSHOT",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Functional",
+      "Idempotency"
+    ],
+    "quality_attributes": [
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "E2E-RUN-01: Create Draft Run with Idempotency Key deduplication",
+    "objective": "Create Draft Run with Idempotency Key deduplication",
+    "requirement_ids": [
+      "FR_PAY_004"
+    ],
+    "story_ids": [
+      "US_PAY_004"
+    ],
+    "rule_ids": [
+      "BR_PAY_003"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollRunAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-RUN-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: runId=1, idempotentSameId=True, status=DRAFT"
+    ],
+    "expected": "runId=1, idempotentSameId=True, status=DRAFT",
+    "expected_results": [
+      "runId=1, idempotentSameId=True, status=DRAFT"
+    ],
+    "actual_result": "runId=1, idempotentSameId=True, status=DRAFT",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 11405
+  },
+  {
+    "id": "E2E-CALC-01",
+    "testcase_id": "E2E-CALC-01",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "Calculation"
+    ],
+    "quality_attributes": [
+      "Accuracy",
+      "Compliance"
+    ],
+    "priority": "P1",
+    "name": "E2E-CALC-01: Calculate November 2026 Batch across 6 employees",
+    "objective": "Calculate November 2026 Batch across 6 employees",
+    "requirement_ids": [
+      "FR_PAY_004",
+      "FR_PAY_007"
+    ],
+    "story_ids": [
+      "US_PAY_004",
+      "US_PAY_007"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_004",
+      "BR_PAY_009",
+      "BR_PAY_010",
+      "BR_PAY_011",
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/calculate",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollRunCalculateAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-CALC-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: status=CALCULATED, eligible=4, exceptions=4, gross=312865.47, net=260845.47"
+    ],
+    "expected": "status=CALCULATED, eligible=4, exceptions=4, gross=312865.47, net=260845.47",
+    "expected_results": [
+      "status=CALCULATED, eligible=4, exceptions=4, gross=312865.47, net=260845.47"
+    ],
+    "actual_result": "status=CALCULATED, eligible=4, exceptions=4, gross=312865.47, net=260845.47",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 9258
+  },
+  {
+    "id": "E2E-CALC-02",
+    "testcase_id": "E2E-CALC-02",
+    "feature_id": "FEAT_PAY_CROSS",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "CrossModule",
+      "Security"
+    ],
+    "quality_attributes": [
+      "Accuracy",
+      "Privacy"
+    ],
+    "priority": "P1",
+    "name": "E2E-CALC-02: Verify PIM/Leave/Time/Claim/EPF/ESIC/PT/TDS/Masking/Skips",
+    "objective": "Verify PIM/Leave/Time/Claim/EPF/ESIC/PT/TDS/Masking/Skips",
+    "requirement_ids": [
+      "FR_PAY_003",
+      "FR_PAY_004",
+      "FR_PAY_005",
+      "FR_PAY_006",
+      "FR_PAY_007",
+      "FR_PAY_008"
+    ],
+    "story_ids": [
+      "US_PAY_003",
+      "US_PAY_004",
+      "US_PAY_005",
+      "US_PAY_006",
+      "US_PAY_007",
+      "US_PAY_008"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_004",
+      "BR_PAY_005",
+      "BR_PAY_006",
+      "BR_PAY_007",
+      "BR_PAY_008",
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/runs/{runId}/records",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollRecordAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-CALC-02 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: Aarav(lwp=1,claim=3450,tax=0,net=104158.33), Meera(regime=OLD,tax=48048), Rajesh(otHrs=8,otAmt=857.14,esic=142), Ananya(lwp=0.5,warns=['MISSING_BANK_ACCOUNT_DETAILS']), Skipped=['0001', 'EMP-IN-005', 'EMP-IN-006'], MaskedBankOnly=True"
+    ],
+    "expected": "Aarav(lwp=1,claim=3450,tax=0,net=104158.33), Meera(regime=OLD,tax=48048), Rajesh(otHrs=8,otAmt=857.14,esic=142), Ananya(lwp=0.5,warns=['MISSING_BANK_ACCOUNT_DETAILS']), Skipped=['0001', 'EMP-IN-005', 'EMP-IN-006'], MaskedBankOnly=True",
+    "expected_results": [
+      "Aarav(lwp=1,claim=3450,tax=0,net=104158.33), Meera(regime=OLD,tax=48048), Rajesh(otHrs=8,otAmt=857.14,esic=142), Ananya(lwp=0.5,warns=['MISSING_BANK_ACCOUNT_DETAILS']), Skipped=['0001', 'EMP-IN-005', 'EMP-IN-006'], MaskedBankOnly=True"
+    ],
+    "actual_result": "Aarav(lwp=1,claim=3450,tax=0,net=104158.33), Meera(regime=OLD,tax=48048), Rajesh(otHrs=8,otAmt=857.14,esic=142), Ananya(lwp=0.5,warns=['MISSING_BANK_ACCOUNT_DETAILS']), Skipped=['0001', 'EMP-IN-005', 'EMP-IN-006'], MaskedBankOnly=True",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 9581
+  },
+  {
+    "id": "E2E-ADJ-01",
+    "testcase_id": "E2E-ADJ-01",
+    "feature_id": "FEAT_PAY_ADJUSTMENT",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Functional",
+      "Auditability"
+    ],
+    "quality_attributes": [
+      "Auditability",
+      "Accuracy"
+    ],
+    "priority": "P1",
+    "name": "E2E-ADJ-01: Apply audited INR manual adjustment to Rajesh Kumar",
+    "objective": "Apply audited INR manual adjustment to Rajesh Kumar",
+    "requirement_ids": [
+      "FR_PAY_009"
+    ],
+    "story_ids": [
+      "US_PAY_009"
+    ],
+    "rule_ids": [
+      "BR_PAY_014"
+    ],
+    "target_interface": {
+      "endpoint": "PUT /api/v2/payroll/records/{id}/adjustment",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollAdjustmentAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-ADJ-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: recordId=3, adj=1000, net=18435.14"
+    ],
+    "expected": "recordId=3, adj=1000, net=18435.14",
+    "expected_results": [
+      "recordId=3, adj=1000, net=18435.14"
+    ],
+    "actual_result": "recordId=3, adj=1000, net=18435.14",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 4533
+  },
+  {
+    "id": "E2E-SEC-01",
+    "testcase_id": "E2E-SEC-01",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "Security",
+      "RBAC",
+      "IDOR"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Privacy"
+    ],
+    "priority": "P1",
+    "name": "E2E-SEC-01: ESS blocked (403) from Payroll calculate, cross-employee payslips & config",
+    "objective": "ESS blocked (403) from Payroll calculate, cross-employee payslips & config",
+    "requirement_ids": [
+      "FR_PAY_001",
+      "FR_PAY_003",
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_001",
+      "US_PAY_003",
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/employees/{empNumber}/payslips",
+      "handler": "OrangeHRM\\Payroll\\Api\\EmployeePayslipsAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-SEC-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: ESS calculate=403, otherEmpPayslips(IDOR)=403, modifyConfig=403"
+    ],
+    "expected": "ESS calculate=403, otherEmpPayslips(IDOR)=403, modifyConfig=403",
+    "expected_results": [
+      "ESS calculate=403, otherEmpPayslips(IDOR)=403, modifyConfig=403"
+    ],
+    "actual_result": "ESS calculate=403, otherEmpPayslips(IDOR)=403, modifyConfig=403",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 18593
+  },
+  {
+    "id": "E2E-WF-01",
+    "testcase_id": "E2E-WF-01",
+    "feature_id": "FEAT_PAY_WF",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "Workflow",
+      "Security"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "E2E-WF-01: Submit -> Self-Approve 403 -> Reject -> Resubmit -> Approve -> Lock",
+    "objective": "Submit -> Self-Approve 403 -> Reject -> Resubmit -> Approve -> Lock",
+    "requirement_ids": [
+      "FR_PAY_009",
+      "FR_PAY_010"
+    ],
+    "story_ids": [
+      "US_PAY_009",
+      "US_PAY_010"
+    ],
+    "rule_ids": [
+      "BR_PAY_013",
+      "BR_PAY_014"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/runs/{runId}/{submit,approve,reject,lock}",
+      "handler": "OrangeHRM\\Payroll\\Service\\PayrollWorkflowService"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-WF-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: submit=200, adminSelfApprove=403 (SoD!), lockedAdj=400, reject=200, resubmit=200, approve=200, lock=200"
+    ],
+    "expected": "submit=200, adminSelfApprove=403 (SoD!), lockedAdj=400, reject=200, resubmit=200, approve=200, lock=200",
+    "expected_results": [
+      "submit=200, adminSelfApprove=403 (SoD!), lockedAdj=400, reject=200, resubmit=200, approve=200, lock=200"
+    ],
+    "actual_result": "submit=200, adminSelfApprove=403 (SoD!), lockedAdj=400, reject=200, resubmit=200, approve=200, lock=200",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 44680
+  },
+  {
+    "id": "E2E-ESS-01",
+    "testcase_id": "E2E-ESS-01",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "API / Contract Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "Security",
+      "IDOR"
+    ],
+    "quality_attributes": [
+      "Security",
+      "Privacy"
+    ],
+    "priority": "P1",
+    "name": "E2E-ESS-01: ESS fetches/downloads own PUBLISHED slip and gets 403 on peer slip",
+    "objective": "ESS fetches/downloads own PUBLISHED slip and gets 403 on peer slip",
+    "requirement_ids": [
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/my-salary-slips & /payroll/slips/{id}/download",
+      "handler": "OrangeHRM\\Payroll\\Api\\SalarySlipDocumentAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-ESS-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: aaravSlipId=1, downloadHTTP=200, meeraSlipId=2, idorJson=403, idorDownload=403"
+    ],
+    "expected": "aaravSlipId=1, downloadHTTP=200, meeraSlipId=2, idorJson=403, idorDownload=403",
+    "expected_results": [
+      "aaravSlipId=1, downloadHTTP=200, meeraSlipId=2, idorJson=403, idorDownload=403"
+    ],
+    "actual_result": "aaravSlipId=1, downloadHTTP=200, meeraSlipId=2, idorJson=403, idorDownload=403",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 35347
+  },
+  {
+    "id": "E2E-PAY-01",
+    "testcase_id": "E2E-PAY-01",
+    "feature_id": "FEAT_PAY_PAYMENT",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Functional & Workflow Tests",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "EndToEnd",
+      "DataIntegrity",
+      "Negative"
+    ],
+    "quality_attributes": [
+      "DataIntegrity",
+      "FunctionalCorrectness"
+    ],
+    "priority": "P1",
+    "name": "E2E-PAY-01: NEFT Missing-Bank Guard -> Export CSV -> UTR Reconcile -> Claim PAID",
+    "objective": "NEFT Missing-Bank Guard -> Export CSV -> UTR Reconcile -> Claim PAID",
+    "requirement_ids": [
+      "FR_PAY_003",
+      "FR_PAY_008",
+      "FR_PAY_011"
+    ],
+    "story_ids": [
+      "US_PAY_003",
+      "US_PAY_008",
+      "US_PAY_011"
+    ],
+    "rule_ids": [
+      "BR_PAY_008",
+      "BR_PAY_015"
+    ],
+    "target_interface": {
+      "endpoint": "POST /api/v2/payroll/payment-batches/{batchId}/{export,reconcile}",
+      "handler": "OrangeHRM\\Payroll\\Service\\PayrollPaymentService"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-PAY-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: batchId=1, missingBankBlockedHTTP=400, ananyaProfileUpd=200, exportCSV=200 (rows=5), reconcile=200 (UTR=HDFCN20261201001), claimDB={'c_status': 'PAID', 'settlement_status': 'PAID_RECONCILED', 'reconciled_at': '2026-11-11 11:55:50'}"
+    ],
+    "expected": "batchId=1, missingBankBlockedHTTP=400, ananyaProfileUpd=200, exportCSV=200 (rows=5), reconcile=200 (UTR=HDFCN20261201001), claimDB={'c_status': 'PAID', 'settlement_status': 'PAID_RECONCILED', 'reconciled_at': '2026-11-11 11:55:50'}",
+    "expected_results": [
+      "batchId=1, missingBankBlockedHTTP=400, ananyaProfileUpd=200, exportCSV=200 (rows=5), reconcile=200 (UTR=HDFCN20261201001), claimDB={'c_status': 'PAID', 'settlement_status': 'PAID_RECONCILED', 'reconciled_at': '2026-11-11 11:55:50'}"
+    ],
+    "actual_result": "batchId=1, missingBankBlockedHTTP=400, ananyaProfileUpd=200, exportCSV=200 (rows=5), reconcile=200 (UTR=HDFCN20261201001), claimDB={'c_status': 'PAID', 'settlement_status': 'PAID_RECONCILED', 'reconciled_at': '2026-11-11 11:55:50'}",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 29331
+  },
+  {
+    "id": "E2E-AUD-01",
+    "testcase_id": "E2E-AUD-01",
+    "feature_id": "FEAT_PAY_ADJUSTMENT",
+    "suite": "India_Payroll_E2E_Suite",
+    "layer": "Database & Referential Integrity",
+    "module": "Payroll",
+    "test_level": "E2E",
+    "test_type": [
+      "DataIntegrity",
+      "Auditability"
+    ],
+    "quality_attributes": [
+      "Auditability",
+      "DataIntegrity"
+    ],
+    "priority": "P1",
+    "name": "E2E-AUD-01: Verify immutable audit trail records full lifecycle",
+    "objective": "Verify immutable audit trail records full lifecycle",
+    "requirement_ids": [
+      "FR_PAY_009",
+      "FR_PAY_010",
+      "FR_PAY_011"
+    ],
+    "story_ids": [
+      "US_PAY_009",
+      "US_PAY_010",
+      "US_PAY_011"
+    ],
+    "rule_ids": [
+      "BR_PAY_013",
+      "BR_PAY_014",
+      "BR_PAY_015"
+    ],
+    "target_interface": {
+      "endpoint": "GET /api/v2/payroll/audit-events",
+      "handler": "OrangeHRM\\Payroll\\Api\\PayrollAuditAPI"
+    },
+    "preconditions": [
+      "Clean MariaDB orangehrm_mysql state seeded via seed_payroll_demo_data.php",
+      "Live OrangeHRM 5.8 HTTP server running on http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Execute automated verifier step E2E-AUD-01 against live sessions (Admin, PayrollApprover, ESS)",
+      "Verify observed assertion: count=14, missingExpected=[]"
+    ],
+    "expected": "count=14, missingExpected=[]",
+    "expected_results": [
+      "count=14, missingExpected=[]"
+    ],
+    "actual_result": "count=14, missingExpected=[]",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_e2e.py (Requests + MariaDB)",
+    "durationMs": 3489
+  }
+]

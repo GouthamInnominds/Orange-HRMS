@@ -14,11 +14,12 @@ class TestService {
       scope,
       createdAt: new Date().toISOString(),
       tests: tests.length > 0 ? tests : [
-        { id: 'TC_PAY_001', name: 'Contract: POST /api/v2/payroll/pay-periods/{id}/calculate', suite: 'TS_Payroll_Contract', estSec: 2 },
-        { id: 'TC_PAY_002', name: 'Functional: Verify Statutory Deduction Formulas', suite: 'TS_Payroll_Formulas', estSec: 3 },
-        { id: 'TC_PAY_003', name: 'Security: Pay Period Locking Prevents Recalculation', suite: 'TS_Payroll_Locking', estSec: 2 },
-        { id: 'TC_PAY_004', name: 'DB Integrity: hs_hr_payroll_record Foreign Key Audit', suite: 'TS_DB_Integrity', estSec: 1 },
-        { id: 'TC_PAY_005', name: 'UI Sanity: Payroll Dashboard & Slip Generation Render', suite: 'TS_UI_Sanity', estSec: 3 }
+        { id: 'TC_PAY_UNIT_006', name: 'IndianStatutoryCalculatorTest::testEpfCapToggleSplitsEpsAndDiffCorrectly', suite: 'IndianStatutoryCalculatorTest', estSec: 1 },
+        { id: 'TC_PAY_INT_004', name: 'PayrollWorkflowAndStatutoryIntegrationTest::testWorkflowSeparationOfDutiesAndLifecycleGuards', suite: 'PayrollWorkflowAndStatutoryIntegrationTest', estSec: 1 },
+        { id: 'E2E-CALC-02', name: 'E2E-CALC-02: Verify PIM/Leave/Time/Claim/EPF/ESIC/PT/TDS/Masking/Skips', suite: 'India_Payroll_E2E_Suite', estSec: 9 },
+        { id: 'E2E-WF-01', name: 'E2E-WF-01: Submit -> Self-Approve 403 -> Reject -> Resubmit -> Approve -> Lock', suite: 'India_Payroll_E2E_Suite', estSec: 35 },
+        { id: 'E2E-PAY-01', name: 'E2E-PAY-01: NEFT Missing-Bank Guard -> Export CSV -> UTR Reconcile -> Claim PAID', suite: 'India_Payroll_E2E_Suite', estSec: 36 },
+        { id: 'UI-TEL-01', name: 'UI-TEL-01: Zero Browser Console/Page/HTTP>=400 Errors Across 9 Routes', suite: 'Playwright_OXD_UI_Suite', estSec: 1 }
       ],
       requiresApproval: true,
       approvalToken: 'appr-' + Math.random().toString(36).substring(2, 10),

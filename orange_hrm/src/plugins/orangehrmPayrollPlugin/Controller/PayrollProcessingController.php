@@ -19,19 +19,31 @@
 
 namespace OrangeHRM\Payroll\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
-class PayrollProcessingController extends AbstractVueController
+class PayrollProcessingController extends BasePayrollController
 {
-    /**
-     * @inheritDoc
-     */
     public function preRender(Request $request): void
     {
         $component = new Component('payroll-processing');
+        $runId = $request->query->getInt('runId', 0);
+        if ($runId > 0) {
+            $component->addProp(new Prop('initial-run-id', Prop::TYPE_NUMBER, $runId));
+        }
         $this->setComponent($component);
+        $this->setPermissionsForController([
+            'payroll_pay_periods',
+            'payroll_run_process',
+            'payroll_run_approve',
+            'payroll_run_lock',
+            'payroll_payments',
+            'apiv2_payroll_run_calculate',
+            'apiv2_payroll_run_submit',
+            'apiv2_payroll_run_approve',
+            'apiv2_payroll_run_lock',
+            'apiv2_payroll_adjustment',
+        ]);
     }
 }
-

@@ -65,19 +65,21 @@ class TIAService {
 
     if (affectedComponents.length > 0) {
       affectedRequirements.push(
-        { id: 'REQ-PAY-01', title: 'Automated Gross to Net Calculation Engine', criticality: 'CRITICAL' },
-        { id: 'REQ-PAY-02', title: 'Statutory EPF 8% & PAYE 15% Withholding', criticality: 'CRITICAL' },
-        { id: 'REQ-PAY-03', title: 'Pay Period Locking & Record Immutability', criticality: 'HIGH' },
-        { id: 'REQ-PAY-04', title: 'Self-Service Employee Salary Slip Download', criticality: 'MEDIUM' }
+        { id: 'FR_PAY_004', title: 'Idempotent Runs & Immutable PIM Employee Snapshots', criticality: 'CRITICAL' },
+        { id: 'FR_PAY_007', title: 'India Statutory (EPF/ESIC/PT) & FY 2026-27 TDS (115BAC/Old)', criticality: 'CRITICAL' },
+        { id: 'FR_PAY_010', title: 'Maker-Checker Separation of Duties & Run Locking', criticality: 'HIGH' },
+        { id: 'FR_PAY_011', title: 'NEFT Bank CSV Guard & UTR Claim PAID Settlement', criticality: 'HIGH' },
+        { id: 'FR_PAY_012', title: 'ESS INR HTML Payslip Preview & Strict BOLA/IDOR Isolation', criticality: 'HIGH' }
       );
 
       candidateTests.push(
-        { id: 'TC_PAY_001', name: 'Contract: POST /api/v2/payroll/pay-periods/{id}/calculate', suite: 'TS_Payroll_Contract', priority: 'P1', estSec: 2 },
-        { id: 'TC_PAY_002', name: 'Functional: Verify Statutory Deduction Formulas (EPF & PAYE)', suite: 'TS_Payroll_Formulas', priority: 'P1', estSec: 3 },
-        { id: 'TC_PAY_003', name: 'Security: Pay Period Locking Prevents Recalculation', suite: 'TS_Payroll_Locking', priority: 'P1', estSec: 2 },
-        { id: 'TC_PAY_004', name: 'DB Integrity: hs_hr_payroll_record Foreign Key Audit', suite: 'TS_DB_Integrity', priority: 'P2', estSec: 1 },
-        { id: 'TC_PAY_005', name: 'UI Sanity: Payroll Dashboard & Slip Generation Render', suite: 'TS_UI_Sanity', priority: 'P2', estSec: 4 },
-        { id: 'TC_PIM_INT_001', name: 'Integration: PIM Active Employee Salary Sync', suite: 'TS_PIM_Integration', priority: 'P2', estSec: 3 }
+        { id: 'TC_PAY_UNIT_006', name: 'IndianStatutoryCalculatorTest::testEpfCapToggleSplitsEpsAndDiffCorrectly', suite: 'IndianStatutoryCalculatorTest', priority: 'P1', estSec: 1 },
+        { id: 'TC_PAY_UNIT_009', name: 'IndianStatutoryCalculatorTest::testFy2026TdsNewVsOldRegimeRebateCessAndLwpProRata', suite: 'IndianStatutoryCalculatorTest', priority: 'P1', estSec: 1 },
+        { id: 'TC_PAY_INT_004', name: 'PayrollWorkflowAndStatutoryIntegrationTest::testWorkflowSeparationOfDutiesAndLifecycleGuards', suite: 'PayrollWorkflowAndStatutoryIntegrationTest', priority: 'P1', estSec: 1 },
+        { id: 'E2E-CALC-02', name: 'E2E-CALC-02: Verify PIM/Leave/Time/Claim/EPF/ESIC/PT/TDS/Masking/Skips', suite: 'India_Payroll_E2E_Suite', priority: 'P1', estSec: 9 },
+        { id: 'E2E-WF-01', name: 'E2E-WF-01: Submit -> Self-Approve 403 -> Reject -> Resubmit -> Approve -> Lock', suite: 'India_Payroll_E2E_Suite', priority: 'P1', estSec: 35 },
+        { id: 'E2E-PAY-01', name: 'E2E-PAY-01: NEFT Missing-Bank Guard -> Export CSV -> UTR Reconcile -> Claim PAID', suite: 'India_Payroll_E2E_Suite', priority: 'P1', estSec: 36 },
+        { id: 'UI-ESS-01', name: 'UI-ESS-01: ESS My Salary Slips Table & Interactive Payslip Preview Modal', suite: 'Playwright_OXD_UI_Suite', priority: 'P1', estSec: 63 }
       );
     } else {
       candidateTests.push(

@@ -275,6 +275,20 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.data-table-compact th,
+.data-table-compact td {
+  padding: 9px 10px;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.data-table-compact td:nth-child(2),
+.data-table-compact td:nth-child(3) {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 260px;
+}
+
 /* Badges */
 .badge {
   display: inline-block;

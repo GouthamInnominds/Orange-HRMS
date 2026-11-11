@@ -1,0 +1,322 @@
+{
+  "extension_id": "ORANGEHRM_PAYROLL_EXTENSION_v2.2",
+  "baseline_reference": "ORANGEHRM_BASELINE_v1.0",
+  "version": "2.2.0-india-payroll",
+  "commit_sha": "3ad71c9f3c34716960d842e59e643fb083f6ad40",
+  "executed_at": "2026-11-11T13:02:48+0530",
+  "baseline_testcases": 6893,
+  "payroll_executed_testcases": 41,
+  "combined_total_testcases": 6934,
+  "traceability_summary": {
+    "phpunit_unit_integration_tests": 18,
+    "phpunit_assertions": 108,
+    "e2e_api_security_workflow_tests": 13,
+    "playwright_ui_telemetry_tests": 10,
+    "layer_breakdown": {
+      "Unit / Calculation Tests": 13,
+      "API / Contract Tests": 5,
+      "Functional & Workflow Tests": 12,
+      "Database & Referential Integrity": 1,
+      "UI & Vue Component Validation": 10
+    },
+    "passed": 41,
+    "failed": 0,
+    "user_stories_covered": "12/12",
+    "functional_requirements_covered": "12/12",
+    "business_rules_covered": "16/16",
+    "uncovered_gaps": 0
+  },
+  "story_to_tests": {
+    "US_PAY_001": [
+      "E2E-AUTH-01",
+      "E2E-CFG-01",
+      "E2E-SEC-01",
+      "UI-PAY-01",
+      "UI-PAY-06",
+      "UI-TEL-01"
+    ],
+    "US_PAY_002": [
+      "TC_PAY_UNIT_005",
+      "E2E-PER-01",
+      "E2E-PER-02",
+      "UI-PAY-02"
+    ],
+    "US_PAY_003": [
+      "TC_PAY_INT_005",
+      "E2E-CALC-02",
+      "E2E-SEC-01",
+      "E2E-PAY-01",
+      "UI-PIM-02",
+      "UI-TEL-01"
+    ],
+    "US_PAY_004": [
+      "TC_PAY_UNIT_005",
+      "E2E-RUN-01",
+      "E2E-CALC-01",
+      "E2E-CALC-02",
+      "UI-PAY-03"
+    ],
+    "US_PAY_005": [
+      "TC_PAY_UNIT_011",
+      "TC_PAY_INT_001",
+      "E2E-CALC-02"
+    ],
+    "US_PAY_006": [
+      "TC_PAY_UNIT_010",
+      "TC_PAY_UNIT_012",
+      "TC_PAY_INT_002",
+      "E2E-CALC-02"
+    ],
+    "US_PAY_007": [
+      "TC_PAY_UNIT_001",
+      "TC_PAY_UNIT_002",
+      "TC_PAY_UNIT_003",
+      "TC_PAY_UNIT_004",
+      "TC_PAY_UNIT_006",
+      "TC_PAY_UNIT_007",
+      "TC_PAY_UNIT_008",
+      "TC_PAY_UNIT_009",
+      "TC_PAY_INT_003",
+      "E2E-CALC-01",
+      "E2E-CALC-02",
+      "UI-PAY-03"
+    ],
+    "US_PAY_008": [
+      "TC_PAY_UNIT_007",
+      "TC_PAY_UNIT_013",
+      "E2E-CALC-02",
+      "E2E-PAY-01"
+    ],
+    "US_PAY_009": [
+      "TC_PAY_INT_004",
+      "E2E-ADJ-01",
+      "E2E-WF-01",
+      "E2E-AUD-01",
+      "UI-PAY-03",
+      "UI-PAY-05"
+    ],
+    "US_PAY_010": [
+      "TC_PAY_INT_004",
+      "E2E-AUTH-01",
+      "E2E-WF-01",
+      "E2E-AUD-01",
+      "UI-PAY-03",
+      "UI-PAY-05"
+    ],
+    "US_PAY_011": [
+      "TC_PAY_UNIT_013",
+      "E2E-PAY-01",
+      "E2E-AUD-01",
+      "UI-PAY-04",
+      "UI-PAY-05"
+    ],
+    "US_PAY_012": [
+      "TC_PAY_INT_005",
+      "E2E-AUTH-01",
+      "E2E-SEC-01",
+      "E2E-ESS-01",
+      "UI-PIM-01",
+      "UI-ESS-01",
+      "UI-TEL-01"
+    ]
+  },
+  "requirement_to_tests": {
+    "FR_PAY_001": [
+      "E2E-AUTH-01",
+      "E2E-CFG-01",
+      "E2E-SEC-01",
+      "UI-PAY-01",
+      "UI-PAY-06",
+      "UI-TEL-01"
+    ],
+    "FR_PAY_002": [
+      "E2E-PER-01",
+      "E2E-PER-02",
+      "UI-PAY-02"
+    ],
+    "FR_PAY_003": [
+      "TC_PAY_INT_005",
+      "E2E-CALC-02",
+      "E2E-SEC-01",
+      "E2E-PAY-01",
+      "UI-PIM-02",
+      "UI-TEL-01"
+    ],
+    "FR_PAY_004": [
+      "TC_PAY_UNIT_005",
+      "E2E-RUN-01",
+      "E2E-CALC-01",
+      "E2E-CALC-02",
+      "UI-PAY-03"
+    ],
+    "FR_PAY_005": [
+      "TC_PAY_UNIT_011",
+      "TC_PAY_INT_001",
+      "E2E-CALC-02"
+    ],
+    "FR_PAY_006": [
+      "TC_PAY_UNIT_010",
+      "TC_PAY_UNIT_012",
+      "TC_PAY_INT_002",
+      "E2E-CALC-02"
+    ],
+    "FR_PAY_007": [
+      "TC_PAY_UNIT_001",
+      "TC_PAY_UNIT_002",
+      "TC_PAY_UNIT_003",
+      "TC_PAY_UNIT_004",
+      "TC_PAY_UNIT_006",
+      "TC_PAY_UNIT_007",
+      "TC_PAY_UNIT_008",
+      "TC_PAY_UNIT_009",
+      "TC_PAY_INT_003",
+      "E2E-CALC-01",
+      "E2E-CALC-02",
+      "UI-PAY-03"
+    ],
+    "FR_PAY_008": [
+      "TC_PAY_UNIT_007",
+      "TC_PAY_UNIT_013",
+      "E2E-CALC-02",
+      "E2E-PAY-01"
+    ],
+    "FR_PAY_009": [
+      "TC_PAY_INT_004",
+      "E2E-ADJ-01",
+      "E2E-WF-01",
+      "E2E-AUD-01",
+      "UI-PAY-03",
+      "UI-PAY-05"
+    ],
+    "FR_PAY_010": [
+      "TC_PAY_INT_004",
+      "E2E-AUTH-01",
+      "E2E-WF-01",
+      "E2E-AUD-01",
+      "UI-PAY-03",
+      "UI-PAY-05"
+    ],
+    "FR_PAY_011": [
+      "E2E-PAY-01",
+      "E2E-AUD-01",
+      "UI-PAY-04",
+      "UI-PAY-05"
+    ],
+    "FR_PAY_012": [
+      "TC_PAY_INT_005",
+      "E2E-AUTH-01",
+      "E2E-SEC-01",
+      "E2E-ESS-01",
+      "UI-PIM-01",
+      "UI-ESS-01",
+      "UI-TEL-01"
+    ]
+  },
+  "business_rule_to_tests": {
+    "BR_PAY_001": [
+      "TC_PAY_UNIT_005",
+      "E2E-CFG-01",
+      "E2E-PER-01",
+      "E2E-CALC-01",
+      "E2E-CALC-02",
+      "UI-PAY-01",
+      "UI-PAY-02",
+      "UI-TEL-01"
+    ],
+    "BR_PAY_002": [
+      "E2E-PER-01",
+      "E2E-PER-02",
+      "UI-PAY-02"
+    ],
+    "BR_PAY_003": [
+      "E2E-RUN-01"
+    ],
+    "BR_PAY_004": [
+      "E2E-CALC-01",
+      "E2E-CALC-02",
+      "UI-PAY-03",
+      "UI-PIM-02"
+    ],
+    "BR_PAY_005": [
+      "TC_PAY_UNIT_011",
+      "TC_PAY_INT_001",
+      "E2E-CFG-01",
+      "E2E-CALC-02",
+      "UI-PAY-06"
+    ],
+    "BR_PAY_006": [
+      "TC_PAY_UNIT_012",
+      "TC_PAY_INT_002",
+      "E2E-CALC-02",
+      "UI-PAY-06"
+    ],
+    "BR_PAY_007": [
+      "TC_PAY_UNIT_010",
+      "E2E-CALC-02",
+      "UI-PAY-06"
+    ],
+    "BR_PAY_008": [
+      "TC_PAY_UNIT_007",
+      "TC_PAY_UNIT_013",
+      "E2E-CALC-02",
+      "E2E-PAY-01"
+    ],
+    "BR_PAY_009": [
+      "TC_PAY_UNIT_001",
+      "TC_PAY_UNIT_006",
+      "TC_PAY_INT_003",
+      "E2E-CALC-01",
+      "UI-PAY-03"
+    ],
+    "BR_PAY_010": [
+      "TC_PAY_UNIT_002",
+      "TC_PAY_UNIT_007",
+      "E2E-CALC-01"
+    ],
+    "BR_PAY_011": [
+      "TC_PAY_UNIT_008",
+      "E2E-CALC-01"
+    ],
+    "BR_PAY_012": [
+      "TC_PAY_UNIT_001",
+      "TC_PAY_UNIT_003",
+      "TC_PAY_UNIT_004",
+      "TC_PAY_UNIT_009",
+      "TC_PAY_INT_003",
+      "E2E-CFG-01",
+      "E2E-CALC-01",
+      "UI-PAY-06"
+    ],
+    "BR_PAY_013": [
+      "TC_PAY_INT_004",
+      "E2E-AUTH-01",
+      "E2E-WF-01",
+      "E2E-AUD-01",
+      "UI-PAY-03"
+    ],
+    "BR_PAY_014": [
+      "TC_PAY_INT_004",
+      "E2E-ADJ-01",
+      "E2E-WF-01",
+      "E2E-AUD-01",
+      "UI-PAY-03",
+      "UI-PAY-05"
+    ],
+    "BR_PAY_015": [
+      "E2E-PAY-01",
+      "E2E-AUD-01",
+      "UI-PAY-04"
+    ],
+    "BR_PAY_016": [
+      "TC_PAY_INT_005",
+      "E2E-AUTH-01",
+      "E2E-CALC-02",
+      "E2E-SEC-01",
+      "E2E-ESS-01",
+      "UI-PIM-01",
+      "UI-PIM-02",
+      "UI-ESS-01",
+      "UI-TEL-01"
+    ]
+  }
+}
