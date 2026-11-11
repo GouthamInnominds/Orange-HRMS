@@ -1,0 +1,133 @@
+{
+  "targetUrl": "http://127.0.0.1:5121",
+  "executedAt": "2026-11-11T06:21:44Z",
+  "checks": [
+    {
+      "id": "E2E-AUTH-01",
+      "category": "Authentication & RBAC",
+      "name": "Admin, PayrollApprover (fin.approver), and ESS (aarav.ess) login cleanly",
+      "status": "PASSED",
+      "details": "Admin->http://127.0.0.1:5121/web/index.php/dashboard/index, Approver->http://127.0.0.1:5121/web/index.php/dashboard/index, ESS->http://127.0.0.1:5121/web/index.php/dashboard/index",
+      "durationMs": 33131
+    },
+    {
+      "id": "E2E-CFG-01",
+      "category": "Configuration",
+      "name": "India Config, FY 2026-27 Slabs, Statutory Rules & Leave Policies",
+      "status": "PASSED",
+      "details": "jurisdiction=IN, currency=INR, makerChecker=True, slabs=7, rules=12, leavePolicies=3",
+      "durationMs": 30597
+    },
+    {
+      "id": "E2E-PER-01",
+      "category": "Pay Period Lifecycle",
+      "name": "Create India Monthly INR Pay Period (November 2026)",
+      "status": "PASSED",
+      "details": "POST /pay-periods status=200, id=1, fy=2026-27",
+      "durationMs": 14301
+    },
+    {
+      "id": "E2E-PER-02",
+      "category": "Pay Period Validation",
+      "name": "Overlap Guard rejects overlapping date range",
+      "status": "PASSED",
+      "details": "Overlapping date range rejected with HTTP 400: {'error': {'status': '400', 'message': 'Pay period [2026-11-15 to 2026-12-10] overlaps with an existing pay period.'}}",
+      "durationMs": 5897
+    },
+    {
+      "id": "E2E-RUN-01",
+      "category": "Payroll Run",
+      "name": "Create Draft Run with Idempotency Key deduplication",
+      "status": "PASSED",
+      "details": "runId=1, idempotentSameId=True, status=DRAFT",
+      "durationMs": 11405
+    },
+    {
+      "id": "E2E-CALC-01",
+      "category": "Calculation Engine",
+      "name": "Calculate November 2026 Batch across 6 employees",
+      "status": "PASSED",
+      "details": "status=CALCULATED, eligible=4, exceptions=4, gross=312865.47, net=260845.47",
+      "durationMs": 9258
+    },
+    {
+      "id": "E2E-CALC-02",
+      "category": "Cross-Module Accuracy & Masking",
+      "name": "Verify PIM/Leave/Time/Claim/EPF/ESIC/PT/TDS/Masking/Skips",
+      "status": "PASSED",
+      "details": "Aarav(lwp=1,claim=3450,tax=0,net=104158.33), Meera(regime=OLD,tax=48048), Rajesh(otHrs=8,otAmt=857.14,esic=142), Ananya(lwp=0.5,warns=['MISSING_BANK_ACCOUNT_DETAILS']), Skipped=['0001', 'EMP-IN-005', 'EMP-IN-006'], MaskedBankOnly=True",
+      "durationMs": 9581
+    },
+    {
+      "id": "E2E-ADJ-01",
+      "category": "Audit & Adjustments",
+      "name": "Apply audited INR manual adjustment to Rajesh Kumar",
+      "status": "PASSED",
+      "details": "recordId=3, adj=1000, net=18435.14",
+      "durationMs": 4533
+    },
+    {
+      "id": "E2E-SEC-01",
+      "category": "RBAC & IDOR",
+      "name": "ESS blocked (403) from Payroll calculate, cross-employee payslips & config",
+      "status": "PASSED",
+      "details": "ESS calculate=403, otherEmpPayslips(IDOR)=403, modifyConfig=403",
+      "durationMs": 18593
+    },
+    {
+      "id": "E2E-WF-01",
+      "category": "Maker-Checker & State Machine",
+      "name": "Submit -> Self-Approve 403 -> Reject -> Resubmit -> Approve -> Lock",
+      "status": "PASSED",
+      "details": "submit=200, adminSelfApprove=403 (SoD!), lockedAdj=400, reject=200, resubmit=200, approve=200, lock=200",
+      "durationMs": 44680
+    },
+    {
+      "id": "E2E-ESS-01",
+      "category": "Self-Service & Slip IDOR",
+      "name": "ESS fetches/downloads own PUBLISHED slip and gets 403 on peer slip",
+      "status": "PASSED",
+      "details": "aaravSlipId=1, downloadHTTP=200, meeraSlipId=2, idorJson=403, idorDownload=403",
+      "durationMs": 35347
+    },
+    {
+      "id": "E2E-PAY-01",
+      "category": "Payment & Claim Settlement",
+      "name": "NEFT Missing-Bank Guard -> Export CSV -> UTR Reconcile -> Claim PAID",
+      "status": "PASSED",
+      "details": "batchId=1, missingBankBlockedHTTP=400, ananyaProfileUpd=200, exportCSV=200 (rows=5), reconcile=200 (UTR=HDFCN20261201001), claimDB={'c_status': 'PAID', 'settlement_status': 'PAID_RECONCILED', 'reconciled_at': '2026-11-11 11:55:50'}",
+      "durationMs": 29331
+    },
+    {
+      "id": "E2E-AUD-01",
+      "category": "Audit Trail",
+      "name": "Verify immutable audit trail records full lifecycle",
+      "status": "PASSED",
+      "details": "count=14, missingExpected=[]",
+      "durationMs": 3489
+    }
+  ],
+  "summary": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0
+  },
+  "entities": {
+    "payPeriodId": 1,
+    "runId": 1,
+    "records": {
+      "EMP-IN-001": 1,
+      "EMP-IN-004": 4,
+      "EMP-IN-002": 2,
+      "EMP-IN-003": 3
+    },
+    "empNumbers": {
+      "EMP-IN-001": 2,
+      "EMP-IN-004": 5,
+      "EMP-IN-002": 3,
+      "EMP-IN-003": 4
+    },
+    "aaravSlipId": 1,
+    "batchId": 1
+  }
+}

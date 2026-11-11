@@ -128,6 +128,7 @@
             "OrangeHRM\\Tests\\Help\\": "./plugins/orangehrmHelpPlugin/test",
             "OrangeHRM\\Tests\\Mobile\\": "./plugins/orangehrmMobilePlugin/test",
             "OrangeHRM\\Tests\\Claim\\": "./plugins/orangehrmClaimPlugin/test",
+            "OrangeHRM\\Tests\\Payroll\\": "./plugins/orangehrmPayrollPlugin/test",
             "OrangeHRM\\Tests\\OpenidAuthentication\\": "./plugins/orangehrmOpenidAuthenticationPlugin/test"
         }
     },

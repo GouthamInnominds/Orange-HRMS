@@ -73,8 +73,8 @@ app.get('/api/v2/graph/module/:name', async (req, res) => {
 });
 
 app.get('/api/v2/graph/compare', async (req, res) => {
-  const src = req.query.source || 'v1.0.0';
-  const tgt = req.query.target || 'v2.0.0-payroll';
+  const src = req.query.source || 'v1.0';
+  const tgt = req.query.target || 'v2.2-india-payroll';
   const data = await neo4jService.compareGraphBaselines(src, tgt);
   res.json(data);
 });
@@ -231,6 +231,6 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 QE Intelligence Platform & Agentic Chatbot Online!`);
   console.log(`🌐 Web URL: http://127.0.0.1:${PORT}`);
   console.log(`📡 Azure OpenAI LLM: Connected (${process.env.AZURE_DEPLOYMENT || 'gpt-4.1'})`);
-  console.log(`📊 Total Verified Automated Tests: 6,998 (including 105 Payroll tests)`);
+  console.log(`📊 Total Verified Automated Tests: ${metricsService.grandTotal.toLocaleString()} (6,893 baseline + ${metricsService.payrollTotal} executed Payroll v2.2 tests)`);
   console.log(`================================================================`);
 });

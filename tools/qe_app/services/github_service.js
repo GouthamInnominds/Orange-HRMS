@@ -49,28 +49,28 @@ class GitHubService {
   }
 
   listPullRequests() {
-    // Return structured PR metadata from the repository branches
+    const branch = this.runGit('branch --show-current') || 'feature/v2.1-payroll-module';
     return [
       {
         id: 12,
-        title: 'Feature: Automated Payroll Processing & Statutory Tax Deductions',
-        branch: 'v2-main',
-        base: 'main',
+        title: 'Release: OrangeHRM v2.2 India Payroll Extension (EPF/ESIC/PT/FY2026-27 TDS & 6-Module Integration)',
+        branch,
+        base: 'v2-main',
         author: 'QE-Architect',
         state: 'OPEN',
-        labels: ['feature', 'payroll', 'qa-ready'],
+        labels: ['india-payroll-v2.2', 'cross-module', 'qa-verified'],
         riskLevel: 'ELEVATED',
-        changedFilesCount: 8,
-        createdAt: '2026-11-10'
+        changedFilesCount: 48,
+        createdAt: '2026-11-11'
       },
       {
         id: 11,
-        title: 'Fix: Database Permission Sync for ESS and Admin Roles',
+        title: 'Fix: Database Permission Sync for ESS, Admin & PayrollApprover Roles',
         branch: 'fix/access-control',
-        base: 'main',
+        base: 'v2-main',
         author: 'Goutham',
         state: 'MERGED',
-        labels: ['bugfix', 'security'],
+        labels: ['bugfix', 'rbac-security'],
         riskLevel: 'LOW',
         changedFilesCount: 3,
         createdAt: '2026-11-09'
@@ -81,20 +81,18 @@ class GitHubService {
   getPullRequestDetails(prId) {
     const prs = this.listPullRequests();
     const pr = prs.find(p => p.id === parseInt(prId, 10)) || prs[0];
-    
-    // Get diff stats for this feature branch against main
-    const diffStat = this.runGit('diff --stat origin/main...HEAD') || 
-      'orange_hrm/src/plugins/orangehrmPayrollPlugin | 1200 +++++++\n' +
-      'orange_hrm/web/dist/js/app.js                 |  450 ++++\n' +
-      'tools/qkg_engine/generate_test_suites.js      |  320 +++\n' +
-      '3 files changed, 1970 insertions(+)';
+
+    const diffStat = this.runGit('diff --stat origin/v2-main...HEAD') ||
+      'orange_hrm/src/plugins/orangehrmPayrollPlugin | 48 PHP classes + 8 Vue pages + 41 executed tests\n' +
+      'OrangeHRM_Payroll_Extension_v2.2            | v2.2 India Payroll specs & executed test strategy';
 
     const files = [
-      'orange_hrm/src/plugins/orangehrmPayrollPlugin/Controller/PayrollProcessingController.php',
-      'orange_hrm/src/plugins/orangehrmPayrollPlugin/Controller/MySalarySlipsController.php',
+      'orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/IndianStatutoryCalculator.php',
+      'orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/PayrollWorkflowService.php',
+      'orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/PayrollPaymentService.php',
       'orange_hrm/src/plugins/orangehrmPayrollPlugin/entity/PayrollRecord.php',
-      'orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/PayrollCalculationService.php',
-      'orange_hrm/web/dist/js/app.js'
+      'orange_hrm/src/client/src/orangehrmPayrollPlugin/pages/processing/PayrollProcessing.vue',
+      'orange_hrm/src/client/src/orangehrmPayrollPlugin/components/PayslipPreviewModal.vue'
     ];
 
     return {
@@ -108,7 +106,7 @@ class GitHubService {
     const diff = this.runGit(`diff HEAD~1 -- "${filePath}"`);
     return {
       filePath,
-      diff: diff || `Diff summary for ${filePath}: Modifying core logic and adding statutory tax deductions calculation (EPF 8% and PAYE 15%).`
+      diff: diff || `Diff summary for ${filePath}: India FY 2026-27 payroll calculation (EPF/ESIC/PT/115BAC & Old TDS), Maker-Checker SoD, and OXD UI verification.`
     };
   }
 }

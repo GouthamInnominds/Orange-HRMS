@@ -1,0 +1,47 @@
+{
+  "extension_id": "ORANGEHRM_PAYROLL_EXTENSION_v2.2",
+  "baseline_reference": "ORANGEHRM_BASELINE_v1.0",
+  "application": "OrangeHRM 5.8 Starter Edition + India Payroll Extension",
+  "version": "2.2.0-india-payroll",
+  "commit_sha": "3ad71c9f3c34716960d842e59e643fb083f6ad40",
+  "jurisdiction": "IN",
+  "currency": "INR",
+  "financial_year": "2026-27",
+  "environment": {
+    "php_version": "8.1.2",
+    "framework": "Symfony 5 / Doctrine ORM 2",
+    "frontend": "Vue 3 / TypeScript / @ohrm/oxd / Webpack",
+    "node_version": "v24.13.0",
+    "database": "MariaDB (183 tables across orangehrm_mysql & test_orangehrm_mysql)"
+  },
+  "payroll_plugin_inventory": {
+    "plugin": "orangehrmPayrollPlugin",
+    "module_id": 19,
+    "payroll_approver_role_id": 8,
+    "total_routes_in_routes_yaml": 38,
+    "rest_api_routes": 28,
+    "web_controller_routes": 10,
+    "api_classes": 22,
+    "api_models": 8,
+    "controllers": 11,
+    "doctrine_entities": 15,
+    "mariadb_payroll_tables": 15,
+    "daos": 3,
+    "services_and_adapters": 12,
+    "vue_pages": 8,
+    "vue_components": 4,
+    "phpunit_test_classes": 5,
+    "phpunit_test_methods": 18,
+    "phpunit_assertions": 108,
+    "api_permissions_registered": 22
+  },
+  "cross_module_integrations": [
+    "orangehrmAdminPlugin",
+    "orangehrmPimPlugin",
+    "orangehrmLeavePlugin",
+    "orangehrmAttendancePlugin",
+    "orangehrmTimePlugin",
+    "orangehrmClaimPlugin"
+  ]
+}
+

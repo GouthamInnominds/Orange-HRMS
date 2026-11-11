@@ -19,20 +19,90 @@
 
 namespace OrangeHRM\Payroll\Api;
 
-class SalarySlipAPI
+use OpenApi\Annotations as OA;
+use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\CollectionEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\SalarySlip;
+use OrangeHRM\Payroll\Api\Model\SalarySlipModel;
+use OrangeHRM\Payroll\Api\Traits\PayrollEndpointTrait;
+use OrangeHRM\Payroll\Dto\SalarySlipSearchFilterParams;
+
+class SalarySlipAPI extends Endpoint implements CollectionEndpoint
 {
-    public function getMySlips(): array
+    use PayrollEndpointTrait;
+
+    /**
+     * @OA\Get(
+     *     path="/api/v2/payroll/my-salary-slips",
+     *     tags={"Payroll/Salary Slips"},
+     *     summary="List Logged-in Employee's Published Salary Slips",
+     *     @OA\Response(response="200", description="Success")
+     * )
+     */
+    public function getAll(): EndpointResult
     {
-        return [
-            ['id' => 1, 'slip_number' => 'SLIP-2026-11-001', 'generated_at' => '2026-11-30']
-        ];
+        $empNumber = $this->getAuthUser()->getEmpNumber();
+        if ($empNumber === null) {
+            return new EndpointCollectionResult(
+                SalarySlipModel::class,
+                [],
+                new ParameterBag([CommonParams::PARAMETER_TOTAL => 0])
+            );
+        }
+
+        $fp = new SalarySlipSearchFilterParams();
+        $this->setSortingAndPaginationParams($fp, 'period.startDate');
+        $fp->setEmpNumber($empNumber);
+        // Self-service strictly returns PUBLISHED payslips (never draft previews or voided slips)
+        $fp->setSlipStatus(SalarySlip::STATUS_PUBLISHED);
+        $fp->setFinancialYear($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, 'financialYear'));
+
+        $dao = $this->getPayrollSlipService()->getRunDao();
+        $slips = $dao->getSalarySlipList($fp);
+        $count = $dao->getSalarySlipCount($fp);
+
+        return new EndpointCollectionResult(
+            SalarySlipModel::class,
+            $slips,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
     }
 
-    public function download(int $id): array
+    public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return [
-            'file' => 'salary_slip_2026_11.pdf',
-            'mime' => 'application/pdf'
-        ];
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(new ParamRule('financialYear', new Rule(Rules::STRING_TYPE))),
+            ...$this->getSortingAndPaginationParamsRules(SalarySlipSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
+    }
+
+    public function create(): EndpointResult
+    {
+        throw new NotImplementedException();
+    }
+
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
+    }
+
+    public function delete(): EndpointResult
+    {
+        throw new NotImplementedException();
+    }
+
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
     }
 }

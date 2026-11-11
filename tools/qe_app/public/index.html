@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OrangeHRM Quality Intelligence Platform (QKG 2.0)</title>
+  <title>OrangeHRM Quality Intelligence Platform (QKG 2.2)</title>
   <link rel="stylesheet" href="style.css">
   <!-- Chart.js, Marked.js, Highlight.js, Vis-Network -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -20,7 +20,7 @@
       <div class="sidebar-logo">⚡</div>
       <div>
         <div class="sidebar-title">Quality Intelligence</div>
-        <span class="sidebar-badge">QKG PLATFORM v2.0</span>
+        <span class="sidebar-badge">QKG PLATFORM v2.2</span>
       </div>
     </div>
 
@@ -31,7 +31,7 @@
       </div>
       <div class="nav-item" data-tab="intelligence">
         <span class="nav-item-icon">🧪</span>
-        <span>Test Intelligence (7,000+)</span>
+        <span>Test Intelligence (6,934)</span>
       </div>
       <div class="nav-item" data-tab="graph">
         <span class="nav-item-icon">🕸️</span>
@@ -65,7 +65,7 @@
         <span>MariaDB 3306 Synced</span>
       </div>
       <div style="margin-top: 10px; font-size: 10px; opacity: 0.7;">
-        Baseline: Commit c5e891b (v2-main)
+        Baseline: v1.0 + v2.2-india-payroll
       </div>
     </div>
   </aside>
@@ -75,7 +75,7 @@
     <header class="app-topbar">
       <div class="topbar-title-wrap">
         <h2 id="page-title">Application Quality Overview</h2>
-        <span class="topbar-baseline-tag">Target Scope: OrangeHRM v2 (Payroll Integration)</span>
+        <span class="topbar-baseline-tag">Target Scope: OrangeHRM v2.2 (India FY 2026-27 Payroll)</span>
       </div>
       <div class="topbar-actions">
         <button class="btn btn-secondary" onclick="app.refreshCurrentTab()">🔄 Refresh Telemetry</button>
@@ -90,8 +90,8 @@
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-title">Verified Test Definitions</div>
-            <div class="kpi-value" style="color: var(--accent-primary);" id="kpi-tests">6,998</div>
-            <div class="kpi-sub">Baseline (6,893) + Payroll (105)</div>
+            <div class="kpi-value" style="color: var(--accent-primary);" id="kpi-tests">6,934</div>
+            <div class="kpi-sub" id="kpi-tests-sub">Baseline (6,893) + Executed Payroll (41)</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Test Pass Health Rate</div>
@@ -100,12 +100,12 @@
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Quality Gate Posture</div>
-            <div class="kpi-value" style="color: var(--accent-success);" id="kpi-gate">PASSED</div>
+            <div class="kpi-value" style="color: var(--accent-success);" id="kpi-gate">PASS</div>
             <div class="kpi-sub">Zero blocking defects or drift</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Logical Scenarios</div>
-            <div class="kpi-value" style="color: var(--accent-purple);" id="kpi-scenarios">6,129</div>
+            <div class="kpi-value" style="color: var(--accent-purple);" id="kpi-scenarios">6,065</div>
             <div class="kpi-sub">Requirements coverage 100%</div>
           </div>
         </div>
@@ -144,39 +144,39 @@
         </div>
       </section>
 
-      <!-- TAB 2: TEST INTELLIGENCE (7,000+ TEST CATALOGUE) -->
+      <!-- TAB 2: TEST INTELLIGENCE (CATALOGUE) -->
       <section id="tab-intelligence" class="tab-pane">
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-title">API & Contract Tests</div>
-            <div class="kpi-value" style="color: var(--accent-primary);">2,445</div>
-            <div class="kpi-sub">Route sanity, payloads, HTTP codes</div>
+            <div class="kpi-value" style="color: var(--accent-primary);" id="kpi-layer-api">2,425</div>
+            <div class="kpi-sub">Route sanity, payloads, RBAC/IDOR</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Functional & Workflows</div>
-            <div class="kpi-value" style="color: var(--accent-success);">2,855</div>
-            <div class="kpi-sub">Business calculations & states</div>
+            <div class="kpi-value" style="color: var(--accent-success);" id="kpi-layer-func">2,852</div>
+            <div class="kpi-sub">Business calculations & Maker-Checker</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">DB Integrity Scenarios</div>
-            <div class="kpi-value" style="color: var(--accent-warning);">975</div>
-            <div class="kpi-sub">Foreign keys, constraints, nullability</div>
+            <div class="kpi-value" style="color: var(--accent-warning);" id="kpi-layer-db">961</div>
+            <div class="kpi-sub">Foreign keys, claim locks, audit trail</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-title">Payroll Dedicated Suite</div>
-            <div class="kpi-value" style="color: var(--accent-purple);">105</div>
-            <div class="kpi-sub">EPF (8%), PAYE (15%), Locking, Slips</div>
+            <div class="kpi-title">Payroll Executed Suite</div>
+            <div class="kpi-value" style="color: var(--accent-purple);" id="kpi-payroll-count">41</div>
+            <div class="kpi-sub">18 PHPUnit + 13 E2E + 10 Playwright UI</div>
           </div>
         </div>
 
         <div class="panel-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
-            <h3>🧪 Verified Test Catalogue Explorer (6,998 Tests)</h3>
+            <h3 id="catalogue-panel-title">🧪 Verified Test Catalogue Explorer (6,934 Tests)</h3>
             <div style="display: flex; gap: 8px;">
               <input type="text" id="test-search-input" placeholder="Search test name or ID..." class="btn btn-secondary" style="background-color: var(--bg-tertiary); min-width: 200px;" oninput="app.filterTestCatalogue()">
               <select id="test-module-filter" class="btn btn-secondary" style="background-color: var(--bg-tertiary);" onchange="app.filterTestCatalogue()">
                 <option value="">All Modules</option>
-                <option value="Payroll">Payroll (105)</option>
+                <option value="Payroll">Payroll (41 Executed)</option>
                 <option value="Admin">Admin</option>
                 <option value="PIM">PIM</option>
                 <option value="Leave">Leave</option>
@@ -196,7 +196,7 @@
           </div>
 
           <div class="data-table-wrap">
-            <table class="data-table">
+            <table class="data-table data-table-compact" id="table-catalogue">
               <thead>
                 <tr>
                   <th>Test ID</th>
@@ -214,7 +214,7 @@
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
-            <div style="font-size: 12px; color: var(--text-muted);" id="catalogue-pagination-info">Showing 1 - 50 of 6,998 tests</div>
+            <div style="font-size: 12px; color: var(--text-muted);" id="catalogue-pagination-info">Loading verified catalogue...</div>
             <div style="display: flex; gap: 6px;">
               <button class="btn btn-secondary" id="btn-prev-page" onclick="app.prevCataloguePage()">Previous</button>
               <button class="btn btn-secondary" id="btn-next-page" onclick="app.nextCataloguePage()">Next</button>
@@ -228,12 +228,12 @@
         <div class="kpi-grid">
           <div class="kpi-card">
             <div class="kpi-title">Knowledge Graph Nodes</div>
-            <div class="kpi-value" style="color: var(--accent-primary);" id="kg-node-count">489</div>
-            <div class="kpi-sub">Schema: schema-v2.0</div>
+            <div class="kpi-value" style="color: var(--accent-primary);" id="kg-node-count">—</div>
+            <div class="kpi-sub">Schema: v2.2-india-payroll</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Graph Relationships</div>
-            <div class="kpi-value" style="color: var(--accent-success);" id="kg-rel-count">947</div>
+            <div class="kpi-value" style="color: var(--accent-success);" id="kg-rel-count">—</div>
             <div class="kpi-sub">Multi-layer semantic links</div>
           </div>
           <div class="kpi-card">
@@ -244,7 +244,7 @@
           <div class="kpi-card">
             <div class="kpi-title">Traceability Depth</div>
             <div class="kpi-value" style="color: var(--accent-purple);">4 Hops</div>
-            <div class="kpi-sub">Story -> Endpoint -> Entity -> Test</div>
+            <div class="kpi-sub">Story -> Requirement -> Endpoint -> Test</div>
           </div>
         </div>
 
@@ -259,9 +259,9 @@
           </div>
           <div id="network-container"></div>
           <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px; display: flex; gap: 16px; flex-wrap: wrap;">
-            <span>🟢 Green: Payroll v2 Nodes</span>
-            <span>🔵 Blue: Modules</span>
-            <span>🟣 Purple: Controllers</span>
+            <span>🟢 Green: v2.2 India Payroll Nodes</span>
+            <span>🔵 Blue: Plugins</span>
+            <span>🟣 Purple: PHP Classes</span>
             <span>🟢 Emerald: API Endpoints</span>
             <span>🟠 Amber: Entities</span>
             <span>🔴 Pink: User Stories</span>
@@ -275,23 +275,20 @@
           <div class="studio-box">
             <div style="display: flex; gap: 8px; margin-bottom: 8px;">
               <select id="cypher-preset-select" class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" onchange="app.loadCypherPreset()">
-                <option value="1">Preset 1: Trace Payroll User Stories to Endpoints & Tests</option>
-                <option value="2">Preset 2: Find all Controllers and their Exposed Endpoints</option>
-                <option value="3">Preset 3: Count Nodes grouped by Ontology Label</option>
-                <option value="4">Preset 4: Inspect Entity-to-Table Model Mappings</option>
+                <option value="1">Preset 1: Trace Payroll v2.2 User Stories to Executed Tests</option>
+                <option value="2">Preset 2: Find Payroll PHP Classes and Exposed API Endpoints</option>
+                <option value="3">Preset 3: Count Nodes grouped by Ontology Label (v2.2-india-payroll)</option>
+                <option value="4">Preset 4: Inspect Payroll Entity-to-MariaDB Table Mappings</option>
               </select>
               <button class="btn btn-primary" style="padding: 4px 12px; font-size: 12px;" onclick="app.executeCypherQuery()">▶ Run Cypher</button>
             </div>
-            <textarea id="cypher-input" class="studio-input" rows="3">MATCH (us:UserStory)-[:VERIFIED_BY]->(tc:TestCase) RETURN us.key AS Story, us.title AS Title, count(tc) AS VerifiedTests ORDER BY VerifiedTests DESC</textarea>
-            <div id="cypher-status" style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Ready to execute read query.</div>
+            <textarea id="cypher-input" class="studio-input" rows="3">MATCH (us:UserStory {version: 'v2.2-india-payroll'})<-[:VERIFIES_STORY]-(tc:TestCase) RETURN us.story_id AS Story, us.title AS Title, count(tc) AS ExecutedTests ORDER BY Story ASC</textarea>
+            <div id="cypher-status" style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Click Run Cypher to query live Neo4j graph.</div>
             <div class="data-table-wrap" style="max-height: 240px; overflow-y: auto;">
               <table class="data-table" id="table-cypher-results">
-                <thead><tr id="cypher-thead-tr"><th>Story</th><th>Title</th><th>VerifiedTests</th></tr></thead>
+                <thead><tr id="cypher-thead-tr"><th>Story</th><th>Title</th><th>ExecutedTests</th></tr></thead>
                 <tbody id="cypher-tbody">
-                  <tr><td>US-PAY-001</td><td>Automatic Salary Batch Processing</td><td>40</td></tr>
-                  <tr><td>US-PAY-002</td><td>Statutory EPF & PAYE Deductions</td><td>25</td></tr>
-                  <tr><td>US-PAY-003</td><td>Pay Period Locking & Immutability</td><td>15</td></tr>
-                  <tr><td>US-PAY-004</td><td>Employee Salary Slip Download</td><td>25</td></tr>
+                  <tr><td colspan="3">Click Run Cypher to query Neo4j...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -350,7 +347,7 @@
         <div class="panel-card">
           <h3>📋 Impacted Regression Test Candidates</h3>
           <div class="data-table-wrap">
-            <table class="data-table">
+            <table class="data-table" id="table-tia-candidates">
               <thead>
                 <tr>
                   <th>Test ID</th>
@@ -372,22 +369,22 @@
           <div class="kpi-card">
             <div class="kpi-title">Active Database</div>
             <div class="kpi-value" style="color: var(--accent-primary);">orangehrm_mysql</div>
-            <div class="kpi-sub">168 Verified Tables</div>
+            <div class="kpi-sub" id="db-active-sub">183 Verified Tables (15 Payroll)</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Test Database</div>
             <div class="kpi-value" style="color: var(--accent-purple);">test_orangehrm_mysql</div>
-            <div class="kpi-sub">168 Verified Tables</div>
+            <div class="kpi-sub" id="db-test-sub">183 Verified Tables</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Schema Drift Status</div>
-            <div class="kpi-value" style="color: var(--accent-success);">SYNCHRONIZED</div>
-            <div class="kpi-sub">Zero table/column mismatch</div>
+            <div class="kpi-value" style="color: var(--accent-success);" id="db-drift-status">SYNCHRONIZED</div>
+            <div class="kpi-sub" id="db-drift-sub">Zero table/column mismatch</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Data Integrity Check</div>
             <div class="kpi-value" style="color: var(--accent-success);">100% VALID</div>
-            <div class="kpi-sub">Payroll FK constraints verified</div>
+            <div class="kpi-sub">Payroll FK & claim lock verified</div>
           </div>
         </div>
 
@@ -408,15 +405,13 @@
               </select>
               <button class="btn btn-primary" style="padding: 4px 12px; font-size: 12px;" onclick="app.executeSqlQuery()">▶ Run SQL Query</button>
             </div>
-            <textarea id="sql-input" class="studio-input" rows="2">SELECT id, employee_id, pay_period_id, gross_salary, total_tax, net_salary, status FROM ohrm_payroll_record LIMIT 10</textarea>
+            <textarea id="sql-input" class="studio-input" rows="2">SELECT id, emp_number, pay_period_id, gross_salary, total_tax, net_salary, currency_id, status FROM ohrm_payroll_record LIMIT 10</textarea>
             <div id="sql-status" style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Ready to execute read-only query.</div>
             <div class="data-table-wrap" style="max-height: 240px; overflow-y: auto;">
               <table class="data-table" id="table-sql-results">
-                <thead><tr id="sql-thead-tr"><th>id</th><th>employee_id</th><th>pay_period_id</th><th>gross_salary</th><th>total_tax</th><th>net_salary</th><th>status</th></tr></thead>
+                <thead><tr id="sql-thead-tr"><th>id</th><th>emp_number</th><th>pay_period_id</th><th>gross_salary</th><th>total_tax</th><th>net_salary</th><th>currency_id</th><th>status</th></tr></thead>
                 <tbody id="sql-tbody">
-                  <tr><td>1</td><td>1</td><td>1</td><td>6000.00</td><td>1380.00</td><td>4620.00</td><td>CALCULATED</td></tr>
-                  <tr><td>2</td><td>2</td><td>1</td><td>5500.00</td><td>1265.00</td><td>4235.00</td><td>CALCULATED</td></tr>
-                  <tr><td>3</td><td>3</td><td>1</td><td>5500.00</td><td>1265.00</td><td>4235.00</td><td>CALCULATED</td></tr>
+                  <tr><td colspan="8">Click Run SQL Query to inspect live MariaDB rows...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -426,7 +421,7 @@
         <div class="panel-card">
           <h3>🗄️ Database Tables Browser (orangehrm_mysql)</h3>
           <div class="data-table-wrap">
-            <table class="data-table">
+            <table class="data-table" id="table-db-tables">
               <thead>
                 <tr>
                   <th>Table Name</th>
@@ -451,7 +446,7 @@
               <div class="message-avatar assistant">🤖</div>
               <div class="message-bubble">
                 <p><strong>Hello! I am your Lead Quality Engineering Intelligence Assistant.</strong></p>
-                <p>I am connected across the 5-layer Quality Engineering platform to <strong>Azure OpenAI GPT-4.1</strong>, the <strong>Neo4j Knowledge Graph</strong>, <strong>MariaDB</strong>, <strong>GitHub</strong>, and the <strong>Test Automation Harness</strong> (6,998 tests including 105 Payroll feature tests).</p>
+                <p>I am connected across the 5-layer Quality Engineering platform to <strong>Azure OpenAI GPT-4.1</strong>, the <strong>Neo4j Knowledge Graph</strong> (<code>v2.2-india-payroll</code>), <strong>MariaDB</strong> (183 tables), <strong>GitHub</strong>, and the <strong>Test Automation Harness</strong> (6,934 verified tests: 6,893 baseline + 41 executed India Payroll v2.2 tests).</p>
                 <p style="margin-top: 8px;">How can I assist your Quality Engineering workflow today?</p>
               </div>
             </div>
@@ -462,7 +457,7 @@
             <div class="preset-prompts">
               <div class="prompt-chip" onclick="app.sendPreset('Analyze PR #12 and check quality risk')">🎯 Analyze PR #12 & Risk</div>
               <div class="prompt-chip" onclick="app.sendPreset('What test cases exist for the Payroll feature?')">🧪 Payroll Test Cases</div>
-              <div class="prompt-chip" onclick="app.sendPreset('Compare v1.0.0 and v2.0.0-payroll Knowledge Graph baselines')">🕸️ Compare Graph Baselines</div>
+              <div class="prompt-chip" onclick="app.sendPreset('Compare v1.0 and v2.2-india-payroll Knowledge Graph baselines')">🕸️ Compare Graph Baselines</div>
               <div class="prompt-chip" onclick="app.sendPreset('Check MariaDB tables and detect schema drift')">🗄️ Check Schema Drift</div>
               <div class="prompt-chip" onclick="app.sendPreset('Generate a test execution plan for Payroll')">📋 Plan Payroll Regression</div>
             </div>

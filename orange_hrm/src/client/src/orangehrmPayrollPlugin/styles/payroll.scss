@@ -1,0 +1,202 @@
+.orangehrm-payroll-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+
+  @media screen and (max-width: 960px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media screen and (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.orangehrm-payroll-metric-card {
+  background-color: $oxd-white-color;
+  border: 1px solid $oxd-interface-gray-lighten-2-color;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.orangehrm-payroll-metric-card.--highlight {
+  border-left: 4px solid $oxd-primary-one-color;
+}
+
+.orangehrm-payroll-metric-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $oxd-interface-gray-darken-1-color;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.orangehrm-payroll-metric-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: $oxd-interface-gray-darken-2-color;
+  font-variant-numeric: tabular-nums;
+}
+
+.orangehrm-payroll-metric-sub {
+  font-size: 0.75rem;
+  color: $oxd-interface-gray-color;
+  font-variant-numeric: tabular-nums;
+}
+
+.orangehrm-payroll-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &.--neutral {
+    background-color: $oxd-background-light-gray-color;
+    color: $oxd-interface-gray-darken-1-color;
+  }
+  &.--info {
+    background-color: rgba($oxd-feedback-info-color, 0.12);
+    color: $oxd-feedback-info-color;
+  }
+  &.--warn {
+    background-color: rgba($oxd-feedback-warn-color, 0.18);
+    color: #9a5b00;
+  }
+  &.--success {
+    background-color: rgba($oxd-secondary-four-color, 0.16);
+    color: #3f730a;
+  }
+  &.--danger {
+    background-color: rgba($oxd-feedback-danger-color, 0.12);
+    color: $oxd-feedback-danger-color;
+  }
+}
+
+.orangehrm-payroll-subtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid $oxd-interface-gray-lighten-2-color;
+  padding-bottom: 0.75rem;
+}
+
+.orangehrm-payroll-subtab-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: transparent;
+  color: $oxd-interface-gray-darken-1-color;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: $oxd-background-light-gray-color;
+  }
+
+  &.--active {
+    background-color: rgba($oxd-primary-one-color, 0.14);
+    color: $oxd-primary-one-color;
+  }
+}
+
+.orangehrm-payroll-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.orangehrm-payroll-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.orangehrm-payroll-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+.orangehrm-payroll-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+
+  @media screen and (max-width: 720px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.orangehrm-payroll-breakdown-panel {
+  border: 1px solid $oxd-interface-gray-lighten-2-color;
+  border-radius: 0.65rem;
+  padding: 0.85rem 1rem;
+  background-color: $oxd-white-color;
+}
+
+.orangehrm-payroll-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  font-size: 0.82rem;
+  border-bottom: 1px dashed $oxd-interface-gray-lighten-2-color;
+  color: $oxd-interface-gray-darken-2-color;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.orangehrm-payroll-json-box {
+  background-color: $oxd-background-light-gray-color;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  font-family: monospace;
+  font-size: 0.75rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: $oxd-interface-gray-darken-2-color;
+}
+
+.orangehrm-payroll-modal-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 160px;
+}
+
+:deep(.oxd-table-cell-actions) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.4rem;
+  align-items: center;
+
+  .oxd-button {
+    white-space: nowrap;
+    padding-left: 0.45rem;
+    padding-right: 0.45rem;
+    min-width: auto;
+  }
+}
+
+:deep(.oxd-table-card-cell .data),
+:deep(.oxd-table-card .data) {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+

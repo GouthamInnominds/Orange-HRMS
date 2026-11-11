@@ -1,0 +1,205 @@
+[
+  {
+    "story_id": "US_PAY_001",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "workflow_id": "WF_PAYROLL_CONFIG",
+    "requirement_id": "FR_PAY_001",
+    "rule_ids": ["BR_PAY_001", "BR_PAY_005", "BR_PAY_012"],
+    "persona_id": "PERSONA_PAYROLL_MAKER",
+    "title": "Configure India FY 2026-27 Income Tax Slabs, Statutory Ceilings & Leave LWP Policy",
+    "statement": "As a Payroll Admin, I want to maintain India FY 2026-27 New (u/s 115BAC) and Old tax slabs, EPF/ESIC ceilings, State PT slabs, and Leave Type LWP mappings inside OXD Payroll Configuration.",
+    "target_ui_components": ["PayrollConfiguration.vue"],
+    "target_endpoints": [
+      "GET /api/v2/payroll/config",
+      "PUT /api/v2/payroll/config",
+      "GET /api/v2/payroll/tax-brackets",
+      "PUT /api/v2/payroll/tax-brackets/{id}",
+      "GET /api/v2/payroll/statutory-rules",
+      "GET /api/v2/payroll/leave-policies",
+      "PUT /api/v2/payroll/leave-policies/{id}"
+    ]
+  },
+  {
+    "story_id": "US_PAY_002",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_PERIOD",
+    "workflow_id": "WF_PAYROLL_PERIOD",
+    "requirement_id": "FR_PAY_002",
+    "rule_ids": ["BR_PAY_001", "BR_PAY_002"],
+    "persona_id": "PERSONA_PAYROLL_MAKER",
+    "title": "Create India Monthly INR Pay Period with Overlap Prevention",
+    "statement": "As a Payroll Admin, I want to create India monthly INR pay periods while blocking overlapping calendar date ranges.",
+    "target_ui_components": ["PayPeriods.vue", "PayPeriodModal.vue"],
+    "target_endpoints": [
+      "GET /api/v2/payroll/pay-periods",
+      "POST /api/v2/payroll/pay-periods",
+      "GET /api/v2/payroll/pay-periods/{id}",
+      "PUT /api/v2/payroll/pay-periods/{id}"
+    ]
+  },
+  {
+    "story_id": "US_PAY_003",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_SNAPSHOT",
+    "workflow_id": "WF_PAYROLL_PROFILE",
+    "requirement_id": "FR_PAY_003",
+    "rule_ids": ["BR_PAY_004", "BR_PAY_016"],
+    "persona_id": "PERSONA_PAYROLL_MAKER",
+    "title": "Manage Employee India Statutory Profile & Masked Banking Inside PIM",
+    "statement": "As a Payroll Admin, I want to maintain employee PAN, UAN, ESIC, PT state, Tax Regime, Chapter VI-A declarations, and masked bank accounts inside PIM left navigation.",
+    "target_ui_components": ["EmployeeStatutoryProfile.vue"],
+    "target_endpoints": [
+      "GET /api/v2/payroll/employees/{empNumber}/statutory-profile",
+      "PUT /api/v2/payroll/employees/{empNumber}/statutory-profile"
+    ]
+  },
+  {
+    "story_id": "US_PAY_004",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_SNAPSHOT",
+    "workflow_id": "WF_PAYROLL_RUN",
+    "requirement_id": "FR_PAY_004",
+    "rule_ids": ["BR_PAY_001", "BR_PAY_003", "BR_PAY_004"],
+    "persona_id": "PERSONA_PAYROLL_MAKER",
+    "title": "Freeze Immutable Per-Run PIM Snapshots & Triage Ineligible Staff",
+    "statement": "As a Payroll Admin, I want batch calculation to snapshot each employee's eligibility and INR salary with idempotent run creation and clear skip codes.",
+    "target_ui_components": ["PayrollProcessing.vue"],
+    "target_endpoints": [
+      "GET /api/v2/payroll/runs",
+      "POST /api/v2/payroll/runs",
+      "GET /api/v2/payroll/runs/{id}",
+      "POST /api/v2/payroll/runs/{runId}/calculate",
+      "GET /api/v2/payroll/runs/{runId}/records"
+    ]
+  },
+  {
+    "story_id": "US_PAY_005",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_CROSS",
+    "workflow_id": "WF_PAYROLL_RUN",
+    "requirement_id": "FR_PAY_005",
+    "rule_ids": ["BR_PAY_005"],
+    "persona_id": "PERSONA_PAYROLL_MAKER",
+    "title": "Compute Approved Unpaid Leave (LWP) Using Configured Divisor Modes",
+    "statement": "As a Payroll Engine, I compute LWP deductions from Leave using explicit ohrm_payroll_leave_policy and configured CALENDAR_DAYS, WORKING_DAYS, or FIXED_30 divisor modes.",
+    "target_ui_components": ["PayrollProcessing.vue", "PayrollConfiguration.vue"],
+    "target_endpoints": ["POST /api/v2/payroll/runs/{runId}/calculate"]
+  },
+  {
+    "story_id": "US_PAY_006",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_CROSS",
+    "workflow_id": "WF_PAYROLL_RUN",
+    "requirement_id": "FR_PAY_006",
+    "rule_ids": ["BR_PAY_006", "BR_PAY_007"],
+    "persona_id": "PERSONA_PAYROLL_MAKER",
+    "title": "Compute Attendance / Timesheet Hours & Overtime Without Double-Counting",
+    "statement": "As a Payroll Engine, I ingest Attendance or Timesheet hours from one primary configured mode and enforce the overtime_eligible_max_basic salary ceiling.",
+    "target_ui_components": ["PayrollProcessing.vue"],
+    "target_endpoints": ["POST /api/v2/payroll/runs/{runId}/calculate"]
+  },
+  {
+    "story_id": "US_PAY_007",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "workflow_id": "WF_PAYROLL_RUN",
+    "requirement_id": "FR_PAY_007",
+    "rule_ids": ["BR_PAY_009", "BR_PAY_010", "BR_PAY_011", "BR_PAY_012"],
+    "persona_id": "PERSONA_PAYROLL_MAKER",
+    "title": "Calculate India Statutory EPF/EPS, ESIC, State PT & FY 2026-27 TDS",
+    "statement": "As a Payroll Engine, I compute INR EPF/EPS, ESIC <= 21k, State PT (incl. MH Feb 300), FY 2026-27 115BAC/Old TDS, Sec 87A 12L rebate, Sec 288B rounding, and 4% cess.",
+    "target_ui_components": ["PayrollProcessing.vue"],
+    "target_endpoints": [
+      "POST /api/v2/payroll/runs/{runId}/calculate",
+      "GET /api/v2/payroll/records/{id}"
+    ]
+  },
+  {
+    "story_id": "US_PAY_008",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_CROSS",
+    "workflow_id": "WF_PAYROLL_RUN",
+    "requirement_id": "FR_PAY_008",
+    "rule_ids": ["BR_PAY_008", "BR_PAY_010"],
+    "persona_id": "PERSONA_PAYROLL_MAKER",
+    "title": "Reserve Approved INR Expense Claims During Calculation Without Double Payout",
+    "statement": "As a Payroll Engine, I reserve APPROVED INR claims into ohrm_payroll_claim_link with unique active_claim_lock and exclude them from ESIC/TDS wage bases.",
+    "target_ui_components": ["PayrollProcessing.vue"],
+    "target_endpoints": ["POST /api/v2/payroll/runs/{runId}/calculate"]
+  },
+  {
+    "story_id": "US_PAY_009",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_ADJUSTMENT",
+    "workflow_id": "WF_PAYROLL_RUN",
+    "requirement_id": "FR_PAY_009",
+    "rule_ids": ["BR_PAY_014"],
+    "persona_id": "PERSONA_PAYROLL_MAKER",
+    "title": "Apply Audited Manual Overrides Strictly Before Run Submission",
+    "statement": "As a Payroll Admin, I want audited INR overrides permitted in CALCULATED/REJECTED states and blocked once submitted or locked.",
+    "target_ui_components": ["RecordAdjustmentModal.vue", "PayrollAuditTrail.vue"],
+    "target_endpoints": [
+      "GET /api/v2/payroll/records/{id}/adjustment",
+      "PUT /api/v2/payroll/records/{id}/adjustment",
+      "GET /api/v2/payroll/audit-events"
+    ]
+  },
+  {
+    "story_id": "US_PAY_010",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_WF",
+    "workflow_id": "WF_PAYROLL_APPROVAL",
+    "requirement_id": "FR_PAY_010",
+    "rule_ids": ["BR_PAY_013", "BR_PAY_014"],
+    "persona_id": "PERSONA_PAYROLL_APPROVER",
+    "title": "Enforce Maker-Checker Separation of Duties & Run Locking",
+    "statement": "As a PayrollApprover (Checker), I enforce SoD blocking creator self-approval (403), process Reject/Resubmit/Approve cycles, and Lock to publish ESS payslips.",
+    "target_ui_components": ["PayrollProcessing.vue", "PayrollStatusBadge.vue"],
+    "target_endpoints": [
+      "POST /api/v2/payroll/runs/{runId}/submit",
+      "POST /api/v2/payroll/runs/{runId}/reject",
+      "POST /api/v2/payroll/runs/{runId}/approve",
+      "POST /api/v2/payroll/runs/{runId}/lock",
+      "POST /api/v2/payroll/runs/{runId}/reverse"
+    ]
+  },
+  {
+    "story_id": "US_PAY_011",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_PAYMENT",
+    "workflow_id": "WF_PAYROLL_DISBURSEMENT",
+    "requirement_id": "FR_PAY_011",
+    "rule_ids": ["BR_PAY_008", "BR_PAY_015"],
+    "persona_id": "PERSONA_PAYROLL_APPROVER",
+    "title": "Export NEFT Bank CSV & Settle Linked Claims on Bank UTR Reconciliation",
+    "statement": "As a PayrollApprover, I enforce Bank/IFSC completeness (422 guard) before NEFT CSV export and settle run & linked Claims to PAID upon UTR confirmation.",
+    "target_ui_components": ["PayrollPayments.vue"],
+    "target_endpoints": [
+      "GET /api/v2/payroll/payment-batches",
+      "POST /api/v2/payroll/payment-batches",
+      "GET /api/v2/payroll/payment-batches/{id}",
+      "POST /api/v2/payroll/payment-batches/{batchId}/export",
+      "POST /api/v2/payroll/payment-batches/{batchId}/reconcile"
+    ]
+  },
+  {
+    "story_id": "US_PAY_012",
+    "domain_id": "DOMAIN_PAYROLL",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "workflow_id": "WF_PAYROLL_ESS",
+    "requirement_id": "FR_PAY_012",
+    "rule_ids": ["BR_PAY_016"],
+    "persona_id": "PERSONA_ESS",
+    "title": "ESS & PIM Self-Service INR Payslip Preview & Strict BOLA/IDOR Isolation",
+    "statement": "As an Employee (ESS), I can preview and download my PUBLISHED INR HTML payslip while cross-employee slip/endpoint access returns HTTP 403.",
+    "target_ui_components": ["MySalarySlips.vue", "EmployeePayslips.vue", "PayslipPreviewModal.vue"],
+    "target_endpoints": [
+      "GET /api/v2/payroll/my-salary-slips",
+      "GET /api/v2/payroll/slips/{id}",
+      "GET /api/v2/payroll/employees/{empNumber}/payslips",
+      "GET /payroll/slips/{id}/download"
+    ]
+  }
+]
+

@@ -27,13 +27,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PayrollItem
 {
-    public const TYPE_EARNING = 'Earning';
-    public const TYPE_DEDUCTION = 'Deduction';
-    public const TYPE_TAX = 'Tax';
+    public const TYPE_EARNING = 'EARNING';
+    public const TYPE_DEDUCTION = 'DEDUCTION';
+    public const TYPE_TAX = 'TAX';
+    public const TYPE_STATUTORY_EMPLOYER = 'STATUTORY_EMPLOYER';
+    public const TYPE_REIMBURSEMENT = 'REIMBURSEMENT';
+    public const TYPE_ADJUSTMENT = 'ADJUSTMENT';
 
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -42,97 +44,76 @@ class PayrollItem
 
     /**
      * @var PayrollRecord
-     *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\PayrollRecord", inversedBy="payrollItems")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\PayrollRecord", inversedBy="items")
      * @ORM\JoinColumn(name="payroll_record_id", referencedColumnName="id", nullable=false)
      */
     private PayrollRecord $payrollRecord;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="item_type", type="string", length=30)
      */
-    private string $itemType = self::TYPE_EARNING;
+    private string $itemType;
 
     /**
      * @var string
-     *
+     * @ORM\Column(name="component_code", type="string", length=40)
+     */
+    private string $componentCode = 'GENERAL';
+
+    /**
+     * @var string
      * @ORM\Column(name="component_name", type="string", length=100)
      */
     private string $componentName;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="amount", type="decimal", precision=12, scale=2)
+     * @var string
+     * @ORM\Column(name="amount", type="decimal", precision=15, scale=2)
      */
-    private float $amount = 0.00;
+    private string $amount = '0.00';
 
     /**
      * @var bool
-     *
      * @ORM\Column(name="is_taxable", type="boolean")
      */
     private bool $isTaxable = true;
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
+    /**
+     * @var bool
+     * @ORM\Column(name="is_statutory", type="boolean")
+     */
+    private bool $isStatutory = false;
 
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
+    /**
+     * @var string|null
+     * @ORM\Column(name="source_module", type="string", length=30, nullable=true)
+     */
+    private ?string $sourceModule = 'PIM';
 
-    public function getPayrollRecord(): PayrollRecord
-    {
-        return $this->payrollRecord;
-    }
+    /**
+     * @var string|null
+     * @ORM\Column(name="notes", type="string", length=255, nullable=true)
+     */
+    private ?string $notes = null;
 
-    public function setPayrollRecord(PayrollRecord $payrollRecord): void
-    {
-        $this->payrollRecord = $payrollRecord;
-    }
-
-    public function getItemType(): string
-    {
-        return $this->itemType;
-    }
-
-    public function setItemType(string $itemType): void
-    {
-        $this->itemType = $itemType;
-    }
-
-    public function getComponentName(): string
-    {
-        return $this->componentName;
-    }
-
-    public function setComponentName(string $componentName): void
-    {
-        $this->componentName = $componentName;
-    }
-
-    public function getAmount(): float
-    {
-        return $this->amount;
-    }
-
-    public function setAmount(float $amount): void
-    {
-        $this->amount = $amount;
-    }
-
-    public function isTaxable(): bool
-    {
-        return $this->isTaxable;
-    }
-
-    public function setIsTaxable(bool $isTaxable): void
-    {
-        $this->isTaxable = $isTaxable;
-    }
+    public function getId(): int { return $this->id; }
+    public function getPayrollRecord(): PayrollRecord { return $this->payrollRecord; }
+    public function setPayrollRecord(PayrollRecord $payrollRecord): void { $this->payrollRecord = $payrollRecord; }
+    public function getItemType(): string { return $this->itemType; }
+    public function setItemType(string $itemType): void { $this->itemType = $itemType; }
+    public function getComponentCode(): string { return $this->componentCode; }
+    public function setComponentCode(string $componentCode): void { $this->componentCode = $componentCode; }
+    public function getComponentName(): string { return $this->componentName; }
+    public function setComponentName(string $componentName): void { $this->componentName = $componentName; }
+    public function getAmount(): string { return $this->amount; }
+    public function setAmount(string $amount): void { $this->amount = $amount; }
+    public function isTaxable(): bool { return $this->isTaxable; }
+    public function setIsTaxable(bool $isTaxable): void { $this->isTaxable = $isTaxable; }
+    public function isStatutory(): bool { return $this->isStatutory; }
+    public function setIsStatutory(bool $isStatutory): void { $this->isStatutory = $isStatutory; }
+    public function getSourceModule(): ?string { return $this->sourceModule; }
+    public function setSourceModule(?string $sourceModule): void { $this->sourceModule = $sourceModule; }
+    public function getNotes(): ?string { return $this->notes; }
+    public function setNotes(?string $notes): void { $this->notes = $notes; }
 }

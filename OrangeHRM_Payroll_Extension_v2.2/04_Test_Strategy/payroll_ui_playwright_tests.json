@@ -1,0 +1,555 @@
+[
+  {
+    "id": "UI-PAY-01",
+    "testcase_id": "UI-PAY-01",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-01: Dashboard & Sidebar OXD Payroll Navigation Alignment",
+    "objective": "Dashboard & Sidebar OXD Payroll Navigation Alignment",
+    "requirement_ids": [
+      "FR_PAY_001"
+    ],
+    "story_ids": [
+      "US_PAY_001"
+    ],
+    "rule_ids": [
+      "BR_PAY_001"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/dashboard/index",
+      "handler": "SidePanel.vue / payroll-icon.scss"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/dashboard/index via Chromium Playwright",
+      "Assert visual & DOM condition: Payroll at idx 11 (between Claim=10 and Buzz=12), svg=22px"
+    ],
+    "expected": "Payroll at idx 11 (between Claim=10 and Buzz=12), svg=22px",
+    "expected_results": [
+      "Payroll at idx 11 (between Claim=10 and Buzz=12), svg=22px"
+    ],
+    "actual_result": "Payroll at idx 11 (between Claim=10 and Buzz=12), svg=22px",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 51429
+  },
+  {
+    "id": "UI-PAY-02",
+    "testcase_id": "UI-PAY-02",
+    "feature_id": "FEAT_PAY_PERIOD",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-02: Pay Periods OXD Table & INR Calendar Verification",
+    "objective": "Pay Periods OXD Table & INR Calendar Verification",
+    "requirement_ids": [
+      "FR_PAY_002"
+    ],
+    "story_ids": [
+      "US_PAY_002"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_002"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayPeriods",
+      "handler": "PayPeriods.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayPeriods via Chromium Playwright",
+      "Assert visual & DOM condition: November 2026 Pay Period and India FY 2026-27 visible"
+    ],
+    "expected": "November 2026 Pay Period and India FY 2026-27 visible",
+    "expected_results": [
+      "November 2026 Pay Period and India FY 2026-27 visible"
+    ],
+    "actual_result": "November 2026 Pay Period and India FY 2026-27 visible",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 15875
+  },
+  {
+    "id": "UI-PAY-03",
+    "testcase_id": "UI-PAY-03",
+    "feature_id": "FEAT_PAY_ENGINE",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-03: Payroll Processing Metrics, Records, Exceptions & Approval History Tabs",
+    "objective": "Payroll Processing Metrics, Records, Exceptions & Approval History Tabs",
+    "requirement_ids": [
+      "FR_PAY_004",
+      "FR_PAY_007",
+      "FR_PAY_009",
+      "FR_PAY_010"
+    ],
+    "story_ids": [
+      "US_PAY_004",
+      "US_PAY_007",
+      "US_PAY_009",
+      "US_PAY_010"
+    ],
+    "rule_ids": [
+      "BR_PAY_004",
+      "BR_PAY_009",
+      "BR_PAY_013",
+      "BR_PAY_014"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayrollProcessing",
+      "handler": "PayrollProcessing.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayrollProcessing via Chromium Playwright",
+      "Assert visual & DOM condition: Rendered ₹ metrics, Employee Records, Skipped & Warnings (EMP-IN-005/006), and Maker-Checker Approval History"
+    ],
+    "expected": "Rendered ₹ metrics, Employee Records, Skipped & Warnings (EMP-IN-005/006), and Maker-Checker Approval History",
+    "expected_results": [
+      "Rendered ₹ metrics, Employee Records, Skipped & Warnings (EMP-IN-005/006), and Maker-Checker Approval History"
+    ],
+    "actual_result": "Rendered ₹ metrics, Employee Records, Skipped & Warnings (EMP-IN-005/006), and Maker-Checker Approval History",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 30356
+  },
+  {
+    "id": "UI-PAY-04",
+    "testcase_id": "UI-PAY-04",
+    "feature_id": "FEAT_PAY_PAYMENT",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-04: Payroll Payments NEFT Batch & UTR Reconciliation Display",
+    "objective": "Payroll Payments NEFT Batch & UTR Reconciliation Display",
+    "requirement_ids": [
+      "FR_PAY_011"
+    ],
+    "story_ids": [
+      "US_PAY_011"
+    ],
+    "rule_ids": [
+      "BR_PAY_015"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayrollPayments",
+      "handler": "PayrollPayments.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayrollPayments via Chromium Playwright",
+      "Assert visual & DOM condition: UTR HDFCN20261201001 / Reconciled NEFT batch rendered with ₹ INR"
+    ],
+    "expected": "UTR HDFCN20261201001 / Reconciled NEFT batch rendered with ₹ INR",
+    "expected_results": [
+      "UTR HDFCN20261201001 / Reconciled NEFT batch rendered with ₹ INR"
+    ],
+    "actual_result": "UTR HDFCN20261201001 / Reconciled NEFT batch rendered with ₹ INR",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 16889
+  },
+  {
+    "id": "UI-PAY-05",
+    "testcase_id": "UI-PAY-05",
+    "feature_id": "FEAT_PAY_ADJUSTMENT",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-05: Payroll Immutable Audit Trail Event Feed",
+    "objective": "Payroll Immutable Audit Trail Event Feed",
+    "requirement_ids": [
+      "FR_PAY_009",
+      "FR_PAY_010",
+      "FR_PAY_011"
+    ],
+    "story_ids": [
+      "US_PAY_009",
+      "US_PAY_010",
+      "US_PAY_011"
+    ],
+    "rule_ids": [
+      "BR_PAY_014"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayrollAuditTrail",
+      "handler": "PayrollAuditTrail.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayrollAuditTrail via Chromium Playwright",
+      "Assert visual & DOM condition: Immutable payroll workflow & adjustment events visible"
+    ],
+    "expected": "Immutable payroll workflow & adjustment events visible",
+    "expected_results": [
+      "Immutable payroll workflow & adjustment events visible"
+    ],
+    "actual_result": "Immutable payroll workflow & adjustment events visible",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 18019
+  },
+  {
+    "id": "UI-PAY-06",
+    "testcase_id": "UI-PAY-06",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PAY-06: Payroll Configuration All 4 India Sub-Tabs",
+    "objective": "Payroll Configuration All 4 India Sub-Tabs",
+    "requirement_ids": [
+      "FR_PAY_001"
+    ],
+    "story_ids": [
+      "US_PAY_001"
+    ],
+    "rule_ids": [
+      "BR_PAY_005",
+      "BR_PAY_006",
+      "BR_PAY_007",
+      "BR_PAY_012"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewPayrollConfiguration",
+      "handler": "PayrollConfiguration.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewPayrollConfiguration via Chromium Playwright",
+      "Assert visual & DOM condition: Visited 4 sub-tabs: ['Organization Settings', 'Income Tax Slabs (FY 2026-27)', 'EPF / ESIC / PT Rules', 'Leave LWP Mapping']"
+    ],
+    "expected": "Visited 4 sub-tabs: ['Organization Settings', 'Income Tax Slabs (FY 2026-27)', 'EPF / ESIC / PT Rules', 'Leave LWP Mapping']",
+    "expected_results": [
+      "Visited 4 sub-tabs: ['Organization Settings', 'Income Tax Slabs (FY 2026-27)', 'EPF / ESIC / PT Rules', 'Leave LWP Mapping']"
+    ],
+    "actual_result": "Visited 4 sub-tabs: ['Organization Settings', 'Income Tax Slabs (FY 2026-27)', 'EPF / ESIC / PT Rules', 'Leave LWP Mapping']",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 29931
+  },
+  {
+    "id": "UI-PIM-01",
+    "testcase_id": "UI-PIM-01",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PIM-01: PIM Left-Menu Integration: Aarav Salary Slips Tab",
+    "objective": "PIM Left-Menu Integration: Aarav Salary Slips Tab",
+    "requirement_ids": [
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewEmployeePayslips/empNumber/2",
+      "handler": "EmployeePayslips.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewEmployeePayslips/empNumber/2 via Chromium Playwright",
+      "Assert visual & DOM condition: Rendered inside native OrangeHRM PIM EditEmployeeLayout with ₹ slip row"
+    ],
+    "expected": "Rendered inside native OrangeHRM PIM EditEmployeeLayout with ₹ slip row",
+    "expected_results": [
+      "Rendered inside native OrangeHRM PIM EditEmployeeLayout with ₹ slip row"
+    ],
+    "actual_result": "Rendered inside native OrangeHRM PIM EditEmployeeLayout with ₹ slip row",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 27604
+  },
+  {
+    "id": "UI-PIM-02",
+    "testcase_id": "UI-PIM-02",
+    "feature_id": "FEAT_PAY_SNAPSHOT",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-PIM-02: PIM Left-Menu Integration: Aarav Statutory & Masked Bank Profile",
+    "objective": "PIM Left-Menu Integration: Aarav Statutory & Masked Bank Profile",
+    "requirement_ids": [
+      "FR_PAY_003"
+    ],
+    "story_ids": [
+      "US_PAY_003"
+    ],
+    "rule_ids": [
+      "BR_PAY_004",
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewEmployeeStatutoryProfile/empNumber/2",
+      "handler": "EmployeeStatutoryProfile.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewEmployeeStatutoryProfile/empNumber/2 via Chromium Playwright",
+      "Assert visual & DOM condition: India PAN/UAN/Tax Regime/CTC split & masked bank rendered inside PIM layout"
+    ],
+    "expected": "India PAN/UAN/Tax Regime/CTC split & masked bank rendered inside PIM layout",
+    "expected_results": [
+      "India PAN/UAN/Tax Regime/CTC split & masked bank rendered inside PIM layout"
+    ],
+    "actual_result": "India PAN/UAN/Tax Regime/CTC split & masked bank rendered inside PIM layout",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 24102
+  },
+  {
+    "id": "UI-ESS-01",
+    "testcase_id": "UI-ESS-01",
+    "feature_id": "FEAT_PAY_SLIPS",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "Functional"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-ESS-01: ESS My Salary Slips Table & Interactive Payslip Preview Modal",
+    "objective": "ESS My Salary Slips Table & Interactive Payslip Preview Modal",
+    "requirement_ids": [
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "GET /web/index.php/payroll/viewMySalarySlips",
+      "handler": "MySalarySlips.vue / PayslipPreviewModal.vue"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render GET /web/index.php/payroll/viewMySalarySlips via Chromium Playwright",
+      "Assert visual & DOM condition: ESS sidebar=9 items, INR payslip list & PayslipPreviewModal verified"
+    ],
+    "expected": "ESS sidebar=9 items, INR payslip list & PayslipPreviewModal verified",
+    "expected_results": [
+      "ESS sidebar=9 items, INR payslip list & PayslipPreviewModal verified"
+    ],
+    "actual_result": "ESS sidebar=9 items, INR payslip list & PayslipPreviewModal verified",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 70694
+  },
+  {
+    "id": "UI-TEL-01",
+    "testcase_id": "UI-TEL-01",
+    "feature_id": "FEAT_PAY_CONFIG",
+    "suite": "Playwright_OXD_UI_Suite",
+    "layer": "UI & Vue Component Validation",
+    "module": "Payroll",
+    "test_level": "UI / Browser E2E",
+    "test_type": [
+      "UI",
+      "OXDTheme",
+      "BrowserTelemetry"
+    ],
+    "quality_attributes": [
+      "Usability",
+      "OXDParity",
+      "Reliability"
+    ],
+    "priority": "P1",
+    "name": "UI-TEL-01: Zero Browser Console Errors, Uncaught Page Errors & HTTP >=400 Responses",
+    "objective": "Zero Browser Console Errors, Uncaught Page Errors & HTTP >=400 Responses",
+    "requirement_ids": [
+      "FR_PAY_001",
+      "FR_PAY_003",
+      "FR_PAY_012"
+    ],
+    "story_ids": [
+      "US_PAY_001",
+      "US_PAY_003",
+      "US_PAY_012"
+    ],
+    "rule_ids": [
+      "BR_PAY_001",
+      "BR_PAY_016"
+    ],
+    "target_interface": {
+      "endpoint": "ALL 9 Payroll & PIM UI Routes",
+      "handler": "usePayrollPermissions.ts / app.js"
+    },
+    "preconditions": [
+      "Production Vue bundle built into orange_hrm/web/dist",
+      "Headless Chromium 1440x900 authenticated against live http://127.0.0.1:5121"
+    ],
+    "test_steps": [
+      "Render ALL 9 Payroll & PIM UI Routes via Chromium Playwright",
+      "Assert visual & DOM condition: 0 console.error, 0 pageerror, 0 HTTP >= 400 responses across all 9 routes & ESS modal"
+    ],
+    "expected": "0 console.error, 0 pageerror, 0 HTTP >= 400 responses across all 9 routes & ESS modal",
+    "expected_results": [
+      "0 console.error, 0 pageerror, 0 HTTP >= 400 responses across all 9 routes & ESS modal"
+    ],
+    "actual_result": "0 console.error, 0 pageerror, 0 HTTP >= 400 responses across all 9 routes & ESS modal",
+    "status": "PASSED",
+    "execution_status": "PASSED",
+    "automation_status": "Automated",
+    "runner": "verify_india_payroll_ui_playwright.py (Chromium)",
+    "durationMs": 0
+  }
+]

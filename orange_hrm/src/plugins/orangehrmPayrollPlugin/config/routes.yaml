@@ -1,65 +1,243 @@
-orangehrm_payroll_pay_periods:
+# OrangeHRM India-Standard Payroll Extension v2.2 Routes
+
+##########################
+#   REST V2 API Routes
+##########################
+
+apiv2_payroll_pay_periods:
   path: /api/v2/payroll/pay-periods
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET, POST]
+  methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Payroll\Api\PayPeriodAPI
 
-orangehrm_payroll_pay_period_detail:
+apiv2_payroll_pay_period:
   path: /api/v2/payroll/pay-periods/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET, PUT, DELETE]
+  methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Payroll\Api\PayPeriodAPI
+  requirements:
+    id: '\d+'
 
-orangehrm_payroll_calculate:
-  path: /api/v2/payroll/pay-periods/{id}/calculate
+apiv2_payroll_runs:
+  path: /api/v2/payroll/runs
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [POST]
+  methods: [ GET, POST ]
   defaults:
-    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+    _api: OrangeHRM\Payroll\Api\PayrollRunAPI
 
-orangehrm_payroll_records:
-  path: /api/v2/payroll/pay-periods/{id}/records
+apiv2_payroll_run:
+  path: /api/v2/payroll/runs/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET]
+  methods: [ GET, PUT ]
   defaults:
-    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+    _api: OrangeHRM\Payroll\Api\PayrollRunAPI
+  requirements:
+    id: '\d+'
 
-orangehrm_payroll_record_adjust:
+apiv2_payroll_run_calculate:
+  path: /api/v2/payroll/runs/{runId}/calculate
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollRunCalculateAPI
+  requirements:
+    runId: '\d+'
+
+apiv2_payroll_run_submit:
+  path: /api/v2/payroll/runs/{runId}/submit
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollRunSubmitAPI
+  requirements:
+    runId: '\d+'
+
+apiv2_payroll_run_approve:
+  path: /api/v2/payroll/runs/{runId}/approve
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollRunApproveAPI
+  requirements:
+    runId: '\d+'
+
+apiv2_payroll_run_reject:
+  path: /api/v2/payroll/runs/{runId}/reject
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollRunRejectAPI
+  requirements:
+    runId: '\d+'
+
+apiv2_payroll_run_lock:
+  path: /api/v2/payroll/runs/{runId}/lock
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollRunLockAPI
+  requirements:
+    runId: '\d+'
+
+apiv2_payroll_run_reverse:
+  path: /api/v2/payroll/runs/{runId}/reverse
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollRunReverseAPI
+  requirements:
+    runId: '\d+'
+
+apiv2_payroll_run_records:
+  path: /api/v2/payroll/runs/{runId}/records
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollRecordAPI
+  requirements:
+    runId: '\d+'
+
+apiv2_payroll_record:
   path: /api/v2/payroll/records/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET, PUT]
+  methods: [ GET ]
   defaults:
-    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+    _api: OrangeHRM\Payroll\Api\PayrollRecordAPI
+  requirements:
+    id: '\d+'
 
-orangehrm_payroll_approve:
-  path: /api/v2/payroll/pay-periods/{id}/approve
+apiv2_payroll_record_adjustment:
+  path: /api/v2/payroll/records/{id}/adjustment
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [PUT]
+  methods: [ GET, PUT ]
   defaults:
-    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+    _api: OrangeHRM\Payroll\Api\PayrollAdjustmentAPI
+  requirements:
+    id: '\d+'
 
-orangehrm_payroll_lock:
-  path: /api/v2/payroll/pay-periods/{id}/lock
+apiv2_payroll_config:
+  path: /api/v2/payroll/config
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [PUT]
+  methods: [ GET, PUT ]
   defaults:
-    _api: OrangeHRM\Payroll\Api\PayrollProcessAPI
+    _api: OrangeHRM\Payroll\Api\PayrollConfigAPI
 
-orangehrm_payroll_my_slips:
+apiv2_payroll_tax_brackets:
+  path: /api/v2/payroll/tax-brackets
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollTaxBracketAPI
+
+apiv2_payroll_tax_bracket:
+  path: /api/v2/payroll/tax-brackets/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollTaxBracketAPI
+  requirements:
+    id: '\d+'
+
+apiv2_payroll_statutory_rules:
+  path: /api/v2/payroll/statutory-rules
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollStatutoryRuleAPI
+
+apiv2_payroll_leave_policies:
+  path: /api/v2/payroll/leave-policies
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollLeavePolicyAPI
+
+apiv2_payroll_leave_policy:
+  path: /api/v2/payroll/leave-policies/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollLeavePolicyAPI
+  requirements:
+    id: '\d+'
+
+apiv2_payroll_payment_batches:
+  path: /api/v2/payroll/payment-batches
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollPaymentBatchAPI
+
+apiv2_payroll_payment_batch:
+  path: /api/v2/payroll/payment-batches/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollPaymentBatchAPI
+  requirements:
+    id: '\d+'
+
+apiv2_payroll_payment_batch_export:
+  path: /api/v2/payroll/payment-batches/{batchId}/export
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollPaymentExportAPI
+  requirements:
+    batchId: '\d+'
+
+apiv2_payroll_payment_batch_reconcile:
+  path: /api/v2/payroll/payment-batches/{batchId}/reconcile
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollPaymentReconcileAPI
+  requirements:
+    batchId: '\d+'
+
+apiv2_payroll_my_slips:
   path: /api/v2/payroll/my-salary-slips
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET]
+  methods: [ GET ]
   defaults:
     _api: OrangeHRM\Payroll\Api\SalarySlipAPI
 
-orangehrm_payroll_slip_download:
-  path: /api/v2/payroll/salary-slips/{id}/download
+apiv2_payroll_slip_document:
+  path: /api/v2/payroll/slips/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [GET]
+  methods: [ GET ]
   defaults:
-    _api: OrangeHRM\Payroll\Api\SalarySlipAPI
+    _api: OrangeHRM\Payroll\Api\SalarySlipDocumentAPI
+  requirements:
+    id: '\d+'
+
+apiv2_payroll_employee_payslips:
+  path: /api/v2/payroll/employees/{empNumber}/payslips
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\EmployeePayslipsAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_payroll_employee_statutory_profile:
+  path: /api/v2/payroll/employees/{empNumber}/statutory-profile
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\EmployeeStatutoryProfileAPI
+    _key: empNumber
+  requirements:
+    empNumber: '\d+'
+
+apiv2_payroll_audit_events:
+  path: /api/v2/payroll/audit-events
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Payroll\Api\PayrollAuditAPI
 
 ##########################
 #        Screens
@@ -70,12 +248,49 @@ payroll_module:
   controller: OrangeHRM\Payroll\Controller\PayrollModuleController::handle
   methods: [ GET ]
 
+payroll_pay_periods_screen:
+  path: /payroll/viewPayPeriods
+  controller: OrangeHRM\Payroll\Controller\PayPeriodsController::handle
+  methods: [ GET ]
+
 payroll_processing_screen:
   path: /payroll/viewPayrollProcessing
   controller: OrangeHRM\Payroll\Controller\PayrollProcessingController::handle
+  methods: [ GET ]
+
+payroll_payments_screen:
+  path: /payroll/viewPayrollPayments
+  controller: OrangeHRM\Payroll\Controller\PayrollPaymentsController::handle
   methods: [ GET ]
 
 payroll_my_slips_screen:
   path: /payroll/viewMySalarySlips
   controller: OrangeHRM\Payroll\Controller\MySalarySlipsController::handle
   methods: [ GET ]
+
+payroll_audit_trail_screen:
+  path: /payroll/viewPayrollAuditTrail
+  controller: OrangeHRM\Payroll\Controller\PayrollAuditController::handle
+  methods: [ GET ]
+
+payroll_configuration_screen:
+  path: /payroll/viewPayrollConfiguration
+  controller: OrangeHRM\Payroll\Controller\PayrollConfigurationController::handle
+  methods: [ GET ]
+
+payroll_employee_payslips_screen:
+  path: /payroll/viewEmployeePayslips/empNumber/{empNumber}
+  controller: OrangeHRM\Payroll\Controller\EmployeePayslipsController::handle
+  methods: [ GET ]
+
+payroll_employee_statutory_profile_screen:
+  path: /payroll/viewEmployeeStatutoryProfile/empNumber/{empNumber}
+  controller: OrangeHRM\Payroll\Controller\EmployeeStatutoryProfileController::handle
+  methods: [ GET ]
+
+payroll_slip_download:
+  path: /payroll/slips/{id}/download
+  controller: OrangeHRM\Payroll\Controller\SalarySlipDownloadController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'

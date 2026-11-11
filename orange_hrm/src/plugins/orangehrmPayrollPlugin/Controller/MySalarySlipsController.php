@@ -19,19 +19,17 @@
 
 namespace OrangeHRM\Payroll\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class MySalarySlipsController extends AbstractVueController
+class MySalarySlipsController extends BasePayrollController
 {
-    /**
-     * @inheritDoc
-     */
     public function preRender(Request $request): void
     {
         $component = new Component('my-salary-slips');
         $this->setComponent($component);
+        $this->setPermissionsForController([
+            'apiv2_payroll_my_slips',
+        ]);
     }
 }
-

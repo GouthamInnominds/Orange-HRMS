@@ -4,29 +4,38 @@ const fs = require('fs');
 class MetricsService {
   constructor() {
     this.payrollTests = [];
+    this.traceability = null;
     try {
-      const p = path.resolve(__dirname, '../../qkg_engine/output/payroll_test_suite.json');
+      const p = path.resolve(__dirname, '../../../OrangeHRM_Payroll_Extension_v2.2/04_Test_Strategy/payroll_all_executed_tests.json');
       if (fs.existsSync(p)) {
         this.payrollTests = JSON.parse(fs.readFileSync(p, 'utf8'));
       }
+      const tp = path.resolve(__dirname, '../../../OrangeHRM_Payroll_Extension_v2.2/05_Traceability/requirements_traceability.json');
+      if (fs.existsSync(tp)) {
+        this.traceability = JSON.parse(fs.readFileSync(tp, 'utf8'));
+      }
     } catch (e) {
-      console.warn('Could not load payroll_test_suite.json:', e.message);
+      console.warn('Could not load v2.2 executed payroll test artifacts:', e.message);
     }
 
     this.baselineTotal = 6893;
-    this.payrollTotal = this.payrollTests.length || 105;
+    this.payrollTotal = this.payrollTests.length;
+    this.payrollSuites = new Set(this.payrollTests.map(t => t.suite)).size;
     this.grandTotal = this.baselineTotal + this.payrollTotal;
+
+    const failedPayroll = this.payrollTests.filter(t => t.status !== 'PASSED').length;
+    const passedTotal = this.baselineTotal + (this.payrollTotal - failedPayroll);
 
     this.testCatalogue = {
       totalAutomatedTests: this.grandTotal,
-      totalTestScenarios: 6024 + 105,
-      totalTestSuites: 144 + 5,
+      totalTestScenarios: 6024 + this.payrollTotal,
+      totalTestSuites: 144 + this.payrollSuites,
       uniqueTestCases: this.grandTotal,
-      passedExecutions: this.grandTotal,
-      failedExecutions: 0,
+      passedExecutions: passedTotal,
+      failedExecutions: failedPayroll,
       skippedExecutions: 0,
       flakyTestsCount: 0,
-      lastExecutionTimestamp: new Date().toISOString()
+      lastExecutionTimestamp: (this.traceability && this.traceability.executed_at) || new Date().toISOString()
     };
   }
 
@@ -36,27 +45,35 @@ class MetricsService {
     const totalRuns = passed + failed;
     const passRate = totalRuns > 0 ? ((passed / totalRuns) * 100).toFixed(1) : '100.0';
 
+    const countLayer = (layerName) => this.payrollTests.filter(t => t.layer === layerName).length;
+    const layerDefs = [
+      { layer: 'API / Contract Tests', count: 2420 + countLayer('API / Contract Tests'), passRate: 100 },
+      { layer: 'Functional & Workflow Tests', count: 2840 + countLayer('Functional & Workflow Tests'), passRate: 100 },
+      { layer: 'Database & Referential Integrity', count: 960 + countLayer('Database & Referential Integrity'), passRate: 100 },
+      { layer: 'UI & Vue Component Validation', count: 673 + countLayer('UI & Vue Component Validation'), passRate: 100 },
+      { layer: 'Unit / Calculation Tests', count: countLayer('Unit / Calculation Tests'), passRate: 100 }
+    ].map(item => ({
+      ...item,
+      percent: Number(((item.count / (this.grandTotal || 1)) * 100).toFixed(1))
+    }));
+
+    const gaps = this.traceability?.traceability_summary?.uncovered_gaps ?? 0;
+
     return {
       overview: {
-        applicationBaseline: 'Commit c5e891b (v2-main)',
-        qkgPlatformVersion: '2.0.0',
-        graphSchemaVersion: 'schema-v2.0',
-        qualityGateStatus: 'PASS',
+        applicationBaseline: 'v2-main (India Payroll v2.2)',
+        qkgPlatformVersion: '2.2.0',
+        graphSchemaVersion: 'v2.2-india-payroll',
+        qualityGateStatus: failed === 0 ? 'PASS' : 'FAIL',
         passRate: `${passRate}%`,
         totalVerifiedTests: this.testCatalogue.totalAutomatedTests,
         totalLogicalScenarios: this.testCatalogue.totalTestScenarios,
         flakyRate: '0.0%',
         lastRunDate: this.testCatalogue.lastExecutionTimestamp
       },
-      layers: [
-        { layer: 'API / Contract Tests', count: 2420 + 25, percent: 34.9, passRate: 100 },
-        { layer: 'Functional & Workflow Tests', count: 2840 + 15, percent: 40.8, passRate: 100 },
-        { layer: 'Database & Referential Integrity', count: 960 + 15, percent: 13.9, passRate: 100 },
-        { layer: 'UI & Vue Component Validation', count: 673 + 10, percent: 9.8, passRate: 100 },
-        { layer: 'Unit / Calculation Tests', count: 40, percent: 0.6, passRate: 100 }
-      ],
+      layers: layerDefs,
       modules: [
-        { module: 'Payroll', tests: this.payrollTotal, scenarios: 105, coverage: 100.0, status: 'VERIFIED_ACTIVE' },
+        { module: 'Payroll', tests: this.payrollTotal, scenarios: this.payrollTotal, coverage: 100.0, status: failed === 0 ? 'VERIFIED_ACTIVE' : 'ATTENTION' },
         { module: 'Admin', tests: 1120, scenarios: 980, coverage: 94.2, status: 'HEALTHY' },
         { module: 'PIM', tests: 1450, scenarios: 1280, coverage: 96.0, status: 'HEALTHY' },
         { module: 'Leave', tests: 980, scenarios: 860, coverage: 92.4, status: 'HEALTHY' },
@@ -68,15 +85,15 @@ class MetricsService {
         { module: 'Buzz', tests: 143, scenarios: 125, coverage: 88.0, status: 'HEALTHY' }
       ],
       traceability: {
-        totalRequirements: 39,
-        coveredRequirements: 39,
+        totalRequirements: 30 + 12,
+        coveredRequirements: 30 + 12 - gaps,
         coveragePercentage: 100.0,
-        uncoveredGaps: 0
+        uncoveredGaps: gaps
       }
     };
   }
 
-  // Generates or fetches paginated catalogue items across all 6,998 tests
+  // Fetches paginated catalogue items across baseline + executed Payroll v2.2 tests
   getTestCatalogue(page = 1, limit = 50, moduleFilter = '', layerFilter = '', search = '') {
     // Collect all tests
     let allTests = [...this.payrollTests];
