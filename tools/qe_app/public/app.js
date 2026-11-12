@@ -751,17 +751,27 @@ const app = {
         gateSub.innerText = blockers.length ? `Blockers: ${blockers.join(', ')}` : 'All readiness checks clear';
       }
 
-      const b = benchEnv.data?.qkg15Benchmark || benchEnv.data?.fullReport?.metrics || null;
+      const b = benchEnv.data?.qkg15Benchmark || benchEnv.data?.fullReport?.aggregate || benchEnv.data?.fullReport?.metrics || null;
       const qEl = document.getElementById('rel-qkg15-status');
       const qSub = document.getElementById('rel-qkg15-metrics');
       if (qEl && qSub) {
         if (b) {
-          const gStatus = benchEnv.data?.qkg15Benchmark?.gateStatus || (benchEnv.data?.fullReport?.gate?.passed ? 'PASS' : 'FAIL');
-          const scPassed = benchEnv.data?.qkg15Benchmark?.scenariosPassed ?? benchEnv.data?.fullReport?.scenariosPassed ?? '—';
-          const scTot = benchEnv.data?.qkg15Benchmark?.scenariosTotal ?? benchEnv.data?.fullReport?.scenariosTotal ?? '—';
+          const gStatus = benchEnv.data?.qkg15Benchmark?.gateStatus
+            || ((benchEnv.data?.fullReport?.gate_passed ?? benchEnv.data?.fullReport?.gate?.passed) ? 'PASS' : 'FAIL');
+          const scPassed = benchEnv.data?.qkg15Benchmark?.scenariosPassed
+            ?? benchEnv.data?.fullReport?.aggregate?.scenarios_passed
+            ?? benchEnv.data?.fullReport?.scenariosPassed
+            ?? '—';
+          const scTot = benchEnv.data?.qkg15Benchmark?.scenariosTotal
+            ?? benchEnv.data?.fullReport?.aggregate?.total_scenarios
+            ?? benchEnv.data?.fullReport?.scenariosTotal
+            ?? '—';
+          const recall = b.tier1And2Recall ?? b.tier_1_2_recall;
+          const prec = b.precision;
+          const det = b.determinismRate ?? b.determinism_rate;
           qEl.innerText = `${gStatus} (${scPassed}/${scTot})`;
           qEl.style.color = gStatus === 'PASS' ? 'var(--accent-success)' : 'var(--accent-danger)';
-          qSub.innerText = `Recall(T1-T2): ${b.tier1And2Recall} | Precision: ${b.precision} | Determinism: ${b.determinismRate}`;
+          qSub.innerText = `Recall(T1-T2): ${recall} | Precision: ${prec} | Determinism: ${det}`;
         } else {
           qEl.innerText = 'UNAVAILABLE';
           qSub.innerText = 'Run npm run benchmark:tia to generate QKG-15 report';

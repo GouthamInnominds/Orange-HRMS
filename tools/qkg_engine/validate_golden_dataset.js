@@ -921,13 +921,10 @@ async function validateGoldenDataset({
       detail: check25Detail
     });
 
-    // Check 26 (Phase 4D): QKG-15 Multi-Plugin Historical TIA Replay Benchmark Gate
-    let check26Passed = false;
-    let check26Detail = 'Not evaluated';
-    try {
-      const { runTiaBenchmark } = require('./run_tia_benchmark');
-      const sessionQueryRunner = async (cypher, params = {}) => {
-        const res = await session.run(cypher, params);
+    const readQueryRunner = async (cypher, params = {}) => {
+      const roSession = driver.session({ database, defaultAccessMode: neo4j.session.READ });
+      try {
+        const res = await roSession.run(cypher, params);
         return (res.records || []).map((rec) => {
           const obj = {};
           for (const k of rec.keys || []) {
@@ -936,10 +933,19 @@ async function validateGoldenDataset({
           }
           return obj;
         });
-      };
+      } finally {
+        await roSession.close();
+      }
+    };
+
+    // Check 26 (Phase 4D): QKG-15 Multi-Plugin Historical TIA Replay Benchmark Gate
+    let check26Passed = false;
+    let check26Detail = 'Not evaluated';
+    try {
+      const { runTiaBenchmark } = require('./run_tia_benchmark');
       const benchReport = await runTiaBenchmark({
         mode: 'live',
-        queryRunner: sessionQueryRunner,
+        queryRunner: readQueryRunner,
         writeReport: false
       });
       const agg = benchReport.aggregate || {};
@@ -973,17 +979,8 @@ async function validateGoldenDataset({
       const restNames = Object.keys(CANONICAL_QE_DISPATCH).sort();
       const toolsAligned = mcpNames.length === 8 && JSON.stringify(mcpNames) === JSON.stringify(restNames);
 
-      const sessionRunner = async (cypher, params = {}) => {
-        const res = await session.run(cypher, params);
-        return res.records.map((rec) => {
-          const obj = {};
-          for (const k of rec.keys) obj[k] = rec.get(k);
-          return obj;
-        });
-      };
-
-      const facade = new QeIntelligenceService({ queryRunner: sessionRunner });
-      const mcp = new QkgMcpServer({ intelligenceService: facade, queryRunner: sessionRunner });
+      const facade = new QeIntelligenceService({ queryRunner: readQueryRunner });
+      const mcp = new QkgMcpServer({ intelligenceService: facade, queryRunner: readQueryRunner });
       const statusEnv = await facade.getSnapshotStatus({ skipStalenessCheck: true });
       const hasCompleteness = Boolean(
         statusEnv.completeness &&

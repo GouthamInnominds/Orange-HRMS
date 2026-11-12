@@ -92,7 +92,15 @@ jobs:
         working-directory: app-repo/tools
         run: node --test test/*.test.js
 
-      - name: Build Staging QKG & Validate 24/24 Golden Checks
+      - name: Run QKG-15 Multi-Plugin TIA Replay Benchmark Gate
+        working-directory: app-repo/tools
+        run: node qkg_engine/run_tia_benchmark.js --offline
+
+      - name: Verify Backup Bundle Checksum & Structural Integrity
+        working-directory: app-repo/tools
+        run: node qkg_engine/backup_restore.js --verify
+
+      - name: Build Staging QKG & Validate 27/27 Golden Checks
         working-directory: app-repo
         run: |
           echo "::warning::Live MariaDB schema reconciliation skipped in ephemeral CI (--no-mariadb). Run local/staging promote without --no-mariadb for full schema reconciliation."
@@ -102,6 +110,7 @@ jobs:
           NEO4J_URI: bolt://localhost:7687
           NEO4J_USER: neo4j
           NEO4J_PASSWORD: admin123
+          SKIP_MARIADB_RECONCILE: "1"
 
       - name: Run Multi-Channel TIA Simulation
         working-directory: app-repo
@@ -119,7 +128,7 @@ jobs:
             const reportPath = 'app-repo/tools/qkg_engine/output/incremental_sync_report.md';
             if (fs.existsSync(reportPath)) {
               const qaSha = '${{ steps.qa_env.outputs.qa_commit }}';
-              const footer = `\n\n---\n- **QA Repo (` + '`orangehrm-qa-automation`' + `):** \`${qaSha}\`\n- **Live MariaDB Schema Reconciliation:** \`SKIPPED (--no-mariadb)\` in ephemeral CI gate; static Doctrine/SQL DDL columns validated (\`24/24\` Golden Checks).`;
+              const footer = `\n\n---\n- **QA Repo (` + '`orangehrm-qa-automation`' + `):** \`${qaSha}\`\n- **Live MariaDB Schema Reconciliation:** \`SKIPPED (--no-mariadb)\` in ephemeral CI gate; static Doctrine/SQL DDL columns validated (\`27/27\` Golden Checks).`;
               const body = fs.readFileSync(reportPath, 'utf8') + footer;
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
@@ -214,7 +223,7 @@ jobs:
           mkdir -p ../artifacts/jest-cov
           cd ../orange_hrm/src/client && npm ci && npx jest --coverage --coverageReporters=clover --coverageDirectory=../../artifacts/jest-cov --json --outputFile=../../artifacts/jest-results.json --ci
 
-      - name: Unified QKG Ingestion + 24/24 Golden Validation
+      - name: Unified QKG Ingestion + 27/27 Golden Validation
         working-directory: app-repo
         run: |
           echo "::warning::Live MariaDB schema reconciliation skipped in ephemeral CI (--no-mariadb)."
@@ -223,6 +232,7 @@ jobs:
           NEO4J_URI: bolt://localhost:7687
           NEO4J_USER: neo4j
           NEO4J_PASSWORD: admin123
+          SKIP_MARIADB_RECONCILE: "1"
 
       - name: Ingest PHPUnit & Jest Coverage + Execution History
         working-directory: app-repo
@@ -236,6 +246,7 @@ jobs:
           NEO4J_URI: bolt://localhost:7687
           NEO4J_USER: neo4j
           NEO4J_PASSWORD: admin123
+          SKIP_MARIADB_RECONCILE: "1"
 
       - name: Upload CI Artifacts
         uses: actions/upload-artifact@v4

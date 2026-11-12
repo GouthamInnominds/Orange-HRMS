@@ -28,7 +28,8 @@ const VOLATILE_METADATA_KEYS = new Set([
   'elementId',
   'line_start',
   'line_end',
-  'line_count'
+  'line_count',
+  'versions'
 ]);
 
 const AST_NOISE_KEYS = new Set([

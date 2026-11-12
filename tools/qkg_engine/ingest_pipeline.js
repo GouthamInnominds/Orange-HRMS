@@ -38,6 +38,12 @@ const RoutesExtractor = require('./routes_extractor');
 const VueAstExtractor = require('./vue_ast_extractor');
 const TestLinker = require('./test_linker');
 const SchemaFkExtractor = require('./schema_fk_extractor');
+const {
+  buildManifestFromExtractedData,
+  buildCompactNeo4jManifestHeader,
+  writeManifestArtifact,
+  loadManifest
+} = require('./snapshot_manifest');
 const DoctrineAccessExtractor = require('./doctrine_access_extractor');
 const DbColumnMigrationExtractor = require('./db_column_migration_extractor');
 const { collectQaSpecs, persistQaSpecsToNeo4j } = require('./qa_spec_ingestor');
@@ -440,6 +446,7 @@ async function runFullIngestion({
           traits: enriched.trait_fqcns || [],
           line_start: enriched.line_start || 0,
           line_end: enriched.line_end || 0,
+          content_fingerprint: cls.content_fingerprint || null,
           introduced_in: enriched.introduced_in,
           version: enriched.version
         });
@@ -452,6 +459,9 @@ async function runFullIngestion({
             visibility: m.visibility || 'public',
             is_static: !!m.is_static,
             return_type: m.return_type_fqcn || m.return_type || null,
+            signature_hash: m.signature_hash || null,
+            body_hash: m.body_hash || null,
+            content_fingerprint: m.content_fingerprint || null,
             source_file: m.source_file || enriched.source_file,
             line_start: m.line_start || 0,
             line_end: m.line_end || 0,
@@ -471,6 +481,7 @@ async function runFullIngestion({
           extends: enriched.extends || [],
           line_start: enriched.line_start || 0,
           line_end: enriched.line_end || 0,
+          content_fingerprint: iface.content_fingerprint || null,
           introduced_in: enriched.introduced_in,
           version: enriched.version
         });
@@ -483,6 +494,9 @@ async function runFullIngestion({
             visibility: m.visibility || 'public',
             is_static: !!m.is_static,
             return_type: m.return_type_fqcn || m.return_type || null,
+            signature_hash: m.signature_hash || null,
+            body_hash: m.body_hash || null,
+            content_fingerprint: m.content_fingerprint || null,
             source_file: m.source_file || enriched.source_file,
             line_start: m.line_start || 0,
             line_end: m.line_end || 0,
@@ -502,6 +516,7 @@ async function runFullIngestion({
           traits: enriched.trait_fqcns || [],
           line_start: enriched.line_start || 0,
           line_end: enriched.line_end || 0,
+          content_fingerprint: tr.content_fingerprint || null,
           introduced_in: enriched.introduced_in,
           version: enriched.version
         });
@@ -514,6 +529,9 @@ async function runFullIngestion({
             visibility: m.visibility || 'public',
             is_static: !!m.is_static,
             return_type: m.return_type_fqcn || m.return_type || null,
+            signature_hash: m.signature_hash || null,
+            body_hash: m.body_hash || null,
+            content_fingerprint: m.content_fingerprint || null,
             source_file: m.source_file || enriched.source_file,
             line_start: m.line_start || 0,
             line_end: m.line_end || 0,
@@ -528,6 +546,7 @@ async function runFullIngestion({
       MERGE (n:Interface { fqcn: i.fqcn })
       SET n.name = i.name, n.namespace = i.namespace, n.plugin = i.plugin,
           n.source_file = i.source_file, n.line_start = i.line_start, n.line_end = i.line_end,
+          n.content_fingerprint = i.content_fingerprint,
           n.introduced_in = i.introduced_in, n.version = i.version, n.snapshot_id = $snapshotId
       WITH n, i
       MATCH (p:Plugin { name: i.plugin })
@@ -539,6 +558,7 @@ async function runFullIngestion({
       MERGE (n:Trait { fqcn: t.fqcn })
       SET n.name = t.name, n.namespace = t.namespace, n.plugin = t.plugin,
           n.source_file = t.source_file, n.line_start = t.line_start, n.line_end = t.line_end,
+          n.content_fingerprint = t.content_fingerprint,
           n.introduced_in = t.introduced_in, n.version = t.version, n.snapshot_id = $snapshotId
       WITH n, t
       MATCH (p:Plugin { name: t.plugin })
@@ -550,6 +570,8 @@ async function runFullIngestion({
       MERGE (n:Class { fqcn: c.fqcn })
       SET n.name = c.name, n.namespace = c.namespace, n.plugin = c.plugin,
           n.source_file = c.source_file, n.extends = c.extends,
+          n.implements = c.implements, n.traits = c.traits,
+          n.content_fingerprint = c.content_fingerprint,
           n.line_start = c.line_start, n.line_end = c.line_end,
           n.introduced_in = c.introduced_in, n.version = c.version, n.snapshot_id = $snapshotId
       WITH n, c
@@ -679,6 +701,9 @@ async function runFullIngestion({
       SET node.name = m.name, node.class_fqcn = m.class_fqcn, node.plugin = m.plugin,
           node.visibility = m.visibility, node.is_static = m.is_static,
           node.return_type = m.return_type, node.source_file = m.source_file,
+          node.signature_hash = m.signature_hash,
+          node.body_hash = m.body_hash,
+          node.content_fingerprint = m.content_fingerprint,
           node.line_start = m.line_start, node.line_end = m.line_end,
           node.introduced_in = m.introduced_in, node.snapshot_id = $snapshotId
       WITH node, m
@@ -719,6 +744,7 @@ async function runFullIngestion({
           node.endpoint_kind = ep.endpoint_kind,
           node.auth_required = ep.auth_required,
           node.source_file = ep.source_file,
+          node.content_fingerprint = ep.content_fingerprint,
           node.introduced_in = CASE WHEN ep.plugin = 'orangehrmPayrollPlugin' THEN 'v2.2-india-payroll' ELSE 'v1.0' END,
           node.snapshot_id = $snapshotId
       WITH node, ep
@@ -737,6 +763,7 @@ async function runFullIngestion({
           node.type = ui.type,
           node.inputs = ui.inputs,
           node.child_components = ui.child_components,
+          node.content_fingerprint = ui.content_fingerprint,
           node.line_count = ui.line_count,
           node.introduced_in = CASE WHEN ui.plugin = 'orangehrmPayrollPlugin' THEN 'v2.2-india-payroll' ELSE 'v1.0' END,
           node.snapshot_id = $snapshotId
@@ -750,6 +777,7 @@ async function runFullIngestion({
       MERGE (node:UIPage { page_id: pg.page_id })
       SET node.plugin = pg.plugin,
           node.component_name = pg.component_name,
+          node.component_relative_path = pg.component_relative_path,
           node.target_file = pg.target_file,
           node.source_file = pg.source_file,
           node.introduced_in = CASE WHEN pg.plugin = 'orangehrmPayrollPlugin' THEN 'v2.2-india-payroll' ELSE 'v1.0' END,
@@ -870,6 +898,9 @@ async function runFullIngestion({
           dc.observed_sources = coalesce(col.observed_sources, [col.source]),
           dc.mariadb_verified = coalesce(col.mariadb_verified, false),
           dc.mariadb_data_type = col.mariadb_data_type,
+          dc.mariadb_nullable = col.mariadb_nullable,
+          dc.mariadb_is_pk = coalesce(col.mariadb_is_pk, false),
+          dc.mariadb_is_fk = coalesce(col.mariadb_is_fk, false),
           dc.mariadb_observed_at = col.mariadb_observed_at,
           dc.schema_drift_flags = coalesce(col.schema_drift_flags, []),
           dc.plugin = coalesce(col.plugin, dc.plugin),
@@ -921,7 +952,9 @@ async function runFullIngestion({
         ON CREATE SET dt.introduced_in = CASE WHEN tbl STARTS WITH 'ohrm_payroll' OR tbl = 'ohrm_salary_slip' THEN 'v2.2-india-payroll' ELSE 'v1.0' END,
                       dt.snapshot_id = $snapshotId
         MERGE (sm)-[mt:MODIFIES_TABLE]->(dt)
-        SET mt.snapshot_id = $snapshotId
+        SET mt.evidence_type = coalesce(mig.evidence_type, 'MIGRATION_AST'),
+            mt.confidence = coalesce(mig.confidence, 0.9),
+            mt.snapshot_id = $snapshotId
       )
       FOREACH (colId IN mig.affected_columns |
         FOREACH (_ IN CASE WHEN colId CONTAINS '.' THEN [1] ELSE [] END |
@@ -931,7 +964,9 @@ async function runFullIngestion({
                         dc.introduced_in = mig.introduced_in,
                         dc.snapshot_id = $snapshotId
           MERGE (sm)-[mc:MODIFIES_COLUMN]->(dc)
-          SET mc.snapshot_id = $snapshotId
+          SET mc.evidence_type = coalesce(mig.evidence_type, 'MIGRATION_AST'),
+              mc.confidence = coalesce(mig.confidence, 0.9),
+              mc.snapshot_id = $snapshotId
         )
       )
     `, { snapshotId });
@@ -1207,12 +1242,13 @@ async function runFullIngestion({
           n.level = tc.test_level,
           n.automation_status = 'Automated',
           n.origin = tc.origin,
+          n.repo = coalesce(tc.repo, $appRepo),
           n.introduced_in = CASE WHEN tc.plugin = 'orangehrmPayrollPlugin' THEN 'v2.2-india-payroll' ELSE 'v1.0' END,
           n.snapshot_id = $snapshotId
       WITH n, tc
       MATCH (s:TestSuite { name: tc.suite })
       MERGE (s)-[:CONTAINS_TEST]->(n)
-    `, { snapshotId });
+    `, { snapshotId, appRepo: REPOS.APP });
 
     await runBatched(session, data.testLinkData.testsEdges, 600, `
       UNWIND $batch AS e
@@ -1272,11 +1308,11 @@ async function runFullIngestion({
         AND coalesce(tc.plugin, '') <> 'orangehrmPayrollPlugin'
         AND coalesce(us.introduced_in, 'v1.0') = 'v1.0'
       MERGE (tc)-[r:VERIFIES_STORY]->(us)
-      SET r.evidence_type = 'DERIVED_API_ENDPOINT', r.confidence = 0.90, r.snapshot_id = $snapshotId
+      ON CREATE SET r.evidence_type = 'DERIVED_API_ENDPOINT', r.confidence = 0.90, r.snapshot_id = $snapshotId
       WITH tc, us
       MATCH (us)-[:REALIZES]->(req:Requirement)
       MERGE (tc)-[vr:VERIFIES]->(req)
-      SET vr.evidence_type = 'DERIVED_API_ENDPOINT', vr.confidence = 0.90, vr.snapshot_id = $snapshotId
+      ON CREATE SET vr.evidence_type = 'DERIVED_API_ENDPOINT', vr.confidence = 0.90, vr.snapshot_id = $snapshotId
     `, { snapshotId });
 
     await session.run(`
@@ -1403,6 +1439,40 @@ async function runFullIngestion({
     if (data.storyTargets.missingTargets.length > 0) {
       fs.writeFileSync(path.join(logsDir, `missing_spec_targets_${snapshotId}.json`), JSON.stringify(data.storyTargets.missingTargets, null, 2));
     }
+    const prevSnapRes = await session.run(`
+      MATCH (s:GraphSnapshot { snapshot_id: $snapshotId })-[:PREVIOUS_SNAPSHOT]->(prev:GraphSnapshot)
+      RETURN prev.snapshot_id AS prevId LIMIT 1
+    `, { snapshotId });
+    const prevSnapshotId = prevSnapRes.records[0]?.get('prevId') || null;
+    const parentManifest = prevSnapshotId ? loadManifest(prevSnapshotId, snapshotsDir) : null;
+    const fullManifest = buildManifestFromExtractedData(data, {
+      snapshot_id: snapshotId,
+      parent_snapshot_id: prevSnapshotId,
+      app_commit: appCommit,
+      app_branch: branch,
+      qa_commit: qaCommit,
+      extractor_version: '2.2.0',
+      schema_version: ontology.meta.schema_version,
+      created_at: nowIso,
+      published_at: new Date().toISOString()
+    }, { parentManifest });
+    writeManifestArtifact(fullManifest, snapshotsDir);
+    const manifestHeader = buildCompactNeo4jManifestHeader(fullManifest);
+    structuralManifest.structural_digest = manifestHeader.structural_digest;
+    structuralManifest.manifest_file = manifestHeader.manifest_file;
+    structuralManifest.parent_snapshot_id = prevSnapshotId;
+    structuralManifest.delta_from_parent = manifestHeader.delta_from_parent;
+    await session.run(`
+      MATCH (s:GraphSnapshot { snapshot_id: $snapshotId })
+      SET s.structural_digest = $structuralDigest,
+          s.manifest_file = $manifestFile,
+          s.parent_snapshot_id = $parentSnapshotId
+    `, {
+      snapshotId,
+      structuralDigest: manifestHeader.structural_digest,
+      manifestFile: manifestHeader.manifest_file,
+      parentSnapshotId: prevSnapshotId
+    });
     fs.writeFileSync(path.join(snapshotsDir, `${snapshotId}.json`), JSON.stringify(structuralManifest, null, 2));
 
     await session.run(`

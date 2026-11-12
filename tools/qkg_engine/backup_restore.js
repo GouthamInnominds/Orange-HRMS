@@ -15,15 +15,54 @@ const {
   DEFAULT_SNAPSHOTS_DIR,
   listManifestFiles,
   loadManifest,
-  finalizeManifest
+  finalizeManifest,
+  pickPrimaryLabel
 } = require('./snapshot_manifest');
 const { canonicalStringify } = require('./canonical_hash');
 
 const DEFAULT_BACKUPS_DIR = path.resolve(__dirname, 'output', 'backups');
+const LABEL_KEY_PROP = {
+  Plugin: 'name',
+  DatabaseTable: 'name',
+  TestSuite: 'name',
+  Class: 'fqcn',
+  Interface: 'fqcn',
+  Trait: 'fqcn',
+  ExternalClass: 'fqcn',
+  ExternalInterface: 'fqcn',
+  ExternalTrait: 'fqcn',
+  DatabaseEntity: 'fqcn',
+  Method: 'signature',
+  ApiEndpoint: 'endpoint_id',
+  UIComponent: 'component_id',
+  UIPage: 'page_id',
+  DatabaseColumn: 'column_id',
+  SchemaMigration: 'migration_id',
+  Event: 'event_id',
+  Document: 'doc_id',
+  BusinessDomain: 'domain_id',
+  BusinessWorkflow: 'workflow_id',
+  Feature: 'feature_id',
+  RequirementGroup: 'group_id',
+  Requirement: 'requirement_id',
+  BusinessRule: 'rule_id',
+  Persona: 'persona_id',
+  UserStory: 'story_id',
+  TestCase: 'canonical_id',
+  TestRun: 'run_id',
+  CoverageRun: 'run_id',
+  TestExecution: 'exec_id',
+  CoverageObservation: 'obs_id',
+  Commit: 'sha',
+  Release: 'version_id',
+  GraphSnapshot: 'snapshot_id'
+};
+
 const ENTITY_KEY_PRIORITY = [
-  'signature', 'fqcn', 'endpoint_id', 'component_id', 'column_id',
-  'migration_id', 'rule_id', 'story_id', 'snapshot_id', 'run_id',
-  'canonical_id', 'id', 'sha', 'version_id', 'name'
+  'signature', 'fqcn', 'endpoint_id', 'component_id', 'page_id', 'column_id',
+  'migration_id', 'event_id', 'doc_id', 'domain_id', 'workflow_id', 'feature_id',
+  'group_id', 'requirement_id', 'rule_id', 'persona_id', 'story_id', 'exec_id',
+  'obs_id', 'run_id', 'sha', 'version_id', 'canonical_id', 'snapshot_id', 'id', 'name'
 ];
 
 function computeSha256(objOrStr) {
@@ -31,13 +70,83 @@ function computeSha256(objOrStr) {
   return crypto.createHash('sha256').update(str, 'utf8').digest('hex');
 }
 
-function resolveKeyPair(props = {}) {
+function isSerializedNeo4jInt(val) {
+  if (!val || typeof val !== 'object' || Array.isArray(val)) return false;
+  const keys = Object.keys(val);
+  return keys.length === 2
+    && typeof val.low === 'number'
+    && typeof val.high === 'number';
+}
+
+function normalizeNeo4jValue(val) {
+  if (val === undefined || val === null) return val;
+  if (neo4j.isInt(val)) return val.toNumber();
+  if (isSerializedNeo4jInt(val)) return neo4j.integer.toNumber(val);
+  if (neo4j.isDateTime(val) || neo4j.isDate(val) || neo4j.isLocalDateTime(val) || neo4j.isTime(val) || neo4j.isLocalTime(val)) {
+    return val.toString();
+  }
+  if (Array.isArray(val)) return val.map((item) => normalizeNeo4jValue(item));
+  if (typeof val === 'object') {
+    const out = {};
+    for (const [k, v] of Object.entries(val)) {
+      if (v === undefined) continue;
+      out[k] = normalizeNeo4jValue(v);
+    }
+    return out;
+  }
+  return val;
+}
+
+function normalizeNeo4jProps(rawProps = {}) {
+  const normalized = normalizeNeo4jValue(rawProps);
+  return normalized && typeof normalized === 'object' ? normalized : {};
+}
+
+function resolveKeyPair(props = {}, labels = []) {
+  for (const label of labels || []) {
+    const preferredProp = LABEL_KEY_PROP[label];
+    if (preferredProp && props[preferredProp] !== undefined && props[preferredProp] !== null && props[preferredProp] !== '') {
+      return { keyProp: preferredProp, keyVal: String(props[preferredProp]) };
+    }
+  }
   for (const prop of ENTITY_KEY_PRIORITY) {
     if (props[prop] !== undefined && props[prop] !== null && props[prop] !== '') {
       return { keyProp: prop, keyVal: String(props[prop]) };
     }
   }
   return null;
+}
+
+function buildRelDiscriminatorPattern(relType, props = {}) {
+  if (relType === 'FK_REFERENCES' && props.column !== undefined && props.ref_column !== undefined) {
+    return {
+      key: 'fk',
+      patternProps: '{ column: item.dColumn, ref_column: item.dRefColumn }',
+      discFields: { dColumn: props.column, dRefColumn: props.ref_column }
+    };
+  }
+  if (relType === 'CALLS' && props.call_type) {
+    return {
+      key: 'call_type',
+      patternProps: '{ call_type: item.dCallType }',
+      discFields: { dCallType: props.call_type }
+    };
+  }
+  if (relType === 'MAPS_TO_COLUMN' && props.property_name) {
+    return {
+      key: 'property_name',
+      patternProps: '{ property_name: item.dPropName }',
+      discFields: { dPropName: props.property_name }
+    };
+  }
+  if (relType === 'ACCESSES_COLUMN' && props.access_mode) {
+    return {
+      key: 'access_mode',
+      patternProps: '{ access_mode: item.dAccessMode }',
+      discFields: { dAccessMode: props.access_mode }
+    };
+  }
+  return { key: 'none', patternProps: '', discFields: {} };
 }
 
 function resolveBundlePaths(bundlePathOrDir) {
@@ -114,31 +223,33 @@ async function exportSnapshotBundle({
       `);
       const relRows = await session.run(`
         MATCH (a)-[r]->(b)
-        RETURN labels(a)[0] AS fromLabel, properties(a) AS fromProps,
+        RETURN labels(a) AS fromLabels, properties(a) AS fromProps,
                type(r) AS relType, properties(r) AS relProps,
-               labels(b)[0] AS toLabel, properties(b) AS toProps
+               labels(b) AS toLabels, properties(b) AS toProps
       `);
 
       const nodes = nodeRows.records.map((rec) => {
         const labels = rec.get('labels') || [];
-        const props = JSON.parse(JSON.stringify(rec.get('props') || {}));
-        const keyInfo = resolveKeyPair(props);
+        const props = normalizeNeo4jProps(rec.get('props') || {});
+        const keyInfo = resolveKeyPair(props, labels);
         return { labels, keyProp: keyInfo?.keyProp || null, keyVal: keyInfo?.keyVal || null, props };
       }).filter((n) => n.keyProp && n.keyVal);
 
       const relationships = relRows.records.map((rec) => {
-        const fromProps = rec.get('fromProps') || {};
-        const toProps = rec.get('toProps') || {};
-        const fk = resolveKeyPair(fromProps);
-        const tk = resolveKeyPair(toProps);
+        const fromLabels = rec.get('fromLabels') || [];
+        const toLabels = rec.get('toLabels') || [];
+        const fromProps = normalizeNeo4jProps(rec.get('fromProps') || {});
+        const toProps = normalizeNeo4jProps(rec.get('toProps') || {});
+        const fk = resolveKeyPair(fromProps, fromLabels);
+        const tk = resolveKeyPair(toProps, toLabels);
         if (!fk || !tk) return null;
         return {
-          fromLabel: rec.get('fromLabel'),
+          fromLabel: pickPrimaryLabel(fromLabels),
           fromKeyProp: fk.keyProp,
           fromKeyVal: fk.keyVal,
           relType: rec.get('relType'),
-          props: JSON.parse(JSON.stringify(rec.get('relProps') || {})),
-          toLabel: rec.get('toLabel'),
+          props: normalizeNeo4jProps(rec.get('relProps') || {}),
+          toLabel: pickPrimaryLabel(toLabels),
           toKeyProp: tk.keyProp,
           toKeyVal: tk.keyVal
         };
@@ -286,7 +397,10 @@ async function restoreSnapshotBundle(bundlePathOrDir, options = {}) {
       const keyProp = /^[A-Za-z_][A-Za-z0-9_]*$/.test(node.keyProp) ? node.keyProp : 'canonical_id';
       const gk = `${labelToken}||${keyProp}`;
       if (!nodeGroups.has(gk)) nodeGroups.set(gk, { labelToken, keyProp, items: [] });
-      nodeGroups.get(gk).items.push({ keyVal: node.keyVal, props: node.props || {} });
+      nodeGroups.get(gk).items.push({
+        keyVal: node.keyVal,
+        props: normalizeNeo4jProps(node.props || {})
+      });
     }
     const BATCH = 250;
     for (const { labelToken, keyProp, items } of nodeGroups.values()) {
@@ -308,15 +422,33 @@ async function restoreSnapshotBundle(bundlePathOrDir, options = {}) {
       const tLabel = /^[A-Za-z_][A-Za-z0-9_]*$/.test(rel.toLabel) ? `:${rel.toLabel}` : '';
       const fk = /^[A-Za-z_][A-Za-z0-9_]*$/.test(rel.fromKeyProp) ? rel.fromKeyProp : 'canonical_id';
       const tk = /^[A-Za-z_][A-Za-z0-9_]*$/.test(rel.toKeyProp) ? rel.toKeyProp : 'canonical_id';
-      const gk = `${fLabel}||${fk}||${rel.relType}||${tLabel}||${tk}`;
-      if (!relGroups.has(gk)) relGroups.set(gk, { fLabel, fk, relType: rel.relType, tLabel, tk, items: [] });
-      relGroups.get(gk).items.push({ fromKey: rel.fromKeyVal, toKey: rel.toKeyVal, props: rel.props || {} });
+      const cleanProps = normalizeNeo4jProps(rel.props || {});
+      const disc = buildRelDiscriminatorPattern(rel.relType, cleanProps);
+      const gk = `${fLabel}||${fk}||${rel.relType}||${disc.key}||${tLabel}||${tk}`;
+      if (!relGroups.has(gk)) {
+        relGroups.set(gk, {
+          fLabel,
+          fk,
+          relType: rel.relType,
+          patternProps: disc.patternProps,
+          tLabel,
+          tk,
+          items: []
+        });
+      }
+      relGroups.get(gk).items.push({
+        fromKey: rel.fromKeyVal,
+        toKey: rel.toKeyVal,
+        props: cleanProps,
+        ...disc.discFields
+      });
     }
-    for (const { fLabel, fk, relType, tLabel, tk, items } of relGroups.values()) {
+    for (const { fLabel, fk, relType, patternProps, tLabel, tk, items } of relGroups.values()) {
       for (let i = 0; i < items.length; i += BATCH) {
         const batch = items.slice(i, i + BATCH);
+        const relPattern = patternProps ? `[r:${relType} ${patternProps}]` : `[r:${relType}]`;
         await runner(
-          `UNWIND $batch AS item MATCH (a${fLabel} { ${fk}: item.fromKey }), (b${tLabel} { ${tk}: item.toKey }) MERGE (a)-[r:${relType}]->(b) SET r += item.props`,
+          `UNWIND $batch AS item MATCH (a${fLabel} { ${fk}: item.fromKey }), (b${tLabel} { ${tk}: item.toKey }) MERGE (a)-${relPattern}->(b) SET r += item.props`,
           { batch }
         );
         relationshipsRestored += batch.length;

@@ -23,6 +23,14 @@ class TIAService {
   async analyzeFiles(files = [], context = {}) {
     return await this.engine.analyzeFiles(files, context);
   }
+
+  async analyzeChangedFiles(files = [], context = {}) {
+    return await this.analyzeFiles(files, context);
+  }
+
+  async analyzeCrossPluginImpact(plugin, options = {}) {
+    return await this.engine.analyzeCrossPluginImpact(plugin, options);
+  }
 }
 
 module.exports = new TIAService();

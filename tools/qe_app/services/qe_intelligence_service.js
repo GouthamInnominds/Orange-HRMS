@@ -134,22 +134,32 @@ function toNum(v, fallback = 0) {
  * Wraps a raw Neo4j queryRunner function into the minimal neo4jService interface
  * so injected tests / MCP stdio servers share identical Facade behavior without live DBs.
  */
+function serializeQueryRunner(queryRunner) {
+  let queue = Promise.resolve();
+  return (cypher, params = {}) => {
+    const exec = queue.then(() => queryRunner(cypher, params));
+    queue = exec.catch(() => {});
+    return exec;
+  };
+}
+
 function buildRunnerBackedNeo4jAdapter(queryRunner) {
+  const safeRunner = serializeQueryRunner(queryRunner);
   return {
     async runQuery(cypher, params = {}) {
-      return await queryRunner(cypher, params);
+      return await safeRunner(cypher, params);
     },
     async runReadOnlyQuery(cypher, params = {}) {
       const checked = validateReadOnlyCypher(cypher);
-      return await queryRunner(checked.query, params);
+      return await safeRunner(checked.query, params);
     },
     async runCustomCypher(cypher) {
       const checked = validateReadOnlyCypher(cypher);
-      const rows = await queryRunner(checked.query, {});
+      const rows = await safeRunner(checked.query, {});
       return sanitizePayload(rows);
     },
     async getLatestSnapshot() {
-      const rows = await queryRunner(`
+      const rows = await safeRunner(`
         MATCH (s:GraphSnapshot)
         WHERE s.status IN ['PUBLISHED', 'STAGING', 'STALE']
         RETURN s.snapshot_id AS snapshotId,
@@ -171,7 +181,7 @@ function buildRunnerBackedNeo4jAdapter(queryRunner) {
       return rows[0] || null;
     },
     async getRequirementTraceability(storyId) {
-      const rows = await queryRunner(`
+      const rows = await safeRunner(`
         MATCH (us:UserStory) WHERE us.id CONTAINS $storyId OR us.title CONTAINS $storyId
         OPTIONAL MATCH (us)-[:SPECIFIES]->(r:Requirement)
         OPTIONAL MATCH (r)<-[:VERIFIES]-(tc:TestCase)
@@ -408,14 +418,14 @@ class QeIntelligenceService {
         latestManifestId: manifests[0]?.snapshotId || null,
         qkg15Benchmark: benchmarkReport
           ? {
-              gateStatus: benchmarkReport.gate?.passed ? 'PASS' : 'FAIL',
-              scenariosPassed: benchmarkReport.scenariosPassed,
-              scenariosTotal: benchmarkReport.scenariosTotal,
-              tier1And2Recall: benchmarkReport.metrics?.tier1And2Recall,
-              precision: benchmarkReport.metrics?.precision,
-              determinismRate: benchmarkReport.metrics?.determinismRate,
-              explainabilityRate: benchmarkReport.metrics?.explainabilityRate,
-              generatedAt: benchmarkReport.generatedAt
+              gateStatus: (benchmarkReport.gate_passed ?? benchmarkReport.gate?.passed) ? 'PASS' : 'FAIL',
+              scenariosPassed: benchmarkReport.aggregate?.scenarios_passed ?? benchmarkReport.scenariosPassed ?? null,
+              scenariosTotal: benchmarkReport.aggregate?.total_scenarios ?? benchmarkReport.scenariosTotal ?? null,
+              tier1And2Recall: benchmarkReport.aggregate?.tier_1_2_recall ?? benchmarkReport.metrics?.tier1And2Recall ?? null,
+              precision: benchmarkReport.aggregate?.precision ?? benchmarkReport.metrics?.precision ?? null,
+              determinismRate: benchmarkReport.aggregate?.determinism_rate ?? benchmarkReport.metrics?.determinismRate ?? null,
+              explainabilityRate: benchmarkReport.aggregate?.explanation_completeness ?? benchmarkReport.metrics?.explainabilityRate ?? null,
+              generatedAt: benchmarkReport.executed_at || benchmarkReport.generatedAt || null
             }
           : null,
         counts: ctx.counts

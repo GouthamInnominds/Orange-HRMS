@@ -33,17 +33,60 @@ class VueAstExtractor {
       pages.push(...this._parsePageIndex(pFile));
     }
 
+    const pathByComp = new Map();
     const vueFiles = this._findFiles(this.clientSrcDir, '.vue');
     for (const vFile of vueFiles) {
       const comp = this._parseVueFile(vFile);
-      if (comp) components.push(comp);
+      if (comp) {
+        components.push(comp);
+        pathByComp.set(comp, vFile);
+      }
     }
 
     const tsFiles = this._findFiles(this.clientSrcDir, '.ts')
       .filter(f => !f.endsWith('.d.ts') && !f.endsWith('.spec.ts') && !f.endsWith('.test.ts'));
     for (const tFile of tsFiles) {
       const tsMod = this._parseTsFile(tFile);
-      if (tsMod) components.push(tsMod);
+      if (tsMod) {
+        components.push(tsMod);
+        pathByComp.set(tsMod, tFile);
+      }
+    }
+
+    components.sort((a, b) => String(a.file || '').localeCompare(String(b.file || '')));
+    pages.sort((a, b) => `${a.plugin || ''}:${a.page_id || ''}`.localeCompare(`${b.plugin || ''}:${b.page_id || ''}`));
+
+    const idCounts = new Map();
+    for (const comp of components) {
+      idCounts.set(comp.component_id, (idCounts.get(comp.component_id) || 0) + 1);
+    }
+    const seenIds = new Set();
+    for (const comp of components) {
+      if ((idCounts.get(comp.component_id) || 0) > 1) {
+        const prefix = comp.type === 'TypeScriptModule' ? 'TS' : 'VUE';
+        const dirSlug = path.basename(path.dirname(comp.file || ''))
+          .replace(/[^A-Za-z0-9]+/g, '_')
+          .replace(/^_+|_+$/g, '')
+          .toUpperCase() || 'ROOT';
+        const base = `${prefix}_${String(comp.plugin || 'core').toUpperCase()}_${dirSlug}_${String(comp.name || 'COMPONENT').toUpperCase()}`;
+        let candidate = base;
+        let suffix = 2;
+        while (seenIds.has(candidate)) {
+          candidate = `${base}_${suffix++}`;
+        }
+        comp.component_id = candidate;
+        const absPath = pathByComp.get(comp);
+        if (absPath && fs.existsSync(absPath)) {
+          const rawContent = fs.readFileSync(absPath, 'utf8');
+          comp.content_fingerprint = sha256Hex({
+            type: comp.type,
+            component_id: comp.component_id,
+            file: comp.file,
+            source_hash: sha256Hex(rawContent)
+          });
+        }
+      }
+      seenIds.add(comp.component_id);
     }
 
     return { components, pages };
@@ -138,9 +181,9 @@ class VueAstExtractor {
     const relPath = toRepoRelPath(filePath);
     const plugin = extractPluginFromPath(relPath) || 'core';
 
-    let compName = filename;
-    const nameMatch = content.match(/name\s*:\s*['"]([^'"]+)['"]/);
-    if (nameMatch) compName = nameMatch[1];
+    // Derive component identity strictly from filename so object property keys
+    // (e.g. `{ name: 'punchIn' }`) or copy-pasted `<script>` `name:` blocks never collide.
+    const compName = filename;
 
     const inputs = [];
     const vmodelRegex = /v-model(?::[a-zA-Z0-9_]+)?\s*=\s*['"]([^'"]+)['"]/g;

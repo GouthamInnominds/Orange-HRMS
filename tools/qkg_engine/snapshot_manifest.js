@@ -18,12 +18,23 @@ const fs = require('fs');
 const path = require('path');
 const {
   REPOS,
+  PAYROLL_EXT_DIR,
   extractPluginFromPath,
   toRepoRelPath
 } = require('./qkg_config');
 const ontology = require('./ontology');
 const { RELATIONSHIP_CONTRACTS } = require('./schema_contract');
 const { normalizeEndpointComparable, routeMatchesUiPage } = require('./qa_spec_ingestor');
+const { resolveRequirementAlias, normalizeParamPath } = require('./spec_extractor');
+const {
+  RELEASE_V2_ID,
+  PAYROLL_DOMAIN,
+  PAYROLL_WORKFLOWS,
+  PAYROLL_FEATURES,
+  PAYROLL_REQUIREMENTS,
+  PAYROLL_RULES,
+  PAYROLL_PERSONAS
+} = require('./ingest_payroll_and_version_graph');
 const {
   VOLATILE_METADATA_KEYS,
   canonicalizeValue,
@@ -262,6 +273,12 @@ function resolveRelationshipDiscriminator(relType, props = {}) {
   if (relType === 'CALLS' && props.call_type) {
     return String(props.call_type);
   }
+  if (relType === 'MAPS_TO_COLUMN' && props.property_name) {
+    return String(props.property_name);
+  }
+  if (relType === 'ACCESSES_COLUMN' && props.access_mode) {
+    return String(props.access_mode);
+  }
   return '';
 }
 
@@ -470,11 +487,332 @@ function normalizeUiUrl(urlRaw) {
 }
 
 /**
+ * Appends v2.2 India Payroll specification nodes & edges matching ingestPayrollSpecsAndVersioning.
+ */
+function appendPayrollSpecsToManifest({
+  pushEnt,
+  pushRel,
+  storySet,
+  reqSet,
+  ruleSet,
+  endpointsList,
+  uiComponents,
+  testCases
+}) {
+  const v2 = RELEASE_V2_ID;
+  pushEnt('Plugin', {
+    name: 'orangehrmPayrollPlugin',
+    version: v2,
+    introduced_in: v2
+  });
+  pushEnt('BusinessDomain', {
+    domain_id: PAYROLL_DOMAIN.domain_id,
+    name: PAYROLL_DOMAIN.name,
+    plugin: PAYROLL_DOMAIN.plugin,
+    version: v2,
+    introduced_in: v2
+  });
+  pushRel('Plugin', 'orangehrmPayrollPlugin', 'CONTAINS', 'BusinessDomain', PAYROLL_DOMAIN.domain_id);
+
+  const wfSet = new Set();
+  for (const wf of PAYROLL_WORKFLOWS) {
+    wfSet.add(wf.workflow_id);
+    pushEnt('BusinessWorkflow', {
+      workflow_id: wf.workflow_id,
+      name: wf.name,
+      type: wf.type,
+      plugin: 'orangehrmPayrollPlugin',
+      version: v2,
+      introduced_in: v2
+    });
+    pushRel('BusinessDomain', 'DOMAIN_PAYROLL', 'CONTAINS', 'BusinessWorkflow', wf.workflow_id);
+  }
+
+  const featSet = new Set();
+  for (const f of PAYROLL_FEATURES) {
+    featSet.add(f.feature_id);
+    pushEnt('Feature', {
+      feature_id: f.feature_id,
+      name: f.name,
+      plugin: 'orangehrmPayrollPlugin',
+      version: v2,
+      introduced_in: v2
+    });
+    for (const wf of PAYROLL_WORKFLOWS) {
+      if ((wf.features || []).includes(f.feature_id)) {
+        pushRel('BusinessWorkflow', wf.workflow_id, 'DECOMPOSES_TO', 'Feature', f.feature_id);
+      }
+    }
+  }
+
+  for (const br of PAYROLL_RULES) {
+    ruleSet.add(br.rule_id);
+    pushEnt('BusinessRule', {
+      rule_id: br.rule_id,
+      name: br.name,
+      description: br.description,
+      plugin: 'orangehrmPayrollPlugin',
+      version: v2,
+      introduced_in: v2
+    });
+  }
+
+  for (const req of PAYROLL_REQUIREMENTS) {
+    if (!featSet.has(req.feature_id)) continue;
+    reqSet.add(req.requirement_id);
+    pushEnt('Requirement', {
+      requirement_id: req.requirement_id,
+      title: req.title,
+      type: req.type,
+      priority: req.priority,
+      status: req.status,
+      plugin: 'orangehrmPayrollPlugin',
+      version: v2,
+      introduced_in: v2
+    });
+    pushRel('Feature', req.feature_id, 'HAS_REQUIREMENT', 'Requirement', req.requirement_id);
+    for (const ruleId of req.rule_ids || []) {
+      if (ruleSet.has(ruleId)) {
+        pushRel('Requirement', req.requirement_id, 'GOVERNED_BY', 'BusinessRule', ruleId);
+      }
+    }
+  }
+
+  const personaSet = new Set();
+  for (const ps of PAYROLL_PERSONAS) {
+    personaSet.add(ps.persona_id);
+    pushEnt('Persona', {
+      persona_id: ps.persona_id,
+      name: ps.name,
+      role: ps.role,
+      plugin: 'orangehrmPayrollPlugin',
+      version: v2,
+      introduced_in: v2
+    });
+  }
+
+  const storiesPath = path.join(PAYROLL_EXT_DIR, '01_Business_Requirements', 'user_stories.json');
+  const stories = fs.existsSync(storiesPath) ? JSON.parse(fs.readFileSync(storiesPath, 'utf8')) : [];
+  const epSet = new Set(endpointsList.map((e) => e.endpoint_id));
+  const payUiByName = new Map();
+  for (const ui of uiComponents) {
+    if (ui.plugin === 'orangehrmPayrollPlugin' && ui.name) {
+      if (!payUiByName.has(ui.name)) payUiByName.set(ui.name, []);
+      payUiByName.get(ui.name).push(ui.component_id);
+    }
+  }
+
+  for (const s of stories) {
+    storySet.add(s.story_id);
+    pushEnt('UserStory', {
+      story_id: s.story_id,
+      title: s.title,
+      statement: s.statement,
+      domain_id: s.domain_id,
+      feature_id: s.feature_id,
+      workflow_id: s.workflow_id,
+      requirement_id: s.requirement_id,
+      plugin: 'orangehrmPayrollPlugin',
+      version: v2,
+      introduced_in: v2
+    });
+    if (personaSet.has(s.persona_id) && featSet.has(s.feature_id) && wfSet.has(s.workflow_id) && reqSet.has(s.requirement_id)) {
+      pushRel('Persona', s.persona_id, 'EXECUTES', 'UserStory', s.story_id);
+      pushRel('UserStory', s.story_id, 'BELONGS_TO', 'Feature', s.feature_id);
+      pushRel('UserStory', s.story_id, 'SUPPORTS_WORKFLOW', 'BusinessWorkflow', s.workflow_id);
+      pushRel('UserStory', s.story_id, 'REALIZES', 'Requirement', s.requirement_id);
+      for (const rid of s.rule_ids || []) {
+        if (ruleSet.has(rid)) pushRel('UserStory', s.story_id, 'GOVERNED_BY', 'BusinessRule', rid);
+      }
+    }
+    for (const epSpec of s.target_endpoints || []) {
+      const [httpMethod, ...rest] = String(epSpec || '').trim().split(/\s+/);
+      const epPath = rest.join(' ');
+      if (httpMethod && epPath) {
+        const endpointId = `${httpMethod}_${epPath}`;
+        if (epSet.has(endpointId)) {
+          pushRel('UserStory', s.story_id, 'EXECUTES_VIA', 'ApiEndpoint', endpointId, {
+            evidence_type: 'SPEC_STORY_ENDPOINT',
+            confidence: 0.95
+          });
+        }
+      }
+    }
+    for (const uiFile of s.target_ui_components || []) {
+      const compName = String(uiFile || '').replace(/\.vue$/, '');
+      for (const compId of payUiByName.get(compName) || []) {
+        pushRel('UserStory', s.story_id, 'IMPLEMENTED_BY', 'UIComponent', compId, {
+          evidence_type: 'SPEC_STORY_UI',
+          confidence: 0.95
+        });
+      }
+    }
+  }
+
+  for (const ep of endpointsList) {
+    if (ep.plugin !== 'orangehrmPayrollPlugin') continue;
+    for (const f of PAYROLL_FEATURES) {
+      if (f.pathPrefixes.some((pfx) => String(ep.path || '').includes(pfx))) {
+        pushRel('Feature', f.feature_id, 'INCLUDES_ENDPOINT', 'ApiEndpoint', ep.endpoint_id, {
+          origin: 'PAYROLL_SPEC_DERIVED'
+        });
+      }
+    }
+  }
+
+  for (const tc of testCases) {
+    if (tc.plugin !== 'orangehrmPayrollPlugin' || tc.origin !== 'AST_PHPUNIT') continue;
+    for (const rid of tc.requirement_ids || []) {
+      if (!reqSet.has(rid)) {
+        reqSet.add(rid);
+        pushEnt('Requirement', {
+          requirement_id: rid,
+          title: rid,
+          type: 'Functional',
+          introduced_in: v2
+        });
+      }
+      pushRel('TestCase', tc.canonical_id, 'VERIFIES', 'Requirement', rid, {
+        evidence_type: 'PHPUNIT_TRACEABILITY',
+        confidence: 0.9
+      });
+    }
+    for (const sid of tc.story_ids || []) {
+      if (!storySet.has(sid)) {
+        storySet.add(sid);
+        pushEnt('UserStory', {
+          story_id: sid,
+          title: sid,
+          introduced_in: v2
+        });
+      }
+      pushRel('TestCase', tc.canonical_id, 'VERIFIES_STORY', 'UserStory', sid, {
+        evidence_type: 'PHPUNIT_TRACEABILITY',
+        confidence: 0.9
+      });
+    }
+    for (const bid of tc.rule_ids || []) {
+      if (!ruleSet.has(bid)) {
+        ruleSet.add(bid);
+        pushEnt('BusinessRule', {
+          rule_id: bid,
+          name: bid,
+          introduced_in: v2
+        });
+      }
+      pushRel('TestCase', tc.canonical_id, 'VALIDATES_RULE', 'BusinessRule', bid, {
+        evidence_type: 'PHPUNIT_TRACEABILITY',
+        confidence: 0.9
+      });
+    }
+  }
+}
+
+/**
+ * Replicates derived non-Payroll TestCase->UserStory/Requirement traceability (ON CREATE semantics).
+ */
+function appendDerivedNonPayrollTraceability({ entities, relationships, pushRelIfAbsent }) {
+  const nonPayrollV1Stories = new Set();
+  for (const ent of entities) {
+    if (ent.entity_type === 'UserStory' && (ent.properties?.introduced_in || 'v1.0') === 'v1.0') {
+      nonPayrollV1Stories.add(ent.canonical_id);
+    }
+  }
+  const testMeta = new Map();
+  for (const ent of entities) {
+    if (ent.entity_type === 'TestCase') {
+      testMeta.set(ent.canonical_id, {
+        origin: ent.properties?.origin || '',
+        plugin: ent.properties?.plugin || ''
+      });
+    }
+  }
+  const isEligibleTest = (tcId) => {
+    const meta = testMeta.get(tcId);
+    return Boolean(meta && meta.origin !== 'BASELINE_MANIFEST' && meta.plugin !== 'orangehrmPayrollPlugin');
+  };
+
+  const storyToReqs = new Map();
+  const epToStories = new Map();
+  const uiToStories = new Map();
+  const classToEndpoints = new Map();
+  const methodToClasses = new Map();
+  const testToEndpoints = new Map();
+  const testToMethodsHighConf = new Map();
+  const testToComponents = new Map();
+
+  const addToMapSet = (map, key, val) => {
+    if (!map.has(key)) map.set(key, new Set());
+    map.get(key).add(val);
+  };
+
+  for (const r of relationships) {
+    if (r.rel_type === 'REALIZES' && r.source_type === 'UserStory' && r.target_type === 'Requirement') {
+      addToMapSet(storyToReqs, r.source_id, r.target_id);
+    } else if (r.rel_type === 'EXECUTES_VIA' && r.source_type === 'UserStory' && r.target_type === 'ApiEndpoint' && nonPayrollV1Stories.has(r.source_id)) {
+      addToMapSet(epToStories, r.target_id, r.source_id);
+    } else if (r.rel_type === 'IMPLEMENTED_BY' && r.source_type === 'UserStory' && r.target_type === 'UIComponent' && nonPayrollV1Stories.has(r.source_id)) {
+      addToMapSet(uiToStories, r.target_id, r.source_id);
+    } else if (r.rel_type === 'HANDLED_BY' && r.source_type === 'ApiEndpoint' && r.target_type === 'Class') {
+      addToMapSet(classToEndpoints, r.target_id, r.source_id);
+    } else if (r.rel_type === 'DECLARES' && r.source_type === 'Class' && r.target_type === 'Method') {
+      addToMapSet(methodToClasses, r.target_id, r.source_id);
+    } else if (r.rel_type === 'EXECUTES_AGAINST' && r.source_type === 'TestCase' && r.target_type === 'ApiEndpoint' && isEligibleTest(r.source_id)) {
+      addToMapSet(testToEndpoints, r.source_id, r.target_id);
+    } else if (r.rel_type === 'TESTS' && r.source_type === 'TestCase' && r.target_type === 'Method' && isEligibleTest(r.source_id) && Number(r.properties?.confidence || 0) >= 0.65) {
+      addToMapSet(testToMethodsHighConf, r.source_id, r.target_id);
+    } else if (r.rel_type === 'TESTS_COMPONENT' && r.source_type === 'TestCase' && r.target_type === 'UIComponent' && isEligibleTest(r.source_id)) {
+      addToMapSet(testToComponents, r.source_id, r.target_id);
+    }
+  }
+
+  const linkTestStoryAndReqs = (tcId, storyId, evidenceType, confidence) => {
+    pushRelIfAbsent('TestCase', tcId, 'VERIFIES_STORY', 'UserStory', storyId, {
+      evidence_type: evidenceType,
+      confidence
+    });
+    for (const reqId of storyToReqs.get(storyId) || []) {
+      pushRelIfAbsent('TestCase', tcId, 'VERIFIES', 'Requirement', reqId, {
+        evidence_type: evidenceType,
+        confidence
+      });
+    }
+  };
+
+  for (const [tcId, eps] of testToEndpoints.entries()) {
+    for (const epId of eps) {
+      for (const storyId of epToStories.get(epId) || []) {
+        linkTestStoryAndReqs(tcId, storyId, 'DERIVED_API_ENDPOINT', 0.9);
+      }
+    }
+  }
+  for (const [tcId, methods] of testToMethodsHighConf.entries()) {
+    for (const mSig of methods) {
+      for (const clsFqcn of methodToClasses.get(mSig) || []) {
+        for (const epId of classToEndpoints.get(clsFqcn) || []) {
+          for (const storyId of epToStories.get(epId) || []) {
+            linkTestStoryAndReqs(tcId, storyId, 'DERIVED_HANDLER_METHOD', 0.8);
+          }
+        }
+      }
+    }
+  }
+  for (const [tcId, uis] of testToComponents.entries()) {
+    for (const uiId of uis) {
+      for (const storyId of uiToStories.get(uiId) || []) {
+        linkTestStoryAndReqs(tcId, storyId, 'DERIVED_UI_COMPONENT', 0.85);
+      }
+    }
+  }
+}
+
+/**
  * Builds a deterministic manifest from extractWorkspaceSnapshot() output.
  */
 function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) {
   const entities = [];
   const relationships = [];
+  const existingRelKeys = new Set();
   const pushEnt = (label, raw) => {
     const item = canonicalizeEntity(label, raw);
     if (item) entities.push(item);
@@ -489,8 +827,25 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
       target_id: dstId,
       properties
     });
-    if (item) relationships.push(item);
+    if (item) {
+      relationships.push(item);
+      existingRelKeys.add(item.canonical_key);
+    }
     return item;
+  };
+  const pushRelIfAbsent = (srcType, srcId, relType, dstType, dstId, properties = {}) => {
+    const probe = canonicalizeRelationship({
+      source_type: srcType,
+      source_id: srcId,
+      rel_type: relType,
+      target_type: dstType,
+      target_id: dstId,
+      properties
+    });
+    if (!probe || existingRelKeys.has(probe.canonical_key)) return null;
+    relationships.push(probe);
+    existingRelKeys.add(probe.canonical_key);
+    return probe;
   };
 
   // 1. Plugins
@@ -635,9 +990,25 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
 
   // 4. ApiEndpoints
   const endpointsList = data.apiEndpoints || [];
+  const epSet = new Set();
   for (const ep of endpointsList) {
+    epSet.add(ep.endpoint_id);
     const intro = ep.plugin === 'orangehrmPayrollPlugin' ? 'v2.2-india-payroll' : 'v1.0';
-    pushEnt('ApiEndpoint', { ...ep, introduced_in: intro });
+    pushEnt('ApiEndpoint', {
+      endpoint_id: ep.endpoint_id,
+      http_method: ep.http_method,
+      path: ep.path,
+      route_name: ep.route_name,
+      plugin: ep.plugin,
+      handler_class: ep.handler_class,
+      handler_fqcn: ep.handler_fqcn,
+      handler_method: ep.handler_method,
+      endpoint_kind: ep.endpoint_kind,
+      auth_required: ep.auth_required,
+      source_file: ep.source_file,
+      content_fingerprint: ep.content_fingerprint,
+      introduced_in: intro
+    });
     if (classToTypeLabel.get(ep.handler_fqcn) === 'Class') {
       pushRel('Class', ep.handler_fqcn, 'EXPOSES', 'ApiEndpoint', ep.endpoint_id);
       pushRel('ApiEndpoint', ep.endpoint_id, 'HANDLED_BY', 'Class', ep.handler_fqcn, {
@@ -651,10 +1022,22 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
   const uiComponents = data.frontend?.components || [];
   const uiCompByFile = new Map();
   const uiCompByPluginName = new Map();
+  const uiCompSet = new Set();
 
   for (const ui of uiComponents) {
     const intro = ui.plugin === 'orangehrmPayrollPlugin' ? 'v2.2-india-payroll' : 'v1.0';
-    pushEnt('UIComponent', { ...ui, introduced_in: intro });
+    uiCompSet.add(ui.component_id);
+    pushEnt('UIComponent', {
+      component_id: ui.component_id,
+      name: ui.name,
+      file: ui.file,
+      plugin: ui.plugin,
+      type: ui.type,
+      inputs: ui.inputs || [],
+      child_components: ui.child_components || [],
+      content_fingerprint: ui.content_fingerprint,
+      introduced_in: intro
+    });
     if (ui.file) uiCompByFile.set(ui.file, ui.component_id);
     if (ui.plugin && ui.name) uiCompByPluginName.set(`${ui.plugin}::${ui.name}`, ui.component_id);
     if (ui.plugin && pluginSet.has(ui.plugin)) {
@@ -676,14 +1059,26 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
     }
   }
 
+  const pageSet = new Set();
   for (const pg of data.frontend?.pages || []) {
     const intro = pg.plugin === 'orangehrmPayrollPlugin' ? 'v2.2-india-payroll' : 'v1.0';
-    pushEnt('UIPage', { ...pg, introduced_in: intro });
+    pageSet.add(pg.page_id);
+    pushEnt('UIPage', {
+      page_id: pg.page_id,
+      plugin: pg.plugin,
+      component_name: pg.component_name,
+      component_relative_path: pg.component_relative_path,
+      target_file: pg.target_file,
+      source_file: pg.source_file,
+      introduced_in: intro
+    });
     const resolvedCompId = (pg.target_file && uiCompByFile.get(pg.target_file)) ||
       uiCompByPluginName.get(`${pg.plugin}::${pg.component_name}`);
     if (resolvedCompId) {
       pushRel('UIPage', pg.page_id, 'RENDERS', 'UIComponent', resolvedCompId);
     } else if (pg.target_file) {
+      uiCompSet.add(pg.target_file);
+      uiCompByFile.set(pg.target_file, pg.target_file);
       pushEnt('UIComponent', {
         component_id: pg.target_file,
         name: pg.component_name,
@@ -695,10 +1090,10 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
       });
       pushRel('UIPage', pg.page_id, 'RENDERS', 'UIComponent', pg.target_file);
       if (pg.plugin) {
-        pushEnt('Plugin', {
-          name: pg.plugin,
-          introduced_in: pg.plugin === 'orangehrmPayrollPlugin' ? 'v2.2-india-payroll' : 'v1.0'
-        });
+        if (!pluginSet.has(pg.plugin)) {
+          pluginSet.add(pg.plugin);
+          pushEnt('Plugin', { name: pg.plugin });
+        }
         pushRel('UIComponent', pg.target_file, 'DECLARED_IN', 'Plugin', pg.plugin);
       }
     }
@@ -713,9 +1108,11 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
     tableSet.add(t.name);
     pushEnt('DatabaseTable', { name: t.name, source: t.source, plugin: t.plugin, introduced_in: intro });
   }
+  const entityFqcnSet = new Set();
   for (const e of data.schemaData?.entities || []) {
     const intro = e.plugin === 'orangehrmPayrollPlugin' ? 'v2.2-india-payroll' : 'v1.0';
     if (classToTypeLabel.get(e.class_fqcn) === 'Class') {
+      entityFqcnSet.add(e.class_fqcn);
       pushEnt('DatabaseEntity', {
         fqcn: e.class_fqcn,
         name: e.entity_name,
@@ -759,43 +1156,92 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
   }
   const colSet = new Set();
   for (const col of data.dbColumnData?.columns || []) {
+    const colIntro = (String(col.table_name).startsWith('ohrm_payroll') || col.table_name === 'ohrm_salary_slip')
+      ? 'v2.2-india-payroll'
+      : 'v1.0';
     colSet.add(col.column_id);
-    pushEnt('DatabaseColumn', col);
-    if (tableSet.has(col.table_name)) {
-      pushRel('DatabaseTable', col.table_name, 'HAS_COLUMN', 'DatabaseColumn', col.column_id);
+    pushEnt('DatabaseColumn', {
+      column_id: col.column_id,
+      table_name: col.table_name,
+      column_name: col.column_name,
+      data_type: col.data_type,
+      nullable: col.nullable,
+      is_pk: col.is_pk,
+      is_fk: col.is_fk,
+      source: col.source,
+      observed_sources: col.observed_sources || [col.source],
+      mariadb_verified: Boolean(col.mariadb_verified),
+      mariadb_data_type: col.mariadb_data_type,
+      mariadb_nullable: col.mariadb_nullable,
+      mariadb_is_pk: Boolean(col.mariadb_is_pk),
+      mariadb_is_fk: Boolean(col.mariadb_is_fk),
+      schema_drift_flags: col.schema_drift_flags || [],
+      plugin: col.plugin || null,
+      introduced_in: colIntro
+    });
+    if (!tableSet.has(col.table_name)) {
+      tableSet.add(col.table_name);
+      pushEnt('DatabaseTable', { name: col.table_name, introduced_in: colIntro });
     }
-    if (col.entity_fqcn && classToTypeLabel.get(col.entity_fqcn) === 'Class') {
-      pushRel('DatabaseEntity', col.entity_fqcn, 'MAPS_TO_COLUMN', 'DatabaseColumn', col.column_id, {
-        evidence_type: col.source || 'DOCTRINE_ORM',
-        confidence: col.confidence || 0.95
-      });
-    }
+    pushRel('DatabaseTable', col.table_name, 'HAS_COLUMN', 'DatabaseColumn', col.column_id);
+  }
+  for (const m of data.dbColumnData?.entityColumnMaps || []) {
+    if (!entityFqcnSet.has(m.entity_fqcn) || !colSet.has(m.column_id)) continue;
+    pushRel('DatabaseEntity', m.entity_fqcn, 'MAPS_TO_COLUMN', 'DatabaseColumn', m.column_id, {
+      property_name: m.property_name,
+      evidence_type: m.evidence_type,
+      confidence: m.confidence
+    });
   }
   for (const ca of data.dbColumnData?.columnAccessEdges || []) {
     if (!methodToSig.has(ca.method_signature) || !colSet.has(ca.column_id)) continue;
     pushRel('Method', ca.method_signature, 'ACCESSES_COLUMN', 'DatabaseColumn', ca.column_id, {
-      access_type: ca.access_type,
+      access_mode: ca.access_mode,
       evidence_type: ca.evidence_type,
-      confidence: ca.confidence
+      confidence: ca.confidence,
+      priority: ca.priority
     });
   }
   for (const mig of data.dbColumnData?.migrations || []) {
-    pushEnt('SchemaMigration', mig);
-    for (const tbl of mig.affected_tables || mig.tables_modified || []) {
-      if (tableSet.has(tbl)) {
-        pushRel('SchemaMigration', mig.migration_id, 'MODIFIES_TABLE', 'DatabaseTable', tbl, {
-          evidence_type: mig.evidence_type || 'MIGRATION_AST',
-          confidence: mig.confidence || 0.9
-        });
+    pushEnt('SchemaMigration', {
+      migration_id: mig.migration_id,
+      version: mig.version,
+      file: mig.file,
+      migration_kind: mig.migration_kind,
+      plugin: mig.plugin,
+      affected_tables: mig.affected_tables || [],
+      affected_columns: mig.affected_columns || [],
+      introduced_in: mig.introduced_in
+    });
+    for (const tbl of mig.affected_tables || []) {
+      if (!tableSet.has(tbl)) {
+        tableSet.add(tbl);
+        const tblIntro = (String(tbl).startsWith('ohrm_payroll') || tbl === 'ohrm_salary_slip')
+          ? 'v2.2-india-payroll'
+          : 'v1.0';
+        pushEnt('DatabaseTable', { name: tbl, introduced_in: tblIntro });
       }
+      pushRel('SchemaMigration', mig.migration_id, 'MODIFIES_TABLE', 'DatabaseTable', tbl, {
+        evidence_type: mig.evidence_type || 'MIGRATION_AST',
+        confidence: mig.confidence || 0.9
+      });
     }
-    for (const cid of mig.affected_columns || mig.columns_modified || []) {
-      if (colSet.has(cid)) {
-        pushRel('SchemaMigration', mig.migration_id, 'MODIFIES_COLUMN', 'DatabaseColumn', cid, {
-          evidence_type: mig.evidence_type || 'MIGRATION_AST',
-          confidence: mig.confidence || 0.9
+    for (const cid of mig.affected_columns || []) {
+      if (!String(cid).includes('.')) continue;
+      if (!colSet.has(cid)) {
+        colSet.add(cid);
+        const parts = String(cid).split('.');
+        pushEnt('DatabaseColumn', {
+          column_id: cid,
+          table_name: parts[0],
+          column_name: parts[1],
+          introduced_in: mig.introduced_in
         });
       }
+      pushRel('SchemaMigration', mig.migration_id, 'MODIFIES_COLUMN', 'DatabaseColumn', cid, {
+        evidence_type: mig.evidence_type || 'MIGRATION_AST',
+        confidence: mig.confidence || 0.9
+      });
     }
   }
 
@@ -809,10 +1255,17 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
       });
     }
   }
+  const eventSet = new Set();
   for (const ev of data.symfonyData?.events || []) {
-    pushEnt('Event', ev);
+    eventSet.add(ev.event_id);
+    pushEnt('Event', {
+      event_id: ev.event_id,
+      name: ev.name,
+      category: ev.category
+    });
   }
   for (const l of data.symfonyData?.listenEdges || []) {
+    if (classToTypeLabel.get(l.class_fqcn) !== 'Class' || !eventSet.has(l.event_name)) continue;
     pushRel('Class', l.class_fqcn, 'LISTENS_TO', 'Event', l.event_name, {
       handler_method: l.handler_method,
       evidence_type: l.evidence_type,
@@ -820,12 +1273,14 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
     });
   }
   for (const d of data.symfonyData?.dispatchEdges || []) {
+    if (classToTypeLabel.get(d.class_fqcn) !== 'Class' || !eventSet.has(d.event_name)) continue;
     pushRel('Class', d.class_fqcn, 'DISPATCHES', 'Event', d.event_name, {
       evidence_type: d.evidence_type,
       confidence: d.confidence
     });
   }
   for (const m of data.symfonyData?.menuEdges || []) {
+    if (classToTypeLabel.get(m.class_fqcn) !== 'Class' || !pageSet.has(m.page_id)) continue;
     pushRel('Class', m.class_fqcn, 'EXTENDS_MENU', 'UIPage', m.page_id, {
       menu_titles: m.menu_titles || [],
       evidence_type: m.evidence_type,
@@ -835,66 +1290,153 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
 
   // 8. Business Specs & Docs
   const specs = data.baselineSpecs || {};
+  const domainSet = new Set();
+  const wfSet = new Set();
+  const featureSet = new Set();
+  const groupSet = new Set();
   const storySet = new Set();
   const reqSet = new Set();
   const ruleSet = new Set();
+  const personaSet = new Set();
   for (const d of specs.domains || []) {
-    pushEnt('BusinessDomain', { ...d, introduced_in: d.introduced_in || 'v1.0', version: 'v1.0' });
+    domainSet.add(d.domain_id);
+    pushEnt('BusinessDomain', {
+      domain_id: d.domain_id,
+      name: d.name,
+      plugin: d.plugin,
+      introduced_in: 'v1.0',
+      version: 'v1.0'
+    });
     if (d.plugin && pluginSet.has(d.plugin)) pushRel('Plugin', d.plugin, 'CONTAINS', 'BusinessDomain', d.domain_id);
   }
   for (const w of specs.workflows || []) {
-    pushEnt('BusinessWorkflow', { ...w, introduced_in: w.introduced_in || 'v1.0', version: 'v1.0' });
-    if (w.domain_id) pushRel('BusinessDomain', w.domain_id, 'CONTAINS', 'BusinessWorkflow', w.workflow_id);
+    wfSet.add(w.workflow_id);
+    pushEnt('BusinessWorkflow', {
+      workflow_id: w.workflow_id,
+      name: w.name,
+      type: w.type,
+      introduced_in: 'v1.0',
+      version: 'v1.0'
+    });
+    if (w.domain_id && domainSet.has(w.domain_id)) {
+      pushRel('BusinessDomain', w.domain_id, 'CONTAINS', 'BusinessWorkflow', w.workflow_id);
+    }
   }
   for (const f of specs.features || []) {
-    pushEnt('Feature', { ...f, introduced_in: f.introduced_in || 'v1.0', version: 'v1.0' });
-    if (f.workflow_id) pushRel('BusinessWorkflow', f.workflow_id, 'DECOMPOSES_TO', 'Feature', f.feature_id);
+    featureSet.add(f.feature_id);
+    pushEnt('Feature', {
+      feature_id: f.feature_id,
+      name: f.name,
+      introduced_in: 'v1.0',
+      version: 'v1.0'
+    });
+    if (f.workflow_id && wfSet.has(f.workflow_id)) {
+      pushRel('BusinessWorkflow', f.workflow_id, 'DECOMPOSES_TO', 'Feature', f.feature_id);
+    }
   }
   for (const g of specs.requirementGroups || []) {
-    pushEnt('RequirementGroup', { ...g, introduced_in: g.introduced_in || 'v1.0', version: 'v1.0' });
-    if (g.feature_id) pushRel('Feature', g.feature_id, 'HAS_REQUIREMENT_GROUP', 'RequirementGroup', g.group_id);
+    groupSet.add(g.group_id);
+    pushEnt('RequirementGroup', {
+      group_id: g.group_id,
+      name: g.name,
+      introduced_in: 'v1.0',
+      version: 'v1.0'
+    });
+    if (g.feature_id && featureSet.has(g.feature_id)) {
+      pushRel('Feature', g.feature_id, 'HAS_REQUIREMENT_GROUP', 'RequirementGroup', g.group_id);
+    }
   }
   for (const r of specs.requirements || []) {
     reqSet.add(r.requirement_id);
-    pushEnt('Requirement', { ...r, introduced_in: r.introduced_in || 'v1.0', version: 'v1.0' });
-    if (r.group_id) pushRel('RequirementGroup', r.group_id, 'HAS_REQUIREMENT', 'Requirement', r.requirement_id);
+    pushEnt('Requirement', {
+      requirement_id: r.requirement_id,
+      title: r.title,
+      type: r.type,
+      status: r.status,
+      priority: r.priority,
+      introduced_in: 'v1.0',
+      version: 'v1.0'
+    });
+    if (r.group_id && groupSet.has(r.group_id)) {
+      pushRel('RequirementGroup', r.group_id, 'HAS_REQUIREMENT', 'Requirement', r.requirement_id);
+    }
   }
   for (const b of specs.businessRules || []) {
     ruleSet.add(b.rule_id);
-    pushEnt('BusinessRule', { ...b, introduced_in: b.introduced_in || 'v1.0', version: 'v1.0' });
-    if (b.requirement_id) pushRel('Requirement', b.requirement_id, 'GOVERNED_BY', 'BusinessRule', b.rule_id);
+    pushEnt('BusinessRule', {
+      rule_id: b.rule_id,
+      name: b.name,
+      description: b.description,
+      introduced_in: 'v1.0',
+      version: 'v1.0'
+    });
+    if (b.requirement_id && reqSet.has(b.requirement_id)) {
+      pushRel('Requirement', b.requirement_id, 'GOVERNED_BY', 'BusinessRule', b.rule_id);
+    }
   }
   for (const p of specs.personas || []) {
-    pushEnt('Persona', { ...p, introduced_in: p.introduced_in || 'v1.0', version: 'v1.0' });
+    personaSet.add(p.persona_id);
+    pushEnt('Persona', {
+      persona_id: p.persona_id,
+      name: p.name,
+      role: p.role,
+      introduced_in: 'v1.0',
+      version: 'v1.0'
+    });
   }
   for (const s of specs.userStories || []) {
     storySet.add(s.story_id);
-    pushEnt('UserStory', { ...s, introduced_in: s.introduced_in || 'v1.0', version: 'v1.0' });
-    if (s.persona_id) pushRel('Persona', s.persona_id, 'EXECUTES', 'UserStory', s.story_id);
-    if (s.feature_id) pushRel('UserStory', s.story_id, 'BELONGS_TO', 'Feature', s.feature_id);
-    if (s.workflow_id) pushRel('UserStory', s.story_id, 'SUPPORTS_WORKFLOW', 'BusinessWorkflow', s.workflow_id);
-    if (s.requirement_id) pushRel('UserStory', s.story_id, 'REALIZES', 'Requirement', s.requirement_id);
+    pushEnt('UserStory', {
+      story_id: s.story_id,
+      title: s.title,
+      statement: s.statement,
+      requirement_id: s.requirement_id,
+      feature_id: s.feature_id,
+      domain_id: s.domain_id,
+      workflow_id: s.workflow_id,
+      introduced_in: 'v1.0',
+      version: 'v1.0'
+    });
+    if (s.persona_id && personaSet.has(s.persona_id)) pushRel('Persona', s.persona_id, 'EXECUTES', 'UserStory', s.story_id);
+    if (s.feature_id && featureSet.has(s.feature_id)) pushRel('UserStory', s.story_id, 'BELONGS_TO', 'Feature', s.feature_id);
+    if (s.workflow_id && wfSet.has(s.workflow_id)) pushRel('UserStory', s.story_id, 'SUPPORTS_WORKFLOW', 'BusinessWorkflow', s.workflow_id);
+    if (s.requirement_id && reqSet.has(s.requirement_id)) pushRel('UserStory', s.story_id, 'REALIZES', 'Requirement', s.requirement_id);
     for (const rid of s.rule_ids || []) {
       if (String(rid).startsWith('BR_')) {
+        if (!ruleSet.has(rid)) {
+          ruleSet.add(rid);
+          pushEnt('BusinessRule', { rule_id: rid, name: rid, introduced_in: s.introduced_in || 'v1.0' });
+        }
         pushRel('UserStory', s.story_id, 'GOVERNED_BY', 'BusinessRule', rid);
       } else if (String(rid).startsWith('NFR_') || String(rid).startsWith('FR_')) {
+        if (!reqSet.has(rid)) {
+          reqSet.add(rid);
+          pushEnt('Requirement', {
+            requirement_id: rid,
+            title: rid,
+            type: String(rid).startsWith('NFR_') ? 'Non-Functional' : 'Functional',
+            introduced_in: s.introduced_in || 'v1.0'
+          });
+        }
         pushRel('UserStory', s.story_id, 'REALIZES', 'Requirement', rid);
       }
     }
   }
   for (const l of data.storyTargets?.endpointLinks || []) {
+    if (!storySet.has(l.story_id) || !epSet.has(l.endpoint_id)) continue;
     pushRel('UserStory', l.story_id, 'EXECUTES_VIA', 'ApiEndpoint', l.endpoint_id, {
       origin: 'SPEC_AUTHORED',
       evidence_type: 'SPEC_STORY_ENDPOINT',
       raw_target: l.raw_target
     });
-    if (l.feature_id) {
+    if (l.feature_id && featureSet.has(l.feature_id)) {
       pushRel('Feature', l.feature_id, 'INCLUDES_ENDPOINT', 'ApiEndpoint', l.endpoint_id, {
         origin: 'SPEC_DERIVED'
       });
     }
   }
   for (const l of data.storyTargets?.uiLinks || []) {
+    if (!storySet.has(l.story_id) || !uiCompSet.has(l.component_id)) continue;
     pushRel('UserStory', l.story_id, 'IMPLEMENTED_BY', 'UIComponent', l.component_id, {
       origin: 'SPEC_AUTHORED',
       evidence_type: 'SPEC_STORY_UI',
@@ -902,14 +1444,100 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
     });
   }
   for (const d of data.documents || []) {
-    pushEnt('Document', d);
+    pushEnt('Document', {
+      doc_id: d.doc_id,
+      title: d.title,
+      file: d.file,
+      version: d.version,
+      introduced_in: d.introduced_in,
+      plugin: d.plugin
+    });
     if (d.plugin && pluginSet.has(d.plugin)) pushRel('Document', d.doc_id, 'DOCUMENTS', 'Plugin', d.plugin);
   }
 
-  // 9. Automated Code-AST TestSuites, TestCases & Link Edges (excluding volatile run history)
+  // 9A. Non-unit Baseline v1.0 Manifest TestSuites & TestCases
+  const validBaselineReqSet = new Set((specs.requirements || []).map((r) => r.requirement_id));
+  const baselineEpByNorm = new Map();
+  for (const ep of endpointsList) {
+    baselineEpByNorm.set(normalizeParamPath(ep.endpoint_id), ep.endpoint_id);
+  }
+  const baselineSuitesByName = new Map();
+  for (const [suiteKey, rows] of Object.entries(data.baselineSuitesMap || {})) {
+    if (suiteKey === 'unit_tests') continue;
+    for (const tc of rows || []) {
+      if (!tc.testcase_id) continue;
+      if (tc.testcase_id.startsWith('TC_PAY_') || tc.testcase_id.startsWith('E2E-') || tc.testcase_id.startsWith('UI-')) continue;
+      const canonicalId = `baseline-v1::${suiteKey}::${tc.testcase_id}`;
+      const tcPlugin = tc.plugin || 'orangehrmCorePlugin';
+      const suiteObj = {
+        name: suiteKey,
+        suite_id: `baseline::${suiteKey}`,
+        origin: 'BASELINE_MANIFEST',
+        plugin: tcPlugin,
+        module: tcPlugin,
+        repo: REPOS.APP,
+        framework: 'baseline_manifest',
+        introduced_in: 'v1.0'
+      };
+      baselineSuitesByName.set(suiteKey, suiteObj);
+      pushEnt('TestSuite', suiteObj);
+      pushEnt('TestCase', {
+        canonical_id: canonicalId,
+        testcase_id: tc.testcase_id,
+        name: tc.testcase_name || tc.name || tc.testcase_id,
+        test_level: tc.test_level || 'E2E',
+        suite: suiteKey,
+        plugin: tcPlugin,
+        origin: 'BASELINE_MANIFEST',
+        introduced_in: 'v1.0'
+      });
+      pushRel('TestSuite', suiteKey, 'CONTAINS_TEST', 'TestCase', canonicalId);
+
+      if (tc.endpoint) {
+        const norm = normalizeParamPath(tc.endpoint);
+        const resolvedEpId = baselineEpByNorm.get(norm);
+        if (resolvedEpId) {
+          pushRel('TestCase', canonicalId, 'PLANNED_ENDPOINT_COVERAGE', 'ApiEndpoint', resolvedEpId, {
+            origin: 'BASELINE_MANIFEST'
+          });
+        }
+      }
+      const resolvedReqs = [...new Set(
+        (tc.requirement_ids || [])
+          .map((rid) => resolveRequirementAlias(rid, validBaselineReqSet))
+          .filter((rid) => rid && validBaselineReqSet.has(rid))
+      )];
+      for (const rid of resolvedReqs) {
+        if (reqSet.has(rid)) {
+          pushRel('TestCase', canonicalId, 'PLANNED_VERIFICATION', 'Requirement', rid, {
+            origin: 'BASELINE_MANIFEST'
+          });
+        }
+      }
+    }
+  }
+  for (const s of baselineSuitesByName.values()) {
+    if (s.plugin && pluginSet.has(s.plugin)) {
+      pushRel('Plugin', s.plugin, 'HAS_TEST_SUITE', 'TestSuite', s.name);
+    }
+  }
+
+  // 9B. Automated Code-AST TestSuites, TestCases & Link Edges (excluding volatile run history)
+  const suiteSet = new Set(baselineSuitesByName.keys());
   for (const ts of data.testLinkData?.suites || []) {
     const intro = ts.plugin === 'orangehrmPayrollPlugin' ? 'v2.2-india-payroll' : 'v1.0';
-    pushEnt('TestSuite', { ...ts, introduced_in: intro });
+    suiteSet.add(ts.name);
+    pushEnt('TestSuite', {
+      name: ts.name,
+      suite_id: ts.suite_id,
+      plugin: ts.plugin,
+      module: ts.module,
+      framework: ts.framework,
+      repo: ts.repo,
+      test_count: ts.test_count,
+      origin: 'AST_DEV_SUITE',
+      introduced_in: intro
+    });
     if (ts.plugin && pluginSet.has(ts.plugin)) pushRel('Plugin', ts.plugin, 'HAS_TEST_SUITE', 'TestSuite', ts.name);
   }
   const confirmedTestMethodKeys = new Set();
@@ -935,7 +1563,7 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
       repo: tc.repo || REPOS.APP,
       introduced_in: intro
     });
-    if (tc.suite) pushRel('TestSuite', tc.suite, 'CONTAINS_TEST', 'TestCase', tc.canonical_id);
+    if (tc.suite && suiteSet.has(tc.suite)) pushRel('TestSuite', tc.suite, 'CONTAINS_TEST', 'TestCase', tc.canonical_id);
   }
   for (const e of data.testLinkData?.testsEdges || []) {
     if (!methodToSig.has(e.target_method_signature)) continue;
@@ -958,6 +1586,7 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
     });
   }
   for (const e of data.testLinkData?.executesAgainstEdges || []) {
+    if (!epSet.has(e.endpoint_id)) continue;
     pushRel('TestCase', e.canonical_id, 'EXECUTES_AGAINST', 'ApiEndpoint', e.endpoint_id, {
       http_method: e.http_method,
       confidence: e.confidence,
@@ -965,6 +1594,7 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
     });
   }
   for (const e of data.testLinkData?.uiComponentEdges || []) {
+    if (!uiCompSet.has(e.target_component_id)) continue;
     pushRel('TestCase', e.canonical_id, 'TESTS_COMPONENT', 'UIComponent', e.target_component_id, {
       confidence: e.confidence,
       evidence_type: e.evidence_type
@@ -972,17 +1602,35 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
   }
 
   // External QA Repo TestSuites, TestCases & Structural/Traceability Edges
-  const epIndex = new Map();
+  const epByExactId = new Map();
+  const epByNormKey = new Map();
   for (const ep of endpointsList) {
+    epByExactId.set(ep.endpoint_id, ep);
     const norm = normalizeEndpointComparable(ep.endpoint_id);
-    if (!epIndex.has(norm.key)) epIndex.set(norm.key, []);
-    epIndex.get(norm.key).push(ep);
+    if (norm) epByNormKey.set(norm.key, ep);
   }
   const allPages = data.frontend?.pages || [];
+  const pagesByPlugin = new Map();
+  for (const pg of allPages) {
+    const plug = pg.plugin || 'orangehrmCorePlugin';
+    if (!pagesByPlugin.has(plug)) pagesByPlugin.set(plug, []);
+    pagesByPlugin.get(plug).push(pg);
+  }
   const allUiNodes = entities.filter((e) => e.entity_type === 'UIComponent');
 
   for (const ts of data.qaData?.suites || []) {
-    pushEnt('TestSuite', { ...ts, introduced_in: 'v1.0' });
+    suiteSet.add(ts.name);
+    pushEnt('TestSuite', {
+      name: ts.name,
+      suite_id: ts.suite_id,
+      plugin: ts.plugin,
+      module: ts.module,
+      framework: ts.framework,
+      repo: ts.repo,
+      origin: ts.origin,
+      test_count: ts.test_count,
+      introduced_in: 'v1.0'
+    });
     if (ts.plugin && pluginSet.has(ts.plugin)) pushRel('Plugin', ts.plugin, 'HAS_TEST_SUITE', 'TestSuite', ts.name);
   }
   for (const tc of data.qaData?.testCases || []) {
@@ -1006,23 +1654,34 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
       introduced_in: 'v1.0'
     });
     const suiteKey = tc._suiteNodeName || `${tc.origin}::${tc.file}::${tc.suite}`;
-    pushRel('TestSuite', suiteKey, 'CONTAINS_TEST', 'TestCase', tc.canonical_id);
+    if (suiteSet.has(suiteKey)) pushRel('TestSuite', suiteKey, 'CONTAINS_TEST', 'TestCase', tc.canonical_id);
 
     const isPw = tc.framework === 'Playwright';
     for (const rawEp of tc.covers_endpoints || []) {
-      const norm = normalizeEndpointComparable(rawEp);
-      for (const ep of epIndex.get(norm.key) || []) {
-        pushRel('TestCase', tc.canonical_id, 'EXECUTES_AGAINST', 'ApiEndpoint', ep.endpoint_id, {
-          http_method: ep.http_method || norm.method,
+      const comp = normalizeEndpointComparable(rawEp);
+      let resolvedEp = null;
+      if (comp && epByExactId.has(`${comp.method} ${comp.cleanPath}`)) {
+        resolvedEp = epByExactId.get(`${comp.method} ${comp.cleanPath}`);
+      } else if (comp && epByNormKey.has(comp.key)) {
+        resolvedEp = epByNormKey.get(comp.key);
+      } else if (rawEp && epByExactId.has(rawEp)) {
+        resolvedEp = epByExactId.get(rawEp);
+      }
+      if (resolvedEp) {
+        pushRel('TestCase', tc.canonical_id, 'EXECUTES_AGAINST', 'ApiEndpoint', resolvedEp.endpoint_id, {
+          http_method: comp ? comp.method : 'GET',
           evidence_type: isPw ? 'PLAYWRIGHT_AST_NETWORK' : 'CYPRESS_API_ASSERT',
           confidence: 0.9
         });
       }
     }
+    const pluginPages = pagesByPlugin.get(tc.plugin) || [];
+    const candidatePool = pluginPages.length > 0 ? pluginPages : allPages;
     for (const rawRoute of tc.navigates_routes || []) {
-      for (const pg of allPages) {
+      for (const pg of candidatePool) {
         if (routeMatchesUiPage(rawRoute, pg)) {
           pushRel('TestCase', tc.canonical_id, 'NAVIGATES_PAGE', 'UIPage', pg.page_id, {
+            route: rawRoute,
             evidence_type: isPw ? 'PLAYWRIGHT_GOTO' : 'CYPRESS_PAGE_GOTO',
             confidence: 0.85
           });
@@ -1030,7 +1689,7 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
       }
     }
     for (const comp of tc.covers_components || []) {
-      const baseName = String(comp).replace(/\.vue$/i, '');
+      const baseName = String(comp).replace('.vue', '');
       for (const ui of allUiNodes) {
         const uiName = ui.properties?.name || '';
         const uiFile = ui.properties?.file || ui.source_file || '';
@@ -1066,6 +1725,23 @@ function buildManifestFromExtractedData(data = {}, metadata = {}, options = {}) 
         });
       }
     }
+  }
+
+  // Derived Non-Payroll Code-AST Story & Requirement Traceability
+  appendDerivedNonPayrollTraceability({ entities, relationships, pushRelIfAbsent });
+
+  // Payroll v2.2 Specs & PHPUnit Traceability (when Payroll plugin is part of workspace)
+  if (pluginSet.has('orangehrmPayrollPlugin')) {
+    appendPayrollSpecsToManifest({
+      pushEnt,
+      pushRel,
+      storySet,
+      reqSet,
+      ruleSet,
+      endpointsList,
+      uiComponents,
+      testCases: data.testLinkData?.testCases || []
+    });
   }
 
   return finalizeManifest({
@@ -1117,7 +1793,7 @@ async function buildManifestFromNeo4j(queryRunnerOrSession, metadata = {}, optio
     RETURN labels(a) AS srcLabels, properties(a) AS srcProps,
            type(r) AS relType, properties(r) AS relProps,
            labels(b) AS dstLabels, properties(b) AS dstProps
-  `, { excludedRels });
+  `, { excludedRels, excludedLabels });
 
   const entities = [];
   for (const row of nodeRows) {
