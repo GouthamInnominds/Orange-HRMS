@@ -12,124 +12,138 @@ const neo4j = require('neo4j-driver');
 const { TIAEngine } = require('../qkg_engine/tia_engine');
 const { WORKSPACE_ROOT, BASELINE_REQUIREMENT_FANOUT_GUARD } = require('../qkg_engine/qkg_config');
 
-const SENSITIVE_KEY_RE = /^(password|passwd|api_?key|secret|token|access_?token|refresh_?token|private_?key|aadhaar|pan_?num|bank_?account|ifsc|salary|email|phone|ssn|authorization)$/i;
-const SENSITIVE_VALUE_RE = /\b(sk-[A-Za-z0-9_-]{12,}|ghp_[A-Za-z0-9]{12,}|Bearer\s+[A-Za-z0-9._-]{12,})\b/g;
+const {
+  MUTATION_CYPHER_RE: _UNUSED_RE
+} = (() => ({ MUTATION_CYPHER_RE: /\b(CREATE|MERGE|DELETE|DETACH|SET|REMOVE|DROP|FOREACH)\b/i }))();
+const {
+  SENSITIVE_KEY_RE,
+  SENSITIVE_VALUE_RE,
+  sanitizePayload
+} = require('../qkg_engine/security_guard');
+const { QeIntelligenceService } = require('../qe_app/services/qe_intelligence_service');
+
 const MUTATION_CYPHER_RE = /\b(CREATE|MERGE|DELETE|DETACH|SET|REMOVE|DROP|FOREACH)\b/i;
 
-function sanitizePayload(value, seen = new WeakSet()) {
-  if (value === null || value === undefined) return value;
-  if (typeof value === 'string') {
-    return value.replace(SENSITIVE_VALUE_RE, '[REDACTED_SECRET]');
-  }
-  if (typeof value !== 'object') return value;
-  if (seen.has(value)) return '[Circular]';
-  seen.add(value);
-
-  if (Array.isArray(value)) {
-    return value.map((item) => sanitizePayload(item, seen));
-  }
-
-  if (neo4j.isInt(value)) return value.toNumber();
-
-  const out = {};
-  for (const [k, v] of Object.entries(value)) {
-    if (SENSITIVE_KEY_RE.test(k)) {
-      out[k] = '[REDACTED]';
-    } else {
-      out[k] = sanitizePayload(v, seen);
-    }
-  }
-  return out;
-}
-
+/**
+ * Standardized 8-Tool MCP Contract (Phase 5A - P5-02), identical in schema & semantics
+ * to REST `/api/v2/qe/*` and the QE Workbench Intelligence Facade.
+ */
 function getToolDefinitions() {
   return [
     {
-      name: 'tia_analyze_files',
-      description: 'Run graph-driven 5-channel Test Impact Analysis on changed files with health state (SUCCESS/PARTIAL/STALE/UNAVAILABLE).',
+      name: 'get_code_impact',
+      description: 'Analyze direct and transitive code, API, UI, DB, and cross-plugin structural impact for changed files or git refs.',
       readOnlyHint: true,
       inputSchema: {
         type: 'object',
         properties: {
-          files: { type: 'array', items: { type: 'string' }, description: 'Repository file paths to analyze' },
-          baseRef: { type: 'string' },
-          headRef: { type: 'string' }
-        },
-        required: ['files']
+          changed_files: { type: 'array', items: { type: 'string' }, description: 'Repository file paths to analyze' },
+          files: { type: 'array', items: { type: 'string' }, description: 'Alias for changed_files' },
+          base_ref: { type: 'string' },
+          head_ref: { type: 'string' },
+          plugin: { type: 'string' },
+          max_hops: { type: 'number' },
+          limit: { type: 'number' }
+        }
       }
     },
     {
-      name: 'get_regression_suite',
-      description: 'Get prioritized selective regression test suite and identified automation coverage gaps for files or PR.',
+      name: 'get_business_impact',
+      description: 'Trace impacted Business Workflows, User Stories, Requirements, and untested requirement backlog gaps.',
       readOnlyHint: true,
       inputSchema: {
         type: 'object',
         properties: {
+          changed_files: { type: 'array', items: { type: 'string' } },
           files: { type: 'array', items: { type: 'string' } },
-          priority: { type: 'string', enum: ['P1', 'P2', 'ALL'] }
-        },
-        required: ['files']
-      }
-    },
-    {
-      name: 'get_coverage_gaps',
-      description: 'List Classes, REST ApiEndpoints, and UIComponents with zero linked automated tests or low measured line coverage.',
-      readOnlyHint: true,
-      inputSchema: {
-        type: 'object',
-        properties: {
-          plugin: { type: 'string', description: 'Optional plugin filter e.g. orangehrmPayrollPlugin' },
-          limit: { type: 'number', description: 'Max items per category (default 25)' }
+          requirement_id: { type: 'string' },
+          story_id: { type: 'string' },
+          plugin: { type: 'string' }
         }
       }
     },
     {
-      name: 'get_stale_tests',
-      description: 'Identify tests flagged NEEDS_UPDATE from changed files or recent FAILED/ERROR TestExecutions.',
+      name: 'get_impacted_tests',
+      description: 'Select prioritized Tier 1 & Tier 2 regression tests with graph evidence paths, isolating Tier 3 heuristic and Tier 4 planned backlog.',
       readOnlyHint: true,
       inputSchema: {
         type: 'object',
         properties: {
-          files: { type: 'array', items: { type: 'string' }, description: 'Optional changed files filter' }
+          changed_files: { type: 'array', items: { type: 'string' } },
+          files: { type: 'array', items: { type: 'string' } },
+          base_ref: { type: 'string' },
+          head_ref: { type: 'string' },
+          include_advisory: { type: 'boolean' }
         }
       }
     },
     {
-      name: 'get_module_coverage',
-      description: 'Get per-plugin test counts and latest measured Clover CoverageObservation percentages.',
-      readOnlyHint: true,
-      inputSchema: {
-        type: 'object',
-        properties: {
-          plugin: { type: 'string', description: 'Optional single plugin filter' }
-        }
-      }
-    },
-    {
-      name: 'explain_test_selection',
-      description: 'Explain the exact graph path, channel, evidence type, and confidence linking changed files to a testId.',
-      readOnlyHint: true,
-      inputSchema: {
-        type: 'object',
-        properties: {
-          testId: { type: 'string' },
-          files: { type: 'array', items: { type: 'string' } }
-        },
-        required: ['testId', 'files']
-      }
-    },
-    {
-      name: 'get_cross_module_impact',
-      description: 'Inspect hop-bounded (maxHops 1..3) cross-plugin CALLS, DI/Inheritance, Symfony events, shared DB table/column couplings, and UI->API links for a plugin.',
+      name: 'get_test_health',
+      description: 'Retrieve test suite pass rates, recent TestRun failures, flaky tests, and stale/never-executed TestCases.',
       readOnlyHint: true,
       inputSchema: {
         type: 'object',
         properties: {
           plugin: { type: 'string' },
-          maxHops: { type: 'number', description: 'Hop limit (1..3, default 3)' },
+          module: { type: 'string' },
+          suite_scope: { type: 'string' },
           limit: { type: 'number' }
-        },
-        required: ['plugin']
+        }
+      }
+    },
+    {
+      name: 'get_coverage_gaps',
+      description: 'List unmapped ApiEndpoints, UIComponents, Methods, Requirements, and low-coverage areas without fabricating missing telemetry.',
+      readOnlyHint: true,
+      inputSchema: {
+        type: 'object',
+        properties: {
+          plugin: { type: 'string', description: 'Optional plugin filter e.g. orangehrmPayrollPlugin' },
+          module: { type: 'string' },
+          limit: { type: 'number', description: 'Max items per category (default 25)' }
+        }
+      }
+    },
+    {
+      name: 'get_module_quality',
+      description: 'Get full plugin/module architecture, automated vs QA spec mapping, quality scorecard, and cross-module blast radius.',
+      readOnlyHint: true,
+      inputSchema: {
+        type: 'object',
+        properties: {
+          plugin: { type: 'string' },
+          module: { type: 'string' },
+          max_hops: { type: 'number' },
+          limit: { type: 'number' }
+        }
+      }
+    },
+    {
+      name: 'compare_snapshots',
+      description: 'Compare two QKG snapshots using separate structural vs quality modes; incompatible/missing runs report UNAVAILABLE/INCOMPATIBLE.',
+      readOnlyHint: true,
+      inputSchema: {
+        type: 'object',
+        properties: {
+          snapshot_a: { type: 'string' },
+          snapshot_b: { type: 'string' },
+          mode: { type: 'string', enum: ['structural', 'quality', 'both'] }
+        }
+      }
+    },
+    {
+      name: 'explain_test_selection',
+      description: 'Explain explicit inclusion paths/confidence and explicit exclusion/quarantine rationale for a TestCase across changed files.',
+      readOnlyHint: true,
+      inputSchema: {
+        type: 'object',
+        properties: {
+          test_id: { type: 'string' },
+          testId: { type: 'string' },
+          canonical_id: { type: 'string' },
+          changed_files: { type: 'array', items: { type: 'string' } },
+          files: { type: 'array', items: { type: 'string' } }
+        }
       }
     }
   ];
@@ -137,7 +151,7 @@ function getToolDefinitions() {
 
 class QkgMcpServer {
   /**
-   * @param {Object} options Optional { queryRunner, qaCommit }
+   * @param {Object} options Optional { queryRunner, qaCommit, intelligenceService, snapshotsDir }
    */
   constructor(options = {}) {
     this.qaCommit = options.qaCommit || process.env.QA_COMMIT || 'unconfigured';
@@ -147,12 +161,16 @@ class QkgMcpServer {
       this.driver = null;
     } else {
       const uri = process.env.NEO4J_URI || 'bolt://localhost:7687';
-      const user = process.env.NEO4J_USER || 'neo4j';
-      const password = process.env.NEO4J_PASSWORD || 'admin123';
+      const user = process.env.NEO4J_READONLY_USER || process.env.NEO4J_USER || 'neo4j';
+      const password = process.env.NEO4J_READONLY_PASSWORD || process.env.NEO4J_PASSWORD || 'admin123';
       this.database = process.env.NEO4J_DATABASE || 'neo4j';
       this.driver = neo4j.driver(uri, neo4j.auth.basic(user, password), { connectionTimeout: 5000 });
     }
     this.tiaEngine = new TIAEngine((cypher, params) => this.runReadOnlyQuery(cypher, params));
+    this.intelligence = options.intelligenceService || new QeIntelligenceService({
+      queryRunner: (cypher, params) => this.runReadOnlyQuery(cypher, params),
+      snapshotsDir: options.snapshotsDir
+    });
   }
 
   async runReadOnlyQuery(cypher, params = {}) {
@@ -221,6 +239,104 @@ class QkgMcpServer {
   }
 
   async callTool(name, args = {}) {
+    const facadeOpts = {
+      ...args,
+      currentCommit: args.currentCommit !== undefined ? args.currentCommit : this.currentCommit
+    };
+
+    const withQaOverride = (res) => {
+      if (this.qaCommit && this.qaCommit !== 'unconfigured' && (!res.qaCommit || res.qaCommit === 'not_configured')) {
+        return { ...res, qaCommit: this.qaCommit };
+      }
+      return res;
+    };
+
+    // Standardized 8 Phase 5A Capabilities (P5-02)
+    if (name === 'get_code_impact') {
+      return withQaOverride(await this.intelligence.getCodeImpact(facadeOpts));
+    }
+    if (name === 'get_business_impact') {
+      return withQaOverride(await this.intelligence.getBusinessImpact(facadeOpts));
+    }
+    if (name === 'get_impacted_tests') {
+      return withQaOverride(await this.intelligence.getImpactedTests(facadeOpts));
+    }
+    if (name === 'get_test_health') {
+      return withQaOverride(await this.intelligence.getTestHealth(facadeOpts));
+    }
+    if (name === 'get_module_quality') {
+      return withQaOverride(await this.intelligence.getModuleQuality({
+        ...facadeOpts,
+        plugin: args.plugin || args.module
+      }));
+    }
+    if (name === 'compare_snapshots') {
+      return withQaOverride(await this.intelligence.compareSnapshots(facadeOpts));
+    }
+    if (name === 'explain_test_selection') {
+      const testId = String(args.test_id || args.testId || args.canonical_id || '');
+      const files = Array.isArray(args.files) ? args.files : (Array.isArray(args.changed_files) ? args.changed_files : []);
+      const exp = await this.intelligence.explainTestSelection({
+        ...facadeOpts,
+        test_id: testId,
+        changed_files: files
+      });
+      const firstMatch = exp.data?.inclusionExplanations?.[0] || null;
+      return withQaOverride(sanitizePayload({
+        ...exp,
+        data: {
+          ...(exp.data || {}),
+          selected: Boolean(exp.data?.selected),
+          test: firstMatch,
+          testId,
+          reason: exp.data?.exclusionReason || firstMatch?.reasons?.[0] || null,
+          baselineFanoutGuardActive: BASELINE_REQUIREMENT_FANOUT_GUARD
+        }
+      }));
+    }
+
+    if (name === 'get_coverage_gaps') {
+      const plugin = args.plugin || args.module || null;
+      const limit = Math.max(1, Math.min(100, parseInt(args.limit || 25, 10)));
+      const gapRes = await this.intelligence.getCoverageGaps({ ...facadeOpts, plugin, limit });
+      if (gapRes.analysisStatus === 'UNAVAILABLE') {
+        return withQaOverride({ ...gapRes, data: { error: 'Graph unavailable' } });
+      }
+      let lowCovMethods = [];
+      try {
+        lowCovMethods = await this.runReadOnlyQuery(`
+          CALL {
+            MATCH (cr:CoverageRun)
+            WITH coalesce(cr.framework, 'phpunit') + '::' + coalesce(cr.suite_scope, 'all') AS bucket, cr
+            ORDER BY coalesce(cr.generated_at, cr.ingested_at) DESC
+            WITH bucket, collect(cr)[0] AS latestCr
+            RETURN collect(latestCr) AS latestCovRuns
+          }
+          MATCH (c:Class)-[:DECLARES]->(m:Method)
+          WHERE ($plugin IS NULL OR c.plugin = $plugin)
+            AND EXISTS {
+              MATCH (cr:CoverageRun)-[:HAS_OBSERVATION]->(obs:CoverageObservation)-[:COVERED_IN]->(m)
+              WHERE cr IN latestCovRuns AND obs.line_coverage_pct IS NOT NULL AND obs.line_coverage_pct < 50
+            }
+          RETURN c.plugin AS plugin, m.signature AS methodSignature, c.source_file AS sourceFile
+          LIMIT $limit
+        `, { plugin, limit: neo4j.int(limit) });
+      } catch (_) {
+        lowCovMethods = [];
+      }
+      return withQaOverride(sanitizePayload({
+        ...gapRes,
+        data: {
+          ...gapRes.data,
+          pluginFilter: plugin,
+          untestedRestEndpoints: (gapRes.data?.uncoveredEndpoints || []).filter((e) => !e.endpointKind || e.endpointKind === 'REST_API'),
+          untestedUiComponents: gapRes.data?.uncoveredUiComponents || [],
+          lowLineCoverageMethods: lowCovMethods
+        }
+      }));
+    }
+
+    // Legacy & Governance Companion Aliases (preserve full backwards compatibility)
     if (name === 'tia_analyze_files') {
       const files = Array.isArray(args.files) ? args.files : [];
       const res = await this.tiaEngine.analyzeFiles(files, {
@@ -249,67 +365,6 @@ class QkgMcpServer {
           advisoryTests: tia.advisoryTests || [],
           evidenceTierSummary: tia.evidenceTierSummary || null,
           newTestGenerationBacklog: tia.newTestGenerationBacklog
-        }
-      });
-    }
-
-    if (name === 'get_coverage_gaps') {
-      const plugin = args.plugin || null;
-      const limit = Math.max(1, Math.min(100, parseInt(args.limit || 25, 10)));
-      const env = await this._getEnvelopeBase();
-      if (env.analysisStatus === 'UNAVAILABLE') {
-        return { ...env, data: { error: 'Graph unavailable' } };
-      }
-
-      const [untestedEndpoints, untestedUi, lowCovMethods] = await Promise.all([
-        this.runReadOnlyQuery(`
-          MATCH (ep:ApiEndpoint { endpoint_kind: 'REST_API' })
-          WHERE ($plugin IS NULL OR ep.plugin = $plugin)
-            AND NOT EXISTS {
-              MATCH (ep)<-[:EXECUTES_AGAINST]-(tc:TestCase)
-              WHERE coalesce(tc.origin, 'AST_DEV_SUITE') <> 'BASELINE_MANIFEST'
-            }
-          RETURN ep.endpoint_id AS endpointId, ep.http_method AS httpMethod, ep.path AS path, ep.plugin AS plugin
-          ORDER BY plugin, path
-          LIMIT $limit
-        `, { plugin, limit: neo4j.int(limit) }),
-        this.runReadOnlyQuery(`
-          MATCH (ui:UIComponent)
-          WHERE ($plugin IS NULL OR ui.plugin = $plugin)
-            AND NOT EXISTS {
-              MATCH (ui)<-[:TESTS_COMPONENT]-(tc:TestCase)
-              WHERE coalesce(tc.origin, 'AST_DEV_SUITE') <> 'BASELINE_MANIFEST'
-            }
-          RETURN ui.component_id AS componentId, ui.name AS name, ui.file AS file, ui.plugin AS plugin
-          ORDER BY plugin, file
-          LIMIT $limit
-        `, { plugin, limit: neo4j.int(limit) }),
-        this.runReadOnlyQuery(`
-          CALL {
-            MATCH (cr:CoverageRun)
-            WITH coalesce(cr.framework, 'phpunit') + '::' + coalesce(cr.suite_scope, 'all') AS bucket, cr
-            ORDER BY coalesce(cr.generated_at, cr.ingested_at) DESC
-            WITH bucket, collect(cr)[0] AS latestCr
-            RETURN collect(latestCr) AS latestCovRuns
-          }
-          MATCH (c:Class)-[:DECLARES]->(m:Method)
-          WHERE ($plugin IS NULL OR c.plugin = $plugin)
-            AND EXISTS {
-              MATCH (cr:CoverageRun)-[:HAS_OBSERVATION]->(obs:CoverageObservation)-[:COVERED_IN]->(m)
-              WHERE cr IN latestCovRuns AND obs.line_coverage_pct IS NOT NULL AND obs.line_coverage_pct < 50
-            }
-          RETURN c.plugin AS plugin, m.signature AS methodSignature, c.source_file AS sourceFile
-          LIMIT $limit
-        `, { plugin, limit: neo4j.int(limit) })
-      ]);
-
-      return sanitizePayload({
-        ...env,
-        data: {
-          pluginFilter: plugin,
-          untestedRestEndpoints: untestedEndpoints,
-          untestedUiComponents: untestedUi,
-          lowLineCoverageMethods: lowCovMethods
         }
       });
     }
@@ -413,27 +468,6 @@ class QkgMcpServer {
       return sanitizePayload({ ...env, data: { modules } });
     }
 
-    if (name === 'explain_test_selection') {
-      const files = Array.isArray(args.files) ? args.files : [];
-      const testId = String(args.testId || '');
-      const tia = await this.tiaEngine.analyzeFiles(files);
-      const env = await this._getEnvelopeBase(tia.analysisStatus, tia.snapshotMetadata);
-      const match = tia.impactedRegressionTests.find(
-        (t) => t.id === testId || t.canonicalId === testId || t.name === testId
-      );
-      return sanitizePayload({
-        ...env,
-        data: match
-          ? { selected: true, test: match }
-          : {
-              selected: false,
-              testId,
-              reason: 'NOT_REACHABLE_FROM_CHANGED_FILES_OR_BLOCKED_BY_BASELINE_FANOUT_GUARD',
-              baselineFanoutGuardActive: BASELINE_REQUIREMENT_FANOUT_GUARD
-            }
-      });
-    }
-
     if (name === 'get_cross_module_impact') {
       const plugin = String(args.plugin || '');
       const limit = Math.max(1, Math.min(100, parseInt(args.limit || 25, 10)));
@@ -448,6 +482,19 @@ class QkgMcpServer {
         ...env,
         data: impact
       });
+    }
+
+    if (name === 'get_snapshot_status') {
+      return withQaOverride(await this.intelligence.getSnapshotStatus(facadeOpts));
+    }
+    if (name === 'get_release_readiness') {
+      return withQaOverride(await this.intelligence.getReleaseReadiness(facadeOpts));
+    }
+    if (name === 'explain_entity') {
+      return withQaOverride(await this.intelligence.explainEntity(facadeOpts));
+    }
+    if (name === 'run_safe_cypher') {
+      return withQaOverride(await this.intelligence.runSafeCypher(facadeOpts));
     }
 
     throw new Error(`Unknown or unauthorized tool: ${name}`);

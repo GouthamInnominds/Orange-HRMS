@@ -1247,6 +1247,46 @@ function loadManifest(snapshotIdOrPath, snapshotsDir = DEFAULT_SNAPSHOTS_DIR) {
   return null;
 }
 
+/**
+ * Lists snapshot manifest files in `snapshotsDir`, prioritizing full entity manifests
+ * (*.manifest.json or full entity JSONs) over legacy summary-only snapshot files.
+ */
+function listManifestFiles(snapshotsDir = DEFAULT_SNAPSHOTS_DIR) {
+  if (!snapshotsDir || !fs.existsSync(snapshotsDir)) return [];
+  const entries = fs.readdirSync(snapshotsDir, { withFileTypes: true });
+  const results = [];
+  for (const entry of entries) {
+    if (!entry.isFile()) continue;
+    const fileName = entry.name;
+    if (!fileName.endsWith('.json') || fileName === 'index.json') continue;
+    const isManifestExt = fileName.endsWith('.manifest.json');
+    const filePath = path.join(snapshotsDir, fileName);
+    let mtimeMs = 0;
+    let isFullManifest = false;
+    try {
+      const stat = fs.statSync(filePath);
+      mtimeMs = stat.mtimeMs || 0;
+      if (isManifestExt || stat.size > 4096) {
+        const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        isFullManifest = Boolean(parsed && Array.isArray(parsed.entities) && Array.isArray(parsed.relationships));
+      }
+    } catch {
+      continue;
+    }
+    const snapshotId = isManifestExt
+      ? fileName.slice(0, -'.manifest.json'.length)
+      : fileName.slice(0, -'.json'.length);
+    results.push({ snapshotId, fileName, filePath, mtimeMs, isFullManifest, isManifestExt });
+  }
+  results.sort((a, b) => {
+    if (a.isFullManifest !== b.isFullManifest) return a.isFullManifest ? -1 : 1;
+    if (a.isManifestExt !== b.isManifestExt) return a.isManifestExt ? -1 : 1;
+    if (a.mtimeMs !== b.mtimeMs) return b.mtimeMs - a.mtimeMs;
+    return b.fileName.localeCompare(a.fileName);
+  });
+  return results;
+}
+
 if (require.main === module) {
   const { extractWorkspaceSnapshot } = require('./ingest_pipeline');
   const args = process.argv.slice(2);
@@ -1280,6 +1320,7 @@ module.exports = {
   buildCompactNeo4jManifestHeader,
   writeManifestArtifact,
   loadManifest,
+  listManifestFiles,
   getCanonicalEntityId,
   pickPrimaryLabel,
   normalizeStructuralProperties

@@ -1,5 +1,6 @@
 const neo4j = require('neo4j-driver');
 require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
+const { validateReadOnlyCypher, sanitizePayload } = require('../../qkg_engine/security_guard');
 
 function normalizeValue(val) {
   if (val === null || val === undefined) return val;
@@ -19,20 +20,30 @@ function normalizeValue(val) {
 }
 
 class Neo4jService {
-  constructor() {
-    const uri = process.env.NEO4J_URI || 'bolt://localhost:7687';
-    const user = process.env.NEO4J_USER || 'neo4j';
-    const password = process.env.NEO4J_PASSWORD || 'admin123';
-    this.database = process.env.NEO4J_DATABASE || 'neo4j';
+  constructor(options = {}) {
+    const uri = options.uri || process.env.NEO4J_URI || 'bolt://localhost:7687';
+    const user = options.user || process.env.NEO4J_USER || 'neo4j';
+    const password = options.password || process.env.NEO4J_PASSWORD || 'admin123';
+    this.database = options.database || process.env.NEO4J_DATABASE || 'neo4j';
 
-    this.driver = neo4j.driver(uri, neo4j.auth.basic(user, password), {
+    this.driver = options.driver || neo4j.driver(uri, neo4j.auth.basic(user, password), {
       maxConnectionPoolSize: 20,
       connectionTimeout: 5000
     });
+
+    const roUser = options.readOnlyUser || process.env.NEO4J_READONLY_USER;
+    const roPassword = options.readOnlyPassword || process.env.NEO4J_READONLY_PASSWORD;
+    this.readOnlyDriver = (roUser && roPassword && !options.driver)
+      ? neo4j.driver(uri, neo4j.auth.basic(roUser, roPassword), {
+          maxConnectionPoolSize: 20,
+          connectionTimeout: 5000
+        })
+      : this.driver;
   }
 
-  async runQuery(cypher, params = {}) {
-    const session = this.driver.session({ database: this.database });
+  async runQuery(cypher, params = {}, accessMode = neo4j.session.READ) {
+    const activeDriver = accessMode === neo4j.session.READ ? (this.readOnlyDriver || this.driver) : this.driver;
+    const session = activeDriver.session({ database: this.database, defaultAccessMode: accessMode });
     try {
       const result = await session.run(cypher, params);
       return result.records.map((record) => {
@@ -47,34 +58,24 @@ class Neo4jService {
     }
   }
 
-  async runCustomCypher(cypher) {
-    const clean = String(cypher || '').trim();
-    if (/\b(DELETE|DETACH|CREATE|MERGE|SET|REMOVE|DROP|FOREACH)\b/i.test(clean) ||
-        /\bCALL\s+(dbms\.security|apoc\.periodic|apoc\.create|apoc\.merge|apoc\.refactor)/i.test(clean)) {
-      throw new Error('Only read-only Cypher queries are permitted.');
-    }
+  async runReadOnlyQuery(cypher, params = {}, maxLimit = 200) {
+    const checked = validateReadOnlyCypher(cypher, maxLimit);
+    return await this.runQuery(checked.query, params, neo4j.session.READ);
+  }
 
-    const session = this.driver.session({ database: this.database });
+  async runCustomCypher(cypher) {
+    const checked = validateReadOnlyCypher(cypher, 100);
     const startTime = Date.now();
-    try {
-      const result = await session.run(clean);
-      const executionTimeMs = Date.now() - startTime;
-      const records = result.records.map((record) => {
-        const obj = {};
-        record.keys.forEach((k) => {
-          obj[k] = normalizeValue(record.get(k));
-        });
-        return obj;
-      });
-      return {
-        query: clean,
-        executionTimeMs,
-        count: records.length,
-        records
-      };
-    } finally {
-      await session.close();
-    }
+    const rows = await this.runQuery(checked.query, {}, neo4j.session.READ);
+    const executionTimeMs = Date.now() - startTime;
+    const records = sanitizePayload(rows);
+    return {
+      query: checked.query,
+      limitApplied: checked.limitApplied,
+      executionTimeMs,
+      count: records.length,
+      records
+    };
   }
 
   async getLatestSnapshot() {
@@ -155,9 +156,11 @@ class Neo4jService {
           AND (m:Plugin OR m:BusinessDomain OR m:BusinessWorkflow OR m:Feature OR m:Requirement OR m:UserStory OR m:BusinessRule OR m:ApiEndpoint OR m:DatabaseEntity OR m:DatabaseTable OR m:UIComponent OR m:TestSuite OR m:TestCase OR m:Class OR m:Method)
           AND (coalesce(n.introduced_in, n.version, '') STARTS WITH 'v2.2' OR coalesce(m.introduced_in, m.version, '') STARTS WITH 'v2.2' OR coalesce(n.plugin, '') = 'orangehrmPayrollPlugin')
           AND type(r) IN ['DECLARES', 'EXPOSES', 'HANDLED_BY', 'MAPS_TO', 'FK_REFERENCES', 'READS_TABLE', 'WRITES_TABLE', 'CALLS', 'TESTS', 'CONTAINS_TEST', 'GOVERNED_BY', 'REALIZES', 'EXECUTES_VIA']
-        RETURN id(n) AS srcId, labels(n)[0] AS srcLabel,
+        RETURN coalesce(n.signature, n.fqcn, n.endpoint_id, n.component_id, n.column_id, n.id, n.story_id, n.requirement_id, n.rule_id, n.testcase_id, labels(n)[0] + ':' + coalesce(n.name, n.path, n.title, 'node')) AS srcId,
+               labels(n)[0] AS srcLabel,
                coalesce(n.name, n.title, n.path, n.story_id, n.requirement_id, n.rule_id, n.testcase_id, labels(n)[0]) AS srcName,
-               id(m) AS tgtId, labels(m)[0] AS tgtLabel,
+               coalesce(m.signature, m.fqcn, m.endpoint_id, m.component_id, m.column_id, m.id, m.story_id, m.requirement_id, m.rule_id, m.testcase_id, labels(m)[0] + ':' + coalesce(m.name, m.path, m.title, 'node')) AS tgtId,
+               labels(m)[0] AS tgtLabel,
                coalesce(m.name, m.title, m.path, m.story_id, m.requirement_id, m.rule_id, m.testcase_id, labels(m)[0]) AS tgtName,
                type(r) AS relType, coalesce(n.introduced_in, n.version) AS nVer, coalesce(m.introduced_in, m.version) AS mVer
         LIMIT $limit
@@ -180,8 +183,8 @@ class Neo4jService {
       };
 
       rows.forEach((r) => {
-        const sId = Number(r.srcId);
-        const tId = Number(r.tgtId);
+        const sId = String(r.srcId || `${r.srcLabel}:${r.srcName}`);
+        const tId = String(r.tgtId || `${r.tgtLabel}:${r.tgtName}`);
         if (!nodeMap.has(sId)) {
           const isV2 = r.nVer && String(r.nVer).includes('v2.2');
           nodeMap.set(sId, {
@@ -340,6 +343,9 @@ class Neo4jService {
   }
 
   async close() {
+    if (this.readOnlyDriver && this.readOnlyDriver !== this.driver) {
+      await this.readOnlyDriver.close();
+    }
     await this.driver.close();
   }
 }

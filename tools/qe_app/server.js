@@ -11,6 +11,9 @@ const tiaService = require('./services/tia_service');
 const testService = require('./services/test_service');
 const metricsService = require('./services/metrics_service');
 const agentOrchestrator = require('./services/agent_orchestrator');
+const qeIntelligenceService = require('./services/qe_intelligence_service');
+const snapshotManifest = require('../qkg_engine/snapshot_manifest');
+const { sanitizePayload } = require('../qkg_engine/security_guard');
 
 const app = express();
 const PORT = process.env.QE_APP_PORT || 4500;
@@ -27,7 +30,7 @@ function auditLog(action, details = {}) {
   const line = JSON.stringify({
     timestamp: new Date().toISOString(),
     action,
-    details
+    details: sanitizePayload(details)
   }) + '\n';
   fs.appendFileSync(path.join(logDir, 'audit.log'), line, 'utf8');
 }
@@ -252,11 +255,93 @@ app.get('/api/v2/events/sse', (req, res) => {
   });
 });
 
-app.listen(PORT, '0.0.0.0', async () => {
-  const metrics = await metricsService.getExecutiveQualityMetrics().catch(() => null);
-  const totalTests = metrics?.overview?.totalVerifiedTests ?? 'N/A';
-  console.log(`================================================================`);
-  console.log(`QE Intelligence Platform Online at http://127.0.0.1:${PORT}`);
-  console.log(`Live Neo4j Status: ${metrics?.status || 'UNKNOWN'} | Code-Linked Tests: ${totalTests}`);
-  console.log(`================================================================`);
+// 9. Unified QE Intelligence Facade & Standardized 8-Tool REST Contract (Phase 5A/5B)
+const CANONICAL_QE_DISPATCH = {
+  get_code_impact: (args) => qeIntelligenceService.getCodeImpact(args),
+  get_business_impact: (args) => qeIntelligenceService.getBusinessImpact(args),
+  get_impacted_tests: (args) => qeIntelligenceService.getImpactedTests(args),
+  get_test_health: (args) => qeIntelligenceService.getTestHealth(args),
+  get_coverage_gaps: (args) => qeIntelligenceService.getCoverageGaps(args),
+  get_module_quality: (args) => qeIntelligenceService.getModuleQuality(args),
+  compare_snapshots: (args) => qeIntelligenceService.compareSnapshots(args),
+  explain_test_selection: (args) => qeIntelligenceService.explainTestSelection(args)
+};
+
+app.all('/api/v2/qe/:tool', async (req, res) => {
+  const handler = CANONICAL_QE_DISPATCH[req.params.tool];
+  if (!handler) {
+    return res.status(404).json({ error: `Unknown QE capability '${req.params.tool}'` });
+  }
+  const args = { ...(req.query || {}), ...(req.body || {}) };
+  auditLog('QE_FACADE_CALL', { tool: req.params.tool });
+  try {
+    const result = await handler(args);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ analysisStatus: 'FAILED', error: err.message });
+  }
 });
+
+app.get('/api/v2/intelligence/status', async (req, res) => {
+  res.json(await qeIntelligenceService.getSnapshotStatus(req.query || {}));
+});
+
+app.get('/api/v2/intelligence/overview', async (req, res) => {
+  res.json(await qeIntelligenceService.getQualityOverview(req.query || {}));
+});
+
+app.get('/api/v2/intelligence/manifests', (req, res) => {
+  res.json({ manifests: snapshotManifest.listManifestFiles() });
+});
+
+app.all('/api/v2/intelligence/compare', async (req, res) => {
+  const args = { ...(req.query || {}), ...(req.body || {}) };
+  res.json(await qeIntelligenceService.compareSnapshots(args));
+});
+
+app.get('/api/v2/intelligence/benchmark', async (req, res) => {
+  const statusEnv = await qeIntelligenceService.getSnapshotStatus(req.query || {});
+  const benchPath = path.resolve(__dirname, '../qkg_engine/output/tia_benchmark_report.json');
+  let fullReport = null;
+  if (fs.existsSync(benchPath)) {
+    try {
+      fullReport = JSON.parse(fs.readFileSync(benchPath, 'utf8'));
+    } catch (_) {
+      fullReport = null;
+    }
+  }
+  res.json({
+    ...statusEnv,
+    data: {
+      ...(statusEnv.data || {}),
+      fullReport
+    }
+  });
+});
+
+app.all('/api/v2/intelligence/entity', async (req, res) => {
+  const args = { ...(req.query || {}), ...(req.body || {}) };
+  res.json(await qeIntelligenceService.explainEntity(args));
+});
+
+app.get('/api/v2/intelligence/release-readiness', async (req, res) => {
+  res.json(await qeIntelligenceService.getReleaseReadiness(req.query || {}));
+});
+
+app.get('/api/v2/intelligence/gaps', async (req, res) => {
+  res.json(await qeIntelligenceService.listTestGaps(req.query || {}));
+});
+
+if (require.main === module) {
+  app.listen(PORT, '0.0.0.0', async () => {
+    const metrics = await metricsService.getExecutiveQualityMetrics().catch(() => null);
+    const totalTests = metrics?.overview?.totalVerifiedTests ?? 'N/A';
+    console.log(`================================================================`);
+    console.log(`QE Intelligence Platform Online at http://127.0.0.1:${PORT}`);
+    console.log(`Live Neo4j Status: ${metrics?.status || 'UNKNOWN'} | Code-Linked Tests: ${totalTests}`);
+    console.log(`================================================================`);
+  });
+}
+
+module.exports = app;
+module.exports.CANONICAL_QE_DISPATCH = CANONICAL_QE_DISPATCH;

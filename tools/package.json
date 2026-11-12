@@ -12,6 +12,7 @@
     "compare": "node qkg_engine/snapshot_comparator.js",
     "parity": "node qkg_engine/parity_verifier.js",
     "benchmark:tia": "node qkg_engine/run_tia_benchmark.js --offline",
+    "backup:verify": "node qkg_engine/backup_restore.js --verify",
     "mcp": "node qkg_mcp/index.js"
   },
   "dependencies": {

@@ -45,6 +45,10 @@
         <span class="nav-item-icon">🗄️</span>
         <span>Database & SQL Studio</span>
       </div>
+      <div class="nav-item" data-tab="release">
+        <span class="nav-item-icon">🕰️</span>
+        <span>Release &amp; History</span>
+      </div>
       <div class="nav-item" data-tab="chatbot">
         <span class="nav-item-icon">🤖</span>
         <span>Agentic Chatbot</span>
@@ -53,19 +57,19 @@
 
     <div class="sidebar-footer">
       <div class="status-indicator">
-        <div class="dot"></div>
-        <span>Azure GPT-4.1 Online</span>
+        <div class="dot" id="dot-llm"></div>
+        <span>AI Assistant Connected</span>
       </div>
       <div class="status-indicator">
-        <div class="dot"></div>
-        <span>Neo4j Bolt Connected</span>
+        <div class="dot" id="dot-neo4j"></div>
+        <span id="label-neo4j">Neo4j QKG Probing...</span>
       </div>
       <div class="status-indicator">
-        <div class="dot"></div>
-        <span>MariaDB 3306 Synced</span>
+        <div class="dot" id="dot-mariadb"></div>
+        <span id="label-mariadb">MariaDB 3306 Probing...</span>
       </div>
-      <div style="margin-top: 10px; font-size: 10px; opacity: 0.7;">
-        Baseline: v1.0 + v2.2-india-payroll
+      <div style="margin-top: 10px; font-size: 10px; opacity: 0.7;" id="label-baseline">
+        Snapshot: Probing active graph...
       </div>
     </div>
   </aside>
@@ -75,15 +79,20 @@
     <header class="app-topbar">
       <div class="topbar-title-wrap">
         <h2 id="page-title">Application Quality Overview</h2>
-        <span class="topbar-baseline-tag">Target Scope: OrangeHRM v2.2 (India FY 2026-27 Payroll)</span>
+        <span class="topbar-baseline-tag" id="topbar-snapshot-meta">Snapshot Provenance: Loading...</span>
       </div>
       <div class="topbar-actions">
+        <span id="topbar-snapshot-badge" class="badge badge-primary">STATUS: PROBING</span>
         <button class="btn btn-secondary" onclick="app.refreshCurrentTab()">🔄 Refresh Telemetry</button>
         <button class="btn btn-primary" onclick="app.switchTab('chatbot')">💬 Open Assistant</button>
       </div>
     </header>
 
     <div class="content-area">
+      <div id="completeness-banner" class="completeness-strip">
+        <strong>Completeness:</strong>
+        <span class="badge badge-primary">Probing QKG layers...</span>
+      </div>
 
       <!-- TAB 1: QUALITY OVERVIEW -->
       <section id="tab-overview" class="tab-pane active">
@@ -307,35 +316,36 @@
       <!-- TAB 4: CHANGE IMPACT ANALYSIS (TIA) -->
       <section id="tab-tia" class="tab-pane">
         <div class="panel-card" style="margin-bottom: 24px;">
-          <h3>🎯 PR Impact Analysis & Quality Risk Scoring</h3>
-          <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+          <h3>🎯 PR &amp; File Impact Analysis &amp; Quality Risk Scoring</h3>
+          <div style="display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
             <select id="pr-selector" class="btn btn-secondary" style="background-color: var(--bg-tertiary); color: var(--text-main);" onchange="app.loadPRAnalysis()">
-              <option value="12">PR #12: Automated Payroll Processing & Statutory Deductions</option>
-              <option value="11">PR #11: Fix Database Permission Sync for ESS and Admin Roles</option>
+              <option value="12">PR #12: India Payroll Extension v2.2 &amp; Cross-Module Integration</option>
+              <option value="11">PR #11: Latest Working / HEAD Commit Diff</option>
             </select>
+            <input type="text" id="tia-custom-files" class="btn btn-secondary" style="background-color: var(--bg-tertiary); color: var(--text-main); flex: 1; min-width: 260px;" placeholder="Optional comma-separated file paths (overrides PR selector)..." />
             <button class="btn btn-primary" onclick="app.loadPRAnalysis()">⚡ Run Impact Traversal</button>
           </div>
 
           <div class="kpi-grid">
             <div class="kpi-card">
               <div class="kpi-title">Quality Risk Score</div>
-              <div class="kpi-value" id="tia-risk-score" style="color: var(--accent-warning);">37 / 100</div>
-              <div class="kpi-sub" id="tia-gate-badge">Status: <span class="badge badge-warning">AMBER RISK</span></div>
+              <div class="kpi-value" id="tia-risk-score" style="color: var(--accent-warning);">—</div>
+              <div class="kpi-sub" id="tia-gate-badge">Awaiting live analysis...</div>
             </div>
             <div class="kpi-card">
               <div class="kpi-title">Affected Files</div>
-              <div class="kpi-value" id="tia-files-count">5</div>
-              <div class="kpi-sub">Controllers, Entities, Vue client</div>
+              <div class="kpi-value" id="tia-files-count">—</div>
+              <div class="kpi-sub">Analyzed source &amp; UI paths</div>
             </div>
             <div class="kpi-card">
               <div class="kpi-title">Impacted Requirements</div>
-              <div class="kpi-value" id="tia-req-count">4</div>
-              <div class="kpi-sub">Statutory formulas, Locking, Slips</div>
+              <div class="kpi-value" id="tia-req-count">—</div>
+              <div class="kpi-sub">With BASELINE_FANOUT_GUARD active</div>
             </div>
             <div class="kpi-card">
-              <div class="kpi-title">Recommended Regression Tests</div>
-              <div class="kpi-value" id="tia-tests-count" style="color: var(--accent-primary);">6</div>
-              <div class="kpi-sub">Est. Runtime: ~15 seconds</div>
+              <div class="kpi-title">Tier 1–2 Regression Tests</div>
+              <div class="kpi-value" id="tia-tests-count" style="color: var(--accent-primary);">—</div>
+              <div class="kpi-sub" id="tia-advisory-sub">Tier 3 Advisory isolated separately</div>
             </div>
           </div>
 
@@ -345,20 +355,28 @@
         </div>
 
         <div class="panel-card">
-          <h3>📋 Impacted Regression Test Candidates</h3>
+          <h3>📋 Impacted Regression Test Candidates (Click any row for Evidence Path Drill-Down)</h3>
           <div class="data-table-wrap">
-            <table class="data-table" id="table-tia-candidates">
+            <table class="data-table data-table-compact" id="table-tia-candidates">
               <thead>
                 <tr>
                   <th>Test ID</th>
-                  <th>Verification Scope</th>
-                  <th>Test Suite</th>
+                  <th>Channel &amp; Evidence Tier</th>
+                  <th>Framework / Repo</th>
+                  <th>Confidence</th>
                   <th>Priority</th>
-                  <th>Est. Duration</th>
+                  <th>Provenance</th>
                 </tr>
               </thead>
               <tbody id="tia-candidate-tests-body"></tbody>
             </table>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>🧪 Advisory (Tier 3 Heuristic) &amp; Untested Change Gaps</h3>
+          <div id="tia-advisory-and-gaps" style="font-size: 13px; color: var(--text-muted);">
+            Run TIA to inspect isolated Tier 3 heuristics and unmapped/untested targets...
           </div>
         </div>
       </section>
@@ -369,22 +387,22 @@
           <div class="kpi-card">
             <div class="kpi-title">Active Database</div>
             <div class="kpi-value" style="color: var(--accent-primary);">orangehrm_mysql</div>
-            <div class="kpi-sub" id="db-active-sub">183 Verified Tables (15 Payroll)</div>
+            <div class="kpi-sub" id="db-active-sub">Probing live MariaDB status...</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Test Database</div>
             <div class="kpi-value" style="color: var(--accent-purple);">test_orangehrm_mysql</div>
-            <div class="kpi-sub" id="db-test-sub">183 Verified Tables</div>
+            <div class="kpi-sub" id="db-test-sub">Probing test database...</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-title">Schema Drift Status</div>
-            <div class="kpi-value" style="color: var(--accent-success);" id="db-drift-status">SYNCHRONIZED</div>
-            <div class="kpi-sub" id="db-drift-sub">Zero table/column mismatch</div>
+            <div class="kpi-value" style="color: var(--accent-warning);" id="db-drift-status">—</div>
+            <div class="kpi-sub" id="db-drift-sub">Requires live MariaDB check</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-title">Data Integrity Check</div>
-            <div class="kpi-value" style="color: var(--accent-success);">100% VALID</div>
-            <div class="kpi-sub">Payroll FK & claim lock verified</div>
+            <div class="kpi-title">Governance &amp; Redaction</div>
+            <div class="kpi-value" style="color: var(--accent-success);" id="db-security-mode">READ-ONLY + PII MASK</div>
+            <div class="kpi-sub">Session read-only + strict identifier validation</div>
           </div>
         </div>
 
@@ -437,7 +455,61 @@
         </div>
       </section>
 
-      <!-- TAB 6: AGENTIC CHATBOT -->
+      <!-- TAB 6: RELEASE & HISTORY INTELLIGENCE (PHASE 4/5B) -->
+      <section id="tab-release" class="tab-pane">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-title">Release Readiness Gate</div>
+            <div class="kpi-value" id="rel-gate-status" style="color: var(--accent-warning);">—</div>
+            <div class="kpi-sub" id="rel-gate-blockers">Loading readiness check...</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">QKG-15 TIA Benchmark</div>
+            <div class="kpi-value" id="rel-qkg15-status" style="color: var(--accent-success);">—</div>
+            <div class="kpi-sub" id="rel-qkg15-metrics">Loading replay benchmark...</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Snapshot Manifests</div>
+            <div class="kpi-value" id="rel-manifest-count" style="color: var(--accent-primary);">—</div>
+            <div class="kpi-sub" id="rel-latest-manifest">Loading disk manifests...</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Entity Lookup Drawer</div>
+            <div style="display: flex; gap: 6px; margin-top: 6px;">
+              <input type="text" id="entity-lookup-input" class="btn btn-secondary" style="background: var(--bg-tertiary); color: var(--text-main); flex: 1; padding: 6px 8px; font-size: 12px;" placeholder="Method/Class/Endpoint/Test ID..." />
+              <button class="btn btn-primary" style="padding: 6px 10px; font-size: 12px;" onclick="app.inspectEntityByInput()">Inspect</button>
+            </div>
+            <div class="kpi-sub" style="margin-top: 4px;">Canonical entity provenance &amp; neighbors</div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>⚖️ Snapshot Comparison (Separated Structural Diff vs Quality Telemetry)</h3>
+          <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; align-items: center;">
+            <select id="cmp-snap-a" class="btn btn-secondary" style="background: var(--bg-tertiary); color: var(--text-main);"></select>
+            <span style="color: var(--text-muted); font-size: 12px;">vs</span>
+            <select id="cmp-snap-b" class="btn btn-secondary" style="background: var(--bg-tertiary); color: var(--text-main);"></select>
+            <select id="cmp-mode" class="btn btn-secondary" style="background: var(--bg-tertiary); color: var(--text-main);">
+              <option value="both">Mode: Both (Structural + Quality)</option>
+              <option value="structural">Mode: Structural Diff Only</option>
+              <option value="quality">Mode: Quality Telemetry Only</option>
+            </select>
+            <button class="btn btn-primary" onclick="app.runSnapshotCompare()">🔍 Compare Snapshots</button>
+          </div>
+          <div class="grid-2col" style="margin-bottom: 0;">
+            <div class="drawer-section" style="margin-bottom: 0;">
+              <h4>🏗️ Structural Delta (Canonical Entities &amp; Edges)</h4>
+              <div id="cmp-structural-output" style="color: var(--text-muted);">Select two snapshots and click Compare...</div>
+            </div>
+            <div class="drawer-section" style="margin-bottom: 0;">
+              <h4>📊 Quality Delta (Test Coverage &amp; Execution)</h4>
+              <div id="cmp-quality-output" style="color: var(--text-muted);">Quality comparisons require compatible commits &amp; completed runs (otherwise reported UNAVAILABLE / INCOMPATIBLE)...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 7: AGENTIC CHATBOT -->
       <section id="tab-chatbot" class="tab-pane">
         <div class="chat-container">
           <div class="chat-messages" id="chat-messages">
@@ -446,7 +518,7 @@
               <div class="message-avatar assistant">🤖</div>
               <div class="message-bubble">
                 <p><strong>Hello! I am your Lead Quality Engineering Intelligence Assistant.</strong></p>
-                <p>I am connected across the 5-layer Quality Engineering platform to <strong>Azure OpenAI GPT-4.1</strong>, the <strong>Neo4j Knowledge Graph</strong> (<code>v2.2-india-payroll</code>), <strong>MariaDB</strong> (183 tables), <strong>GitHub</strong>, and the <strong>Test Automation Harness</strong> (6,934 verified tests: 6,893 baseline + 41 executed India Payroll v2.2 tests).</p>
+                <p>I operate via the unified <strong>QE Intelligence Facade &amp; 8-Tool Contract</strong> connected to the live <strong>Neo4j Quality Knowledge Graph</strong>, <strong>MariaDB</strong> schema &amp; drift inspector, <strong>GitHub</strong> diffs, and the <strong>Allowlisted Test Harness</strong> — strictly enforcing provenance, evidence tiers, PII redaction, and honest <code>UNAVAILABLE</code> reporting when telemetry is absent.</p>
                 <p style="margin-top: 8px;">How can I assist your Quality Engineering workflow today?</p>
               </div>
             </div>
@@ -456,8 +528,8 @@
           <div class="chat-input-container">
             <div class="preset-prompts">
               <div class="prompt-chip" onclick="app.sendPreset('Analyze PR #12 and check quality risk')">🎯 Analyze PR #12 & Risk</div>
-              <div class="prompt-chip" onclick="app.sendPreset('What test cases exist for the Payroll feature?')">🧪 Payroll Test Cases</div>
-              <div class="prompt-chip" onclick="app.sendPreset('Compare v1.0 and v2.2-india-payroll Knowledge Graph baselines')">🕸️ Compare Graph Baselines</div>
+              <div class="prompt-chip" onclick="app.sendPreset('Check snapshot health, completeness and QKG-15 release readiness')">🕰️ Snapshot & Readiness</div>
+              <div class="prompt-chip" onclick="app.sendPreset('What test cases and QA gaps exist for orangehrmPayrollPlugin?')">🧪 Payroll Quality & Gaps</div>
               <div class="prompt-chip" onclick="app.sendPreset('Check MariaDB tables and detect schema drift')">🗄️ Check Schema Drift</div>
               <div class="prompt-chip" onclick="app.sendPreset('Generate a test execution plan for Payroll')">📋 Plan Payroll Regression</div>
             </div>
@@ -472,6 +544,22 @@
 
     </div>
   </main>
+
+  <!-- Evidence & Provenance Slide-Over Drawer (P5-05) -->
+  <div id="evidence-drawer-backdrop" class="drawer-backdrop" onclick="if (event.target === this) app.closeEvidenceDrawer()">
+    <aside id="evidence-drawer" class="evidence-drawer">
+      <div class="drawer-header">
+        <div>
+          <h3 id="drawer-title" style="font-size: 15px;">🔎 Evidence &amp; Provenance Drill-Down</h3>
+          <div id="drawer-subtitle" style="font-size: 11px; color: var(--text-muted);">Canonical Entity &amp; Test Selection Trace</div>
+        </div>
+        <button class="btn btn-secondary" style="padding: 4px 10px;" onclick="app.closeEvidenceDrawer()">✕ Close</button>
+      </div>
+      <div class="drawer-body" id="drawer-body">
+        Loading provenance...
+      </div>
+    </aside>
+  </div>
 
   <script src="app.js"></script>
 </body>

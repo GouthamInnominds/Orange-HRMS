@@ -6,11 +6,93 @@ const app = {
   network: null,
   cataloguePage: 1,
   catalogueLimit: 50,
+  lastAnalyzedFiles: [],
+
+  escapeHtml(val) {
+    return String(val ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  },
 
   init() {
     this.setupTabs();
+    this.syncSnapshotHealthBanner();
     this.loadOverview();
     this.setupSSE();
+  },
+
+  async syncSnapshotHealthBanner() {
+    try {
+      const [statusRes, dbRes] = await Promise.all([
+        fetch('/api/v2/intelligence/status'),
+        fetch('/api/v2/database/overview').catch(() => null)
+      ]);
+      const env = await statusRes.json();
+      const badge = document.getElementById('topbar-snapshot-badge');
+      const meta = document.getElementById('topbar-snapshot-meta');
+      const dotNeo = document.getElementById('dot-neo4j');
+      const lblNeo = document.getElementById('label-neo4j');
+      const lblBase = document.getElementById('label-baseline');
+      const strip = document.getElementById('completeness-banner');
+
+      const st = env.analysisStatus || 'UNAVAILABLE';
+      const badgeCls = st === 'SUCCESS' ? 'badge-success' : (st === 'PARTIAL' || st === 'STALE' ? 'badge-warning' : 'badge-danger');
+      if (badge) {
+        badge.className = `badge ${badgeCls}`;
+        badge.innerText = `QKG: ${st}`;
+      }
+      if (meta) {
+        const snapId = env.graphSnapshotId || 'none';
+        const appSha = env.appCommit ? String(env.appCommit).slice(0, 8) : 'n/a';
+        const qaSha = env.qaCommit ? String(env.qaCommit).slice(0, 8) : 'n/a';
+        meta.innerText = `Snapshot: ${snapId} | App: ${appSha} | QA: ${qaSha}`;
+      }
+      if (dotNeo && lblNeo) {
+        if (st === 'UNAVAILABLE') {
+          dotNeo.className = 'dot offline';
+          lblNeo.innerText = 'Neo4j QKG UNAVAILABLE';
+        } else if (st === 'STALE') {
+          dotNeo.className = 'dot stale';
+          lblNeo.innerText = 'Neo4j QKG STALE';
+        } else {
+          dotNeo.className = 'dot';
+          lblNeo.innerText = `Neo4j QKG (${st})`;
+        }
+      }
+      if (lblBase) {
+        lblBase.innerText = `Snapshot: ${env.graphSnapshotId || 'UNAVAILABLE'}`;
+      }
+      if (strip && env.completeness) {
+        const pills = Object.entries(env.completeness).map(([k, v]) => {
+          const cls = v === 'COMPLETE' ? 'badge-success' : (v === 'PARTIAL' ? 'badge-warning' : 'badge-danger');
+          return `<span class="badge ${cls}">${this.escapeHtml(k)}: ${this.escapeHtml(v)}</span>`;
+        }).join('');
+        const warnText = (env.limitations || []).length > 0
+          ? `<span style="color: var(--accent-warning); margin-left: auto;">⚠ ${this.escapeHtml(env.limitations[0])}</span>`
+          : '';
+        strip.innerHTML = `<strong>5-Layer Completeness:</strong> ${pills} ${warnText}`;
+      }
+
+      if (dbRes) {
+        const dbData = await dbRes.json();
+        const dotDb = document.getElementById('dot-mariadb');
+        const lblDb = document.getElementById('label-mariadb');
+        if (dotDb && lblDb) {
+          if (dbData.status === 'ONLINE') {
+            dotDb.className = 'dot';
+            lblDb.innerText = `MariaDB Online (${dbData.totalTables} tables)`;
+          } else {
+            dotDb.className = 'dot offline';
+            lblDb.innerText = 'MariaDB 3306 UNAVAILABLE';
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Snapshot health probe failed:', e);
+    }
   },
 
   setupTabs() {
@@ -37,6 +119,7 @@ const app = {
       graph: 'Knowledge Graph Insights (Neo4j QKG)',
       tia: 'Change Impact Analysis (TIA Studio)',
       database: 'Database & SQL Studio (MariaDB)',
+      release: 'Release Readiness, Snapshot Diffs & QKG-15 Benchmark',
       chatbot: 'Agentic AI Quality Engineering Workspace'
     };
     document.getElementById('page-title').innerText = titles[tab] || 'Quality Intelligence';
@@ -46,9 +129,11 @@ const app = {
     if (tab === 'graph') this.loadGraph();
     if (tab === 'tia') this.loadPRAnalysis();
     if (tab === 'database') this.loadDatabase();
+    if (tab === 'release') this.loadReleaseHistory();
   },
 
   refreshCurrentTab() {
+    this.syncSnapshotHealthBanner();
     this.switchTab(this.currentTab);
   },
 
@@ -57,6 +142,17 @@ const app = {
     try {
       const res = await fetch('/api/v2/quality/metrics');
       const data = await res.json();
+
+      if (data.status === 'UNAVAILABLE') {
+        document.getElementById('kpi-tests').innerText = 'UNAVAILABLE';
+        document.getElementById('kpi-pass-rate').innerText = 'UNAVAILABLE';
+        document.getElementById('kpi-gate').innerText = 'UNAVAILABLE';
+        document.getElementById('kpi-gate').style.color = 'var(--accent-danger)';
+        document.getElementById('kpi-scenarios').innerText = 'UNAVAILABLE';
+        const testsSub = document.getElementById('kpi-tests-sub');
+        if (testsSub) testsSub.innerText = data.error || 'Neo4j QKG offline (never fabricated as 0%)';
+        return;
+      }
 
       document.getElementById('kpi-tests').innerText = Number(data.overview.totalVerifiedTests || 0).toLocaleString();
       const testsSub = document.getElementById('kpi-tests-sub');
@@ -224,7 +320,8 @@ const app = {
             <td><span class="badge ${t.priority === 'P1' ? 'badge-danger' : 'badge-warning'}">${t.priority}</span></td>
             <td><span class="badge ${statusCls}">${t.status}</span></td>
             <td>
-              <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="app.executeSingleTest('${t.id}')">Plan</button>
+              <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="app.openEntityDrawer('${this.escapeHtml(t.id).replace(/'/g, "\\'")}')">🔎 Evidence</button>
+              <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="app.executeSingleTest('${this.escapeHtml(t.id).replace(/'/g, "\\'")}')">Plan</button>
             </td>
           </tr>
         `;
@@ -354,8 +451,7 @@ const app = {
       this.network.on('click', (params) => {
         if (params.nodes.length > 0) {
           const nodeId = params.nodes[0];
-          const node = nodes.get(nodeId);
-          alert(`Graph Node Selected:\n${node.title || node.label}\n\nGroup: ${node.group}`);
+          this.openEntityDrawer(nodeId);
         }
       });
     } catch (e) {
@@ -412,38 +508,335 @@ const app = {
     }
   },
 
-  // 4. Change Impact Analysis (TIA)
+  // 4. Change Impact Analysis (TIA) with Evidence Path Drill-Down & Advisory Isolation
   async loadPRAnalysis() {
     const prId = document.getElementById('pr-selector')?.value || 12;
-    try {
-      const res = await fetch(`/api/v2/github/pull-requests/${prId}/analysis`);
-      const data = await res.json();
+    const customFilesRaw = document.getElementById('tia-custom-files')?.value?.trim() || '';
+    const customFiles = customFilesRaw
+      ? customFilesRaw.split(',').map((s) => s.trim()).filter(Boolean)
+      : null;
 
-      document.getElementById('tia-risk-score').innerText = `${data.riskAssessment.score} / 100`;
-      const badge = document.getElementById('tia-gate-badge');
-      if (badge) {
-        const cls = data.riskAssessment.gateStatus === 'GREEN' ? 'badge-success' : data.riskAssessment.gateStatus === 'AMBER' ? 'badge-warning' : 'badge-danger';
-        badge.innerHTML = `Status: <span class="badge ${cls}">${data.riskAssessment.gateStatus} RISK</span>`;
+    try {
+      let data;
+      let impactedTests = [];
+      let advisoryTests = [];
+      let backlogGaps = [];
+      let changedFiles = [];
+
+      if (customFiles && customFiles.length > 0) {
+        const res = await fetch('/api/v2/qe/get_impacted_tests', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ changed_files: customFiles })
+        });
+        const env = await res.json();
+        const payload = env.data || {};
+        changedFiles = payload.changedFiles || customFiles;
+        impactedTests = payload.impactedRegressionTests || [];
+        advisoryTests = payload.advisoryTests || [];
+        backlogGaps = payload.newTestGenerationBacklog || [];
+        data = {
+          analysisStatus: env.analysisStatus,
+          riskAssessment: payload.riskAssessment || { score: 0, gateStatus: env.analysisStatus === 'UNAVAILABLE' ? 'RED' : 'GREEN' },
+          summary: payload.summary || {
+            totalFiles: changedFiles.length,
+            totalRequirementsImpacted: 0,
+            candidateTestsCount: impactedTests.length
+          }
+        };
+      } else {
+        const res = await fetch(`/api/v2/github/pull-requests/${prId}/analysis`);
+        data = await res.json();
+        changedFiles = data.analyzedFiles || [];
+        impactedTests = data.impactedRegressionTests || data.candidateTests || [];
+        advisoryTests = data.advisoryTests || [];
+        backlogGaps = data.newTestGenerationBacklog || [];
       }
 
-      document.getElementById('tia-files-count').innerText = data.summary.totalFiles;
-      document.getElementById('tia-req-count').innerText = data.summary.totalRequirementsImpacted;
-      document.getElementById('tia-tests-count').innerText = data.summary.candidateTestsCount;
+      this.lastAnalyzedFiles = changedFiles;
+
+      if (data.analysisStatus === 'UNAVAILABLE') {
+        document.getElementById('tia-risk-score').innerText = 'UNAVAILABLE';
+        document.getElementById('tia-gate-badge').innerHTML = `<span class="badge badge-danger">QKG UNAVAILABLE (FAIL-CLOSED)</span>`;
+      } else {
+        document.getElementById('tia-risk-score').innerText = `${data.riskAssessment?.score ?? '—'} / 100`;
+        const badge = document.getElementById('tia-gate-badge');
+        if (badge && data.riskAssessment) {
+          const cls = data.riskAssessment.gateStatus === 'GREEN' ? 'badge-success' : data.riskAssessment.gateStatus === 'AMBER' ? 'badge-warning' : 'badge-danger';
+          badge.innerHTML = `Status: <span class="badge ${cls}">${this.escapeHtml(data.riskAssessment.gateStatus)} RISK</span>`;
+        }
+      }
+
+      document.getElementById('tia-files-count').innerText = data.summary?.totalFiles ?? changedFiles.length;
+      document.getElementById('tia-req-count').innerText = data.summary?.totalRequirementsImpacted ?? 0;
+      document.getElementById('tia-tests-count').innerText = impactedTests.length;
+      const advSub = document.getElementById('tia-advisory-sub');
+      if (advSub) {
+        advSub.innerText = `Tier 3 Advisory isolated: ${advisoryTests.length} | Gaps: ${backlogGaps.length}`;
+      }
 
       const tbody = document.getElementById('tia-candidate-tests-body');
       if (tbody) {
-        tbody.innerHTML = data.candidateTests.map(t => `
-          <tr>
-            <td style="font-weight: 600; color: var(--accent-primary);">${t.id}</td>
-            <td>${t.name}</td>
-            <td><code>${t.suite}</code></td>
-            <td><span class="badge ${t.priority === 'P1' ? 'badge-danger' : 'badge-warning'}">${t.priority}</span></td>
-            <td>~${t.estSec}s</td>
-          </tr>
-        `).join('');
+        if (impactedTests.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="color: var(--text-muted);">No Tier 1–2 impacted regression tests matched or QKG unavailable.</td></tr>';
+        } else {
+          tbody.innerHTML = impactedTests.map(t => {
+            const safeId = this.escapeHtml(t.canonicalId || t.id);
+            const tier = this.escapeHtml(t.evidenceTier || 'TIER_2');
+            const channel = this.escapeHtml(t.impactChannel || 'DIRECT');
+            const fw = this.escapeHtml(`${t.framework || 'phpunit'} · ${t.repo || 'orange-hrms'}`);
+            const conf = t.confidence !== undefined ? Number(t.confidence).toFixed(2) : '—';
+            const priCls = t.priority === 'P1' ? 'badge-danger' : 'badge-warning';
+            return `
+            <tr>
+              <td style="font-weight: 600; color: var(--accent-primary); font-family: monospace;">${safeId}<div style="font-size: 11px; color: var(--text-muted); font-family: sans-serif;">${this.escapeHtml(t.name)}</div></td>
+              <td><span class="evidence-chip">${channel}</span><div style="font-size: 11px; color: var(--text-muted);">${tier}</div></td>
+              <td><code>${fw}</code></td>
+              <td>${conf}</td>
+              <td><span class="badge ${priCls}">${this.escapeHtml(t.priority || 'P2')}</span></td>
+              <td><button class="btn btn-secondary" style="padding: 3px 8px; font-size: 11px;" onclick="app.openTestEvidenceDrawer('${safeId.replace(/'/g, "\\'")}')">🔎 Evidence</button></td>
+            </tr>
+          `;
+          }).join('');
+        }
+      }
+
+      const advDiv = document.getElementById('tia-advisory-and-gaps');
+      if (advDiv) {
+        const advHtml = advisoryTests.length > 0
+          ? `<p><strong>Isolated Tier 3 Advisory (${advisoryTests.length}):</strong> ${advisoryTests.slice(0, 8).map(t => `<code>${this.escapeHtml(t.id)}</code>`).join(', ')}</p>`
+          : '<p><strong>Tier 3 Advisory:</strong> None isolated.</p>';
+        const gapHtml = backlogGaps.length > 0
+          ? `<p style="margin-top: 8px; color: var(--accent-warning);"><strong>Untested Impacted Targets (${backlogGaps.length}):</strong> ${backlogGaps.slice(0, 8).map(g => `<code>${this.escapeHtml(g.target || g.file || g.id)}</code>`).join(', ')}</p>`
+          : '<p style="margin-top: 8px; color: var(--accent-success);"><strong>Untested Impacted Targets:</strong> None detected.</p>';
+        advDiv.innerHTML = advHtml + gapHtml;
       }
     } catch (e) {
       console.error('Failed to load PR analysis:', e);
+    }
+  },
+
+  async openTestEvidenceDrawer(testId) {
+    const backdrop = document.getElementById('evidence-drawer-backdrop');
+    const title = document.getElementById('drawer-title');
+    const sub = document.getElementById('drawer-subtitle');
+    const body = document.getElementById('drawer-body');
+    if (!backdrop || !body) return;
+
+    title.innerText = '🔎 Test Selection Evidence';
+    sub.innerText = testId;
+    body.innerHTML = 'Querying Knowledge Graph explanation trail...';
+    backdrop.classList.add('open');
+
+    try {
+      const res = await fetch('/api/v2/qe/explain_test_selection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          test_id: testId,
+          changed_files: this.lastAnalyzedFiles || []
+        })
+      });
+      const env = await res.json();
+      const d = env.data || {};
+      const exp = (d.inclusionExplanations && d.inclusionExplanations[0]) || d.test || null;
+      const prov = d.testProvenance || null;
+
+      body.innerHTML = `
+        <div class="drawer-section">
+          <h4>Snapshot Provenance</h4>
+          <div><strong>Status:</strong> <span class="badge badge-primary">${this.escapeHtml(env.analysisStatus)}</span></div>
+          <div><strong>Snapshot ID:</strong> <code>${this.escapeHtml(env.graphSnapshotId || 'UNAVAILABLE')}</code></div>
+          <div><strong>App / QA Commits:</strong> <code>${this.escapeHtml(env.appCommit || 'n/a')}</code> / <code>${this.escapeHtml(env.qaCommit || 'n/a')}</code></div>
+        </div>
+        <div class="drawer-section">
+          <h4>Selection Decision</h4>
+          <div><strong>Selected for Regression:</strong> ${d.selected ? '<span class="badge badge-success">INCLUDED (Tier 1-2)</span>' : `<span class="badge badge-warning">EXCLUDED (${this.escapeHtml(d.exclusionReason || d.reason)})</span>`}</div>
+          ${exp ? `
+            <div style="margin-top: 8px;"><strong>Channel:</strong> <code>${this.escapeHtml(exp.impactChannel)}</code> | <strong>Tier:</strong> <code>${this.escapeHtml(exp.evidenceTier)}</code> | <strong>Confidence:</strong> ${exp.confidence}</div>
+            <div style="margin-top: 6px;"><strong>Repo / Framework:</strong> ${this.escapeHtml(exp.repo)} / ${this.escapeHtml(exp.framework)}</div>
+            <div style="margin-top: 6px;"><strong>File:</strong> <code>${this.escapeHtml(exp.file || 'n/a')}</code></div>
+            <ul style="margin: 8px 0 0 18px;">${(exp.reasons || []).map(r => `<li>${this.escapeHtml(r)}</li>`).join('')}</ul>
+          ` : ''}
+        </div>
+        ${prov ? `
+          <div class="drawer-section">
+            <h4>Graph Links &amp; Recent Execution History</h4>
+            <div><strong>Graph Links (${(prov.graphLinks || []).length}):</strong> ${(prov.graphLinks || []).slice(0, 8).map(l => `<div class="evidence-chip">${this.escapeHtml(l.relType)} -> ${this.escapeHtml(l.target)}</div>`).join('')}</div>
+            <div style="margin-top: 8px;"><strong>Executions:</strong> ${(prov.executionHistory || []).length ? prov.executionHistory.map(e => `<div>Run ${this.escapeHtml(e.runId)}: <strong>${this.escapeHtml(e.status)}</strong></div>`).join('') : '<span style="color: var(--accent-warning);">No execution history recorded</span>'}</div>
+          </div>
+        ` : ''}
+      `;
+    } catch (e) {
+      body.innerHTML = `<div style="color: var(--accent-danger);">Failed to load evidence: ${this.escapeHtml(e.message)}</div>`;
+    }
+  },
+
+  inspectEntityByInput() {
+    const val = document.getElementById('entity-lookup-input')?.value?.trim();
+    if (val) this.openEntityDrawer(val);
+  },
+
+  async openEntityDrawer(entityId) {
+    const backdrop = document.getElementById('evidence-drawer-backdrop');
+    const title = document.getElementById('drawer-title');
+    const sub = document.getElementById('drawer-subtitle');
+    const body = document.getElementById('drawer-body');
+    if (!backdrop || !body) return;
+
+    title.innerText = '🔎 Entity Provenance & Graph Neighbors';
+    sub.innerText = entityId;
+    body.innerHTML = 'Querying Neo4j entity provenance...';
+    backdrop.classList.add('open');
+
+    try {
+      const res = await fetch(`/api/v2/intelligence/entity?entity_id=${encodeURIComponent(entityId)}`);
+      const env = await res.json();
+      const ent = env.data?.entity || null;
+      if (!ent) {
+        body.innerHTML = `<div class="drawer-section">Status: <strong>${this.escapeHtml(env.analysisStatus)}</strong>. Entity <code>${this.escapeHtml(entityId)}</code> not found or QKG unavailable.</div>`;
+        return;
+      }
+      body.innerHTML = `
+        <div class="drawer-section">
+          <h4>Canonical Identity</h4>
+          <div><strong>Canonical ID:</strong> <code>${this.escapeHtml(ent.canonicalId)}</code></div>
+          <div><strong>Labels:</strong> ${(ent.labels || []).map(l => `<span class="badge badge-primary">${this.escapeHtml(l)}</span>`).join(' ')}</div>
+          <div><strong>Plugin:</strong> ${this.escapeHtml(ent.plugin || 'n/a')} | <strong>File:</strong> <code>${this.escapeHtml(ent.file || 'n/a')}</code></div>
+          <div><strong>Introduced In:</strong> ${this.escapeHtml(ent.introducedIn || 'n/a')} | <strong>Snapshot:</strong> <code>${this.escapeHtml(ent.snapshotId || env.graphSnapshotId)}</code></div>
+        </div>
+        <div class="drawer-section">
+          <h4>Outbound Relationships (${(ent.outbound || []).length})</h4>
+          ${(ent.outbound || []).map(r => `<div><span class="evidence-chip">${this.escapeHtml(r.relType)}</span> [${this.escapeHtml(r.targetLabel)}] <code>${this.escapeHtml(r.targetId)}</code></div>`).join('') || 'None'}
+        </div>
+        <div class="drawer-section">
+          <h4>Inbound Relationships (${(ent.inbound || []).length})</h4>
+          ${(ent.inbound || []).map(r => `<div><code>${this.escapeHtml(r.sourceId)}</code> [${this.escapeHtml(r.sourceLabel)}] <span class="evidence-chip">${this.escapeHtml(r.relType)}</span></div>`).join('') || 'None'}
+        </div>
+        <div class="drawer-section">
+          <h4>Coverage Observations</h4>
+          ${(ent.coverage || []).filter(c => c && c.runId).map(c => `<div>Run ${this.escapeHtml(c.runId)}: ${c.linesCovered}/${c.linesTotal} lines (${c.lineRate}%)</div>`).join('') || '<span style="color: var(--accent-warning);">No CoverageObservation recorded</span>'}
+        </div>
+      `;
+    } catch (e) {
+      body.innerHTML = `<div style="color: var(--accent-danger);">Error inspecting entity: ${this.escapeHtml(e.message)}</div>`;
+    }
+  },
+
+  closeEvidenceDrawer() {
+    document.getElementById('evidence-drawer-backdrop')?.classList.remove('open');
+  },
+
+  // Release & History Intelligence Tab (Phase 4/5B)
+  async loadReleaseHistory() {
+    try {
+      const [readyRes, benchRes, manRes] = await Promise.all([
+        fetch('/api/v2/intelligence/release-readiness'),
+        fetch('/api/v2/intelligence/benchmark'),
+        fetch('/api/v2/intelligence/manifests')
+      ]);
+      const ready = await readyRes.json();
+      const benchEnv = await benchRes.json();
+      const manData = await manRes.json();
+
+      const gateEl = document.getElementById('rel-gate-status');
+      const gateSub = document.getElementById('rel-gate-blockers');
+      const rGate = ready.data?.readinessGate || 'UNAVAILABLE';
+      if (gateEl) {
+        gateEl.innerText = rGate;
+        gateEl.style.color = rGate === 'READY' ? 'var(--accent-success)' : (rGate === 'ATTENTION_REQUIRED' ? 'var(--accent-warning)' : 'var(--accent-danger)');
+      }
+      if (gateSub) {
+        const blockers = ready.data?.blockers || [];
+        gateSub.innerText = blockers.length ? `Blockers: ${blockers.join(', ')}` : 'All readiness checks clear';
+      }
+
+      const b = benchEnv.data?.qkg15Benchmark || benchEnv.data?.fullReport?.metrics || null;
+      const qEl = document.getElementById('rel-qkg15-status');
+      const qSub = document.getElementById('rel-qkg15-metrics');
+      if (qEl && qSub) {
+        if (b) {
+          const gStatus = benchEnv.data?.qkg15Benchmark?.gateStatus || (benchEnv.data?.fullReport?.gate?.passed ? 'PASS' : 'FAIL');
+          const scPassed = benchEnv.data?.qkg15Benchmark?.scenariosPassed ?? benchEnv.data?.fullReport?.scenariosPassed ?? '—';
+          const scTot = benchEnv.data?.qkg15Benchmark?.scenariosTotal ?? benchEnv.data?.fullReport?.scenariosTotal ?? '—';
+          qEl.innerText = `${gStatus} (${scPassed}/${scTot})`;
+          qEl.style.color = gStatus === 'PASS' ? 'var(--accent-success)' : 'var(--accent-danger)';
+          qSub.innerText = `Recall(T1-T2): ${b.tier1And2Recall} | Precision: ${b.precision} | Determinism: ${b.determinismRate}`;
+        } else {
+          qEl.innerText = 'UNAVAILABLE';
+          qSub.innerText = 'Run npm run benchmark:tia to generate QKG-15 report';
+        }
+      }
+
+      const manifests = manData.manifests || [];
+      const mEl = document.getElementById('rel-manifest-count');
+      const mSub = document.getElementById('rel-latest-manifest');
+      if (mEl) mEl.innerText = manifests.length;
+      if (mSub) mSub.innerText = manifests[0] ? `Latest: ${manifests[0].snapshotId}` : 'No snapshot manifests on disk';
+
+      const selA = document.getElementById('cmp-snap-a');
+      const selB = document.getElementById('cmp-snap-b');
+      if (selA && selB) {
+        const opts = manifests.map((m) => `<option value="${this.escapeHtml(m.snapshotId)}">${this.escapeHtml(m.snapshotId)}</option>`).join('');
+        selA.innerHTML = opts || '<option value="">None available</option>';
+        selB.innerHTML = opts || '<option value="">None available</option>';
+        if (manifests.length >= 2) {
+          selA.selectedIndex = 1;
+          selB.selectedIndex = 0;
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load release history:', e);
+    }
+  },
+
+  async runSnapshotCompare() {
+    const snapshot_a = document.getElementById('cmp-snap-a')?.value || '';
+    const snapshot_b = document.getElementById('cmp-snap-b')?.value || '';
+    const mode = document.getElementById('cmp-mode')?.value || 'both';
+    const structOut = document.getElementById('cmp-structural-output');
+    const qualOut = document.getElementById('cmp-quality-output');
+    if (structOut) structOut.innerHTML = 'Running canonical structural manifest diff...';
+    if (qualOut) qualOut.innerHTML = 'Evaluating compatible quality observations...';
+
+    try {
+      const res = await fetch('/api/v2/qe/compare_snapshots', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ snapshot_a, snapshot_b, mode })
+      });
+      const env = await res.json();
+      const cmp = env.data || {};
+      const st = cmp.structural;
+      const ql = cmp.quality;
+
+      if (structOut) {
+        if (!st) {
+          structOut.innerHTML = 'Structural diff omitted in quality-only mode.';
+        } else {
+          const s = st.summary || {};
+          const exp = st.impact_explanation || {};
+          structOut.innerHTML = `
+            <div><strong>Status:</strong> <span class="badge badge-primary">${this.escapeHtml(env.analysisStatus)}</span></div>
+            <div style="margin-top: 6px;">Entities: +${s.entitiesAdded ?? 0} added, -${s.entitiesRemoved ?? 0} removed, ~${s.entitiesModified ?? 0} modified</div>
+            <div>Relationships: +${s.relationshipsAdded ?? 0} added, -${s.relationshipsRemoved ?? 0} removed</div>
+            <div style="margin-top: 8px; color: var(--text-main);"><strong>Affected Plugins:</strong> ${(exp.affected_plugins || []).map(p => `<code>${this.escapeHtml(p)}</code>`).join(' ') || 'None'}</div>
+            <div style="margin-top: 4px; color: var(--text-muted);">${this.escapeHtml(exp.summary_narrative || '')}</div>
+          `;
+        }
+      }
+
+      if (qualOut) {
+        if (!ql) {
+          qualOut.innerHTML = 'Quality comparison omitted in structural-only mode.';
+        } else if (ql.status === 'UNAVAILABLE' || ql.status === 'INCOMPATIBLE') {
+          qualOut.innerHTML = `<span class="badge badge-warning">${this.escapeHtml(ql.status)}</span> <div style="margin-top: 6px;">${this.escapeHtml(ql.reason || 'Compatible TestRun/CoverageRun telemetry unavailable for comparison (never fabricated as 0%).')}</div>`;
+        } else {
+          qualOut.innerHTML = `<div><span class="badge badge-success">${this.escapeHtml(ql.status)}</span></div><pre style="margin-top: 8px; font-size: 11px;">${this.escapeHtml(JSON.stringify(ql.deltas || ql, null, 2))}</pre>`;
+        }
+      }
+    } catch (e) {
+      if (structOut) structOut.innerHTML = `<span style="color: var(--accent-danger);">Compare error: ${this.escapeHtml(e.message)}</span>`;
     }
   },
 
@@ -476,26 +869,48 @@ const app = {
       const activeSub = document.getElementById('db-active-sub');
       const testSub = document.getElementById('db-test-sub');
       const driftEl = document.getElementById('db-drift-status');
-      if (activeSub && data.totalTables) activeSub.innerText = `${data.totalTables} Verified Tables (${data.payrollTablesCount} Payroll)`;
-      if (testSub && drift.targetTableCount) testSub.innerText = `${drift.targetTableCount} Verified Tables`;
+      const driftSub = document.getElementById('db-drift-sub');
+
+      if (activeSub) {
+        activeSub.innerText = data.status === 'ONLINE' && data.totalTables !== null
+          ? `${data.totalTables} Verified Tables (${data.payrollTablesCount ?? 0} Payroll)`
+          : `UNAVAILABLE (${data.error || 'MariaDB offline'})`;
+      }
+      if (testSub) {
+        testSub.innerText = drift.targetTableCount !== null && drift.targetTableCount !== undefined
+          ? `${drift.targetTableCount} Verified Tables`
+          : 'UNAVAILABLE (MariaDB offline)';
+      }
       if (driftEl) {
-        driftEl.innerText = drift.isSynchronized ? 'SYNCHRONIZED' : 'DRIFT DETECTED';
-        driftEl.style.color = drift.isSynchronized ? 'var(--accent-success)' : 'var(--accent-danger)';
+        if (drift.status === 'UNAVAILABLE' || drift.isSynchronized === null || drift.isSynchronized === undefined) {
+          driftEl.innerText = 'UNAVAILABLE';
+          driftEl.style.color = 'var(--accent-danger)';
+          if (driftSub) driftSub.innerText = drift.error || 'Cannot verify live MariaDB schema offline';
+        } else {
+          driftEl.innerText = drift.isSynchronized ? 'SYNCHRONIZED' : 'DRIFT DETECTED';
+          driftEl.style.color = drift.isSynchronized ? 'var(--accent-success)' : 'var(--accent-danger)';
+          if (driftSub) driftSub.innerText = drift.isSynchronized ? 'Zero table/column mismatch' : `${(drift.missingInTarget || []).length} missing target / ${(drift.missingInSource || []).length} missing source`;
+        }
       }
 
       const tbody = document.getElementById('db-tables-body');
-      if (tbody && data.sampleTables) {
-        tbody.innerHTML = data.sampleTables.map(t => `
-          <tr>
-            <td style="font-weight: 600; color: ${t.tableName.includes('payroll') || t.tableName.includes('pay_period') || t.tableName.includes('salary_slip') ? 'var(--accent-success)' : 'var(--accent-primary)'};">
-              ${t.tableName.includes('payroll') || t.tableName.includes('pay_period') || t.tableName.includes('salary_slip') ? '✨ ' : ''}${t.tableName}
-            </td>
-            <td>${t.rowEstimate} rows</td>
-            <td>${t.sizeMb} MB</td>
-            <td><code>${t.engine}</code></td>
-            <td><button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="app.inspectTable('${t.tableName}')">Inspect Rows</button></td>
-          </tr>
-        `).join('');
+      if (tbody) {
+        const list = data.sampleTables || [];
+        if (list.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="color: var(--text-muted);">MariaDB offline or zero tables returned (UNAVAILABLE).</td></tr>';
+        } else {
+          tbody.innerHTML = list.map(t => `
+            <tr>
+              <td style="font-weight: 600; color: ${t.tableName.includes('payroll') || t.tableName.includes('pay_period') || t.tableName.includes('salary_slip') ? 'var(--accent-success)' : 'var(--accent-primary)'};">
+                ${t.tableName.includes('payroll') || t.tableName.includes('pay_period') || t.tableName.includes('salary_slip') ? '✨ ' : ''}${this.escapeHtml(t.tableName)}
+              </td>
+              <td>${this.escapeHtml(t.rowEstimate)} rows</td>
+              <td>${this.escapeHtml(t.sizeMb)} MB</td>
+              <td><code>${this.escapeHtml(t.engine)}</code></td>
+              <td><button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="app.inspectTable('${this.escapeHtml(t.tableName)}')">Inspect Rows</button></td>
+            </tr>
+          `).join('');
+        }
       }
     } catch (e) {
       console.error('Failed to load DB overview:', e);

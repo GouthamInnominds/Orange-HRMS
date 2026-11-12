@@ -956,6 +956,95 @@ async function validateGoldenDataset({
       detail: check26Detail
     });
 
+    // Check #27: Phase 5 Unified Intelligence Service, 8-Tool MCP/REST Contract, Security Guards & Backup Integrity
+    let check27Passed = false;
+    let check27Detail = {};
+    try {
+      const { QeIntelligenceService } = require('../qe_app/services/qe_intelligence_service');
+      const { QkgMcpServer, getToolDefinitions } = require('../qkg_mcp/server_core');
+      const { CANONICAL_QE_DISPATCH } = require('../qe_app/server');
+      const { validateReadOnlyCypher, validateReadOnlySql, sanitizePayload } = require('./security_guard');
+      const { exportSnapshotBundle, verifySnapshotBundle } = require('./backup_restore');
+      const os = require('os');
+      const fs = require('fs');
+      const path = require('path');
+
+      const mcpNames = getToolDefinitions().map((t) => t.name).sort();
+      const restNames = Object.keys(CANONICAL_QE_DISPATCH).sort();
+      const toolsAligned = mcpNames.length === 8 && JSON.stringify(mcpNames) === JSON.stringify(restNames);
+
+      const sessionRunner = async (cypher, params = {}) => {
+        const res = await session.run(cypher, params);
+        return res.records.map((rec) => {
+          const obj = {};
+          for (const k of rec.keys) obj[k] = rec.get(k);
+          return obj;
+        });
+      };
+
+      const facade = new QeIntelligenceService({ queryRunner: sessionRunner });
+      const mcp = new QkgMcpServer({ intelligenceService: facade, queryRunner: sessionRunner });
+      const statusEnv = await facade.getSnapshotStatus({ skipStalenessCheck: true });
+      const hasCompleteness = Boolean(
+        statusEnv.completeness &&
+        ['codeGraph', 'testMappings', 'coverage', 'executionHistory', 'businessTraceability'].every((k) =>
+          ['COMPLETE', 'PARTIAL', 'UNAVAILABLE'].includes(statusEnv.completeness[k])
+        )
+      );
+      const mcpGapCall = await mcp.callTool('get_coverage_gaps', { limit: 5 });
+      const facadeGapCall = await facade.getCoverageGaps({ limit: 5 });
+      const mcpFacadeAligned = mcpGapCall.graphSnapshotId === facadeGapCall.graphSnapshotId &&
+        mcpGapCall.analysisStatus === facadeGapCall.analysisStatus;
+
+      let cypherWriteBlocked = false;
+      try { validateReadOnlyCypher('MATCH (n) DELETE n'); } catch (_) { cypherWriteBlocked = true; }
+      let sqlInjectionBlocked = false;
+      try { validateReadOnlySql('SELECT 1; DROP TABLE hs_hr_employee;'); } catch (_) { sqlInjectionBlocked = true; }
+      const piiRedacted = sanitizePayload({ aadhaar: '1234', token: 'sk-abc1234567890xyz' });
+      const redactionOk = piiRedacted.aadhaar === '[REDACTED]' && String(piiRedacted.token).includes('REDACTED');
+
+      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'qkg-check27-'));
+      let backupVerified = false;
+      try {
+        const bundle = await exportSnapshotBundle({ outDir: tmpDir, offline: true });
+        const verifyRes = verifySnapshotBundle(bundle.bundleDir);
+        backupVerified = Boolean(verifyRes.valid && verifyRes.checksumValid && verifyRes.digestValid);
+      } finally {
+        fs.rmSync(tmpDir, { recursive: true, force: true });
+      }
+
+      check27Passed = Boolean(
+        toolsAligned &&
+        hasCompleteness &&
+        mcpFacadeAligned &&
+        cypherWriteBlocked &&
+        sqlInjectionBlocked &&
+        redactionOk &&
+        backupVerified
+      );
+      check27Detail = {
+        toolsCount: mcpNames.length,
+        toolsAligned,
+        hasCompleteness,
+        mcpFacadeAligned,
+        cypherWriteBlocked,
+        sqlInjectionBlocked,
+        redactionOk,
+        backupVerified,
+        snapshotStatus: statusEnv.analysisStatus
+      };
+    } catch (e27) {
+      check27Passed = false;
+      check27Detail = { error: e27.message };
+    }
+
+    checks.push({
+      id: 27,
+      name: 'Phase 5: 8-Tool MCP/REST Contract Parity, Security/PII Guards & Backup Integrity',
+      passed: check27Passed,
+      detail: check27Detail
+    });
+
     const passed = checks.filter((c) => c.passed).length;
     const failed = checks.length - passed;
     return {

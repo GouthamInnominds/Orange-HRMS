@@ -862,7 +862,7 @@ class TIAEngine {
           targetFile: row.targetFile,
           plugin: row.plugin,
           gapReason: 'NO_AUTOMATED_TESTS',
-          suggestedTestLayer: row.targetFile.includes('/Api/') ? 'API' : 'Unit'
+          suggestedTestLayer: String(row.targetFile || '').includes('/Api/') ? 'API' : 'Unit'
         });
       }
 

@@ -116,3 +116,4 @@ module.exports = {
   sha256Hex,
   hashAstNode
 };
+

@@ -76,7 +76,7 @@ test('QkgMcpServer enforces read-only Cypher guard, PII/secret redaction, and en
   );
 
   const listRes = await mcp.handleJsonRpc({ id: 1, method: 'tools/list' });
-  assert.equal(listRes.result.tools.length, 7);
+  assert.equal(listRes.result.tools.length, 8);
 
   const callRes = await mcp.handleJsonRpc({
     id: 2,
