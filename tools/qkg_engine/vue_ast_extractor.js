@@ -7,6 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const { toRepoRelPath, extractPluginFromPath } = require('./qkg_config');
+const { sha256Hex } = require('./canonical_hash');
 
 function normalizeUrlPattern(urlStr) {
   if (!urlStr) return null;
@@ -162,17 +163,28 @@ class VueAstExtractor {
 
     const { api_calls, route_refs } = this._extractApiCallsAndRouteRefs(content);
 
+    const inputsList = Array.from(new Set(inputs)).sort();
+    const childList = Array.from(childComponents).sort();
+    const httpList = Array.from(new Set(httpMethods)).sort();
+    const contentFingerprint = sha256Hex({
+      type: 'VueComponent',
+      component_id: `VUE_${plugin.toUpperCase()}_${compName.toUpperCase()}`,
+      file: relPath,
+      source_hash: sha256Hex(content)
+    });
+
     return {
       type: 'VueComponent',
       name: compName,
       component_id: `VUE_${plugin.toUpperCase()}_${compName.toUpperCase()}`,
       file: relPath,
       plugin,
-      inputs: Array.from(new Set(inputs)),
-      child_components: Array.from(childComponents),
+      inputs: inputsList,
+      child_components: childList,
       api_calls,
       route_refs,
-      http_methods: Array.from(new Set(httpMethods)),
+      http_methods: httpList,
+      content_fingerprint: contentFingerprint,
       line_count: content.split('\n').length
     };
   }
@@ -191,6 +203,12 @@ class VueAstExtractor {
     }
 
     const { api_calls, route_refs } = this._extractApiCallsAndRouteRefs(content);
+    const contentFingerprint = sha256Hex({
+      type: 'TypeScriptModule',
+      component_id: `TS_${plugin.toUpperCase()}_${filename.toUpperCase()}`,
+      file: relPath,
+      source_hash: sha256Hex(content)
+    });
 
     return {
       type: 'TypeScriptModule',
@@ -203,6 +221,7 @@ class VueAstExtractor {
       api_calls,
       route_refs,
       exports,
+      content_fingerprint: contentFingerprint,
       line_count: content.split('\n').length
     };
   }

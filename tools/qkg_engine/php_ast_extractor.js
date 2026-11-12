@@ -15,6 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const { Engine } = require('php-parser');
 const { toRepoRelPath } = require('./qkg_config');
+const { sha256Hex, hashAstNode } = require('./canonical_hash');
 
 const parser = new Engine({
   parser: {
@@ -349,6 +350,20 @@ class PhpAstExtractor {
       }
     }
 
+    const classFingerprint = sha256Hex({
+      kind: 'Class',
+      fqcn,
+      namespace: currentNamespace,
+      extends_fqcn: extendsFqcn,
+      implements: [...implementsFqcns].sort(),
+      traits: [...traitFqcns].sort(),
+      property_types: propertyTypes,
+      constructor_deps: [...constructorDeps].sort(),
+      isOrmEntity,
+      tableName,
+      methods: methods.map((m) => [m.signature, m.content_fingerprint]).sort()
+    });
+
     return {
       kind: 'Class',
       name: className,
@@ -370,6 +385,7 @@ class PhpAstExtractor {
       coversDefaultFqcn,
       classCovers,
       useMap,
+      content_fingerprint: classFingerprint,
       source_file: file,
       line_start: node.loc ? node.loc.start.line : 0,
       line_end: node.loc ? node.loc.end.line : 0
@@ -391,6 +407,14 @@ class PhpAstExtractor {
         }
       }
     }
+    const ifaceFingerprint = sha256Hex({
+      kind: 'Interface',
+      fqcn,
+      namespace: currentNamespace,
+      extends: [...extendsFqcns].sort(),
+      methods: methods.map((m) => [m.signature, m.content_fingerprint]).sort()
+    });
+
     return {
       kind: 'Interface',
       name,
@@ -398,6 +422,7 @@ class PhpAstExtractor {
       namespace: currentNamespace,
       extends: extendsFqcns,
       methods,
+      content_fingerprint: ifaceFingerprint,
       source_file: file,
       line_start: node.loc ? node.loc.start.line : 0,
       line_end: node.loc ? node.loc.end.line : 0
@@ -436,6 +461,15 @@ class PhpAstExtractor {
       }
     }
 
+    const traitFingerprint = sha256Hex({
+      kind: 'Trait',
+      fqcn,
+      namespace: currentNamespace,
+      traits: [...traitFqcns].sort(),
+      property_types: propertyTypes,
+      methods: methods.map((m) => [m.signature, m.content_fingerprint]).sort()
+    });
+
     return {
       kind: 'Trait',
       name,
@@ -445,6 +479,7 @@ class PhpAstExtractor {
       property_types: propertyTypes,
       methods,
       useMap,
+      content_fingerprint: traitFingerprint,
       source_file: file,
       line_start: node.loc ? node.loc.start.line : 0,
       line_end: node.loc ? node.loc.end.line : 0
@@ -525,6 +560,19 @@ class PhpAstExtractor {
       });
     }
 
+    const signatureHash = sha256Hex({
+      signature,
+      visibility,
+      is_static: isStatic,
+      parameters: params,
+      return_type: rawRetType || null,
+      return_type_fqcn: returnTypeFqcn || null
+    });
+    const bodyHash = node.body
+      ? hashAstNode(node.body)
+      : sha256Hex({ abstractOrInterface: true, signatureHash });
+    const contentFingerprint = sha256Hex({ signatureHash, bodyHash });
+
     return {
       name: methodName,
       signature,
@@ -535,6 +583,9 @@ class PhpAstExtractor {
       parameters: params,
       return_type: rawRetType,
       return_type_fqcn: returnTypeFqcn,
+      signature_hash: signatureHash,
+      body_hash: bodyHash,
+      content_fingerprint: contentFingerprint,
       localVarTypes,
       calls,
       rawCalls,

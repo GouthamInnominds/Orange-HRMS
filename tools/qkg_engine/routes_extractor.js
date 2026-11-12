@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const { toRepoRelPath } = require('./qkg_config');
+const { sha256Hex } = require('./canonical_hash');
 
 class RoutesExtractor {
   static parseRoutesFile(filePath, pluginName) {
@@ -69,7 +70,7 @@ class RoutesExtractor {
       const isRestApi = Boolean(r.api_handler) || r.path.startsWith('/api/');
 
       for (const m of r.methods) {
-        endpoints.push({
+        const endpointObj = {
           endpoint_id: `${m} ${r.path}`,
           http_method: m,
           path: r.path,
@@ -81,7 +82,9 @@ class RoutesExtractor {
           endpoint_kind: isRestApi ? 'REST_API' : 'WEB_SCREEN',
           auth_required: !r.path.includes('/login') && !r.path.includes('/public'),
           source_file: r.source_file
-        });
+        };
+        endpointObj.content_fingerprint = sha256Hex(endpointObj);
+        endpoints.push(endpointObj);
       }
     }
 

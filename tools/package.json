@@ -8,6 +8,10 @@
     "ingest:staging": "node qkg_engine/ingest_pipeline.js --staging --clean",
     "ingest:promote": "node qkg_engine/ingest_pipeline.js --promote",
     "validate:golden": "node qkg_engine/validate_golden_dataset.js",
+    "manifest": "node qkg_engine/snapshot_manifest.js",
+    "compare": "node qkg_engine/snapshot_comparator.js",
+    "parity": "node qkg_engine/parity_verifier.js",
+    "benchmark:tia": "node qkg_engine/run_tia_benchmark.js --offline",
     "mcp": "node qkg_mcp/index.js"
   },
   "dependencies": {

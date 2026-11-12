@@ -1,0 +1,480 @@
+{
+  "benchmark_version": "1.0.0",
+  "benchmark_id": "QKG-15",
+  "description": "Multi-plugin historical & curated Test Impact Analysis (TIA) replay benchmark across PHP services, APIs, routes, Vue/TS UI, DB migrations, external QA specs, deletions, and precision guardrails.",
+  "thresholds": {
+    "min_scenarios": 18,
+    "min_tier_1_2_recall": 0.9,
+    "max_false_negative_rate": 0.1,
+    "min_precision": 0.85,
+    "min_determinism_rate": 1.0,
+    "min_explanation_completeness": 1.0,
+    "max_tier3_leaks": 0,
+    "max_tier4_leaks": 0
+  },
+  "scenarios": [
+    {
+      "id": "QKG15-01",
+      "title": "Payroll IndianStatutoryCalculator core breakdown update",
+      "category": "backend_direct",
+      "plugin": "orangehrmPayrollPlugin",
+      "git_commit": "7d69e27",
+      "change_type": "MODIFY_PHP_SERVICE",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/IndianStatutoryCalculator.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Service\\IndianStatutoryCalculatorTest::testEpfCapToggleSplitsEpsAndDiffCorrectly",
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Service\\IndianStatutoryCalculatorTest::testEsicCeilingBoundaryAndClaimExclusion",
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Service\\IndianStatutoryCalculatorTest::testMaharashtraFebruaryPtSlabOverride",
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Service\\IndianStatutoryCalculatorTest::testFy2026TdsNewVsOldRegimeRebateCessAndLwpProRata",
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Service\\PayrollWorkflowAndStatutoryIntegrationTest::testSec87ARebateThresholdEpfCapAndYtdReconciliation"
+      ],
+      "acceptablePlugins": ["orangehrmPayrollPlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Service\\HolidayServiceTest::testSaveHoliday",
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Dao\\BuzzDaoTest::testSaveBuzzPost"
+      ]
+    },
+    {
+      "id": "QKG15-02",
+      "title": "Admin EmploymentStatusAPI handler modification impacts PHPUnit & Cypress API specs",
+      "category": "backend_direct",
+      "plugin": "orangehrmAdminPlugin",
+      "change_type": "MODIFY_PHP_API",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmAdminPlugin/Api/EmploymentStatusAPI.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\EmploymentStatusAPITest::testGetOne",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\EmploymentStatusAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\EmploymentStatusAPITest::testCreate",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\EmploymentStatusAPITest::testUpdate",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\EmploymentStatusAPITest::testDelete",
+        "orangehrm-qa-automation::cypress/e2e/integration/api/admin/empStatus_API.cy.js::Admin - Employment Status API > POST /emp-status > create a new employment status"
+      ],
+      "acceptablePlugins": ["orangehrmAdminPlugin", "orangehrmCorePlugin", "orangehrmPimPlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Util\\MoneyTest::testCurrencyMismatchThrowsException",
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Api\\BuzzCommentAPITest::testCreate"
+      ]
+    },
+    {
+      "id": "QKG15-03",
+      "title": "PIM EmployeeAPI update triggers PHPUnit & Playwright employee contract tests",
+      "category": "backend_direct",
+      "plugin": "orangehrmPimPlugin",
+      "change_type": "MODIFY_PHP_API",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmPimPlugin/Api/EmployeeAPI.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Api\\EmployeeAPITest::testGetOne",
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Api\\EmployeeAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Api\\EmployeeAPITest::testCreate",
+        "orangehrm-qa-automation::tests/api/pim/employees-api.spec.ts::PIM - Employee Master API > lists employee records with pagination metadata",
+        "orangehrm-qa-automation::tests/api/pim/employees-api.spec.ts::PIM - Employee Master API > rejects unauthenticated employee creation payload"
+      ],
+      "acceptablePlugins": ["orangehrmPimPlugin", "orangehrmCorePlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Recruitment\\Api\\VacancyAPITest::testCreate"
+      ]
+    },
+    {
+      "id": "QKG15-04",
+      "title": "Admin EducationService transitive call propagation to EducationAPI tests",
+      "category": "transitive_call_chain",
+      "plugin": "orangehrmAdminPlugin",
+      "change_type": "MODIFY_PHP_SERVICE",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmAdminPlugin/Service/EducationService.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\EducationAPITest::testGetOne",
+        "orange-hrms::OrangeHRM\\Tests\\Maintenance\\AccessStrategy\\FormatValue\\FormatWithEducationTest::testGetFormattedValue"
+      ],
+      "acceptablePlugins": ["orangehrmAdminPlugin", "orangehrmPimPlugin", "orangehrmCorePlugin", "orangehrmMaintenancePlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Util\\MoneyTest::testArithmeticAndRoundingModes"
+      ]
+    },
+    {
+      "id": "QKG15-05",
+      "title": "Leave HolidayService direct & caller impact selection",
+      "category": "transitive_call_chain",
+      "plugin": "orangehrmLeavePlugin",
+      "change_type": "MODIFY_PHP_SERVICE",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmLeavePlugin/Service/HolidayService.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Service\\HolidayServiceTest::testSaveHoliday",
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Service\\HolidayServiceTest::testSearchHolidaysNoneRecurring",
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Service\\HolidayServiceTest::testSearchHolidaysRecurringCurrentYear"
+      ],
+      "expectedTier3AdvisoryTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\HolidayAPITest::testDelete",
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\HolidayAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\HolidayAPITest::testGetOne",
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\HolidayAPITest::testUpdate",
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\HolidayAPITest::testCreate"
+      ],
+      "acceptablePlugins": ["orangehrmLeavePlugin", "orangehrmAttendancePlugin", "orangehrmCorePlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Recruitment\\Api\\HiringManagerAPITest::testGetAll"
+      ]
+    },
+    {
+      "id": "QKG15-06",
+      "title": "Recruitment VacancyService transitive impact onto VacancyAPI & HiringManagerAPI",
+      "category": "transitive_call_chain",
+      "plugin": "orangehrmRecruitmentPlugin",
+      "change_type": "MODIFY_PHP_SERVICE",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmRecruitmentPlugin/Service/VacancyService.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Recruitment\\Api\\HiringManagerAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Recruitment\\Api\\VacancyAPITest::testGetOne",
+        "orange-hrms::OrangeHRM\\Tests\\Recruitment\\Api\\VacancyAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Recruitment\\Api\\VacancyAPITest::testCreate"
+      ],
+      "acceptablePlugins": ["orangehrmRecruitmentPlugin", "orangehrmPimPlugin", "orangehrmCorePlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Service\\IndianStatutoryCalculatorTest::testEpfCapToggleSplitsEpsAndDiffCorrectly"
+      ]
+    },
+    {
+      "id": "QKG15-07",
+      "title": "BuzzDao change propagates directly to DAO unit suite & upstream Buzz API suites",
+      "category": "transitive_call_chain",
+      "plugin": "orangehrmBuzzPlugin",
+      "change_type": "MODIFY_PHP_DAO",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmBuzzPlugin/Dao/BuzzDao.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Dao\\BuzzDaoTest::testGetBuzzFeedPosts",
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Dao\\BuzzDaoTest::testSaveBuzzPost",
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Api\\BuzzFeedAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Api\\BuzzPostAPITest::testCreate"
+      ],
+      "acceptablePlugins": [
+        "orangehrmBuzzPlugin",
+        "orangehrmPimPlugin",
+        "orangehrmCorePlugin",
+        "orangehrmAdminPlugin",
+        "orangehrmDashboardPlugin",
+        "orangehrmMaintenancePlugin"
+      ],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\WorkWeekAPITest::testDelete"
+      ]
+    },
+    {
+      "id": "QKG15-08",
+      "title": "Admin routes.yaml update impacts PHPUnit & Cypress endpoint contract suites",
+      "category": "api_contract",
+      "plugin": "orangehrmAdminPlugin",
+      "change_type": "MODIFY_ROUTES_YAML",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmAdminPlugin/config/routes.yaml"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\JobTitleAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\EmploymentStatusAPITest::testGetAll",
+        "orangehrm-qa-automation::cypress/e2e/integration/api/admin/jobTitles_API.cy.js::Admin - Job Title API > GET /job-titles > gets a list of job titles",
+        "orangehrm-qa-automation::cypress/e2e/integration/api/admin/empStatus_API.cy.js::Admin - Employment Status API > POST /emp-status > create a new employment status"
+      ],
+      "acceptablePlugins": ["orangehrmAdminPlugin", "orangehrmCorePlugin", "orangehrmPimPlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Api\\BuzzCommentAPITest::testCreate"
+      ]
+    },
+    {
+      "id": "QKG15-09",
+      "title": "Admin PayGradeAPI change impacts PHPUnit & Playwright Pay Grades E2E spec",
+      "category": "api_contract",
+      "plugin": "orangehrmAdminPlugin",
+      "change_type": "MODIFY_PHP_API",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmAdminPlugin/Api/PayGradeAPI.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\PayGradeAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\PayGradeAPITest::testCreate",
+        "orangehrm-qa-automation::tests/e2e/admin/pay-grades.spec.ts::Admin - Pay Grades Workflow > requires authenticated session on pay grades API and UI screen"
+      ],
+      "acceptablePlugins": ["orangehrmAdminPlugin", "orangehrmCorePlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Recruitment\\Api\\VacancyAPITest::testGetAll"
+      ]
+    },
+    {
+      "id": "QKG15-10",
+      "title": "Leave WorkWeekAPI change impacts PHPUnit & Cypress WorkWeek E2E suite",
+      "category": "api_contract",
+      "plugin": "orangehrmLeavePlugin",
+      "change_type": "MODIFY_PHP_API",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmLeavePlugin/Api/WorkWeekAPI.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\WorkWeekAPITest::testGetValidationRuleForGetOne",
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\WorkWeekAPITest::testDelete",
+        "orangehrm-qa-automation::cypress/e2e/integration/feature/leave/workWeek.cy.js::Leave- Configure - Work Week > View Work Week > Verify work week is loaded"
+      ],
+      "expectedTier3AdvisoryTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\WorkWeekAPITest::testGetOne",
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\WorkWeekAPITest::testUpdate",
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\WorkWeekAPITest::testGetWorkWeekService"
+      ],
+      "acceptablePlugins": ["orangehrmLeavePlugin", "orangehrmCorePlugin", "orangehrmPimPlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Dao\\BuzzDaoTest::testGetBuzzFeedPosts"
+      ]
+    },
+    {
+      "id": "QKG15-11",
+      "title": "Authentication PasswordStrengthValidationAPI change hits public auth tests",
+      "category": "api_contract",
+      "plugin": "orangehrmAuthenticationPlugin",
+      "change_type": "MODIFY_PHP_API",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmAuthenticationPlugin/PublicApi/PasswordStrengthValidationAPI.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Authentication\\Api\\PasswordStrengthValidationAPITest::testCreate",
+        "orange-hrms::OrangeHRM\\Tests\\Authentication\\Api\\PasswordStrengthValidationAPITest::testDelete",
+        "orange-hrms::OrangeHRM\\Tests\\Authentication\\Api\\PasswordStrengthValidationAPITest::testGetAll"
+      ],
+      "acceptablePlugins": ["orangehrmAuthenticationPlugin", "orangehrmCorePlugin", "orangehrmAdminPlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Time\\Api\\AttendanceReportAPITest::testGetOne"
+      ]
+    },
+    {
+      "id": "QKG15-12",
+      "title": "Core datefns.ts TypeScript utility edit triggers Jest unit tests via JEST_IMPORT_TRACE",
+      "category": "vue_ui",
+      "plugin": "core",
+      "change_type": "MODIFY_TS_MODULE",
+      "changedFiles": [
+        "orange_hrm/src/client/src/core/util/helper/datefns.ts"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::orange_hrm/src/client/src/core/util/helper/__tests__/datefns.spec.ts::format::HH:mm",
+        "orange-hrms::orange_hrm/src/client/src/core/util/helper/__tests__/datefns.spec.ts::getStandardTimezone:+05:00"
+      ],
+      "acceptablePlugins": ["core"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Util\\MoneyTest::testArithmeticAndRoundingModes"
+      ]
+    },
+    {
+      "id": "QKG15-13",
+      "title": "Shared EmployeeAutocomplete.vue edit propagates through VUE_AST_HTTP CALLS_ENDPOINT to PIM API tests",
+      "category": "vue_ui",
+      "plugin": "core",
+      "change_type": "MODIFY_VUE_COMPONENT",
+      "changedFiles": [
+        "orange_hrm/src/client/src/core/components/inputs/EmployeeAutocomplete.vue"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Api\\EmployeeAPITest::testGetAll",
+        "orangehrm-qa-automation::tests/api/pim/employees-api.spec.ts::PIM - Employee Master API > lists employee records with pagination metadata"
+      ],
+      "acceptablePlugins": ["core", "orangehrmPimPlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\EducationAPITest::testGetOne"
+      ]
+    },
+    {
+      "id": "QKG15-14",
+      "title": "PIM EmployeeSearchFilterParams cross-plugin DTO fans out to Admin, Time, Recruitment & Performance tests",
+      "category": "cross_plugin_event_di",
+      "plugin": "orangehrmPimPlugin",
+      "change_type": "CROSS_PLUGIN_DTO_CHANGE",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmPimPlugin/Dto/EmployeeSearchFilterParams.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Api\\EmployeeAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\WorkShiftEmployeeAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Recruitment\\Api\\HiringManagerAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Time\\Api\\ProjectAdminAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Performance\\Api\\PerformanceTrackerReviewerAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Dao\\EmployeeDaoTest::testGetEmployeeList"
+      ],
+      "expectedTier3AdvisoryTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Api\\EmployeeCountAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Api\\EmployeeAllowedReportToEmployeeAPITest::testGetAll"
+      ],
+      "acceptablePlugins": [
+        "orangehrmPimPlugin",
+        "orangehrmAdminPlugin",
+        "orangehrmRecruitmentPlugin",
+        "orangehrmTimePlugin",
+        "orangehrmPerformancePlugin",
+        "orangehrmCorePlugin",
+        "orangehrmDashboardPlugin",
+        "orangehrmLeavePlugin",
+        "orangehrmAttendancePlugin",
+        "orangehrmCorporateDirectoryPlugin",
+        "orangehrmBuzzPlugin",
+        "orangehrmClaimPlugin",
+        "orangehrmOpenidAuthenticationPlugin"
+      ],
+      "forbiddenTests": []
+    },
+    {
+      "id": "QKG15-15",
+      "title": "Time ProjectService change crosses plugin boundary into Maintenance FormatWithProject",
+      "category": "cross_plugin_event_di",
+      "plugin": "orangehrmTimePlugin",
+      "change_type": "CROSS_PLUGIN_CALL_CHAIN",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmTimePlugin/Service/ProjectService.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Time\\Api\\ProjectAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Time\\Api\\ProjectAPITest::testCreate",
+        "orange-hrms::OrangeHRM\\Tests\\Maintenance\\AccessStrategy\\FormatValue\\FormatWithProjectTest::testGetFormattedValue"
+      ],
+      "acceptablePlugins": ["orangehrmTimePlugin", "orangehrmMaintenancePlugin", "orangehrmCorePlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Api\\BuzzCommentAPITest::testCreate"
+      ]
+    },
+    {
+      "id": "QKG15-16",
+      "title": "Historical Payroll v2.2 commit (7d69e27) preserves Tier 1-2 vs Tier 3 isolation across statutory & adapter edits",
+      "category": "cross_plugin_event_di",
+      "plugin": "orangehrmPayrollPlugin",
+      "git_commit": "7d69e27",
+      "change_type": "MULTI_FILE_HISTORICAL_REPLAY",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/IndianStatutoryCalculator.php",
+        "orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/ClaimSettlementAdapter.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Service\\IndianStatutoryCalculatorTest::testEpfCapToggleSplitsEpsAndDiffCorrectly",
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Service\\CrossModuleAdaptersTest::testClaimReservationLockAndReleaseLifecycle"
+      ],
+      "acceptablePlugins": ["orangehrmPayrollPlugin", "orangehrmClaimPlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Buzz\\Dao\\BuzzDaoTest::testSaveBuzzPost"
+      ]
+    },
+    {
+      "id": "QKG15-17",
+      "title": "Doctrine V4_2 SchemaMigration impacting hs_hr_employee & ohrm_job_candidate surfaces Maintenance/PIM/Recruitment DAO tests",
+      "category": "db_schema_migration",
+      "plugin": "orangehrmCorePlugin",
+      "change_type": "MODIFY_SCHEMA_MIGRATION",
+      "changedFiles": [
+        "orange_hrm/installer/Migration/V4_2/Migration.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Maintenance\\Dao\\PurgeEmployeeDaoTest::testIsEmployeePurgeable",
+        "orange-hrms::OrangeHRM\\Tests\\Recruitment\\Dao\\CandidateDaoTest::testSaveCandidate",
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Dao\\EmployeeDaoTest::testDeleteEmployees"
+      ],
+      "acceptablePlugins": [
+        "orangehrmCorePlugin",
+        "orangehrmPimPlugin",
+        "orangehrmAdminPlugin",
+        "orangehrmRecruitmentPlugin",
+        "orangehrmMaintenancePlugin",
+        "orangehrmBuzzPlugin",
+        "orangehrmDashboardPlugin",
+        "orangehrmLDAPAuthenticationPlugin",
+        "orangehrmLeavePlugin"
+      ],
+      "forbiddenTests": []
+    },
+    {
+      "id": "QKG15-18",
+      "title": "Admin Country Doctrine entity column coupling reaches CountryDaoTest via shared column hs_hr_country.name",
+      "category": "db_schema_migration",
+      "plugin": "orangehrmAdminPlugin",
+      "change_type": "MODIFY_DOCTRINE_ENTITY",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmAdminPlugin/entity/Country.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Dao\\CountryDaoTest::testGetCountryList",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Dao\\CountryDaoTest::testGetCountryByCountryCode",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Entity\\LocationTest::testLocationEntity"
+      ],
+      "expectedTier3AdvisoryTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Service\\PimCsvDataImportServiceTest::testImport"
+      ],
+      "acceptablePlugins": ["orangehrmAdminPlugin", "orangehrmPimPlugin", "orangehrmCorePlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\WorkWeekAPITest::testDelete"
+      ]
+    },
+    {
+      "id": "QKG15-19",
+      "title": "External QA repo Playwright & Cypress spec modification (fb878fc) triggers MODIFIED_TEST_FILE",
+      "category": "qa_spec_change",
+      "plugin": "orangehrmPimPlugin",
+      "git_commit": "fb878fc",
+      "change_type": "MODIFY_QA_SPEC",
+      "changedFiles": [
+        "tests/api/pim/employees-api.spec.ts",
+        "cypress/e2e/integration/api/admin/empStatus_API.cy.js"
+      ],
+      "expectedTier12Tests": [
+        "orangehrm-qa-automation::tests/api/pim/employees-api.spec.ts::PIM - Employee Master API > lists employee records with pagination metadata",
+        "orangehrm-qa-automation::tests/api/pim/employees-api.spec.ts::PIM - Employee Master API > rejects unauthenticated employee creation payload",
+        "orangehrm-qa-automation::cypress/e2e/integration/api/admin/empStatus_API.cy.js::Admin - Employment Status API > POST /emp-status > create a new employment status"
+      ],
+      "acceptablePlugins": ["orangehrmPimPlugin", "orangehrmAdminPlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\EducationAPITest::testGetAll"
+      ]
+    },
+    {
+      "id": "QKG15-20",
+      "title": "Deletion & non-code guardrail: deleted test omitted while README documentation edit yields zero false positives",
+      "category": "deletion_and_precision_guard",
+      "plugin": "core",
+      "change_type": "NON_CODE_AND_DELETION_GUARD",
+      "changedFiles": [
+        "README.md"
+      ],
+      "expectedTier12Tests": [],
+      "acceptablePlugins": [],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Pim\\Api\\EmployeeAPITest::testGetAll",
+        "orange-hrms::OrangeHRM\\Tests\\Payroll\\Service\\IndianStatutoryCalculatorTest::testEpfCapToggleSplitsEpsAndDiffCorrectly"
+      ]
+    },
+    {
+      "id": "QKG15-21",
+      "title": "Admin LocalizationAPI Tier 1-2 static tests vs Tier 3 POTENTIAL_COVERS advisory isolation",
+      "category": "api_contract",
+      "plugin": "orangehrmAdminPlugin",
+      "change_type": "MODIFY_PHP_API",
+      "changedFiles": [
+        "orange_hrm/src/plugins/orangehrmAdminPlugin/Api/LocalizationAPI.php"
+      ],
+      "expectedTier12Tests": [
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\LocalizationAPITest::testCreate",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\LocalizationAPITest::testDelete",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\LocalizationAPITest::testAll"
+      ],
+      "expectedTier3AdvisoryTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\LocalizationAPITest::testGetOne",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\LocalizationAPITest::testGetValidationRuleForUpdate",
+        "orange-hrms::OrangeHRM\\Tests\\Admin\\Api\\LocalizationAPITest::testUpdate"
+      ],
+      "acceptablePlugins": ["orangehrmAdminPlugin", "orangehrmCorePlugin"],
+      "forbiddenTests": [
+        "orange-hrms::OrangeHRM\\Tests\\Leave\\Api\\WorkWeekAPITest::testDelete"
+      ]
+    }
+  ]
+}

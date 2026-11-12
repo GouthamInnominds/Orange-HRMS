@@ -15,10 +15,18 @@ try {
 
 const neo4j = require('neo4j-driver');
 const PhpAstExtractor = require('./php_ast_extractor');
+const SymbolResolver = require('./symbol_resolver');
 const RoutesExtractor = require('./routes_extractor');
 const VueAstExtractor = require('./vue_ast_extractor');
 const { collectQaSpecs, persistQaSpecsToNeo4j } = require('./qa_spec_ingestor');
 const { TIAEngine } = require('./tia_engine');
+const {
+  buildManifestFromNeo4j,
+  buildCompactNeo4jManifestHeader,
+  writeManifestArtifact,
+  loadManifest,
+  DEFAULT_SNAPSHOTS_DIR
+} = require('./snapshot_manifest');
 const {
   WORKSPACE_ROOT,
   CLIENT_SRC_DIR,
@@ -194,19 +202,34 @@ async function runIncrementalSync(baseRef = 'HEAD~1', headRef = 'HEAD', options 
       }
 
       for (const dFile of diff.deleted) {
-        if (dFile.endsWith('.php')) {
+        if (dFile.endsWith('.php') && dFile.includes('/test/')) {
+          const delRes = await session.run(`
+            MATCH (tc:TestCase { file: $f })
+            DETACH DELETE tc
+            RETURN count(tc) AS cnt
+          `, { f: dFile });
+          deltaStats.nodes_deleted += delRes.records[0]?.get('cnt').toNumber() || 0;
+        } else if (dFile.endsWith('.php')) {
           const delRes = await session.run(`
             MATCH (c:Class|Interface|Trait { source_file: $f })
             OPTIONAL MATCH (c)-[:DECLARES]->(m:Method)
-            DETACH DELETE c, m
+            OPTIONAL MATCH (c)-[:IS_ENTITY]->(de:DatabaseEntity)
+            DETACH DELETE c, m, de
             RETURN count(DISTINCT c) AS cnt
           `, { f: dFile });
           deltaStats.nodes_deleted += delRes.records[0]?.get('cnt').toNumber() || 0;
-        } else if (dFile.endsWith('.vue')) {
+        } else if (dFile.endsWith('.vue') || (dFile.startsWith('orange_hrm/src/client/src/') && dFile.endsWith('.ts'))) {
           const delRes = await session.run(`
             MATCH (ui:UIComponent { file: $f })
             DETACH DELETE ui
             RETURN count(ui) AS cnt
+          `, { f: dFile });
+          deltaStats.nodes_deleted += delRes.records[0]?.get('cnt').toNumber() || 0;
+        } else if (dFile.endsWith('routes.yaml')) {
+          const delRes = await session.run(`
+            MATCH (ep:ApiEndpoint { source_file: $f })
+            DETACH DELETE ep
+            RETURN count(ep) AS cnt
           `, { f: dFile });
           deltaStats.nodes_deleted += delRes.records[0]?.get('cnt').toNumber() || 0;
         }
@@ -214,40 +237,204 @@ async function runIncrementalSync(baseRef = 'HEAD~1', headRef = 'HEAD', options 
 
       if (backendPhp.length > 0) {
         const phpExtractor = new PhpAstExtractor();
+        const parsedChangedPhp = [];
         for (const pFile of backendPhp) {
           const full = path.join(WORKSPACE_ROOT, pFile);
           if (!fs.existsSync(full)) continue;
           const parsed = phpExtractor.parseFile(full, pFile);
           if (!parsed) continue;
+          parsedChangedPhp.push(parsed);
           const plugin = extractPluginFromPath(pFile) || 'orangehrmCorePlugin';
+          const intro = plugin === 'orangehrmPayrollPlugin' ? 'v2.2-india-payroll' : 'v1.0';
+          const currentFqcns = [...parsed.classes, ...parsed.interfaces, ...parsed.traits].map((t) => t.fqcn).filter(Boolean);
+
+          // Prune classes/interfaces/traits removed from this modified file
+          const pruneTypeRes = await session.run(`
+            MATCH (oldT:Class|Interface|Trait { source_file: $file })
+            WHERE NOT oldT.fqcn IN $currentFqcns
+            OPTIONAL MATCH (oldT)-[:DECLARES]->(oldM:Method)
+            OPTIONAL MATCH (oldT)-[:IS_ENTITY]->(oldDe:DatabaseEntity)
+            DETACH DELETE oldT, oldM, oldDe
+            RETURN count(DISTINCT oldT) AS cnt
+          `, { file: pFile, currentFqcns });
+          deltaStats.nodes_deleted += pruneTypeRes.records[0]?.get('cnt').toNumber() || 0;
+
           for (const cls of [...parsed.classes, ...parsed.interfaces, ...parsed.traits]) {
             const label = parsed.classes.includes(cls) ? 'Class' : (parsed.interfaces.includes(cls) ? 'Interface' : 'Trait');
+            const currentMethodSigs = (cls.methods || []).map((m) => m.signature).filter(Boolean);
+
+            // Prune deleted methods on modified class
+            const pruneMethodRes = await session.run(`
+              MATCH (c:${label} { fqcn: $fqcn })-[:DECLARES]->(oldM:Method)
+              WHERE NOT oldM.signature IN $currentMethodSigs
+              DETACH DELETE oldM
+              RETURN count(oldM) AS cnt
+            `, { fqcn: cls.fqcn, currentMethodSigs });
+            deltaStats.nodes_deleted += pruneMethodRes.records[0]?.get('cnt').toNumber() || 0;
+
             await session.run(`
               MERGE (c:${label} { fqcn: $fqcn })
               SET c.name = $name, c.namespace = $ns, c.source_file = $file, c.plugin = $plugin,
-                  c.introduced_in = coalesce(c.introduced_in, CASE WHEN $plugin = 'orangehrmPayrollPlugin' THEN 'v2.2-india-payroll' ELSE 'v1.0' END),
-                  c.snapshot_id = $syncSnapshotId,
-                  c.updated_at = timestamp()
+                  c.extends = $extendsVal,
+                  c.implements = $implementsVal,
+                  c.traits = $traitsVal,
+                  c.content_fingerprint = $fingerprint,
+                  c.line_start = $lineStart,
+                  c.line_end = $lineEnd,
+                  c.introduced_in = $intro,
+                  c.version = $intro,
+                  c.snapshot_id = $syncSnapshotId
               WITH c
               OPTIONAL MATCH (p:Plugin { name: $plugin })
               FOREACH (_ IN CASE WHEN p IS NOT NULL THEN [1] ELSE [] END | MERGE (p)-[:DECLARES]->(c))
-            `, { fqcn: cls.fqcn, name: cls.name, ns: cls.namespace || '', file: cls.source_file, plugin, syncSnapshotId });
+            `, {
+              fqcn: cls.fqcn,
+              name: cls.name,
+              ns: cls.namespace || '',
+              file: cls.source_file,
+              plugin,
+              extendsVal: label === 'Class' ? (cls.extends_fqcn || cls.extends || null) : null,
+              implementsVal: label === 'Class' ? (cls.implements || []) : null,
+              traitsVal: label !== 'Interface' ? (cls.trait_fqcns || []) : null,
+              fingerprint: cls.content_fingerprint || null,
+              lineStart: cls.line_start || 0,
+              lineEnd: cls.line_end || 0,
+              intro,
+              syncSnapshotId
+            });
             deltaStats.classes_updated++;
+
+            // Refresh outgoing inheritance edges on modified class/interface/trait
+            await session.run(`
+              MATCH (c:${label} { fqcn: $fqcn })-[oldR:EXTENDS|IMPLEMENTS|USES_TRAIT]->()
+              DELETE oldR
+            `, { fqcn: cls.fqcn });
+
+            if (label === 'Class') {
+              const parentCls = cls.extends_fqcn || cls.extends;
+              if (parentCls) {
+                await session.run(`
+                  MATCH (child:Class { fqcn: $fqcn })
+                  OPTIONAL MATCH (par:Class { fqcn: $parFqcn })
+                  FOREACH (_ IN CASE WHEN par IS NOT NULL THEN [1] ELSE [] END | MERGE (child)-[:EXTENDS]->(par))
+                  FOREACH (_ IN CASE WHEN par IS NULL THEN [1] ELSE [] END |
+                    MERGE (ext:ExternalClass { fqcn: $parFqcn })
+                    SET ext.name = $parName
+                    MERGE (child)-[:EXTENDS]->(ext)
+                  )
+                `, { fqcn: cls.fqcn, parFqcn: parentCls, parName: parentCls.split('\\').pop() });
+              }
+              for (const ifFqcn of cls.implements || []) {
+                await session.run(`
+                  MATCH (child:Class { fqcn: $fqcn })
+                  OPTIONAL MATCH (par:Interface { fqcn: $parFqcn })
+                  FOREACH (_ IN CASE WHEN par IS NOT NULL THEN [1] ELSE [] END | MERGE (child)-[:IMPLEMENTS]->(par))
+                  FOREACH (_ IN CASE WHEN par IS NULL THEN [1] ELSE [] END |
+                    MERGE (ext:ExternalInterface { fqcn: $parFqcn })
+                    SET ext.name = $parName
+                    MERGE (child)-[:IMPLEMENTS]->(ext)
+                  )
+                `, { fqcn: cls.fqcn, parFqcn: ifFqcn, parName: ifFqcn.split('\\').pop() });
+              }
+            }
+            for (const trFqcn of cls.trait_fqcns || []) {
+              await session.run(`
+                MATCH (child:${label} { fqcn: $fqcn })
+                OPTIONAL MATCH (par:Trait { fqcn: $parFqcn })
+                FOREACH (_ IN CASE WHEN par IS NOT NULL THEN [1] ELSE [] END | MERGE (child)-[:USES_TRAIT]->(par))
+                FOREACH (_ IN CASE WHEN par IS NULL THEN [1] ELSE [] END |
+                  MERGE (ext:ExternalTrait { fqcn: $parFqcn })
+                  SET ext.name = $parName
+                  MERGE (child)-[:USES_TRAIT]->(ext)
+                )
+              `, { fqcn: cls.fqcn, parFqcn: trFqcn, parName: trFqcn.split('\\').pop() });
+            }
 
             for (const m of cls.methods || []) {
               await session.run(`
                 MERGE (node:Method { signature: $sig })
                 SET node.name = $mname, node.class_fqcn = $fqcn, node.source_file = $file,
                     node.plugin = $plugin,
-                    node.introduced_in = coalesce(node.introduced_in, CASE WHEN $plugin = 'orangehrmPayrollPlugin' THEN 'v2.2-india-payroll' ELSE 'v1.0' END),
-                    node.snapshot_id = $syncSnapshotId,
-                    node.updated_at = timestamp()
+                    node.visibility = $visibility,
+                    node.is_static = $isStatic,
+                    node.return_type = $returnType,
+                    node.signature_hash = $signatureHash,
+                    node.body_hash = $bodyHash,
+                    node.content_fingerprint = $fingerprint,
+                    node.line_start = $lineStart,
+                    node.line_end = $lineEnd,
+                    node.introduced_in = $intro,
+                    node.snapshot_id = $syncSnapshotId
                 WITH node
                 MATCH (c:${label} { fqcn: $fqcn })
                 MERGE (c)-[:DECLARES]->(node)
-              `, { sig: m.signature, mname: m.name, fqcn: cls.fqcn, file: m.source_file || cls.source_file, plugin, syncSnapshotId });
+              `, {
+                sig: m.signature,
+                mname: m.name,
+                fqcn: cls.fqcn,
+                file: m.source_file || cls.source_file,
+                plugin,
+                visibility: m.visibility || 'public',
+                isStatic: !!m.is_static,
+                returnType: m.return_type_fqcn || m.return_type || null,
+                signatureHash: m.signature_hash || null,
+                bodyHash: m.body_hash || null,
+                fingerprint: m.content_fingerprint || null,
+                lineStart: m.line_start || 0,
+                lineEnd: m.line_end || 0,
+                intro,
+                syncSnapshotId
+              });
               deltaStats.methods_updated++;
             }
+          }
+        }
+
+        // Refresh outgoing CALLS edges for modified PHP files using current graph symbol table + changed files
+        const changedSigs = parsedChangedPhp.flatMap((pf) =>
+          [...(pf.classes || []), ...(pf.interfaces || []), ...(pf.traits || [])].flatMap((c) => (c.methods || []).map((m) => m.signature))
+        );
+        if (changedSigs.length > 0) {
+          await session.run(`
+            UNWIND $sigs AS sig
+            MATCH (caller:Method { signature: sig })-[oldCall:CALLS]->()
+            DELETE oldCall
+          `, { sigs: changedSigs });
+
+          const graphSymbols = await session.run(`
+            MATCH (c:Class|Interface|Trait)
+            OPTIONAL MATCH (c)-[:DECLARES]->(m:Method)
+            RETURN labels(c)[0] AS kind, c.fqcn AS fqcn, c.extends AS extends, c.implements AS implements,
+                   c.traits AS traits, collect({ signature: m.signature, name: m.name, return_type: m.return_type }) AS methods
+          `);
+          const syntheticFilesForResolve = [];
+          for (const rec of graphSymbols.records || []) {
+            const fqcn = rec.get('fqcn');
+            const kind = rec.get('kind');
+            const methods = (rec.get('methods') || []).filter((m) => m && m.signature);
+            syntheticFilesForResolve.push({
+              classes: kind === 'Class' ? [{ fqcn, extends_fqcn: rec.get('extends'), implements: rec.get('implements') || [], trait_fqcns: rec.get('traits') || [], methods }] : [],
+              interfaces: kind === 'Interface' ? [{ fqcn, methods }] : [],
+              traits: kind === 'Trait' ? [{ fqcn, trait_fqcns: rec.get('traits') || [], methods }] : []
+            });
+          }
+          const resolver = new SymbolResolver([...syntheticFilesForResolve, ...parsedChangedPhp]);
+          const changedMethodSet = new Set(changedSigs);
+          const { edges: resolvedCalls } = resolver.resolveAll(parsedChangedPhp);
+          const refreshedEdges = resolvedCalls.filter((e) => changedMethodSet.has(e.callerSignature));
+          if (refreshedEdges.length > 0) {
+            await session.run(`
+              UNWIND $batch AS e
+              MATCH (caller:Method { signature: e.callerSignature })
+              MATCH (callee:Method { signature: e.calleeSignature })
+              MERGE (caller)-[r:CALLS]->(callee)
+              SET r.call_type = e.call_type,
+                  r.confidence = e.confidence,
+                  r.evidence_type = e.evidence_type,
+                  r.mapping_source = 'TWO_PASS_SYMBOL_RESOLVER',
+                  r.snapshot_id = $syncSnapshotId,
+                  r.commit_sha = $currentHead
+            `, { batch: refreshedEdges, syncSnapshotId, currentHead });
           }
         }
       }
@@ -256,17 +443,50 @@ async function runIncrementalSync(baseRef = 'HEAD~1', headRef = 'HEAD', options 
         const vueExtractor = new VueAstExtractor(CLIENT_SRC_DIR);
         for (const vFile of frontendVue) {
           const full = path.join(WORKSPACE_ROOT, vFile);
-          if (!fs.existsSync(full) || !vFile.endsWith('.vue')) continue;
-          const comp = vueExtractor._parseVueFile(full);
+          if (!fs.existsSync(full)) continue;
+          const comp = vFile.endsWith('.vue')
+            ? vueExtractor._parseVueFile(full)
+            : (vFile.endsWith('.ts') ? vueExtractor._parseTsFile(full) : null);
           if (!comp) continue;
+          const uiIntro = comp.plugin === 'orangehrmPayrollPlugin' ? 'v2.2-india-payroll' : 'v1.0';
           await session.run(`
             MERGE (ui:UIComponent { component_id: $cid })
             SET ui.name = $name, ui.type = $type, ui.file = $file, ui.plugin = $plugin,
                 ui.inputs = $inputs,
-                ui.introduced_in = coalesce(ui.introduced_in, CASE WHEN $plugin = 'orangehrmPayrollPlugin' THEN 'v2.2-india-payroll' ELSE 'v1.0' END),
-                ui.snapshot_id = $syncSnapshotId,
-                ui.updated_at = timestamp()
-          `, { cid: comp.component_id, name: comp.name, type: comp.type, file: comp.file, plugin: comp.plugin, inputs: comp.inputs, syncSnapshotId });
+                ui.child_components = $childComponents,
+                ui.content_fingerprint = $fingerprint,
+                ui.line_count = $lineCount,
+                ui.introduced_in = $uiIntro,
+                ui.snapshot_id = $syncSnapshotId
+            WITH ui
+            OPTIONAL MATCH (p:Plugin { name: $plugin })
+            FOREACH (_ IN CASE WHEN p IS NOT NULL THEN [1] ELSE [] END | MERGE (ui)-[:DECLARED_IN]->(p))
+            WITH ui
+            OPTIONAL MATCH (ui)-[oldCall:CALLS_ENDPOINT]->()
+            DELETE oldCall
+          `, {
+            cid: comp.component_id,
+            name: comp.name,
+            type: comp.type,
+            file: comp.file,
+            plugin: comp.plugin,
+            inputs: comp.inputs || [],
+            childComponents: comp.child_components || [],
+            fingerprint: comp.content_fingerprint || null,
+            lineCount: comp.line_count || 0,
+            uiIntro,
+            syncSnapshotId
+          });
+          for (const apiPathRaw of comp.api_calls || []) {
+            let u = String(apiPathRaw).split('?')[0].trim();
+            if (!u.startsWith('/')) u = '/' + u;
+            await session.run(`
+              MATCH (ui:UIComponent { component_id: $cid })
+              MATCH (ep:ApiEndpoint)
+              WHERE ep.path = $normPath OR ($normPath CONTAINS '{*}' AND ep.path STARTS WITH split($normPath, '{*}')[0])
+              MERGE (ui)-[:CALLS_ENDPOINT { evidence_type: 'VUE_AST_HTTP', confidence: 0.85 }]->(ep)
+            `, { cid: comp.component_id, normPath: u });
+          }
           deltaStats.ui_components_updated++;
         }
       }
@@ -277,24 +497,41 @@ async function runIncrementalSync(baseRef = 'HEAD~1', headRef = 'HEAD', options 
           if (!fs.existsSync(full)) continue;
           const plugin = extractPluginFromPath(rFile) || 'orangehrmCorePlugin';
           const endpoints = RoutesExtractor.parseRoutesFile(full, plugin);
+          const currentEndpointIds = endpoints.map((e) => e.endpoint_id);
+          const pruneEpRes = await session.run(`
+            MATCH (oldEp:ApiEndpoint { source_file: $sf })
+            WHERE NOT oldEp.endpoint_id IN $currentEndpointIds
+            DETACH DELETE oldEp
+            RETURN count(oldEp) AS cnt
+          `, { sf: rFile, currentEndpointIds });
+          deltaStats.nodes_deleted += pruneEpRes.records[0]?.get('cnt').toNumber() || 0;
+
           for (const ep of endpoints) {
             await session.run(`
               MERGE (e:ApiEndpoint { endpoint_id: $eid })
               SET e.http_method = $m, e.path = $p, e.route_name = $rn, e.plugin = $pl,
-                  e.handler_class = $hc, e.handler_fqcn = $hf, e.source_file = $sf,
-                  e.endpoint_kind = $ek,
-                  e.introduced_in = coalesce(e.introduced_in, CASE WHEN $pl = 'orangehrmPayrollPlugin' THEN 'v2.2-india-payroll' ELSE 'v1.0' END),
-                  e.snapshot_id = $syncSnapshotId,
-                  e.updated_at = timestamp()
+                  e.handler_class = $hc, e.handler_fqcn = $hf, e.handler_method = $hm,
+                  e.endpoint_kind = $ek, e.auth_required = $ar, e.source_file = $sf,
+                  e.content_fingerprint = $fp,
+                  e.introduced_in = CASE WHEN $pl = 'orangehrmPayrollPlugin' THEN 'v2.2-india-payroll' ELSE 'v1.0' END,
+                  e.snapshot_id = $syncSnapshotId
+              WITH e
+              OPTIONAL MATCH (:Class)-[oldEx:EXPOSES]->(e)
+              DELETE oldEx
+              WITH e
+              OPTIONAL MATCH (e)-[oldHb:HANDLED_BY]->(:Class)
+              DELETE oldHb
               WITH e
               OPTIONAL MATCH (c:Class { fqcn: $hf })
               FOREACH (_ IN CASE WHEN c IS NOT NULL THEN [1] ELSE [] END |
-                MERGE (c)-[:EXPOSES { evidence_type: 'SYMFONY_ROUTE_YAML', snapshot_id: $syncSnapshotId }]->(e)
+                MERGE (c)-[:EXPOSES]->(e)
                 MERGE (e)-[:HANDLED_BY { evidence_type: 'SYMFONY_ROUTE_YAML', confidence: 1.0, snapshot_id: $syncSnapshotId }]->(c)
               )
             `, {
               eid: ep.endpoint_id, m: ep.http_method, p: ep.path, rn: ep.route_name,
-              pl: ep.plugin, hc: ep.handler_class, hf: ep.handler_fqcn, sf: ep.source_file,
+              pl: ep.plugin, hc: ep.handler_class, hf: ep.handler_fqcn,
+              hm: ep.handler_method || null, ar: Boolean(ep.auth_required),
+              fp: ep.content_fingerprint || null, sf: ep.source_file,
               ek: ep.endpoint_kind || 'REST_API', syncSnapshotId
             });
             deltaStats.endpoints_updated++;
@@ -319,6 +556,21 @@ async function runIncrementalSync(baseRef = 'HEAD~1', headRef = 'HEAD', options 
         deltaStats.qa_tests_updated += qaRes.testCases;
       }
 
+      // Prune orphaned External* types and empty TestSuites left behind by deletions/moves
+      const gcRes = await session.run(`
+        OPTIONAL MATCH (ext:ExternalClass|ExternalInterface|ExternalTrait)
+        WHERE NOT ()-->(ext)
+        WITH collect(ext) AS extOrphans
+        FOREACH (e IN extOrphans | DETACH DELETE e)
+        WITH size(extOrphans) AS extCnt
+        OPTIONAL MATCH (ts:TestSuite)
+        WHERE NOT (ts)-[:CONTAINS_TEST]->(:TestCase)
+        WITH extCnt, collect(ts) AS tsOrphans
+        FOREACH (s IN tsOrphans | DETACH DELETE s)
+        RETURN extCnt + size(tsOrphans) AS gcDeleted
+      `);
+      deltaStats.nodes_deleted += gcRes.records[0]?.get('gcDeleted')?.toNumber() || 0;
+
       // Publish immutable incremental GraphSnapshot linked to PREVIOUS_SNAPSHOT + Commit
       const nowIso = new Date().toISOString();
       await session.run(`
@@ -340,13 +592,14 @@ async function runIncrementalSync(baseRef = 'HEAD~1', headRef = 'HEAD', options 
             s.status = 'PUBLISHED',
             s.sync_mode = 'INCREMENTAL',
             s.schema_version = $schemaVersion,
-            s.extractor_version = '2.1.0',
+            s.extractor_version = '2.2.0',
             s.started_at = $nowIso,
             s.published_at = $nowIso
         MERGE (s)-[:RECORDED_COMMIT]->(c)
         FOREACH (_ IN CASE WHEN prev IS NOT NULL THEN [1] ELSE [] END |
           MERGE (s)-[:PREVIOUS_SNAPSHOT]->(prev)
         )
+        RETURN prev.snapshot_id AS prevSnapshotId
       `, {
         syncSnapshotId,
         head: currentHead,
@@ -356,6 +609,39 @@ async function runIncrementalSync(baseRef = 'HEAD~1', headRef = 'HEAD', options 
         branch,
         schemaVersion: ontology.meta.schema_version,
         nowIso
+      });
+
+      const prevSnapshotId = (await session.run(`
+        MATCH (s:GraphSnapshot { snapshot_id: $syncSnapshotId })-[:PREVIOUS_SNAPSHOT]->(prev:GraphSnapshot)
+        RETURN prev.snapshot_id AS prevId LIMIT 1
+      `, { syncSnapshotId })).records[0]?.get('prevId') || null;
+      const snapshotsDir = options.snapshotsDir || DEFAULT_SNAPSHOTS_DIR;
+      const parentManifest = prevSnapshotId ? loadManifest(prevSnapshotId, snapshotsDir) : null;
+      const fullManifest = await buildManifestFromNeo4j(session, {
+        snapshot_id: syncSnapshotId,
+        parent_snapshot_id: prevSnapshotId,
+        app_commit: currentHead,
+        app_branch: branch,
+        qa_commit: qaCommit,
+        extractor_version: '2.2.0',
+        schema_version: ontology.meta.schema_version,
+        created_at: nowIso,
+        published_at: nowIso
+      }, { parentManifest });
+      writeManifestArtifact(fullManifest, snapshotsDir);
+      const manifestHeader = buildCompactNeo4jManifestHeader(fullManifest, { sync_mode: 'INCREMENTAL' });
+      await session.run(`
+        MATCH (s:GraphSnapshot { snapshot_id: $syncSnapshotId })
+        SET s.structural_digest = $structuralDigest,
+            s.manifest_file = $manifestFile,
+            s.parent_snapshot_id = $parentSnapshotId,
+            s.structural_manifest_json = $manifestJson
+      `, {
+        syncSnapshotId,
+        structuralDigest: manifestHeader.structural_digest,
+        manifestFile: manifestHeader.manifest_file,
+        parentSnapshotId: prevSnapshotId,
+        manifestJson: JSON.stringify(manifestHeader)
       });
     }
 

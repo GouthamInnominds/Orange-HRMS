@@ -15,6 +15,7 @@ try {
 
 const neo4j = require('neo4j-driver');
 const { validateSchemaContract } = require('./schema_contract');
+const { verifyExtractedVsLiveNeo4j } = require('./parity_verifier');
 
 function toNum(v) {
   if (v === null || v === undefined) return 0;
@@ -893,6 +894,67 @@ async function validateGoldenDataset({
         };
       }
     ));
+
+    // Check 25 (Phase 4C): Canonical Manifest & Structural Parity (Extracted Workspace vs Live Neo4j)
+    let check25Passed = false;
+    let check25Detail = 'Not evaluated';
+    try {
+      const { extractWorkspaceSnapshot } = require('./ingest_pipeline');
+      const connectMariaDb = process.env.SKIP_MARIADB_RECONCILE !== '1' && process.env.NO_MARIADB !== '1';
+      const extracted = await extractWorkspaceSnapshot({ connectMariaDb });
+      const parity = await verifyExtractedVsLiveNeo4j(extracted, session, {
+        snapshot_id: 'golden-check-25',
+        app_commit: 'live'
+      });
+      check25Passed = parity.parity_passed && parity.logical_diff_count === 0;
+      check25Detail = check25Passed
+        ? `LogicalDiff=0, digest=${String(parity.header.structural_digest_incremental || '').slice(0, 12)}, entities=${parity.counts.total_entities_incremental}, rels=${parity.counts.total_relationships_incremental}`
+        : `LogicalDiff=${parity.logical_diff_count}, missingEnt=${parity.counts?.missing_entities_in_incremental}, staleEnt=${parity.counts?.stale_entities_in_incremental}, fpMismatch=${parity.counts?.fingerprint_mismatched_entities}, missingRel=${parity.counts?.missing_relationships_in_incremental}, staleRel=${parity.counts?.stale_relationships_in_incremental}`;
+    } catch (err25) {
+      check25Passed = false;
+      check25Detail = `Parity verification error: ${err25.message}`;
+    }
+    checks.push({
+      id: 25,
+      name: 'Phase 4C: Incremental / Live Neo4j vs Clean Extracted Structural Manifest Parity (LogicalDiff = 0)',
+      passed: check25Passed,
+      detail: check25Detail
+    });
+
+    // Check 26 (Phase 4D): QKG-15 Multi-Plugin Historical TIA Replay Benchmark Gate
+    let check26Passed = false;
+    let check26Detail = 'Not evaluated';
+    try {
+      const { runTiaBenchmark } = require('./run_tia_benchmark');
+      const sessionQueryRunner = async (cypher, params = {}) => {
+        const res = await session.run(cypher, params);
+        return (res.records || []).map((rec) => {
+          const obj = {};
+          for (const k of rec.keys || []) {
+            const val = rec.get(k);
+            obj[k] = val && typeof val === 'object' && val.properties ? val.properties : val;
+          }
+          return obj;
+        });
+      };
+      const benchReport = await runTiaBenchmark({
+        mode: 'live',
+        queryRunner: sessionQueryRunner,
+        writeReport: false
+      });
+      const agg = benchReport.aggregate || {};
+      check26Passed = Boolean(benchReport.gate_passed);
+      check26Detail = `scenarios=${agg.scenarios_passed}/${agg.total_scenarios}, recall=${agg.tier_1_2_recall}, precision=${agg.precision}, fnr=${agg.false_negative_rate}, determinism=${agg.determinism_rate}, t3Leaks=${agg.tier3_leaks}, t4Leaks=${agg.tier4_leaks}`;
+    } catch (err26) {
+      check26Passed = false;
+      check26Detail = `QKG-15 live replay error: ${err26.message}`;
+    }
+    checks.push({
+      id: 26,
+      name: 'Phase 4D: QKG-15 Multi-Plugin Historical TIA Replay Benchmark Gate',
+      passed: check26Passed,
+      detail: check26Detail
+    });
 
     const passed = checks.filter((c) => c.passed).length;
     const failed = checks.length - passed;
