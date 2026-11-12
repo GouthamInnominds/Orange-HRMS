@@ -13,11 +13,13 @@ const metricsService = require('./services/metrics_service');
 const agentOrchestrator = require('./services/agent_orchestrator');
 const qeIntelligenceService = require('./services/qe_intelligence_service');
 const artifactGovernanceService = require('./services/artifact_governance_service');
+const { McpServer } = require('../mcp_server');
 const snapshotManifest = require('../qkg_engine/snapshot_manifest');
 const { sanitizePayload } = require('../qkg_engine/security_guard');
 
 const app = express();
 const PORT = process.env.QE_APP_PORT || 4500;
+const mcpInstance = new McpServer({ stdio: false });
 
 app.use(cors());
 app.use(express.json());
@@ -341,6 +343,33 @@ app.get('/api/v2/context/test-generation', async (req, res) => {
   } catch (err) {
     res.status(500).json({ analysisStatus: 'FAILED', error: err.message });
   }
+});
+
+// 10. HTTP MCP Endpoint (Enterprise Streamable / JSON-RPC Transport)
+app.post('/mcp', async (req, res) => {
+  try {
+    const response = await mcpInstance.handleMessage(req.body);
+    if (!response) {
+      return res.status(204).end();
+    }
+    res.json(response);
+  } catch (err) {
+    res.status(500).json({
+      jsonrpc: '2.0',
+      id: req.body?.id || null,
+      error: { code: -32000, message: err.message || 'Internal MCP Error' }
+    });
+  }
+});
+
+app.get('/mcp', (req, res) => {
+  res.json({
+    name: 'qkg-intelligence-mcp',
+    version: '2.2.0',
+    transport: 'streamable-http',
+    endpoint: '/mcp',
+    status: 'ONLINE'
+  });
 });
 
 app.get('/api/v2/intelligence/status', async (req, res) => {

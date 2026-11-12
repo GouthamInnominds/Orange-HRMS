@@ -254,15 +254,26 @@ const MCP_TOOLS = [
 ];
 
 class McpServer {
-  constructor() {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      terminal: false
-    });
+  constructor(options = {}) {
+    this.stdio = options.stdio === true;
+    this.rl = null;
+    if (this.stdio) {
+      this.rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        terminal: false
+      });
+    }
   }
 
   start() {
+    if (!this.rl) {
+      this.rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        terminal: false
+      });
+    }
     this.rl.on('line', async (line) => {
       const trimmed = line.trim();
       if (!trimmed) return;
@@ -423,7 +434,7 @@ class McpServer {
 }
 
 if (require.main === module) {
-  const server = new McpServer();
+  const server = new McpServer({ stdio: true });
   server.start();
 }
 
