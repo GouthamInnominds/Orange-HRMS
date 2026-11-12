@@ -33,8 +33,8 @@ const app = {
 
     const titles = {
       overview: 'Application Quality Overview',
-      intelligence: 'Test Intelligence & Executed Catalogue (6,934 Tests)',
-      graph: 'Knowledge Graph Insights (Neo4j v2.2-india-payroll)',
+      intelligence: 'Test Intelligence & Code-AST Catalogue',
+      graph: 'Knowledge Graph Insights (Neo4j QKG)',
       tia: 'Change Impact Analysis (TIA Studio)',
       database: 'Database & SQL Studio (MariaDB)',
       chatbot: 'Agentic AI Quality Engineering Workspace'
@@ -58,10 +58,39 @@ const app = {
       const res = await fetch('/api/v2/quality/metrics');
       const data = await res.json();
 
-      document.getElementById('kpi-tests').innerText = Number(data.overview.totalVerifiedTests).toLocaleString();
-      document.getElementById('kpi-pass-rate').innerText = data.overview.passRate;
-      document.getElementById('kpi-gate').innerText = data.overview.qualityGateStatus;
-      document.getElementById('kpi-scenarios').innerText = Number(data.overview.totalLogicalScenarios).toLocaleString();
+      document.getElementById('kpi-tests').innerText = Number(data.overview.totalVerifiedTests || 0).toLocaleString();
+      const testsSub = document.getElementById('kpi-tests-sub');
+      if (testsSub) {
+        const baseline = Number(data.overview.baselineBacklogTests || 0).toLocaleString();
+        testsSub.innerText = `Code-AST Verified Tests (+ ${baseline} Planned Baseline Scenarios)`;
+      }
+      document.getElementById('kpi-pass-rate').innerText = data.overview.passRate || 'N/A';
+      const passSub = document.getElementById('kpi-pass-sub');
+      if (passSub) {
+        passSub.innerText = data.overview.executionHistoryStatus === 'INGESTED'
+          ? `Executed Passed / (Passed + Failed) | Flake Rate: ${data.overview.flakyRate || '0.0%'}`
+          : 'No TestRun executions ingested yet (runtime history pending)';
+      }
+      const gateEl = document.getElementById('kpi-gate');
+      if (gateEl) {
+        const gate = data.overview.qualityGateStatus || 'NO_CI_RUN';
+        gateEl.innerText = gate;
+        gateEl.style.color = gate === 'PASS'
+          ? 'var(--accent-success)'
+          : (gate === 'FAIL' ? 'var(--accent-danger)' : 'var(--accent-warning)');
+      }
+      const gateSub = document.getElementById('kpi-gate-sub');
+      if (gateSub) {
+        gateSub.innerText = data.overview.lineCoveragePercent !== null && data.overview.lineCoveragePercent !== undefined
+          ? `Measured Line Coverage: ${data.overview.lineCoveragePercent}%`
+          : 'Line Coverage: Not Measured (run Clover ingestion)';
+      }
+      document.getElementById('kpi-scenarios').innerText = Number(data.overview.totalLogicalScenarios || 0).toLocaleString();
+      const scenSub = document.getElementById('kpi-scenarios-sub');
+      if (scenSub && data.traceability) {
+        const mapPct = data.overview.mappingCoveragePercent ?? 'N/A';
+        scenSub.innerText = `Mapping: ${mapPct}% | Code-traced reqs: ${data.traceability.coveragePercentage ?? 0}% | Planned backlog: ${data.traceability.plannedCoveragePercentage ?? 0}%`;
+      }
 
       this.renderLayerChart(data.layers);
       this.renderModuleChart(data.modules);
@@ -132,10 +161,10 @@ const app = {
         <td style="font-weight: 600; color: ${m.module === 'Payroll' ? 'var(--accent-success)' : 'inherit'};">
           ${m.module === 'Payroll' ? '✨ ' : ''}${m.module}
         </td>
-        <td>${m.tests.toLocaleString()} tests</td>
-        <td>${(m.scenarios || Math.round(m.tests * 0.88)).toLocaleString()}</td>
-        <td>${m.coverage}%</td>
-        <td><span class="badge ${m.status.includes('ACTIVE') || m.status === 'HEALTHY' ? 'badge-success' : 'badge-primary'}">${m.status}</span></td>
+        <td>${Number(m.tests || 0).toLocaleString()} tests</td>
+        <td>${Number(m.classes || 0).toLocaleString()} classes</td>
+        <td>${m.coverageMeasured && m.coverage !== null ? `${m.coverage}%` : '<span style="color: var(--text-muted);">Not Measured</span>'}</td>
+        <td><span class="badge ${m.status === 'ACTIVE' ? 'badge-success' : 'badge-warning'}">${m.status}</span></td>
       </tr>
     `).join('');
   },
@@ -152,9 +181,15 @@ const app = {
       if (apiL) document.getElementById('kpi-layer-api').innerText = Number(apiL.count).toLocaleString();
       if (funcL) document.getElementById('kpi-layer-func').innerText = Number(funcL.count).toLocaleString();
       if (dbL) document.getElementById('kpi-layer-db').innerText = Number(dbL.count).toLocaleString();
-      if (payM) document.getElementById('kpi-payroll-count').innerText = Number(payM.tests).toLocaleString();
+      const paySub = document.getElementById('kpi-payroll-sub');
+      if (payM) {
+        document.getElementById('kpi-payroll-count').innerText = Number(payM.tests).toLocaleString();
+        if (paySub) paySub.innerText = `${Number(payM.tests).toLocaleString()} Code-AST tests (unit & domain scope)`;
+      } else {
+        document.getElementById('kpi-payroll-count').innerText = '0';
+      }
       const titleEl = document.getElementById('catalogue-panel-title');
-      if (titleEl) titleEl.innerText = `🧪 Verified Test Catalogue Explorer (${Number(mData.overview.totalVerifiedTests).toLocaleString()} Tests)`;
+      if (titleEl) titleEl.innerText = `🧪 Code-AST Test Catalogue Explorer (${Number(mData.overview.totalVerifiedTests || 0).toLocaleString()} Verified Tests)`;
     } catch (e) {
       console.warn('Could not sync layer KPIs:', e);
     }
@@ -175,7 +210,11 @@ const app = {
 
       const tbody = document.getElementById('table-catalogue-body');
       if (tbody) {
-        tbody.innerHTML = data.tests.map(t => `
+        tbody.innerHTML = data.tests.map(t => {
+          const statusCls = t.status === 'PASSED'
+            ? 'badge-success'
+            : (t.status === 'FAILED' ? 'badge-danger' : 'badge-primary');
+          return `
           <tr>
             <td style="font-weight: 600; color: var(--accent-primary); font-family: monospace;">${t.id}</td>
             <td>${t.name}</td>
@@ -183,19 +222,20 @@ const app = {
             <td><span style="font-size: 11px; opacity: 0.9;">${t.layer}</span></td>
             <td><strong style="color: ${t.module === 'Payroll' ? 'var(--accent-success)' : 'inherit'};">${t.module}</strong></td>
             <td><span class="badge ${t.priority === 'P1' ? 'badge-danger' : 'badge-warning'}">${t.priority}</span></td>
-            <td><span class="badge badge-success">${t.status}</span></td>
+            <td><span class="badge ${statusCls}">${t.status}</span></td>
             <td>
-              <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="app.executeSingleTest('${t.id}')">Run</button>
+              <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="app.executeSingleTest('${t.id}')">Plan</button>
             </td>
           </tr>
-        `).join('');
+        `;
+        }).join('');
       }
 
       const info = document.getElementById('catalogue-pagination-info');
       if (info) {
-        const start = (data.page - 1) * data.limit + 1;
-        const end = Math.min(start + data.tests.length - 1, data.totalTests);
-        info.innerText = `Showing ${start} - ${end} of ${data.totalTests} tests (Total Platform Catalogue: ${data.grandTotalCatalogue.toLocaleString()})`;
+        const start = data.tests.length > 0 ? (data.page - 1) * data.limit + 1 : 0;
+        const end = data.tests.length > 0 ? Math.min(start + data.tests.length - 1, data.totalTests) : 0;
+        info.innerText = `Showing ${start} - ${end} of ${data.totalTests} tests (Code-AST Verified Catalogue: ${data.grandTotalCatalogue.toLocaleString()})`;
       }
 
       document.getElementById('btn-prev-page').disabled = data.page <= 1;
@@ -214,7 +254,7 @@ const app = {
   },
 
   executeSingleTest(testId) {
-    alert(`Executing test [${testId}] in isolated background worker...\nResult: PASSED (100% assertions verified)`);
+    this.planRegressionTests(`Single test execution plan: ${testId}`);
   },
 
   runSelectedTestSuite() {

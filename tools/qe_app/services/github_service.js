@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 const path = require('path');
 
 class GitHubService {
@@ -6,110 +6,141 @@ class GitHubService {
     this.repoPath = path.resolve(__dirname, '../../../');
   }
 
-  runGit(command) {
+  runGitArgs(args) {
     try {
-      return execSync(`git ${command}`, {
+      return execFileSync('git', args, {
         cwd: this.repoPath,
         encoding: 'utf8',
-        timeout: 10000
+        timeout: 8000
       }).trim();
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
 
   getRepositoryStatus() {
-    const branch = this.runGit('branch --show-current') || 'v2-main';
-    const lastCommit = this.runGit('log -1 --pretty=format:"%h - %an, %ar : %s"') || 'c5e891b - Goutham, today : feat(ui): integrate payroll module';
-    const status = this.runGit('status -s') || '';
-    const remotes = this.runGit('remote -v') || '';
+    const branch = this.runGitArgs(['branch', '--show-current']) || 'unknown';
+    const headCommit = this.runGitArgs(['rev-parse', 'HEAD']);
+    const lastCommit = this.runGitArgs(['log', '-1', '--pretty=format:%h - %an, %ar : %s']) || 'unavailable';
+    const status = this.runGitArgs(['status', '-s']) || '';
+    const remotes = this.runGitArgs(['remote', '-v']) || '';
 
     return {
       repository: 'GouthamInnominds/Orange-HRMS',
       branch,
+      headCommit,
       lastCommit,
       hasUncommittedChanges: status.length > 0,
-      remotes: remotes.split('\n')[0] || 'origin https://github.com/GouthamInnominds/Orange-HRMS.git'
+      remotes: remotes.split('\n')[0] || 'origin'
     };
   }
 
   getRecentCommits(limit = 10) {
-    const logs = this.runGit(`log -${limit} --pretty=format:"%h|%an|%ad|%s" --date=short`);
-    if (!logs) {
-      return [
-        { hash: 'c5e891b', author: 'Team', date: '2026-11-10', message: 'feat(ui): integrate payroll module, controllers, routes, sidebar navigation, and Vue dashboard components' },
-        { hash: 'e48fab1', author: 'Team', date: '2026-11-10', message: 'feat(payroll): implement payroll entity, business logic, and test suites' }
-      ];
-    }
+    const safeLimit = Math.max(1, Math.min(50, parseInt(limit, 10) || 10));
+    const logs = this.runGitArgs(['log', `-${safeLimit}`, '--pretty=format:%h|%an|%ad|%s', '--date=short']);
+    if (!logs) return [];
 
-    return logs.split('\n').filter(Boolean).map(line => {
-      const [hash, author, date, message] = line.split('|');
-      return { hash, author, date, message };
+    return logs.split('\n').filter(Boolean).map((line) => {
+      const [hash, author, date, ...msgParts] = line.split('|');
+      return { hash, author, date, message: msgParts.join('|') };
     });
   }
 
+  getDiffChangedFiles(baseRef = null, headRef = 'HEAD') {
+    const changed = new Set();
+
+    if (baseRef) {
+      const out = this.runGitArgs(['diff', '--name-only', `${baseRef}...${headRef}`]) ||
+                  this.runGitArgs(['diff', '--name-only', baseRef, headRef]);
+      if (out) {
+        out.split('\n').map((l) => l.trim()).filter(Boolean).forEach((f) => changed.add(f));
+      }
+    } else {
+      // Check uncommitted working tree changes first; otherwise inspect recent feature commit(s)
+      const porcelain = this.runGitArgs(['status', '--porcelain']);
+      if (porcelain) {
+        for (const line of porcelain.split('\n').filter(Boolean)) {
+          const p = line.slice(3).trim();
+          if (p) changed.add(p.includes(' -> ') ? p.split(' -> ').pop().trim() : p);
+        }
+      }
+      if (changed.size === 0) {
+        const lastDiff = this.runGitArgs(['diff', '--name-only', 'HEAD~1', 'HEAD']);
+        if (lastDiff) {
+          lastDiff.split('\n').map((l) => l.trim()).filter(Boolean).forEach((f) => changed.add(f));
+        }
+      }
+    }
+
+    return Array.from(changed);
+  }
+
   listPullRequests() {
-    const branch = this.runGit('branch --show-current') || 'feature/v2.1-payroll-module';
+    const branch = this.runGitArgs(['branch', '--show-current']) || 'v2-main';
+    const payrollCommitDiff = this.runGitArgs(['diff', '--name-only', '7d69e27~1', '7d69e27']);
+    const headDiff = this.runGitArgs(['diff', '--name-only', 'HEAD~1', 'HEAD']);
+    const pr12Files = payrollCommitDiff
+      ? payrollCommitDiff.split('\n').filter(Boolean)
+      : (headDiff ? headDiff.split('\n').filter(Boolean) : []);
+
     return [
       {
         id: 12,
-        title: 'Release: OrangeHRM v2.2 India Payroll Extension (EPF/ESIC/PT/FY2026-27 TDS & 6-Module Integration)',
+        title: 'India Payroll Extension v2.2 & Cross-Module Integration',
         branch,
         base: 'v2-main',
+        baseRef: '7d69e27~1',
+        headRef: '7d69e27',
         author: 'QE-Architect',
-        state: 'OPEN',
-        labels: ['india-payroll-v2.2', 'cross-module', 'qa-verified'],
-        riskLevel: 'ELEVATED',
-        changedFilesCount: 48,
+        state: 'MERGED',
+        labels: ['india-payroll-v2.2', 'cross-module'],
+        changedFilesCount: pr12Files.length,
         createdAt: '2026-11-11'
       },
       {
         id: 11,
-        title: 'Fix: Database Permission Sync for ESS, Admin & PayrollApprover Roles',
-        branch: 'fix/access-control',
-        base: 'v2-main',
-        author: 'Goutham',
-        state: 'MERGED',
-        labels: ['bugfix', 'rbac-security'],
-        riskLevel: 'LOW',
-        changedFilesCount: 3,
-        createdAt: '2026-11-09'
+        title: 'Latest Working / HEAD Commit Diff',
+        branch,
+        base: 'HEAD~1',
+        baseRef: 'HEAD~1',
+        headRef: 'HEAD',
+        author: 'Workspace',
+        state: 'OPEN',
+        labels: ['tia-live-diff'],
+        changedFilesCount: headDiff ? headDiff.split('\n').filter(Boolean).length : 0,
+        createdAt: new Date().toISOString().slice(0, 10)
       }
     ];
   }
 
-  getPullRequestDetails(prId) {
+  getPullRequestDetails(prId, options = {}) {
     const prs = this.listPullRequests();
-    const pr = prs.find(p => p.id === parseInt(prId, 10)) || prs[0];
+    const pr = prs.find((p) => p.id === parseInt(prId, 10)) || prs[0];
 
-    const diffStat = this.runGit('diff --stat origin/v2-main...HEAD') ||
-      'orange_hrm/src/plugins/orangehrmPayrollPlugin | 48 PHP classes + 8 Vue pages + 41 executed tests\n' +
-      'OrangeHRM_Payroll_Extension_v2.2            | v2.2 India Payroll specs & executed test strategy';
-
-    const files = [
-      'orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/IndianStatutoryCalculator.php',
-      'orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/PayrollWorkflowService.php',
-      'orange_hrm/src/plugins/orangehrmPayrollPlugin/Service/PayrollPaymentService.php',
-      'orange_hrm/src/plugins/orangehrmPayrollPlugin/entity/PayrollRecord.php',
-      'orange_hrm/src/client/src/orangehrmPayrollPlugin/pages/processing/PayrollProcessing.vue',
-      'orange_hrm/src/client/src/orangehrmPayrollPlugin/components/PayslipPreviewModal.vue'
-    ];
+    const baseRef = options.baseRef || pr.baseRef || 'HEAD~1';
+    const headRef = options.headRef || pr.headRef || 'HEAD';
+    const changedFiles = this.getDiffChangedFiles(baseRef, headRef);
+    const diffStat = this.runGitArgs(['diff', '--stat', baseRef, headRef]) || `${changedFiles.length} changed files`;
 
     return {
       ...pr,
+      baseRef,
+      headRef,
+      changedFilesCount: changedFiles.length,
       diffSummary: diffStat,
-      changedFiles: files
+      changedFiles
     };
   }
 
-  getFileDiff(filePath) {
-    const diff = this.runGit(`diff HEAD~1 -- "${filePath}"`);
+  getFileDiff(filePath, baseRef = 'HEAD~1', headRef = 'HEAD') {
+    const cleanPath = String(filePath || '').replace(/\0/g, '');
+    const diff = this.runGitArgs(['diff', baseRef, headRef, '--', cleanPath]);
     return {
-      filePath,
-      diff: diff || `Diff summary for ${filePath}: India FY 2026-27 payroll calculation (EPF/ESIC/PT/115BAC & Old TDS), Maker-Checker SoD, and OXD UI verification.`
+      filePath: cleanPath,
+      diff: diff || 'No diff hunks between specified revisions.'
     };
   }
 }
 
 module.exports = new GitHubService();
-
+module.exports.GitHubService = GitHubService;
