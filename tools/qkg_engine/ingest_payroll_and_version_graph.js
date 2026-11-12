@@ -1,517 +1,368 @@
 /**
- * OrangeHRM QKG: v2.2 India Payroll Extension Ingestion & Multi-Version Graph Manager
+ * Payroll v2.2 Domain Specifications, User Stories, Versioning & Code-Traceability Linker
  *
- * Syncs Neo4j cleanly with OrangeHRM_Payroll_Extension_v2.2:
- *  - Release v1.0 (OrangeHRM Baseline v1.0, main branch, 6,893 baseline tests)
- *  - Release v2.2-india-payroll (OrangeHRM v2.2 India Payroll Extension, v2-main / feature/v2.1-payroll-module)
- *  - Cleans stale v2.0.0-payroll / v2.1 Payroll artifacts while preserving v1.0 baseline nodes
- *  - Ingests 15 tables, 15 entities, 48 PHP classes, 28 REST endpoints, 12 Vue components,
- *    9 UI pages, 12 User Stories (US_PAY_001..012), 12 Functional Requirements (FR_PAY_001..012),
- *    16 Business Rules (BR_PAY_001..016), 9 Features, 7 Workflows, 6 cross-module links,
- *    and the 41 executed Payroll tests across 10 suites.
+ * Keeps Payroll specs (Domain, Workflows, Features, FR_PAY_001..012, BR_PAY_001..016,
+ * Personas, US_PAY_001..012, Docs) and Release nodes intact across the graph, linking
+ * them ONLY to verified AST-extracted ApiEndpoints, UIComponents/UIPages, and the 18
+ * real AST-parsed PHPUnit unit/component tests (never fake Classes, typoed UI paths,
+ * or synthetic E2E/UI/TC_PAY_* QA manifest nodes).
  */
 
 const fs = require('fs');
 const path = require('path');
-const neo4j = require('../node_modules/neo4j-driver');
-const { ingestPayrollTests, RELEASE_ID } = require('./ingest_payroll_tests_to_neo4j');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+const { PAYROLL_EXT_DIR } = require('./qkg_config');
 
-const EXT_DIR = path.resolve(__dirname, '../../OrangeHRM_Payroll_Extension_v2.2');
+const RELEASE_V1_ID = 'v1.0';
+const RELEASE_V2_ID = 'v2.2-india-payroll';
 
-async function main() {
-  const uri = process.env.NEO4J_URI || 'bolt://localhost:7687';
-  const user = process.env.NEO4J_USER || 'neo4j';
-  const password = process.env.NEO4J_PASSWORD || 'admin123';
-  const database = process.env.NEO4J_DATABASE || 'neo4j';
+const PAYROLL_DOMAIN = {
+  domain_id: 'DOMAIN_PAYROLL',
+  name: 'India Payroll & Statutory Disbursement',
+  plugin: 'orangehrmPayrollPlugin'
+};
 
-  console.log('========================================================================');
-  console.log('  ORANGEHRM QKG: v2.2 INDIA PAYROLL INGESTION & VERSION RECONCILIATION');
-  console.log(`  Target Neo4j: ${uri} | Release: ${RELEASE_ID}`);
-  console.log('========================================================================\n');
+const PAYROLL_WORKFLOWS = [
+  { workflow_id: 'WF_PAYROLL_CONFIG', name: 'India Jurisdiction, FY 2026-27 Slab & LWP Config Workflow', type: 'IndiaPayrollExtension', features: ['FEAT_PAY_CONFIG'] },
+  { workflow_id: 'WF_PAYROLL_PERIOD', name: 'Monthly INR Pay Period Calendar & Overlap Validation', type: 'IndiaPayrollExtension', features: ['FEAT_PAY_PERIOD'] },
+  { workflow_id: 'WF_PAYROLL_PROFILE', name: 'PIM Statutory Profile, Tax Regime & Masked Bank Management', type: 'IndiaPayrollExtension', features: ['FEAT_PAY_SNAPSHOT'] },
+  { workflow_id: 'WF_PAYROLL_RUN', name: 'Batch Snapshot, Cross-Module Intake, Statutory Engine & Override', type: 'IndiaPayrollExtension', features: ['FEAT_PAY_CROSS', 'FEAT_PAY_ENGINE', 'FEAT_PAY_ADJUSTMENT'] },
+  { workflow_id: 'WF_PAYROLL_APPROVAL', name: 'Maker-Checker Submit, Reject/Approve, Lock & Reverse Governance', type: 'IndiaPayrollExtension', features: ['FEAT_PAY_WF'] },
+  { workflow_id: 'WF_PAYROLL_DISBURSEMENT', name: 'NEFT Bank CSV Guard, Export & UTR Claim Settlement', type: 'IndiaPayrollExtension', features: ['FEAT_PAY_PAYMENT'] },
+  { workflow_id: 'WF_PAYROLL_ESS', name: 'ESS & PIM Self-Service INR Payslip Preview & IDOR Enforcement', type: 'IndiaPayrollExtension', features: ['FEAT_PAY_SLIPS'] }
+];
 
-  const driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
-  const session = driver.session({ database });
+const PAYROLL_FEATURES = [
+  { feature_id: 'FEAT_PAY_CONFIG', name: 'India Jurisdiction, Slabs & LWP Policy Config', pathPrefixes: ['/api/v2/payroll/config', '/api/v2/payroll/tax-brackets', '/api/v2/payroll/statutory-rules', '/api/v2/payroll/leave-policies'] },
+  { feature_id: 'FEAT_PAY_PERIOD', name: 'India Monthly INR Pay Periods', pathPrefixes: ['/api/v2/payroll/pay-periods'] },
+  { feature_id: 'FEAT_PAY_SNAPSHOT', name: 'PIM Statutory Profile & Run Snapshot Isolation', pathPrefixes: ['/api/v2/payroll/employees/{empNumber}/statutory-profile', '/statutory-profile'] },
+  { feature_id: 'FEAT_PAY_CROSS', name: 'Cross-Module Leave LWP, Time OT & Claim Reservation', pathPrefixes: ['/calculate', '/leave-policies'] },
+  { feature_id: 'FEAT_PAY_ENGINE', name: 'Indian Statutory Engine (EPF, ESIC, PT, FY26-27 TDS)', pathPrefixes: ['/api/v2/payroll/runs', '/api/v2/payroll/records'] },
+  { feature_id: 'FEAT_PAY_ADJUSTMENT', name: 'Audited Manual Overrides & Append-Only Audit Log', pathPrefixes: ['/adjustment', '/api/v2/payroll/audit-events'] },
+  { feature_id: 'FEAT_PAY_WF', name: 'Maker-Checker SoD Workflow & Locking', pathPrefixes: ['/submit', '/reject', '/approve', '/lock', '/reverse'] },
+  { feature_id: 'FEAT_PAY_PAYMENT', name: 'NEFT CSV Export Guard & Bank UTR Claim Settlement', pathPrefixes: ['/api/v2/payroll/payment-batches'] },
+  { feature_id: 'FEAT_PAY_SLIPS', name: 'Published INR HTML Payslips & ESS BOLA Protection', pathPrefixes: ['/api/v2/payroll/my-salary-slips', '/api/v2/payroll/slips', '/payroll/slips', '/payslips'] }
+];
 
-  try {
-    console.log('[Step 1/7] Applying Neo4j constraints & indexes...');
-    const constraints = [
-      'CREATE CONSTRAINT IF NOT EXISTS FOR (rel:Release) REQUIRE rel.version_id IS UNIQUE',
-      'CREATE INDEX IF NOT EXISTS FOR (n:UserStory) ON (n.version)',
-      'CREATE INDEX IF NOT EXISTS FOR (n:Feature) ON (n.version)',
-      'CREATE INDEX IF NOT EXISTS FOR (n:Class) ON (n.version)',
-      'CREATE INDEX IF NOT EXISTS FOR (n:ApiEndpoint) ON (n.version)',
-      'CREATE INDEX IF NOT EXISTS FOR (n:TestCase) ON (n.version)'
-    ];
-    for (const cypher of constraints) {
-      try { await session.run(cypher); } catch (_) {}
-    }
+const PAYROLL_REQUIREMENTS = [
+  { requirement_id: 'FR_PAY_001', feature_id: 'FEAT_PAY_CONFIG', title: 'India Config, Tax Brackets & Leave Policy', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_001', 'BR_PAY_005', 'BR_PAY_012'] },
+  { requirement_id: 'FR_PAY_002', feature_id: 'FEAT_PAY_PERIOD', title: 'Pay Period Management & Overlap Check', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_001', 'BR_PAY_002'] },
+  { requirement_id: 'FR_PAY_003', feature_id: 'FEAT_PAY_SNAPSHOT', title: 'PIM Statutory Profile & Masked Bank Exposure', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_004', 'BR_PAY_016'] },
+  { requirement_id: 'FR_PAY_004', feature_id: 'FEAT_PAY_SNAPSHOT', title: 'Idempotent Runs & Frozen Snapshots', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_001', 'BR_PAY_003', 'BR_PAY_004'] },
+  { requirement_id: 'FR_PAY_005', feature_id: 'FEAT_PAY_CROSS', title: 'Leave LWP Intake & Divisors', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_005'] },
+  { requirement_id: 'FR_PAY_006', feature_id: 'FEAT_PAY_CROSS', title: 'Time/Attendance Intake & Overtime Ceiling', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_006', 'BR_PAY_007'] },
+  { requirement_id: 'FR_PAY_007', feature_id: 'FEAT_PAY_ENGINE', title: 'Indian Statutory & TDS Calculation', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_009', 'BR_PAY_010', 'BR_PAY_011', 'BR_PAY_012'] },
+  { requirement_id: 'FR_PAY_008', feature_id: 'FEAT_PAY_CROSS', title: 'Claim Reservation & Anti-Double-Payout', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_008', 'BR_PAY_010'] },
+  { requirement_id: 'FR_PAY_009', feature_id: 'FEAT_PAY_ADJUSTMENT', title: 'Audited Adjustments Before Submit', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_014'] },
+  { requirement_id: 'FR_PAY_010', feature_id: 'FEAT_PAY_WF', title: 'Maker-Checker SoD & Publication', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_013', 'BR_PAY_014'] },
+  { requirement_id: 'FR_PAY_011', feature_id: 'FEAT_PAY_PAYMENT', title: 'NEFT CSV Export Guard & UTR Settlement', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_008', 'BR_PAY_015'] },
+  { requirement_id: 'FR_PAY_012', feature_id: 'FEAT_PAY_SLIPS', title: 'ESS Self-Service & Download', priority: 'Critical', status: 'Verified', type: 'FR', rule_ids: ['BR_PAY_016'] }
+];
 
-    console.log('[Step 2/7] Purging stale v2.0.0-payroll / v2.1 Payroll nodes cleanly (preserving v1.0)...');
-    const cleanQueries = [
-      `MATCH (r:Release) WHERE r.version_id IN ['v2.1', 'v2.0.0-payroll', $releaseId] DETACH DELETE r`,
-      `MATCH (n) WHERE coalesce(n.introduced_in, '') IN ['v2.1', 'v2.0.0-payroll', $releaseId]
-          OR coalesce(n.version, '') IN ['v2.1', 'v2.0.0-payroll', $releaseId]
-          OR coalesce(n.plugin, '') = 'orangehrmPayrollPlugin'
-          OR coalesce(n.domain_id, '') STARTS WITH 'DOMAIN_PAY'
-          OR coalesce(n.feature_id, '') STARTS WITH 'FEAT_PAY_'
-          OR coalesce(n.requirement_id, '') STARTS WITH 'FR_PAY_'
-          OR coalesce(n.requirement_id, '') STARTS WITH 'FR-PAY-'
-          OR coalesce(n.rule_id, '') STARTS WITH 'BR_PAY_'
-          OR coalesce(n.workflow_id, '') STARTS WITH 'WF_PAY'
-          OR coalesce(n.story_id, '') STARTS WITH 'US_PAY_'
-          OR coalesce(n.story_id, '') STARTS WITH 'US-PAY-'
-          OR coalesce(n.persona_id, '') STARTS WITH 'PERSONA_PAY'
-          OR (n:Plugin AND n.name = 'orangehrmPayrollPlugin')
-          OR (n:TestSuite AND coalesce(n.module, '') = 'Payroll')
-          OR (n:TestCase AND coalesce(n.module, '') = 'Payroll')
-          OR (n:DatabaseTable AND (n.name STARTS WITH 'ohrm_payroll_' OR n.name IN ['ohrm_pay_period', 'ohrm_salary_slip']))
-          OR (n:DatabaseEntity AND coalesce(n.source_file, '') CONTAINS 'orangehrmPayrollPlugin')
-          OR (n:Class AND coalesce(n.fqcn, '') STARTS WITH 'OrangeHRM\\\\Payroll\\\\')
-          OR (n:RequirementGroup AND coalesce(n.group_id, '') STARTS WITH 'RG_PAY_')
-       DETACH DELETE n`
-    ];
-    for (const q of cleanQueries) {
-      await session.run(q, { releaseId: RELEASE_ID });
-    }
+const PAYROLL_RULES = [
+  { rule_id: 'BR_PAY_001', name: 'Single Jurisdiction & INR Currency Enforcement', description: 'Every pay period and payroll run operates in jurisdiction IN and currency INR.' },
+  { rule_id: 'BR_PAY_002', name: 'Pay Period Date Non-Overlap', description: 'Overlapping [startDate, endDate] intervals in jurisdiction IN are rejected HTTP 400/409.' },
+  { rule_id: 'BR_PAY_003', name: 'Idempotent Run Creation', description: 'Duplicate idempotencyKey returns existing PayrollRun without creating duplicate runs.' },
+  { rule_id: 'BR_PAY_004', name: 'Immutable PIM Snapshot per Run', description: 'Batch calculation freezes eligibility, salary, tax regime and masked bank into ohrm_payroll_emp_snapshot.' },
+  { rule_id: 'BR_PAY_005', name: 'Explicit Leave LWP Policy & Divisor Modes', description: 'Maps Approved/Taken leaves via ohrm_payroll_leave_policy with CALENDAR_DAYS, WORKING_DAYS, or FIXED_30.' },
+  { rule_id: 'BR_PAY_006', name: 'Attendance vs Timesheet Non-Double-Counting', description: 'Reads Attendance or Timesheet from one primary mode without summing both sources.' },
+  { rule_id: 'BR_PAY_007', name: 'Overtime Eligibility Ceiling (Rs 50,000)', description: 'Overtime applies only when monthly basic salary <= overtime_eligible_max_basic.' },
+  { rule_id: 'BR_PAY_008', name: 'Single-Run Claim Reservation Lock (uq_active_claim_lock)', description: 'UNIQUE active_claim_lock prevents double payout across concurrent runs.' },
+  { rule_id: 'BR_PAY_009', name: 'EPF/EPS Calculation & Rs 15,000 Ceiling', description: '12% EE EPF with optional 15k cap and 8.33% EPS (1,250 max) / 3.67% EPF split.' },
+  { rule_id: 'BR_PAY_010', name: 'ESIC Applicability Ceiling (Rs 21,000) & Claim Exclusion', description: 'ESIC 0.75%/3.25% ceil rupee when gross <= 21k, excluding expense claims.' },
+  { rule_id: 'BR_PAY_011', name: 'State Professional Tax & Maharashtra February Rs 300 Slab', description: 'State PT rules including MH February Rs 300 override.' },
+  { rule_id: 'BR_PAY_012', name: 'TDS u/s 115BAC vs Old Regime, Sec 87A 12L Rebate & Sec 288B', description: 'FY 2026-27 slabs, Sec 87A <= 12L rebate, Sec 288B Rs 10 rounding + 4% Cess.' },
+  { rule_id: 'BR_PAY_013', name: 'Maker-Checker Separation of Duties (HTTP 403 SoD)', description: 'Creator/submitter blocked HTTP 403 from approving or locking own run.' },
+  { rule_id: 'BR_PAY_014', name: 'Immutability After Submission & Locking', description: 'Adjustments allowed only in CALCULATED/REJECTED; lock publishes slips atomically.' },
+  { rule_id: 'BR_PAY_015', name: 'Bank Validation Before NEFT Export & UTR Claim PAID', description: 'NEFT CSV export blocked 422 if bank/IFSC missing; UTR reconcile settles linked claims PAID.' },
+  { rule_id: 'BR_PAY_016', name: 'Bank Account Masking & ESS Slip BOLA Isolation', description: 'Only masked XXXXXX bank numbers exposed; ESS users limited to own PUBLISHED slips.' }
+];
 
-    console.log('[Step 3/7] Upserting Release nodes v1.0 -> v2.2-india-payroll & backfilling v1.0...');
-    await session.run(`
-      MERGE (v1:Release { version_id: 'v1.0' })
-      SET v1.name = 'OrangeHRM Baseline v1.0',
-          v1.branch = 'main',
-          v1.release_date = '2026-11-04',
-          v1.status = 'Baseline Production',
-          v1.description = 'Original baseline across 22 plugins and 6,893 tests'
+const PAYROLL_PERSONAS = [
+  { persona_id: 'PERSONA_PAYROLL_MAKER', name: 'Payroll Maker / HR Operations Admin (Role 1)', role: 'Admin' },
+  { persona_id: 'PERSONA_PAYROLL_APPROVER', name: 'Finance Checker / Payroll Approver (Role 8)', role: 'PayrollApprover' },
+  { persona_id: 'PERSONA_ESS', name: 'Employee Self-Service User (Role 2)', role: 'ESS' }
+];
 
-      CREATE (v22:Release {
-        version_id: $releaseId,
-        name: 'OrangeHRM v2.2 India Payroll Extension',
-        branch: 'v2-main',
-        release_date: '2026-11-11',
-        status: 'Verified Release Candidate',
-        description: 'India FY 2026-27 INR Payroll extension (15 tables, 28 REST endpoints, 6-module integration, 41 executed tests)'
-      })
-
-      MERGE (v1)-[:EVOLVED_TO { transition_type: 'MINOR_FEATURE_RELEASE', date: '2026-11-11' }]->(v22)
-    `, { releaseId: RELEASE_ID });
-
-    const backfillRes = await session.run(`
-      MATCH (n)
-      WHERE NOT n:Release
-      SET n.version = 'v1.0',
-          n.introduced_in = 'v1.0',
-          n.versions = ['v1.0', $releaseId]
-      WITH n
-      MATCH (v1:Release { version_id: 'v1.0' })
-      MATCH (v22:Release { version_id: $releaseId })
-      MERGE (n)-[:INTRODUCED_IN]->(v1)
-      MERGE (n)-[:SUPPORTED_IN]->(v22)
-      RETURN count(n) AS updatedCount
-    `, { releaseId: RELEASE_ID });
-    console.log(`✓ Re-linked ${backfillRes.records[0].get('updatedCount').toNumber()} baseline v1.0 nodes to SUPPORTED_IN -> ${RELEASE_ID}.`);
-
-    console.log('[Step 4/7] Ingesting Domain, Workflows, Features, Rules, Requirements, Personas & Stories...');
-    await session.run(`
-      MATCH (v22:Release { version_id: $releaseId })
-      CREATE (p:Plugin {
-        name: 'orangehrmPayrollPlugin',
-        module_id: 19,
-        display_name: 'Payroll (India INR)',
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (d:BusinessDomain {
-        domain_id: 'DOMAIN_PAYROLL',
-        name: 'India Payroll & Statutory Disbursement',
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (p)-[:CONTAINS]->(d)
-      CREATE (p)-[:INTRODUCED_IN]->(v22), (p)-[:SUPPORTED_IN]->(v22)
-      CREATE (d)-[:INTRODUCED_IN]->(v22), (d)-[:SUPPORTED_IN]->(v22)
-      WITH p
-      UNWIND ['orangehrmAdminPlugin', 'orangehrmPimPlugin', 'orangehrmLeavePlugin', 'orangehrmAttendancePlugin', 'orangehrmTimePlugin', 'orangehrmClaimPlugin'] AS depPlugin
-      MATCH (target:Plugin { name: depPlugin })
-      MERGE (p)-[:INTEGRATES_WITH { contract: 'ReadOnlyDomainAndDisbursement' }]->(target)
-    `, { releaseId: RELEASE_ID });
-
-    const workflows = [
-      { id: 'WF_PAYROLL_CONFIG', name: 'India Jurisdiction, FY 2026-27 Slab & LWP Config Workflow' },
-      { id: 'WF_PAYROLL_PERIOD', name: 'Monthly INR Pay Period Calendar & Overlap Validation' },
-      { id: 'WF_PAYROLL_PROFILE', name: 'PIM Statutory Profile, Tax Regime & Masked Bank Management' },
-      { id: 'WF_PAYROLL_RUN', name: 'Batch Snapshot, Cross-Module Intake, Statutory Engine & Override' },
-      { id: 'WF_PAYROLL_APPROVAL', name: 'Maker-Checker Submit, Reject/Approve, Lock & Reverse Governance' },
-      { id: 'WF_PAYROLL_DISBURSEMENT', name: 'NEFT Bank CSV Guard, Export & UTR Claim Settlement' },
-      { id: 'WF_PAYROLL_ESS', name: 'ESS & PIM Self-Service INR Payslip Preview & IDOR Enforcement' }
-    ];
-    await session.run(`
-      MATCH (d:BusinessDomain { domain_id: 'DOMAIN_PAYROLL' })
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $workflows AS w
-      CREATE (wf:BusinessWorkflow {
-        workflow_id: w.id,
-        name: w.name,
-        type: 'IndiaPayrollExtension',
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (d)-[:CONTAINS]->(wf)
-      CREATE (wf)-[:INTRODUCED_IN]->(v22), (wf)-[:SUPPORTED_IN]->(v22)
-    `, { workflows, releaseId: RELEASE_ID });
-
-    const features = [
-      { id: 'FEAT_PAY_CONFIG', name: 'India Jurisdiction, Slabs & LWP Policy Config', wf: 'WF_PAYROLL_CONFIG' },
-      { id: 'FEAT_PAY_PERIOD', name: 'India Monthly INR Pay Periods', wf: 'WF_PAYROLL_PERIOD' },
-      { id: 'FEAT_PAY_SNAPSHOT', name: 'PIM Statutory Profile & Run Snapshot Isolation', wf: 'WF_PAYROLL_PROFILE' },
-      { id: 'FEAT_PAY_CROSS', name: 'Cross-Module Leave LWP, Time OT & Claim Reservation', wf: 'WF_PAYROLL_RUN' },
-      { id: 'FEAT_PAY_ENGINE', name: 'Indian Statutory Engine (EPF, ESIC, PT, FY26-27 TDS)', wf: 'WF_PAYROLL_RUN' },
-      { id: 'FEAT_PAY_ADJUSTMENT', name: 'Audited Manual Overrides & Append-Only Audit Log', wf: 'WF_PAYROLL_RUN' },
-      { id: 'FEAT_PAY_WF', name: 'Maker-Checker SoD Workflow & Locking', wf: 'WF_PAYROLL_APPROVAL' },
-      { id: 'FEAT_PAY_PAYMENT', name: 'NEFT CSV Export Guard & Bank UTR Claim Settlement', wf: 'WF_PAYROLL_DISBURSEMENT' },
-      { id: 'FEAT_PAY_SLIPS', name: 'Published INR HTML Payslips & ESS BOLA Protection', wf: 'WF_PAYROLL_ESS' }
-    ];
-    await session.run(`
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $features AS f
-      CREATE (feat:Feature {
-        feature_id: f.id,
-        name: f.name,
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (feat)-[:INTRODUCED_IN]->(v22), (feat)-[:SUPPORTED_IN]->(v22)
-      WITH feat, f
-      MATCH (wf:BusinessWorkflow { workflow_id: f.wf })
-      MERGE (wf)-[:DECOMPOSES_TO]->(feat)
-    `, { features, releaseId: RELEASE_ID });
-
-    const personas = [
-      { id: 'PERSONA_PAYROLL_MAKER', role: 'Admin', name: 'Payroll Maker / HR Operations Admin (Role 1)' },
-      { id: 'PERSONA_PAYROLL_APPROVER', role: 'PayrollApprover', name: 'Finance Checker / Payroll Approver (Role 8)' },
-      { id: 'PERSONA_ESS', role: 'ESS', name: 'Employee Self-Service User (Role 2)' }
-    ];
-    await session.run(`
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $personas AS p
-      CREATE (per:Persona {
-        persona_id: p.id,
-        role: p.role,
-        name: p.name,
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (per)-[:INTRODUCED_IN]->(v22), (per)-[:SUPPORTED_IN]->(v22)
-    `, { personas, releaseId: RELEASE_ID });
-
-    const requirements = [
-      { id: 'FR_PAY_001', title: 'India Config, Tax Brackets & Leave Policy', feat: 'FEAT_PAY_CONFIG' },
-      { id: 'FR_PAY_002', title: 'Pay Period Management & Overlap Check', feat: 'FEAT_PAY_PERIOD' },
-      { id: 'FR_PAY_003', title: 'PIM Statutory Profile & Masked Bank Exposure', feat: 'FEAT_PAY_SNAPSHOT' },
-      { id: 'FR_PAY_004', title: 'Idempotent Runs & Frozen Snapshots', feat: 'FEAT_PAY_SNAPSHOT' },
-      { id: 'FR_PAY_005', title: 'Leave LWP Intake & Divisors', feat: 'FEAT_PAY_CROSS' },
-      { id: 'FR_PAY_006', title: 'Time/Attendance Intake & Overtime Ceiling', feat: 'FEAT_PAY_CROSS' },
-      { id: 'FR_PAY_007', title: 'Indian Statutory & TDS Calculation', feat: 'FEAT_PAY_ENGINE' },
-      { id: 'FR_PAY_008', title: 'Claim Reservation & Anti-Double-Payout', feat: 'FEAT_PAY_CROSS' },
-      { id: 'FR_PAY_009', title: 'Audited Adjustments Before Submit', feat: 'FEAT_PAY_ADJUSTMENT' },
-      { id: 'FR_PAY_010', title: 'Maker-Checker SoD & Publication', feat: 'FEAT_PAY_WF' },
-      { id: 'FR_PAY_011', title: 'NEFT CSV Export Guard & UTR Settlement', feat: 'FEAT_PAY_PAYMENT' },
-      { id: 'FR_PAY_012', title: 'ESS Self-Service & Download', feat: 'FEAT_PAY_SLIPS' }
-    ];
-    await session.run(`
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $requirements AS r
-      CREATE (req:Requirement {
-        requirement_id: r.id,
-        title: r.title,
-        type: 'FR',
-        status: 'Verified',
-        priority: 'Critical',
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (req)-[:INTRODUCED_IN]->(v22), (req)-[:SUPPORTED_IN]->(v22)
-      WITH req, r
-      MATCH (feat:Feature { feature_id: r.feat })
-      MERGE (feat)-[:HAS_REQUIREMENT]->(req)
-    `, { requirements, releaseId: RELEASE_ID });
-
-    const rules = [
-      { id: 'BR_PAY_001', name: 'Single Jurisdiction & INR Currency Enforcement' },
-      { id: 'BR_PAY_002', name: 'Pay Period Date Non-Overlap' },
-      { id: 'BR_PAY_003', name: 'Idempotent Run Creation' },
-      { id: 'BR_PAY_004', name: 'Immutable PIM Snapshot per Run' },
-      { id: 'BR_PAY_005', name: 'Explicit Leave LWP Policy & Divisor Modes' },
-      { id: 'BR_PAY_006', name: 'Attendance vs Timesheet Non-Double-Counting' },
-      { id: 'BR_PAY_007', name: 'Overtime Eligibility Ceiling (Rs 50,000)' },
-      { id: 'BR_PAY_008', name: 'Single-Run Claim Reservation Lock (uq_active_claim_lock)' },
-      { id: 'BR_PAY_009', name: 'EPF/EPS Calculation & Rs 15,000 Ceiling' },
-      { id: 'BR_PAY_010', name: 'ESIC Applicability Ceiling (Rs 21,000) & Claim Exclusion' },
-      { id: 'BR_PAY_011', name: 'State Professional Tax & Maharashtra February Rs 300 Slab' },
-      { id: 'BR_PAY_012', name: 'TDS u/s 115BAC vs Old Regime, Sec 87A 12L Rebate & Sec 288B' },
-      { id: 'BR_PAY_013', name: 'Maker-Checker Separation of Duties (HTTP 403 SoD)' },
-      { id: 'BR_PAY_014', name: 'Immutability After Submission & Locking' },
-      { id: 'BR_PAY_015', name: 'Bank Validation Before NEFT Export & UTR Claim PAID' },
-      { id: 'BR_PAY_016', name: 'Bank Account Masking & ESS Slip BOLA Isolation' }
-    ];
-    await session.run(`
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $rules AS br
-      CREATE (node:BusinessRule {
-        rule_id: br.id,
-        name: br.name,
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (node)-[:INTRODUCED_IN]->(v22), (node)-[:SUPPORTED_IN]->(v22)
-    `, { rules, releaseId: RELEASE_ID });
-
-    const stories = JSON.parse(fs.readFileSync(path.join(EXT_DIR, '01_Business_Requirements/user_stories.json'), 'utf8'));
-    await session.run(`
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $stories AS s
-      CREATE (us:UserStory {
-        story_id: s.story_id,
-        key: s.story_id,
-        title: s.title,
-        statement: s.statement,
-        feature_id: s.feature_id,
-        domain_id: s.domain_id,
-        workflow_id: s.workflow_id,
-        requirement_id: s.requirement_id,
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (us)-[:INTRODUCED_IN]->(v22), (us)-[:SUPPORTED_IN]->(v22)
-      WITH us, s
-      MATCH (feat:Feature { feature_id: s.feature_id })
-      MATCH (wf:BusinessWorkflow { workflow_id: s.workflow_id })
-      MATCH (req:Requirement { requirement_id: s.requirement_id })
-      MATCH (per:Persona { persona_id: s.persona_id })
-      MERGE (us)-[:BELONGS_TO]->(feat)
-      MERGE (us)-[:SUPPORTS_WORKFLOW]->(wf)
-      MERGE (us)-[:REALIZES]->(req)
-      MERGE (per)-[:EXECUTES]->(us)
-      WITH us, req, s
-      UNWIND s.rule_ids AS brid
-      MATCH (br:BusinessRule { rule_id: brid })
-      MERGE (us)-[:GOVERNED_BY]->(br)
-      MERGE (req)-[:GOVERNED_BY]->(br)
-    `, { stories, releaseId: RELEASE_ID });
-
-    console.log('[Step 5/7] Ingesting 15 Tables, 15 Entities, 48 PHP Classes, 28 API Endpoints & 12 Vue Components...');
-    const tablesEntities = [
-      { table: 'ohrm_pay_period', entity: 'PayrollPayPeriod' },
-      { table: 'ohrm_payroll_config', entity: 'PayrollConfig' },
-      { table: 'ohrm_payroll_statutory_rule', entity: 'PayrollStatutoryRule' },
-      { table: 'ohrm_payroll_tax_bracket', entity: 'PayrollTaxBracket' },
-      { table: 'ohrm_payroll_leave_policy', entity: 'PayrollLeavePolicy' },
-      { table: 'ohrm_payroll_emp_profile', entity: 'EmployeePayrollProfile' },
-      { table: 'ohrm_payroll_run', entity: 'PayrollRun' },
-      { table: 'ohrm_payroll_emp_snapshot', entity: 'PayrollEmployeeSnapshot' },
-      { table: 'ohrm_payroll_record', entity: 'PayrollRecord' },
-      { table: 'ohrm_payroll_item', entity: 'PayrollItem' },
-      { table: 'ohrm_payroll_payment_batch', entity: 'PayrollPaymentBatch' },
-      { table: 'ohrm_payroll_claim_link', entity: 'PayrollClaimLink' },
-      { table: 'ohrm_payroll_approval', entity: 'PayrollApproval' },
-      { table: 'ohrm_salary_slip', entity: 'SalarySlip' },
-      { table: 'ohrm_payroll_audit_event', entity: 'PayrollAuditEvent' }
-    ];
-    await session.run(`
-      MATCH (p:Plugin { name: 'orangehrmPayrollPlugin' })
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $tablesEntities AS te
-      CREATE (tbl:DatabaseTable {
-        name: te.table,
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (ent:DatabaseEntity {
-        name: te.entity,
-        fqcn: 'OrangeHRM\\\\Entity\\\\' + te.entity,
-        source_file: 'orange_hrm/src/plugins/orangehrmPayrollPlugin/entity/' + te.entity + '.php',
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (ent)-[:MAPS_TO]->(tbl)
-      CREATE (p)-[:DECLARES]->(ent)
-      CREATE (tbl)-[:INTRODUCED_IN]->(v22), (tbl)-[:SUPPORTED_IN]->(v22)
-      CREATE (ent)-[:INTRODUCED_IN]->(v22), (ent)-[:SUPPORTED_IN]->(v22)
-    `, { tablesEntities, releaseId: RELEASE_ID });
-
-    const classes = [
-      // 22 API classes
-      ...'EmployeePayslipsAPI,EmployeeStatutoryProfileAPI,PayPeriodAPI,PayrollAdjustmentAPI,PayrollAuditAPI,PayrollConfigAPI,PayrollLeavePolicyAPI,PayrollPaymentBatchAPI,PayrollPaymentExportAPI,PayrollPaymentReconcileAPI,PayrollRecordAPI,PayrollRunAPI,PayrollRunApproveAPI,PayrollRunCalculateAPI,PayrollRunLockAPI,PayrollRunRejectAPI,PayrollRunReverseAPI,PayrollRunSubmitAPI,PayrollStatutoryRuleAPI,PayrollTaxBracketAPI,SalarySlipAPI,SalarySlipDocumentAPI'
-        .split(',').map((name) => ({ name, fqcn: `OrangeHRM\\Payroll\\Api\\${name}`, kind: 'API' })),
-      // 11 Web Controllers
-      ...'BasePayrollController,PayrollModuleController,PayPeriodsController,PayrollProcessingController,PayrollPaymentsController,PayrollAuditController,PayrollConfigurationController,EmployeePayslipsController,EmployeeStatutoryProfileController,MySalarySlipsController,SalarySlipDownloadController'
-        .split(',').map((name) => ({ name, fqcn: `OrangeHRM\\Payroll\\Controller\\${name}`, kind: 'Controller' })),
-      // 12 Services & Adapters + OvertimePolicyService
-      ...'PayrollApplicationService,PayrollCalculationService,PayrollConfigService,PayrollEmployeeSnapshotService,PayrollPaymentService,PayrollSlipService,PayrollWorkflowService,IndianStatutoryCalculator,LeavePayrollAdapter,TimeAttendancePayrollAdapter,ClaimSettlementAdapter,OvertimePolicyService'
-        .split(',').map((name) => ({ name, fqcn: `OrangeHRM\\Payroll\\Service\\${name}`, kind: 'Service' })),
-      // 3 DAOs
-      ...'PayrollConfigDao,PayrollPeriodDao,PayrollRunDao'
-        .split(',').map((name) => ({ name, fqcn: `OrangeHRM\\Payroll\\Dao\\${name}`, kind: 'Dao' }))
-    ];
-    await session.run(`
-      MATCH (p:Plugin { name: 'orangehrmPayrollPlugin' })
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $classes AS c
-      CREATE (cls:Class {
-        name: c.name,
-        fqcn: c.fqcn,
-        kind: c.kind,
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (p)-[:DECLARES]->(cls)
-      CREATE (cls)-[:INTRODUCED_IN]->(v22), (cls)-[:SUPPORTED_IN]->(v22)
-    `, { classes, releaseId: RELEASE_ID });
-
-    const endpoints = [
-      { id: 'apiv2_payroll_pay_periods', methods: 'GET, POST, DELETE', path: '/api/v2/payroll/pay-periods', cls: 'PayPeriodAPI', feat: 'FEAT_PAY_PERIOD' },
-      { id: 'apiv2_payroll_pay_period', methods: 'GET, PUT', path: '/api/v2/payroll/pay-periods/{id}', cls: 'PayPeriodAPI', feat: 'FEAT_PAY_PERIOD' },
-      { id: 'apiv2_payroll_runs', methods: 'GET, POST', path: '/api/v2/payroll/runs', cls: 'PayrollRunAPI', feat: 'FEAT_PAY_SNAPSHOT' },
-      { id: 'apiv2_payroll_run', methods: 'GET, PUT', path: '/api/v2/payroll/runs/{id}', cls: 'PayrollRunAPI', feat: 'FEAT_PAY_SNAPSHOT' },
-      { id: 'apiv2_payroll_run_calculate', methods: 'POST', path: '/api/v2/payroll/runs/{runId}/calculate', cls: 'PayrollRunCalculateAPI', feat: 'FEAT_PAY_ENGINE' },
-      { id: 'apiv2_payroll_run_submit', methods: 'POST', path: '/api/v2/payroll/runs/{runId}/submit', cls: 'PayrollRunSubmitAPI', feat: 'FEAT_PAY_WF' },
-      { id: 'apiv2_payroll_run_approve', methods: 'POST', path: '/api/v2/payroll/runs/{runId}/approve', cls: 'PayrollRunApproveAPI', feat: 'FEAT_PAY_WF' },
-      { id: 'apiv2_payroll_run_reject', methods: 'POST', path: '/api/v2/payroll/runs/{runId}/reject', cls: 'PayrollRunRejectAPI', feat: 'FEAT_PAY_WF' },
-      { id: 'apiv2_payroll_run_lock', methods: 'POST', path: '/api/v2/payroll/runs/{runId}/lock', cls: 'PayrollRunLockAPI', feat: 'FEAT_PAY_WF' },
-      { id: 'apiv2_payroll_run_reverse', methods: 'POST', path: '/api/v2/payroll/runs/{runId}/reverse', cls: 'PayrollRunReverseAPI', feat: 'FEAT_PAY_WF' },
-      { id: 'apiv2_payroll_run_records', methods: 'GET', path: '/api/v2/payroll/runs/{runId}/records', cls: 'PayrollRecordAPI', feat: 'FEAT_PAY_ENGINE' },
-      { id: 'apiv2_payroll_record', methods: 'GET', path: '/api/v2/payroll/records/{id}', cls: 'PayrollRecordAPI', feat: 'FEAT_PAY_ENGINE' },
-      { id: 'apiv2_payroll_record_adjustment', methods: 'GET, PUT', path: '/api/v2/payroll/records/{id}/adjustment', cls: 'PayrollAdjustmentAPI', feat: 'FEAT_PAY_ADJUSTMENT' },
-      { id: 'apiv2_payroll_config', methods: 'GET, PUT', path: '/api/v2/payroll/config', cls: 'PayrollConfigAPI', feat: 'FEAT_PAY_CONFIG' },
-      { id: 'apiv2_payroll_tax_brackets', methods: 'GET', path: '/api/v2/payroll/tax-brackets', cls: 'PayrollTaxBracketAPI', feat: 'FEAT_PAY_CONFIG' },
-      { id: 'apiv2_payroll_tax_bracket', methods: 'PUT', path: '/api/v2/payroll/tax-brackets/{id}', cls: 'PayrollTaxBracketAPI', feat: 'FEAT_PAY_CONFIG' },
-      { id: 'apiv2_payroll_statutory_rules', methods: 'GET', path: '/api/v2/payroll/statutory-rules', cls: 'PayrollStatutoryRuleAPI', feat: 'FEAT_PAY_CONFIG' },
-      { id: 'apiv2_payroll_leave_policies', methods: 'GET', path: '/api/v2/payroll/leave-policies', cls: 'PayrollLeavePolicyAPI', feat: 'FEAT_PAY_CONFIG' },
-      { id: 'apiv2_payroll_leave_policy', methods: 'PUT', path: '/api/v2/payroll/leave-policies/{id}', cls: 'PayrollLeavePolicyAPI', feat: 'FEAT_PAY_CONFIG' },
-      { id: 'apiv2_payroll_payment_batches', methods: 'GET, POST', path: '/api/v2/payroll/payment-batches', cls: 'PayrollPaymentBatchAPI', feat: 'FEAT_PAY_PAYMENT' },
-      { id: 'apiv2_payroll_payment_batch', methods: 'GET', path: '/api/v2/payroll/payment-batches/{id}', cls: 'PayrollPaymentBatchAPI', feat: 'FEAT_PAY_PAYMENT' },
-      { id: 'apiv2_payroll_payment_batch_export', methods: 'POST', path: '/api/v2/payroll/payment-batches/{batchId}/export', cls: 'PayrollPaymentExportAPI', feat: 'FEAT_PAY_PAYMENT' },
-      { id: 'apiv2_payroll_payment_batch_reconcile', methods: 'POST', path: '/api/v2/payroll/payment-batches/{batchId}/reconcile', cls: 'PayrollPaymentReconcileAPI', feat: 'FEAT_PAY_PAYMENT' },
-      { id: 'apiv2_payroll_my_slips', methods: 'GET', path: '/api/v2/payroll/my-salary-slips', cls: 'SalarySlipAPI', feat: 'FEAT_PAY_SLIPS' },
-      { id: 'apiv2_payroll_slip_document', methods: 'GET', path: '/api/v2/payroll/slips/{id}', cls: 'SalarySlipDocumentAPI', feat: 'FEAT_PAY_SLIPS' },
-      { id: 'apiv2_payroll_employee_payslips', methods: 'GET', path: '/api/v2/payroll/employees/{empNumber}/payslips', cls: 'EmployeePayslipsAPI', feat: 'FEAT_PAY_SLIPS' },
-      { id: 'apiv2_payroll_employee_statutory_profile', methods: 'GET, PUT', path: '/api/v2/payroll/employees/{empNumber}/statutory-profile', cls: 'EmployeeStatutoryProfileAPI', feat: 'FEAT_PAY_SNAPSHOT' },
-      { id: 'apiv2_payroll_audit_events', methods: 'GET', path: '/api/v2/payroll/audit-events', cls: 'PayrollAuditAPI', feat: 'FEAT_PAY_ADJUSTMENT' }
-    ];
-    await session.run(`
-      MATCH (p:Plugin { name: 'orangehrmPayrollPlugin' })
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $endpoints AS e
-      CREATE (ep:ApiEndpoint {
-        endpoint_id: e.id,
-        http_method: e.methods,
-        path: e.path,
-        route_name: e.id,
-        handler_class: 'OrangeHRM\\\\Payroll\\\\Api\\\\' + e.cls,
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (p)-[:EXPOSES]->(ep)
-      CREATE (ep)-[:INTRODUCED_IN]->(v22), (ep)-[:SUPPORTED_IN]->(v22)
-      WITH ep, e
-      MATCH (cls:Class { fqcn: 'OrangeHRM\\\\Payroll\\\\Api\\\\' + e.cls })
-      MATCH (feat:Feature { feature_id: e.feat })
-      MERGE (ep)-[:HANDLED_BY]->(cls)
-      MERGE (feat)-[:EXPOSES]->(ep)
-    `, { endpoints, releaseId: RELEASE_ID });
-
-    const uiItems = [
-      { comp: 'PayPeriods', page: 'pay-periods', feat: 'FEAT_PAY_PERIOD', file: 'pages/payPeriods/PayPeriods.vue' },
-      { comp: 'PayrollProcessing', page: 'payroll-processing', feat: 'FEAT_PAY_ENGINE', file: 'pages/processing/PayrollProcessing.vue' },
-      { comp: 'PayrollPayments', page: 'payroll-payments', feat: 'FEAT_PAY_PAYMENT', file: 'pages/payments/PayrollPayments.vue' },
-      { comp: 'PayrollAuditTrail', page: 'payroll-audit-trail', feat: 'FEAT_PAY_ADJUSTMENT', file: 'pages/audit/PayrollAuditTrail.vue' },
-      { comp: 'PayrollConfiguration', page: 'payroll-configuration', feat: 'FEAT_PAY_CONFIG', file: 'pages/config/PayrollConfiguration.vue' },
-      { comp: 'EmployeePayslips', page: 'pim-employee-payslips', feat: 'FEAT_PAY_SLIPS', file: 'pages/pim/EmployeePayslips.vue' },
-      { comp: 'EmployeeStatutoryProfile', page: 'pim-employee-statutory-profile', feat: 'FEAT_PAY_SNAPSHOT', file: 'pages/pim/EmployeeStatutoryProfile.vue' },
-      { comp: 'MySalarySlips', page: 'my-salary-slips', feat: 'FEAT_PAY_SLIPS', file: 'pages/slips/MySalarySlips.vue' },
-      { comp: 'PayPeriodModal', page: 'pay-periods', feat: 'FEAT_PAY_PERIOD', file: 'components/PayPeriodModal.vue' },
-      { comp: 'PayrollStatusBadge', page: 'payroll-processing', feat: 'FEAT_PAY_WF', file: 'components/PayrollStatusBadge.vue' },
-      { comp: 'PayslipPreviewModal', page: 'my-salary-slips', feat: 'FEAT_PAY_SLIPS', file: 'components/PayslipPreviewModal.vue' },
-      { comp: 'RecordAdjustmentModal', page: 'payroll-processing', feat: 'FEAT_PAY_ADJUSTMENT', file: 'components/RecordAdjustmentModal.vue' }
-    ];
-    await session.run(`
-      MATCH (p:Plugin { name: 'orangehrmPayrollPlugin' })
-      MATCH (v22:Release { version_id: $releaseId })
-      UNWIND $uiItems AS u
-      CREATE (uic:UIComponent {
-        component_id: 'VUE_PAY_' + toUpper(u.comp),
-        name: u.comp,
-        file: 'orange_hrm/src/client/src/orangehrmPayrollPlugin/' + u.file,
-        type: 'VueComponent',
-        plugin: 'orangehrmPayrollPlugin',
-        version: $releaseId,
-        introduced_in: $releaseId,
-        versions: [$releaseId]
-      })
-      CREATE (uic)-[:DECLARED_IN]->(p)
-      CREATE (uic)-[:INTRODUCED_IN]->(v22), (uic)-[:SUPPORTED_IN]->(v22)
-      WITH uic, u, v22
-      MERGE (pg:UIPage { page_id: u.page })
-      SET pg.title = u.page,
-          pg.plugin = 'orangehrmPayrollPlugin',
-          pg.version = $releaseId,
-          pg.introduced_in = $releaseId,
-          pg.versions = [$releaseId]
-      MERGE (pg)-[:RENDERS]->(uic)
-      MERGE (pg)-[:INTRODUCED_IN]->(v22)
-      MERGE (pg)-[:SUPPORTED_IN]->(v22)
-      WITH uic, u
-      MATCH (us:UserStory { feature_id: u.feat })
-      MERGE (us)-[:IMPLEMENTED_BY]->(uic)
-    `, { uiItems, releaseId: RELEASE_ID });
-
-    console.log('[Step 6/7] Ingesting 41 Real Executed Payroll Tests across 10 Suites...');
-    const testStats = await ingestPayrollTests(session, RELEASE_ID);
-    console.log(`✓ Synced ${testStats.suitesCount} suites and ${testStats.testCasesCount} real executed tests.`);
-
-    console.log('[Step 7/7] Running Final Neo4j Multi-Version Audit...');
-    const v1Cnt = (await session.run(`MATCH (v1:Release { version_id: 'v1.0' })<-[:SUPPORTED_IN]-(n) RETURN count(n) AS c`)).records[0].get('c').toNumber();
-    const v22Cnt = (await session.run(`MATCH (v22:Release { version_id: $releaseId })<-[:SUPPORTED_IN]-(n) RETURN count(n) AS c`, { releaseId: RELEASE_ID })).records[0].get('c').toNumber();
-    const deltaRes = await session.run(`MATCH (v22:Release { version_id: $releaseId })<-[:INTRODUCED_IN]-(n) RETURN labels(n)[0] AS lbl, count(n) AS cnt ORDER BY cnt DESC`, { releaseId: RELEASE_ID });
-
-    console.log('\n========================================================================');
-    console.log('  NEO4J MULTI-VERSION AUDIT COMPLETE');
-    console.log(`  v1.0 Baseline Elements           : ${v1Cnt}`);
-    console.log(`  ${RELEASE_ID} Total Elements : ${v22Cnt}`);
-    console.log('  Newly Introduced v2.2 Payroll Nodes:');
-    deltaRes.records.forEach((r) => console.log(`   - ${r.get('lbl').padEnd(18)}: +${r.get('cnt').toNumber()}`));
-    console.log('========================================================================\n');
-  } finally {
-    await session.close();
-    await driver.close();
-  }
+async function purgeSyntheticPayrollTests(session) {
+  await session.run(`
+    MATCH (tc:TestCase)
+    WHERE coalesce(tc.module, '') = 'Payroll' AND coalesce(tc.origin, '') <> 'AST_PHPUNIT'
+       OR tc.testcase_id STARTS WITH 'TC_PAY_'
+       OR tc.testcase_id STARTS WITH 'E2E-'
+       OR tc.testcase_id STARTS WITH 'UI-'
+    DETACH DELETE tc
+  `);
+  await session.run(`
+    MATCH (ts:TestSuite)
+    WHERE ts.name IN ['India_Payroll_E2E_Suite', 'Playwright_OXD_UI_Suite']
+       OR ts.suite_id IN ['India_Payroll_E2E_Suite', 'Playwright_OXD_UI_Suite']
+       OR (coalesce(ts.module, '') = 'Payroll' AND coalesce(ts.origin, '') = 'MANIFEST')
+    DETACH DELETE ts
+  `);
 }
 
-main().catch((err) => {
-  console.error('Neo4j ingestion failed:', err);
+async function ingestPayrollSpecsAndVersioning(session, {
+  snapshotId = null,
+  commitSha = null,
+  apiEndpoints = [],
+  testCases = []
+} = {}) {
+  await purgeSyntheticPayrollTests(session);
+
+  // 1. Releases
+  await session.run(`
+    MERGE (r1:Release { version_id: $v1 })
+    SET r1.name = 'OrangeHRM Baseline v1.0',
+        r1.status = 'Baseline Production',
+        r1.branch = 'main',
+        r1.release_date = '2026-11-04',
+        r1.description = 'Baseline across 22 plugins with AST-linked PHPUnit suites and core Jest specs'
+    MERGE (r2:Release { version_id: $v2 })
+    SET r2.name = 'OrangeHRM v2.2 India Payroll Extension',
+        r2.status = 'Verified Release Candidate',
+        r2.branch = 'v2-main',
+        r2.release_date = '2026-11-11',
+        r2.description = 'India FY 2026-27 INR Payroll extension (15 tables, 22 API classes, 18 PHPUnit unit/component tests; API/UI Playwright suite pending QA)'
+    MERGE (r1)-[:EVOLVED_TO]->(r2)
+  `, { v1: RELEASE_V1_ID, v2: RELEASE_V2_ID });
+
+  // 2. Domain, Workflows, Features, Requirements, Rules, Personas
+  await session.run(`
+    MERGE (p:Plugin { name: 'orangehrmPayrollPlugin' })
+    SET p.version = $v2, p.introduced_in = $v2, p.versions = [$v2], p.snapshot_id = coalesce(p.snapshot_id, $snapshotId)
+    MERGE (d:BusinessDomain { domain_id: $domain.domain_id })
+    SET d.name = $domain.name, d.plugin = $domain.plugin, d.version = $v2, d.introduced_in = $v2, d.versions = [$v2], d.snapshot_id = $snapshotId
+    MERGE (p)-[:CONTAINS]->(d)
+  `, { domain: PAYROLL_DOMAIN, v2: RELEASE_V2_ID, snapshotId });
+
+  await session.run(`
+    UNWIND $workflows AS wf
+    MATCH (d:BusinessDomain { domain_id: 'DOMAIN_PAYROLL' })
+    MERGE (w:BusinessWorkflow { workflow_id: wf.workflow_id })
+    SET w.name = wf.name, w.type = wf.type, w.plugin = 'orangehrmPayrollPlugin',
+        w.version = $v2, w.introduced_in = $v2, w.versions = [$v2], w.snapshot_id = $snapshotId
+    MERGE (d)-[:CONTAINS]->(w)
+  `, { workflows: PAYROLL_WORKFLOWS, v2: RELEASE_V2_ID, snapshotId });
+
+  await session.run(`
+    UNWIND $features AS f
+    MERGE (feat:Feature { feature_id: f.feature_id })
+    SET feat.name = f.name, feat.plugin = 'orangehrmPayrollPlugin',
+        feat.version = $v2, feat.introduced_in = $v2, feat.versions = [$v2], feat.snapshot_id = $snapshotId
+    WITH feat, f
+    UNWIND $workflows AS wf
+    WITH feat, wf WHERE f.feature_id IN wf.features
+    MATCH (w:BusinessWorkflow { workflow_id: wf.workflow_id })
+    MERGE (w)-[:DECOMPOSES_TO]->(feat)
+  `, { features: PAYROLL_FEATURES, workflows: PAYROLL_WORKFLOWS, v2: RELEASE_V2_ID, snapshotId });
+
+  await session.run(`
+    UNWIND $rules AS br
+    MERGE (r:BusinessRule { rule_id: br.rule_id })
+    SET r.name = br.name, r.description = br.description, r.plugin = 'orangehrmPayrollPlugin',
+        r.version = $v2, r.introduced_in = $v2, r.versions = [$v2], r.snapshot_id = $snapshotId
+  `, { rules: PAYROLL_RULES, v2: RELEASE_V2_ID, snapshotId });
+
+  await session.run(`
+    UNWIND $reqs AS req
+    MATCH (feat:Feature { feature_id: req.feature_id })
+    MERGE (r:Requirement { requirement_id: req.requirement_id })
+    SET r.title = req.title, r.type = req.type, r.priority = req.priority, r.status = req.status,
+        r.plugin = 'orangehrmPayrollPlugin', r.version = $v2, r.introduced_in = $v2, r.versions = [$v2], r.snapshot_id = $snapshotId
+    MERGE (feat)-[:HAS_REQUIREMENT]->(r)
+    WITH r, req
+    UNWIND req.rule_ids AS ruleId
+    MATCH (br:BusinessRule { rule_id: ruleId })
+    MERGE (r)-[:GOVERNED_BY]->(br)
+  `, { reqs: PAYROLL_REQUIREMENTS, v2: RELEASE_V2_ID, snapshotId });
+
+  await session.run(`
+    UNWIND $personas AS ps
+    MERGE (p:Persona { persona_id: ps.persona_id })
+    SET p.name = ps.name, p.role = ps.role, p.plugin = 'orangehrmPayrollPlugin',
+        p.version = $v2, p.introduced_in = $v2, p.versions = [$v2], p.snapshot_id = $snapshotId
+  `, { personas: PAYROLL_PERSONAS, v2: RELEASE_V2_ID, snapshotId });
+
+  // 3. UserStories from user_stories.json linked strictly to real AST ApiEndpoints & UIComponents
+  const storiesPath = path.join(PAYROLL_EXT_DIR, '01_Business_Requirements', 'user_stories.json');
+  const stories = fs.existsSync(storiesPath) ? JSON.parse(fs.readFileSync(storiesPath, 'utf8')) : [];
+  if (stories.length > 0) {
+    await session.run(`
+      UNWIND $stories AS s
+      MERGE (us:UserStory { story_id: s.story_id })
+      SET us.title = s.title, us.statement = s.statement, us.domain_id = s.domain_id,
+          us.feature_id = s.feature_id, us.workflow_id = s.workflow_id, us.requirement_id = s.requirement_id,
+          us.plugin = 'orangehrmPayrollPlugin', us.version = $v2, us.introduced_in = $v2, us.versions = [$v2], us.snapshot_id = $snapshotId
+      WITH us, s
+      MATCH (p:Persona { persona_id: s.persona_id })
+      MATCH (f:Feature { feature_id: s.feature_id })
+      MATCH (wf:BusinessWorkflow { workflow_id: s.workflow_id })
+      MATCH (req:Requirement { requirement_id: s.requirement_id })
+      MERGE (p)-[:EXECUTES]->(us)
+      MERGE (us)-[:BELONGS_TO]->(f)
+      MERGE (us)-[:SUPPORTS_WORKFLOW]->(wf)
+      MERGE (us)-[:REALIZES]->(req)
+      WITH us, s
+      UNWIND s.rule_ids AS rid
+      MATCH (br:BusinessRule { rule_id: rid })
+      MERGE (us)-[:GOVERNED_BY]->(br)
+    `, { stories, v2: RELEASE_V2_ID, snapshotId });
+
+    // Link UserStory -> real RoutesExtractor ApiEndpoint via target_endpoints ("METHOD /path")
+    const storyEpLinks = [];
+    for (const st of stories) {
+      for (const epSpec of st.target_endpoints || []) {
+        const [httpMethod, ...rest] = epSpec.trim().split(/\s+/);
+        const epPath = rest.join(' ');
+        if (httpMethod && epPath) {
+          storyEpLinks.push({ story_id: st.story_id, endpoint_id: `${httpMethod}_${epPath}` });
+        }
+      }
+    }
+    if (storyEpLinks.length > 0) {
+      await session.run(`
+        UNWIND $links AS l
+        MATCH (us:UserStory { story_id: l.story_id })
+        MATCH (ep:ApiEndpoint { endpoint_id: l.endpoint_id })
+        MERGE (us)-[r:EXECUTES_VIA]->(ep)
+        SET r.evidence_type = 'SPEC_STORY_ENDPOINT', r.confidence = 0.95,
+            r.snapshot_id = $snapshotId, r.commit_sha = $commitSha
+      `, { links: storyEpLinks, snapshotId, commitSha });
+    }
+
+    // Link UserStory -> real VueAstExtractor UIComponent via target_ui_components
+    const storyUiLinks = [];
+    for (const st of stories) {
+      for (const uiFile of st.target_ui_components || []) {
+        storyUiLinks.push({
+          story_id: st.story_id,
+          compName: uiFile.replace(/\.vue$/, '')
+        });
+      }
+    }
+    if (storyUiLinks.length > 0) {
+      await session.run(`
+        UNWIND $links AS l
+        MATCH (us:UserStory { story_id: l.story_id })
+        MATCH (ui:UIComponent { plugin: 'orangehrmPayrollPlugin', name: l.compName })
+        MERGE (us)-[r:IMPLEMENTED_BY]->(ui)
+        SET r.evidence_type = 'SPEC_STORY_UI', r.confidence = 0.95,
+            r.snapshot_id = $snapshotId, r.commit_sha = $commitSha
+      `, { links: storyUiLinks, snapshotId, commitSha });
+    }
+  }
+
+  // 4. Feature -[:INCLUDES_ENDPOINT]-> real Payroll ApiEndpoints (disambiguated from Class-[:EXPOSES])
+  const payEndpoints = apiEndpoints.filter((e) => e.plugin === 'orangehrmPayrollPlugin');
+  const featureEpLinks = [];
+  for (const ep of payEndpoints) {
+    for (const f of PAYROLL_FEATURES) {
+      if (f.pathPrefixes.some((pfx) => ep.path.includes(pfx))) {
+        featureEpLinks.push({ feature_id: f.feature_id, endpoint_id: ep.endpoint_id });
+      }
+    }
+  }
+  if (featureEpLinks.length > 0) {
+    await session.run(`
+      UNWIND $links AS l
+      MATCH (f:Feature { feature_id: l.feature_id })
+      MATCH (ep:ApiEndpoint { endpoint_id: l.endpoint_id })
+      MERGE (f)-[r:INCLUDES_ENDPOINT]->(ep)
+      SET r.origin = 'PAYROLL_SPEC_DERIVED', r.snapshot_id = $snapshotId, r.commit_sha = $commitSha
+    `, { links: featureEpLinks, snapshotId, commitSha });
+  }
+
+  // Remove any legacy Feature-[:EXPOSES]->ApiEndpoint overload
+  await session.run(`MATCH (:Feature)-[r:EXPOSES]->(:ApiEndpoint) DELETE r`);
+
+  // 5. Link AST-parsed Payroll PHPUnit TestCases (only real unit/component tests!) to Requirements, Stories & Rules
+  const payTestLinks = testCases
+    .filter((tc) => tc.plugin === 'orangehrmPayrollPlugin' && tc.origin === 'AST_PHPUNIT')
+    .map((tc) => ({
+      canonical_id: tc.canonical_id,
+      reqIds: tc.requirement_ids || [],
+      storyIds: tc.story_ids || [],
+      ruleIds: tc.rule_ids || []
+    }));
+
+  if (payTestLinks.length > 0) {
+    await session.run(`
+      UNWIND $items AS item
+      MATCH (tc:TestCase { canonical_id: item.canonical_id })
+      FOREACH (rid IN item.reqIds |
+        MERGE (r:Requirement { requirement_id: rid })
+        ON CREATE SET r.title = rid, r.type = 'Functional', r.introduced_in = $v2, r.snapshot_id = $snapshotId
+        MERGE (tc)-[:VERIFIES { evidence_type: 'PHPUNIT_TRACEABILITY', confidence: 0.9 }]->(r)
+      )
+      FOREACH (sid IN item.storyIds |
+        MERGE (us:UserStory { story_id: sid })
+        ON CREATE SET us.title = sid, us.introduced_in = $v2, us.snapshot_id = $snapshotId
+        MERGE (tc)-[:VERIFIES_STORY { evidence_type: 'PHPUNIT_TRACEABILITY', confidence: 0.9 }]->(us)
+      )
+      FOREACH (bid IN item.ruleIds |
+        MERGE (br:BusinessRule { rule_id: bid })
+        ON CREATE SET br.name = bid, br.introduced_in = $v2, br.snapshot_id = $snapshotId
+        MERGE (tc)-[:VALIDATES_RULE { evidence_type: 'PHPUNIT_TRACEABILITY', confidence: 0.9 }]->(br)
+      )
+    `, { items: payTestLinks, snapshotId, v2: RELEASE_V2_ID });
+  }
+
+  // 6. Distinct Release Lifecycle Semantics (QKG-05 / WS5):
+  //    - INTRODUCED_IN: release where entity originated
+  //    - PRESENT_IN:    factual codebase membership in the release build
+  //    - SUPPORTED_IN:  explicitly supported release scope (v1.0 entities -> v1.0; v2.2 entities & explicit Payroll dependency contracts -> v2.2)
+  await session.run(`
+    MATCH (n)-[oldSup:SUPPORTED_IN]->(:Release { version_id: $v2 })
+    WHERE coalesce(n.introduced_in, 'v1.0') = 'v1.0'
+    DELETE oldSup
+  `, { v2: RELEASE_V2_ID });
+
+  await session.run(`
+    MATCH (n)
+    WHERE (n:Plugin OR n:Class OR n:Method OR n:ApiEndpoint OR n:UIComponent OR n:UIPage OR n:DatabaseTable OR n:DatabaseEntity OR n:Requirement OR n:BusinessDomain OR n:BusinessWorkflow OR n:Feature OR n:BusinessRule OR n:UserStory OR n:Persona)
+      AND coalesce(n.introduced_in, 'v1.0') = 'v1.0'
+    MATCH (r1:Release { version_id: $v1 })
+    MATCH (r2:Release { version_id: $v2 })
+    MERGE (n)-[:INTRODUCED_IN]->(r1)
+    MERGE (n)-[:PRESENT_IN]->(r1)
+    MERGE (n)-[:SUPPORTED_IN]->(r1)
+    MERGE (n)-[:PRESENT_IN]->(r2)
+    SET n.versions = CASE WHEN n.versions IS NULL THEN [$v1, $v2] WHEN NOT $v2 IN n.versions THEN n.versions + $v2 ELSE n.versions END
+  `, { v1: RELEASE_V1_ID, v2: RELEASE_V2_ID });
+
+  await session.run(`
+    MATCH (n)
+    WHERE coalesce(n.introduced_in, '') = $v2
+    MATCH (r2:Release { version_id: $v2 })
+    MERGE (n)-[:INTRODUCED_IN]->(r2)
+    MERGE (n)-[:PRESENT_IN]->(r2)
+    MERGE (n)-[:SUPPORTED_IN]->(r2)
+  `, { v2: RELEASE_V2_ID });
+
+  // Explicit cross-module integration support contracts for v2.2-india-payroll
+  await session.run(`
+    MATCH (pay:Class { plugin: 'orangehrmPayrollPlugin' })-[:DECLARES]->(:Method)-[:CALLS|READS_TABLE|WRITES_TABLE]->(target)
+    WHERE (target:Method OR target:DatabaseTable)
+      AND coalesce(target.introduced_in, 'v1.0') = 'v1.0'
+    MATCH (r2:Release { version_id: $v2 })
+    MERGE (target)-[:SUPPORTED_IN { contract_type: 'PAYROLL_CROSS_MODULE_DEPENDENCY' }]->(r2)
+  `, { v2: RELEASE_V2_ID });
+}
+
+if (require.main === module) {
+  console.error('Use tools/qkg_engine/ingest_pipeline.js to execute full QKG ingestion safely with staging validation.');
   process.exit(1);
-});
+}
+
+module.exports = {
+  RELEASE_V1_ID,
+  RELEASE_V2_ID,
+  PAYROLL_DOMAIN,
+  PAYROLL_WORKFLOWS,
+  PAYROLL_FEATURES,
+  PAYROLL_REQUIREMENTS,
+  PAYROLL_RULES,
+  PAYROLL_PERSONAS,
+  purgeSyntheticPayrollTests,
+  ingestPayrollSpecsAndVersioning
+};

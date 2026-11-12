@@ -1,15 +1,16 @@
 /**
  * OrangeHRM Quality Knowledge Graph (QKG) Ontology Specification
- * Version: 2.0.0
- * Graph Schema Version: 2.0
+ * Version: 2.2.0
+ * Graph Schema Version: 2.2
  */
 
 module.exports = {
   meta: {
-    platform_version: 'QKG v2.0.0',
-    schema_version: '2.0',
-    parser_version: '2.0.0',
-    baseline_id: 'ORANGEHRM_BASELINE_v1.0'
+    platform_version: 'QKG v2.2.0',
+    schema_version: '2.2',
+    parser_version: '2.2.0',
+    baseline_id: 'ORANGEHRM_BASELINE_v1.0',
+    current_release_id: 'v2.2-india-payroll'
   },
 
   node_labels: {
@@ -29,60 +30,141 @@ module.exports = {
     Interface: 'Interface',
     Trait: 'Trait',
     Method: 'Method',
+    Event: 'Event',
     DatabaseEntity: 'DatabaseEntity',
     DatabaseTable: 'DatabaseTable',
+    DatabaseColumn: 'DatabaseColumn',
+    SchemaMigration: 'SchemaMigration',
+    TestSuite: 'TestSuite',
     TestCase: 'TestCase',
     TestExecution: 'TestExecution',
+    TestRun: 'TestRun',
+    CoverageRun: 'CoverageRun',
+    CoverageObservation: 'CoverageObservation',
+    GraphSnapshot: 'GraphSnapshot',
+    Release: 'Release',
     Commit: 'Commit'
   },
 
   relationships: {
     // Requirements & Business Hierarchy
-    CONTAINS: 'CONTAINS',                     // (:BusinessDomain)-[:CONTAINS]->(:BusinessWorkflow)
-    DECOMPOSES_TO: 'DECOMPOSES_TO',           // (:BusinessWorkflow)-[:DECOMPOSES_TO]->(:Feature)
-    HAS_REQUIREMENT_GROUP: 'HAS_REQUIREMENT_GROUP', // (:Feature)-[:HAS_REQUIREMENT_GROUP]->(:RequirementGroup)
-    HAS_REQUIREMENT: 'HAS_REQUIREMENT',       // (:RequirementGroup)-[:HAS_REQUIREMENT]->(:Requirement)
-    GOVERNED_BY: 'GOVERNED_BY',               // (:Requirement)-[:GOVERNED_BY]->(:BusinessRule)
+    CONTAINS: 'CONTAINS',
+    DECOMPOSES_TO: 'DECOMPOSES_TO',
+    HAS_REQUIREMENT_GROUP: 'HAS_REQUIREMENT_GROUP',
+    HAS_REQUIREMENT: 'HAS_REQUIREMENT',
+    GOVERNED_BY: 'GOVERNED_BY',
 
     // User Stories & Personas
-    EXECUTES: 'EXECUTES',                     // (:Persona)-[:EXECUTES]->(:UserStory)
-    REALIZES: 'REALIZES',                     // (:UserStory)-[:REALIZES]->(:Requirement)
-    SUPPORTS_WORKFLOW: 'SUPPORTS_WORKFLOW',   // (:UserStory)-[:SUPPORTS_WORKFLOW]->(:BusinessWorkflow)
-    BELONGS_TO: 'BELONGS_TO',                 // (:UserStory)-[:BELONGS_TO]->(:Feature), (:UIComponent)-[:BELONGS_TO]->(:Feature)
-    IMPLEMENTED_BY: 'IMPLEMENTED_BY',         // (:UserStory)-[:IMPLEMENTED_BY]->(:UIComponent)
-    EXECUTES_VIA: 'EXECUTES_VIA',             // (:UserStory)-[:EXECUTES_VIA]->(:ApiEndpoint)
+    EXECUTES: 'EXECUTES',
+    REALIZES: 'REALIZES',
+    SUPPORTS_WORKFLOW: 'SUPPORTS_WORKFLOW',
+    BELONGS_TO: 'BELONGS_TO',
+    IMPLEMENTED_BY: 'IMPLEMENTED_BY',
+    EXECUTES_VIA: 'EXECUTES_VIA',
 
     // Frontend UI Layer
-    RENDERS: 'RENDERS',                       // (:UIPage)-[:RENDERS]->(:UIComponent)
-    CALLS_ENDPOINT: 'CALLS_ENDPOINT',         // (:UIComponent)-[:CALLS_ENDPOINT]->(:ApiEndpoint)
+    RENDERS: 'RENDERS',
+    CALLS_ENDPOINT: 'CALLS_ENDPOINT',
+    DECLARED_IN: 'DECLARED_IN',
+    EXTENDS_MENU: 'EXTENDS_MENU',
 
     // Code & Architecture
-    EXPOSES: 'EXPOSES',                       // (:Feature)-[:EXPOSES]->(:ApiEndpoint)
-    HANDLED_BY: 'HANDLED_BY',                 // (:ApiEndpoint)-[:HANDLED_BY]->(:Class)
-    DECLARES: 'DECLARES',                     // (:Class)-[:DECLARES]->(:Method)
-    DEPENDS_ON: 'DEPENDS_ON',                 // (:Class)-[:DEPENDS_ON]->(:Class)
-    IMPLEMENTS: 'IMPLEMENTS',                 // (:Class)-[:IMPLEMENTS]->(:Interface)
-    EXTENDS: 'EXTENDS',                       // (:Class)-[:EXTENDS]->(:Class)
-    USES_TRAIT: 'USES_TRAIT',                 // (:Class)-[:USES_TRAIT]->(:Trait)
-    CALLS: 'CALLS',                           // (:Method)-[:CALLS]->(:Method)
-    READS: 'READS',                           // (:Method)-[:READS]->(:DatabaseEntity)
-    WRITES: 'WRITES',                         // (:Method)-[:WRITES]->(:DatabaseEntity)
-    MAPS_TO: 'MAPS_TO',                       // (:DatabaseEntity)-[:MAPS_TO]->(:DatabaseTable)
+    EXPOSES: 'EXPOSES',
+    INCLUDES_ENDPOINT: 'INCLUDES_ENDPOINT',
+    HANDLED_BY: 'HANDLED_BY',
+    DECLARES: 'DECLARES',
+    DEPENDS_ON: 'DEPENDS_ON',
+    INJECTED_WITH: 'INJECTED_WITH',
+    IMPLEMENTS: 'IMPLEMENTS',
+    EXTENDS: 'EXTENDS',
+    USES_TRAIT: 'USES_TRAIT',
+    CALLS: 'CALLS',
+    DISPATCHES: 'DISPATCHES',
+    LISTENS_TO: 'LISTENS_TO',
+
+    // Database Layer
+    IS_ENTITY: 'IS_ENTITY',
+    MAPS_TO: 'MAPS_TO',
+    HAS_COLUMN: 'HAS_COLUMN',
+    MAPS_TO_COLUMN: 'MAPS_TO_COLUMN',
+    FK_REFERENCES: 'FK_REFERENCES',
+    READS_TABLE: 'READS_TABLE',
+    WRITES_TABLE: 'WRITES_TABLE',
+    ACCESSES_COLUMN: 'ACCESSES_COLUMN',
+    MODIFIES_TABLE: 'MODIFIES_TABLE',
+    MODIFIES_COLUMN: 'MODIFIES_COLUMN',
+    READS: 'READS',
+    WRITES: 'WRITES',
 
     // Quality Engineering & Tests
-    VERIFIES: 'VERIFIES',                     // (:TestCase)-[:VERIFIES]->(:Requirement)
-    VERIFIES_STORY: 'VERIFIES_STORY',         // (:TestCase)-[:VERIFIES_STORY]->(:UserStory)
-    TESTS_WORKFLOW: 'TESTS_WORKFLOW',         // (:TestCase)-[:TESTS_WORKFLOW]->(:BusinessWorkflow)
-    TESTS_COMPONENT: 'TESTS_COMPONENT',       // (:TestCase)-[:TESTS_COMPONENT]->(:UIComponent)
-    TESTS_PAGE: 'TESTS_PAGE',                 // (:TestCase)-[:TESTS_PAGE]->(:UIPage)
-    EXECUTES_AGAINST: 'EXECUTES_AGAINST',     // (:TestCase)-[:EXECUTES_AGAINST]->(:ApiEndpoint)
-    TESTS: 'TESTS',                           // (:TestCase)-[:TESTS]->(:Method)
-    VALIDATES_RULE: 'VALIDATES_RULE'          // (:TestCase)-[:VALIDATES_RULE]->(:BusinessRule)
-    VALIDATES_RULE: 'VALIDATES_RULE',         // (:TestCase)-[:VALIDATES_RULE]->(:BusinessRule)
-    HAS_EXECUTION: 'HAS_EXECUTION'            // (:TestCase)-[:HAS_EXECUTION]->(:TestExecution)
+    HAS_TEST_SUITE: 'HAS_TEST_SUITE',
+    CONTAINS_TEST: 'CONTAINS_TEST',
+    VERIFIES: 'VERIFIES',
+    VERIFIES_STORY: 'VERIFIES_STORY',
+    VERIFIED_BY: 'VERIFIED_BY',
+    PLANNED_VERIFICATION: 'PLANNED_VERIFICATION',
+    PLANNED_ENDPOINT_COVERAGE: 'PLANNED_ENDPOINT_COVERAGE',
+    TESTS_WORKFLOW: 'TESTS_WORKFLOW',
+    TESTS_COMPONENT: 'TESTS_COMPONENT',
+    TESTS_PAGE: 'TESTS_PAGE',
+    NAVIGATES_PAGE: 'NAVIGATES_PAGE',
+    EXECUTES_AGAINST: 'EXECUTES_AGAINST',
+    COVERS_ENDPOINT: 'COVERS_ENDPOINT',
+    TESTS: 'TESTS',
+    POTENTIAL_COVERS: 'POTENTIAL_COVERS',
+    VALIDATES_RULE: 'VALIDATES_RULE',
+    HAS_EXECUTION: 'HAS_EXECUTION',
+    EXECUTED_TEST: 'EXECUTED_TEST',
+    EXECUTED_AGAINST_SNAPSHOT: 'EXECUTED_AGAINST_SNAPSHOT',
+    PART_OF: 'PART_OF',
+    COVERED_IN: 'COVERED_IN',
+    COVERED_COMPONENT_IN: 'COVERED_COMPONENT_IN',
+    MEASURED_FOR: 'MEASURED_FOR',
+    FROM_RUN: 'FROM_RUN',
+
+    // Release & Snapshot Versioning
+    INTRODUCED_IN: 'INTRODUCED_IN',
+    PRESENT_IN: 'PRESENT_IN',
+    SUPPORTED_IN: 'SUPPORTED_IN',
+    CHANGED_IN: 'CHANGED_IN',
+    REMOVED_IN: 'REMOVED_IN',
+    EVOLVED_TO: 'EVOLVED_TO',
+    INCLUDES_SNAPSHOT: 'INCLUDES_SNAPSHOT',
+    PREVIOUS_SNAPSHOT: 'PREVIOUS_SNAPSHOT',
+    RECORDED_COMMIT: 'RECORDED_COMMIT',
+    INTEGRATES_WITH: 'INTEGRATES_WITH'
   },
 
+  evidence_tiers: {
+    TIER_1_CONFIRMED_STATIC: ['ENDPOINT_INTEGRATION_ASSERT', 'PLAYWRIGHT_AST_NETWORK', 'CYPRESS_API_ASSERT', 'PHPUNIT_SUT_CALL', 'DOCBLOCK_COVERS', 'PHPUNIT_TRACEABILITY'],
+    TIER_2_PROBABLE_STATIC: ['AST_METHOD_CALL', 'PHPUNIT_REFLECTION_CALL', 'JEST_IMPORT_TRACE', 'PLAYWRIGHT_TAG', 'PLAYWRIGHT_GOTO', 'CYPRESS_PAGE_GOTO'],
+    TIER_3_POTENTIAL_HEURISTIC: ['COLLABORATOR_MOCK_HINT', 'TEST_NAME_HEURISTIC'],
+    TIER_4_PLANNED_BACKLOG: ['BASELINE_MANIFEST']
+  },
+
+  release_semantics: ['INTRODUCED_IN', 'PRESENT_IN', 'SUPPORTED_IN', 'CHANGED_IN', 'REMOVED_IN'],
+
   evidence_types: {
+    AST_CALL_ANALYSIS: 'AST_CALL_ANALYSIS',
+    AST_SUT_CALL: 'AST_SUT_CALL',
+    AST_VAR_CALL: 'AST_VAR_CALL',
+    DOCBLOCK_COVERS: 'DOCBLOCK_COVERS',
+    NAMING_OR_COLLABORATOR_HEURISTIC: 'NAMING_OR_COLLABORATOR_HEURISTIC',
+    ENDPOINT_TEST_CASE_MOCK: 'ENDPOINT_TEST_CASE_MOCK',
+    DB_SCHEMA_FK: 'DB_SCHEMA_FK',
+    DOCTRINE_MAPPING: 'DOCTRINE_MAPPING',
+    DQL_QUERYBUILDER: 'DQL_QUERYBUILDER',
+    RAW_SQL: 'RAW_SQL',
+    STATIC_CONFIG: 'STATIC_CONFIG',
+    SYMFONY_EVENT: 'SYMFONY_EVENT',
+    MENU_CONFIG: 'MENU_CONFIG',
+    PLAYWRIGHT_AST: 'PLAYWRIGHT_AST',
+    CYPRESS_AST: 'CYPRESS_AST',
+    JEST_AST: 'JEST_AST',
+    PCOV_CLOVER: 'PCOV_CLOVER',
+    JUNIT_EXECUTION: 'JUNIT_EXECUTION',
+    SCHEMA_DDL: 'SCHEMA_DDL',
+    MIGRATION_FILE: 'MIGRATION_FILE',
     AST: 'AST',
     CONFIG: 'CONFIG',
     SPEC: 'SPEC',
@@ -91,4 +173,3 @@ module.exports = {
     INFERRED: 'INFERRED'
   }
 };
-

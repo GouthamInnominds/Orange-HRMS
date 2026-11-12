@@ -7,6 +7,117 @@
 const fs = require('fs');
 const path = require('path');
 
+// Deterministic normalization from baseline TestStrategy descriptive requirement_ids -> canonical spec FR/NFR IDs
+const BASELINE_REQ_PREFIX_RULES = [
+  [/^FR_ADM_(JOB|PAY_GRADE|EMPLOYMENT_STATUS|WORK_SHIFT|SKILL|QUALIFICATION|NATIONALITY|LANGUAGE|I18N)/, 'FR_ADM_001'],
+  [/^FR_ADM_(SYSTEM_USER|USERNAME|EMAIL|MODULES)/, 'FR_ADM_002'],
+  [/^FR_ADM_(ORGANIZATION|LOCATION)/, 'FR_ADM_003'],
+  [/^FR_AUTH_/, 'FR_ADM_002'],
+  [/^FR_PIM_(JOB_DETAILS)/, 'FR_PIM_002'],
+  [/^FR_PIM_(REPORT_TO)/, 'FR_PIM_003'],
+  [/^FR_PIM_(SALARY)/, 'FR_PIM_004'],
+  [/^FR_PIM_/, 'FR_PIM_001'],
+  [/^FR_DIR_/, 'FR_PIM_001'],
+  [/^FR_LEV_(LEAVE_ENTITLEMENT|HOLIDAY|LEAVE_PERIOD|WORK_WEEK|LEAVE_TYPE)/, 'FR_LEV_001'],
+  [/^FR_LEV_(APPLY|ASSIGN)/, 'FR_LEV_002'],
+  [/^FR_LEV_/, 'FR_LEV_003'],
+  [/^FR_TIM_(CUSTOMER|PROJECT)/, 'FR_TIM_002'],
+  [/^FR_TIM_/, 'FR_TIM_001'],
+  [/^FR_ATT_/, 'FR_ATT_001'],
+  [/^FR_REC_(VACANC)/, 'FR_REC_001'],
+  [/^FR_REC_(INTERVIEW)/, 'FR_REC_003'],
+  [/^FR_REC_/, 'FR_REC_002'],
+  [/^FR_PRF_/, 'FR_PRF_001'],
+  [/^FR_CLM_/, 'FR_CLM_001'],
+  [/^FR_BUZZ_/, 'FR_BUZ_001'],
+  [/^FR_MNT_/, 'FR_MNT_001']
+];
+
+// Verified endpoint path aliases from user_stories.json shorthand -> actual Symfony routes.yaml IDs
+const STORY_ENDPOINT_ALIASES = {
+  'PUT /api/v2/pim/employees/{id}/contact-details': 'PUT /api/v2/pim/employee/{empNumber}/contact-details',
+  'POST /api/v2/pim/employees/{id}/termination': 'POST /api/v2/pim/employees/{empNumber}/terminations',
+  'DELETE /api/v2/pim/employees/{id}/termination': 'DELETE /api/v2/pim/employees/{empNumber}/terminations',
+  'DELETE /api/v2/admin/job-titles/{id}': 'DELETE /api/v2/admin/job-titles',
+  'GET /api/v2/leave/work-week': 'GET /api/v2/leave/workweek',
+  'PUT /api/v2/time/timesheets/{id}/action': 'PUT /api/v2/time/timesheets/{id}',
+  'POST /api/v2/time/activities': 'POST /api/v2/time/project/{projectId}/activities',
+  'POST /api/v2/recruitment/candidates/{id}/attachments': 'POST /api/v2/recruitment/candidate/attachments',
+  'POST /api/v2/recruitment/candidates/{id}/interviews': 'POST /api/v2/recruitment/candidates/{candidateId}/shedule-interview',
+  'PUT /api/v2/recruitment/candidates/{id}/action': 'PUT /api/v2/recruitment/candidates/{candidateId}/shortlist',
+  'POST /api/v2/maintenance/purge-employee-data': 'DELETE /api/v2/maintenance/purge',
+  'POST /api/v2/maintenance/purge-candidate-data': 'DELETE /api/v2/maintenance/candidates/purge',
+  'POST /api/v2/auth/login': 'POST /auth/validate',
+  'POST /api/v2/auth/logout': 'GET /auth/logout',
+  'POST /api/v2/auth/password-strength': 'POST /api/v2/auth/public/validation/password'
+};
+
+// Verified UI component filename aliases from user_stories.json -> actual OrangeHRM Vue SFC filenames
+const STORY_UI_ALIASES = {
+  'EmployeeSalary.vue': 'SaveSalaryComponent.vue',
+  'EmployeeEmergencyContacts.vue': 'SaveEmergencyContact.vue',
+  'User.vue': 'SystemUser.vue',
+  'SaveUser.vue': 'SaveSystemUser.vue',
+  'OrganizationStructure.vue': 'OrgStructure.vue',
+  'Location.vue': 'LocationList.vue',
+  'PayGrade.vue': 'AddPayGrade.vue',
+  'AddLeaveEntitlement.vue': 'AddEntitlement.vue',
+  'LeaveEntitlementList.vue': 'LeaveEntitlements.vue',
+  'ApplyLeave.vue': 'LeaveApply.vue',
+  'LeaveActionDialog.vue': 'LeaveBulkActionModal.vue',
+  'HolidayList.vue': 'SaveHoliday.vue',
+  'MyTimesheet.vue': 'Timesheet.vue',
+  'TimesheetGrid.vue': 'EditTimeSheet.vue',
+  'ProjectList.vue': 'Project.vue',
+  'SaveProject.vue': 'ProjectSave.vue',
+  'MyAttendanceRecord.vue': 'ViewMyAttendance.vue',
+  'SaveVacancy.vue': 'AddJobVacancy.vue',
+  'CandidateList.vue': 'ViewCandidatesList.vue',
+  'InterviewList.vue': 'ViewActionHistory.vue',
+  'ScheduleInterview.vue': 'InterviewScheduleAction.vue',
+  'KpiList.vue': 'KpiSearch.vue',
+  'SaveKpi.vue': 'KpiSave.vue',
+  'PerformanceTrackerList.vue': 'PerformanceTrackers.vue',
+  'SavePerformanceTrackerLog.vue': 'AddTrackerLogModal.vue',
+  'MyClaimList.vue': 'MyClaims.vue',
+  'ClaimList.vue': 'AssignClaim.vue',
+  'ClaimActionDialog.vue': 'ClaimActionButtons.vue',
+  'BuzzFeed.vue': 'ViewBuzz.vue',
+  'PostShare.vue': 'SharePostModal.vue',
+  'BuzzComments.vue': 'PostCommentContainer.vue',
+  'DirectoryList.vue': 'CorporateDirectory.vue',
+  'EmployeeCard.vue': 'SummaryCard.vue',
+  'PurgeEmployeeData.vue': 'PurgeEmployee.vue',
+  'PurgeCandidateData.vue': 'PurgeCandidate.vue'
+};
+
+function normalizeParamPath(epSpec) {
+  if (!epSpec) return null;
+  const trimmed = String(epSpec).trim();
+  const spaceIdx = trimmed.indexOf(' ');
+  if (spaceIdx === -1) return trimmed.replace(/\{[^}]+\}/g, '{param}').replace(/\/+$/, '');
+  const method = trimmed.slice(0, spaceIdx).toUpperCase();
+  const route = trimmed.slice(spaceIdx + 1).trim().replace(/\{[^}]+\}/g, '{param}').replace(/\/+$/, '') || '/';
+  return `${method} ${route}`;
+}
+
+function resolveRequirementAlias(rawReqId, validReqSet = null) {
+  if (!rawReqId) return null;
+  const clean = String(rawReqId).trim();
+  if (!validReqSet || validReqSet.has(clean)) {
+    if (!validReqSet) {
+      // Fall through to check prefix rules when validReqSet isn't passed only if it looks non-canonical
+      if (/^(FR|NFR)_[A-Z]{3}_\d{3}$/.test(clean)) return clean;
+    } else {
+      return clean;
+    }
+  }
+  for (const [re, canonical] of BASELINE_REQ_PREFIX_RULES) {
+    if (re.test(clean)) return canonical;
+  }
+  return clean;
+}
+
 class GlobalSpecExtractor {
   constructor(baselineDir) {
     this.baselineDir = baselineDir;
@@ -205,6 +316,76 @@ class GlobalSpecExtractor {
     return { domains, workflows, features, requirementGroups, requirements, businessRules, personas, userStories };
   }
 
+  /**
+   * Resolves baseline user story target_endpoints and target_ui_components against
+   * live extracted endpoints and Vue components without fabricating non-existent targets.
+   */
+  resolveStoryTargets(userStories = [], domains = [], apiEndpoints = [], uiComponents = []) {
+    const domainPluginMap = new Map(domains.map((d) => [d.domain_id, d.plugin]));
+    const epExact = new Set(apiEndpoints.map((e) => e.endpoint_id));
+    const epByNorm = new Map();
+    for (const e of apiEndpoints) {
+      epByNorm.set(normalizeParamPath(e.endpoint_id), e.endpoint_id);
+    }
+
+    const uiByPluginAndFile = new Map();
+    const uiByFileBase = new Map();
+    for (const ui of uiComponents) {
+      const baseName = path.basename(ui.file || `${ui.name}.vue`).toLowerCase();
+      uiByPluginAndFile.set(`${ui.plugin}::${baseName}`, ui.component_id);
+      if (!uiByFileBase.has(baseName)) uiByFileBase.set(baseName, []);
+      uiByFileBase.get(baseName).push(ui.component_id);
+    }
+
+    const endpointLinks = [];
+    const uiLinks = [];
+    const missingTargets = [];
+
+    for (const st of userStories) {
+      const plugin = domainPluginMap.get(st.domain_id) || null;
+
+      for (const rawEp of (st.target_endpoints || [])) {
+        const candidate = STORY_ENDPOINT_ALIASES[rawEp.trim()] || rawEp.trim();
+        let resolvedId = null;
+        if (epExact.has(candidate)) resolvedId = candidate;
+        else {
+          const norm = normalizeParamPath(candidate);
+          if (epByNorm.has(norm)) resolvedId = epByNorm.get(norm);
+        }
+        if (resolvedId) {
+          endpointLinks.push({
+            story_id: st.story_id,
+            feature_id: st.feature_id,
+            endpoint_id: resolvedId,
+            raw_target: rawEp.trim()
+          });
+        } else {
+          missingTargets.push({ story_id: st.story_id, target_type: 'ApiEndpoint', raw_target: rawEp });
+        }
+      }
+
+      for (const rawUi of (st.target_ui_components || [])) {
+        const candidate = (STORY_UI_ALIASES[rawUi.trim()] || rawUi.trim()).toLowerCase();
+        let resolvedCid = plugin ? uiByPluginAndFile.get(`${plugin}::${candidate}`) : null;
+        if (!resolvedCid && uiByFileBase.has(candidate)) {
+          const matches = uiByFileBase.get(candidate);
+          if (matches.length === 1) resolvedCid = matches[0];
+        }
+        if (resolvedCid) {
+          uiLinks.push({
+            story_id: st.story_id,
+            component_id: resolvedCid,
+            raw_target: rawUi.trim()
+          });
+        } else {
+          missingTargets.push({ story_id: st.story_id, target_type: 'UIComponent', raw_target: rawUi });
+        }
+      }
+    }
+
+    return { endpointLinks, uiLinks, missingTargets };
+  }
+
   loadAllTestSuites() {
     const testStrategyDir = path.join(this.baselineDir, '04_Test_Strategy');
     
@@ -231,3 +412,5 @@ class GlobalSpecExtractor {
 }
 
 module.exports = GlobalSpecExtractor;
+module.exports.resolveRequirementAlias = resolveRequirementAlias;
+module.exports.normalizeParamPath = normalizeParamPath;
