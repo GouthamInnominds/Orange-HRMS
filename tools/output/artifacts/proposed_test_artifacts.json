@@ -1,0 +1,40 @@
+{
+  "schema_version": "2.2.0",
+  "updated_at": "2026-11-12T07:45:12.402Z",
+  "artifacts": {
+    "PROP-PAYROLL_RUN-11E481EF": {
+      "artifact_id": "PROP-PAYROLL_RUN-11E481EF",
+      "signature": "11e481ef0bd4cbb3",
+      "status": "PROPOSED",
+      "scenario_title": "Test salary slip generation over MCP",
+      "test_tier": "E2E_PLAYWRIGHT",
+      "workflow_id": "WF_PAYROLL_RUN",
+      "feature_id": null,
+      "rule_id": null,
+      "action_flow": "Test salary slip generation over MCP",
+      "assertions": [
+        "Status should be GENERATED"
+      ],
+      "synthetic_data_fixture": "PayrollEmployeeFactory::createStandardSalaried()",
+      "traceability_evidence": {
+        "mapped_methods": [],
+        "mapped_endpoints": [],
+        "mapped_tables": []
+      },
+      "provenance": {
+        "app_commit": "f2d134b1c554",
+        "proposed_by": "AI_AGENT",
+        "proposed_at": "2026-11-12T07:45:12.402Z"
+      },
+      "review_history": [
+        {
+          "from_status": null,
+          "to_status": "PROPOSED",
+          "actor": "AI_AGENT",
+          "timestamp": "2026-11-12T07:45:12.402Z",
+          "comment": "Initial candidate proposal by AI test generation agent"
+        }
+      ]
+    }
+  }
+}

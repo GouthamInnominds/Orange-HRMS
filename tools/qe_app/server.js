@@ -12,6 +12,7 @@ const testService = require('./services/test_service');
 const metricsService = require('./services/metrics_service');
 const agentOrchestrator = require('./services/agent_orchestrator');
 const qeIntelligenceService = require('./services/qe_intelligence_service');
+const artifactGovernanceService = require('./services/artifact_governance_service');
 const snapshotManifest = require('../qkg_engine/snapshot_manifest');
 const { sanitizePayload } = require('../qkg_engine/security_guard');
 
@@ -267,8 +268,27 @@ const CANONICAL_QE_DISPATCH = {
   explain_test_selection: (args) => qeIntelligenceService.explainTestSelection(args)
 };
 
+// Extended Context Retrieval & Governance Dispatchers (Phase 1 / ARCH-02)
+const EXTENDED_QE_DISPATCH = {
+  ...CANONICAL_QE_DISPATCH,
+  get_release_readiness: () => qeIntelligenceService.getReleaseReadiness(),
+  get_test_generation_context: (args) => qeIntelligenceService.getTestGenerationContext(args),
+  get_business_context: (args) => qeIntelligenceService.getBusinessContext(args),
+  get_code_context: (args) => qeIntelligenceService.getCodeContext(args),
+  get_api_ui_context: (args) => qeIntelligenceService.getApiUiContext(args),
+  get_existing_tests: (args) => qeIntelligenceService.getExistingTests(args),
+  propose_test_artifact: (args) => artifactGovernanceService.proposeArtifact(args),
+  list_review_queue: (args) => artifactGovernanceService.listReviewQueue(args),
+  get_test_artifact: (args) => artifactGovernanceService.getArtifact(args.artifact_id || args.id),
+  update_artifact_status: (args) => artifactGovernanceService.updateArtifactStatus(
+    args.artifact_id || args.id,
+    args.status,
+    { actor: args.actor, comment: args.comment }
+  )
+};
+
 app.all('/api/v2/qe/:tool', async (req, res) => {
-  const handler = CANONICAL_QE_DISPATCH[req.params.tool];
+  const handler = EXTENDED_QE_DISPATCH[req.params.tool];
   if (!handler) {
     return res.status(404).json({ error: `Unknown QE capability '${req.params.tool}'` });
   }
@@ -276,6 +296,47 @@ app.all('/api/v2/qe/:tool', async (req, res) => {
   auditLog('QE_FACADE_CALL', { tool: req.params.tool });
   try {
     const result = await handler(args);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ analysisStatus: 'FAILED', error: err.message });
+  }
+});
+
+// Dedicated REST endpoints for Review Queue & Context
+app.get('/api/v2/artifacts/review-queue', async (req, res) => {
+  try {
+    const list = await artifactGovernanceService.listReviewQueue(req.query);
+    res.json(list);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/v2/artifacts/propose', async (req, res) => {
+  try {
+    const result = await artifactGovernanceService.proposeArtifact(req.body);
+    res.status(result.is_duplicate ? 409 : 201).json(result);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.patch('/api/v2/artifacts/:id/status', async (req, res) => {
+  try {
+    const result = await artifactGovernanceService.updateArtifactStatus(
+      req.params.id,
+      req.body.status,
+      { actor: req.body.actor, comment: req.body.comment }
+    );
+    res.json(result);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.get('/api/v2/context/test-generation', async (req, res) => {
+  try {
+    const result = await qeIntelligenceService.getTestGenerationContext(req.query);
     res.json(result);
   } catch (err) {
     res.status(500).json({ analysisStatus: 'FAILED', error: err.message });

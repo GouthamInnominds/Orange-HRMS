@@ -1465,6 +1465,539 @@ class QeIntelligenceService {
       });
     }
   }
+
+  /**
+   * 10. Context Retrieval: Business Workflows, Rules, Requirements, and Personas (Phase 1 / ARCH-01)
+   */
+  async getBusinessContext(args = {}) {
+    const ctx = await this._assessContext();
+    const workflowId = args.workflow_id || args.workflowId || null;
+    const ruleId = args.rule_id || args.ruleId || null;
+    const featureId = args.feature_id || args.featureId || null;
+
+    if (!ctx.graphAvailable) {
+      return buildIntelligenceEnvelope({
+        snapshot: null,
+        completeness: ctx.completeness,
+        analysisStatus: 'UNAVAILABLE',
+        limitations: ctx.limitations,
+        data: { workflow: null, businessRules: [], requirements: [], personas: [] }
+      });
+    }
+
+    try {
+      if (workflowId) {
+        const rows = await this._safeRunQuery(`
+          MATCH (w:BusinessWorkflow)
+          WHERE w.workflow_id = $workflowId OR w.workflow_id = 'WF_' + $workflowId OR w.name CONTAINS $workflowId
+          OPTIONAL MATCH (d:BusinessDomain)-[:CONTAINS|CONTAINS_WORKFLOW|HAS_WORKFLOW]->(w)
+          OPTIONAL MATCH (w)-[:DECOMPOSES_TO|COMPOSES_TO|INCLUDES_FEATURE|CONTAINS_FEATURE]->(f:Feature)
+          OPTIONAL MATCH (f)-[:HAS_REQUIREMENT|CONTAINS_REQUIREMENT]->(r:Requirement)
+          OPTIONAL MATCH (r)-[:GOVERNED_BY]->(br:BusinessRule)
+          OPTIONAL MATCH (w)-[:PERFORMED_BY|INTERACTS_WITH]->(p:Persona)
+          RETURN w.workflow_id AS workflowId, w.name AS workflowName, w.type AS workflowType,
+                 d.domain_id AS domainId, d.name AS domainName,
+                 collect(DISTINCT CASE WHEN f IS NOT NULL THEN { feature_id: f.feature_id, name: f.name } END) AS features,
+                 collect(DISTINCT CASE WHEN r IS NOT NULL THEN { requirement_id: r.requirement_id, title: r.title, priority: r.priority, status: r.status } END) AS requirements,
+                 collect(DISTINCT CASE WHEN br IS NOT NULL THEN { rule_id: br.rule_id, name: br.name, description: br.description } END) AS businessRules,
+                 collect(DISTINCT CASE WHEN p IS NOT NULL THEN { persona_id: p.persona_id, name: p.name, role: p.role } END) AS personas
+          LIMIT 1
+        `, { workflowId: String(workflowId) });
+
+        if (!rows || rows.length === 0) {
+          return buildIntelligenceEnvelope({
+            snapshot: ctx.snapshot,
+            completeness: ctx.completeness,
+            analysisStatus: 'PARTIAL',
+            limitations: [`WORKFLOW_NOT_FOUND: ${workflowId}`],
+            data: { workflow: null, businessRules: [], requirements: [], personas: [] }
+          });
+        }
+
+        const row = rows[0];
+        return buildIntelligenceEnvelope({
+          snapshot: ctx.snapshot,
+          completeness: ctx.completeness,
+          analysisStatus: 'SUCCESS',
+          limitations: ctx.limitations,
+          data: {
+            workflow: {
+              workflow_id: row.workflowId,
+              name: row.workflowName,
+              type: row.workflowType,
+              domain_id: row.domainId,
+              domain_name: row.domainName
+            },
+            features: (row.features || []).filter(Boolean),
+            requirements: (row.requirements || []).filter(Boolean),
+            businessRules: (row.businessRules || []).filter(Boolean),
+            personas: (row.personas || []).filter(Boolean)
+          }
+        });
+      }
+
+      if (ruleId) {
+        const rows = await this._safeRunQuery(`
+          MATCH (br:BusinessRule)
+          WHERE br.rule_id = $ruleId OR br.name CONTAINS $ruleId
+          OPTIONAL MATCH (r:Requirement)-[:GOVERNED_BY]->(br)
+          OPTIONAL MATCH (f:Feature)-[:HAS_REQUIREMENT]->(r)
+          OPTIONAL MATCH (w:BusinessWorkflow)-[:DECOMPOSES_TO|COMPOSES_TO]->(f)
+          RETURN br.rule_id AS ruleId, br.name AS name, br.description AS description,
+                 collect(DISTINCT CASE WHEN r IS NOT NULL THEN { requirement_id: r.requirement_id, title: r.title } END) AS requirements,
+                 collect(DISTINCT CASE WHEN f IS NOT NULL THEN { feature_id: f.feature_id, name: f.name } END) AS features,
+                 collect(DISTINCT CASE WHEN w IS NOT NULL THEN { workflow_id: w.workflow_id, name: w.name } END) AS workflows
+          LIMIT 5
+        `, { ruleId: String(ruleId) });
+
+        return buildIntelligenceEnvelope({
+          snapshot: ctx.snapshot,
+          completeness: ctx.completeness,
+          analysisStatus: rows.length > 0 ? 'SUCCESS' : 'PARTIAL',
+          limitations: rows.length === 0 ? [`RULE_NOT_FOUND: ${ruleId}`] : ctx.limitations,
+          data: {
+            rules: rows.map((r) => ({
+              rule_id: r.ruleId,
+              name: r.name,
+              description: r.description,
+              requirements: (r.requirements || []).filter(Boolean),
+              features: (r.features || []).filter(Boolean),
+              workflows: (r.workflows || []).filter(Boolean)
+            }))
+          }
+        });
+      }
+
+      // Default: list all active workflows
+      const allWorkflows = await this._safeRunQuery(`
+        MATCH (w:BusinessWorkflow)
+        OPTIONAL MATCH (d:BusinessDomain)-[:CONTAINS|CONTAINS_WORKFLOW|HAS_WORKFLOW]->(w)
+        RETURN w.workflow_id AS workflowId, w.name AS name, w.type AS type, d.name AS domainName
+        ORDER BY w.workflow_id ASC
+        LIMIT 50
+      `);
+
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: 'SUCCESS',
+        limitations: ctx.limitations,
+        data: {
+          totalWorkflows: allWorkflows.length,
+          workflows: allWorkflows.map((w) => ({
+            workflow_id: w.workflowId,
+            name: w.name,
+            type: w.type,
+            domain_name: w.domainName
+          }))
+        }
+      });
+    } catch (err) {
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: 'FAILED',
+        limitations: [...ctx.limitations, `GET_BUSINESS_CONTEXT_ERROR: ${err.message}`],
+        data: { workflow: null, businessRules: [], requirements: [], personas: [] }
+      });
+    }
+  }
+
+  /**
+   * 11. Context Retrieval: Code Context (Methods, Calls, Accessed Columns, Routes)
+   */
+  async getCodeContext(args = {}) {
+    const ctx = await this._assessContext();
+    const filePath = args.file_path || args.filePath || args.file || null;
+    const methodId = args.method_id || args.methodId || null;
+    const className = args.class_name || args.className || args.class_fqcn || null;
+
+    if (!ctx.graphAvailable) {
+      return buildIntelligenceEnvelope({
+        snapshot: null,
+        completeness: ctx.completeness,
+        analysisStatus: 'UNAVAILABLE',
+        limitations: ctx.limitations,
+        data: { methods: [], callers: [], callees: [], accessedColumns: [], endpoints: [] }
+      });
+    }
+
+    try {
+      if (methodId) {
+        const rows = await this._safeRunQuery(`
+          MATCH (m:Method)
+          WHERE m.method_id = $methodId OR m.name = $methodId
+          OPTIONAL MATCH (caller:Method)-[:CALLS]->(m)
+          OPTIONAL MATCH (m)-[:CALLS]->(callee:Method)
+          OPTIONAL MATCH (m)-[ac:ACCESSES_COLUMN]->(col:DatabaseColumn)
+          OPTIONAL MATCH (ep:ApiEndpoint)-[:DISPATCHES_TO|HANDLED_BY]->(m)
+          RETURN m.method_id AS methodId, m.name AS name, m.file_path AS filePath, m.class_name AS className,
+                 collect(DISTINCT CASE WHEN caller IS NOT NULL THEN { method_id: caller.method_id, file: caller.file_path } END)[0..20] AS callers,
+                 collect(DISTINCT CASE WHEN callee IS NOT NULL THEN { method_id: callee.method_id, file: callee.file_path } END)[0..20] AS callees,
+                 collect(DISTINCT CASE WHEN col IS NOT NULL THEN { column: col.column_name, table: col.table_name, mode: ac.access_mode } END) AS accessedColumns,
+                 collect(DISTINCT CASE WHEN ep IS NOT NULL THEN { route: ep.url_pattern, method: ep.http_method } END) AS endpoints
+          LIMIT 1
+        `, { methodId: String(methodId) });
+
+        if (!rows || rows.length === 0) {
+          return buildIntelligenceEnvelope({
+            snapshot: ctx.snapshot,
+            completeness: ctx.completeness,
+            analysisStatus: 'PARTIAL',
+            limitations: [`METHOD_NOT_FOUND: ${methodId}`],
+            data: { methods: [], callers: [], callees: [], accessedColumns: [], endpoints: [] }
+          });
+        }
+
+        const r = rows[0];
+        return buildIntelligenceEnvelope({
+          snapshot: ctx.snapshot,
+          completeness: ctx.completeness,
+          analysisStatus: 'SUCCESS',
+          limitations: ctx.limitations,
+          data: {
+            method: {
+              method_id: r.methodId,
+              name: r.name,
+              file_path: r.filePath,
+              class_name: r.className
+            },
+            callers: (r.callers || []).filter(Boolean),
+            callees: (r.callees || []).filter(Boolean),
+            accessed_columns: (r.accessedColumns || []).filter(Boolean),
+            endpoints: (r.endpoints || []).filter(Boolean)
+          }
+        });
+      }
+
+      if (filePath || className) {
+        const rows = await this._safeRunQuery(`
+          MATCH (m:Method)
+          WHERE ($filePath IS NOT NULL AND m.file_path CONTAINS $filePath)
+             OR ($className IS NOT NULL AND m.class_name = $className)
+          OPTIONAL MATCH (m)-[:CALLS]->(callee:Method)
+          OPTIONAL MATCH (m)-[ac:ACCESSES_COLUMN]->(col:DatabaseColumn)
+          OPTIONAL MATCH (ep:ApiEndpoint)-[:DISPATCHES_TO|HANDLED_BY]->(m)
+          RETURN m.method_id AS methodId, m.name AS name, m.file_path AS filePath, m.class_name AS className,
+                 collect(DISTINCT callee.method_id)[0..10] AS calls,
+                 collect(DISTINCT col.column_name)[0..10] AS columns,
+                 collect(DISTINCT ep.url_pattern) AS endpoints
+          LIMIT 50
+        `, { filePath: filePath ? String(filePath) : null, className: className ? String(className) : null });
+
+        return buildIntelligenceEnvelope({
+          snapshot: ctx.snapshot,
+          completeness: ctx.completeness,
+          analysisStatus: rows.length > 0 ? 'SUCCESS' : 'PARTIAL',
+          limitations: rows.length === 0 ? [`NO_CODE_FOUND: ${filePath || className}`] : ctx.limitations,
+          data: {
+            totalMethods: rows.length,
+            methods: rows.map((r) => ({
+              method_id: r.methodId,
+              name: r.name,
+              file_path: r.filePath,
+              class_name: r.className,
+              callees: (r.calls || []).filter(Boolean),
+              columns: (r.columns || []).filter(Boolean),
+              endpoints: (r.endpoints || []).filter(Boolean)
+            }))
+          }
+        });
+      }
+
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: 'PARTIAL',
+        limitations: ['MISSING_ARGUMENT: Provide file_path, class_name, or method_id'],
+        data: { methods: [] }
+      });
+    } catch (err) {
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: 'FAILED',
+        limitations: [...ctx.limitations, `GET_CODE_CONTEXT_ERROR: ${err.message}`],
+        data: { methods: [] }
+      });
+    }
+  }
+
+  /**
+   * 12. Context Retrieval: API & UI Component Context
+   */
+  async getApiUiContext(args = {}) {
+    const ctx = await this._assessContext();
+    const endpointId = args.endpoint_id || args.endpointId || null;
+    const route = args.route || args.path || null;
+    const pageId = args.page_id || args.pageId || null;
+
+    if (!ctx.graphAvailable) {
+      return buildIntelligenceEnvelope({
+        snapshot: null,
+        completeness: ctx.completeness,
+        analysisStatus: 'UNAVAILABLE',
+        limitations: ctx.limitations,
+        data: { endpoints: [], pages: [], components: [] }
+      });
+    }
+
+    try {
+      const rows = await this._safeRunQuery(`
+        MATCH (ep:ApiEndpoint)
+        WHERE ($endpointId IS NOT NULL AND (ep.endpoint_id = $endpointId OR ep.url_pattern = $endpointId))
+           OR ($route IS NOT NULL AND ep.url_pattern CONTAINS $route)
+        OPTIONAL MATCH (ep)-[:HANDLED_BY|DISPATCHES_TO]->(m:Method)
+        OPTIONAL MATCH (comp:UIComponent)-[:INVOKES_API|CALLS_ENDPOINT]->(ep)
+        OPTIONAL MATCH (page:UIPage)-[:CONTAINS_COMPONENT]->(comp)
+        RETURN ep.endpoint_id AS endpointId, ep.url_pattern AS urlPattern, ep.http_method AS httpMethod,
+               ep.route_name AS routeName,
+               collect(DISTINCT CASE WHEN m IS NOT NULL THEN { method_id: m.method_id, file: m.file_path } END) AS handlers,
+               collect(DISTINCT CASE WHEN comp IS NOT NULL THEN { component_id: comp.component_id, name: comp.name } END) AS components,
+               collect(DISTINCT CASE WHEN page IS NOT NULL THEN { page_id: page.page_id, route_pattern: page.route_pattern } END) AS pages
+        LIMIT 20
+      `, { endpointId: endpointId ? String(endpointId) : null, route: route ? String(route) : null });
+
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: rows.length > 0 ? 'SUCCESS' : 'PARTIAL',
+        limitations: rows.length === 0 ? [`NO_API_UI_FOUND: ${endpointId || route || pageId}`] : ctx.limitations,
+        data: {
+          totalEndpoints: rows.length,
+          endpoints: rows.map((r) => ({
+            endpoint_id: r.endpointId,
+            url_pattern: r.urlPattern,
+            http_method: r.httpMethod,
+            route_name: r.routeName,
+            handlers: (r.handlers || []).filter(Boolean),
+            components: (r.components || []).filter(Boolean),
+            pages: (r.pages || []).filter(Boolean)
+          }))
+        }
+      });
+    } catch (err) {
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: 'FAILED',
+        limitations: [...ctx.limitations, `GET_API_UI_CONTEXT_ERROR: ${err.message}`],
+        data: { endpoints: [] }
+      });
+    }
+  }
+
+  /**
+   * 13. Context Retrieval: Existing Tests for Deduplication
+   */
+  async getExistingTests(args = {}) {
+    const ctx = await this._assessContext();
+    const workflowId = args.workflow_id || args.workflowId || null;
+    const ruleId = args.rule_id || args.ruleId || null;
+    const methodId = args.method_id || args.methodId || null;
+    const endpointId = args.endpoint_id || args.endpointId || null;
+
+    if (!ctx.graphAvailable) {
+      return buildIntelligenceEnvelope({
+        snapshot: null,
+        completeness: ctx.completeness,
+        analysisStatus: 'UNAVAILABLE',
+        limitations: ctx.limitations,
+        data: { tests: [], count: 0 }
+      });
+    }
+
+    try {
+      let cypher = '';
+      let params = {};
+
+      if (workflowId) {
+        cypher = `
+          MATCH (w:BusinessWorkflow {workflow_id: $workflowId})-[:DECOMPOSES_TO|COMPOSES_TO*0..2]->(f:Feature)
+          OPTIONAL MATCH (f)-[:HAS_REQUIREMENT]->(r:Requirement)
+          OPTIONAL MATCH (tc:TestCase)-[:TESTS|VERIFIES]->(r)
+          RETURN DISTINCT tc.test_id AS testId, tc.name AS name, tc.type AS type,
+                          tc.framework AS framework, tc.file_path AS filePath,
+                          r.requirement_id AS targetRequirement
+          LIMIT 100
+        `;
+        params = { workflowId: String(workflowId) };
+      } else if (ruleId) {
+        cypher = `
+          MATCH (br:BusinessRule {rule_id: $ruleId})<-[:GOVERNED_BY]-(r:Requirement)
+          OPTIONAL MATCH (tc:TestCase)-[:TESTS|VERIFIES]->(r)
+          RETURN DISTINCT tc.test_id AS testId, tc.name AS name, tc.type AS type,
+                          tc.framework AS framework, tc.file_path AS filePath,
+                          br.rule_id AS targetRule
+          LIMIT 50
+        `;
+        params = { ruleId: String(ruleId) };
+      } else {
+        cypher = `
+          MATCH (tc:TestCase)
+          RETURN tc.test_id AS testId, tc.name AS name, tc.type AS type,
+                 tc.framework AS framework, tc.file_path AS filePath
+          LIMIT 50
+        `;
+      }
+
+      const rows = await this._safeRunQuery(cypher, params);
+      const validTests = (rows || []).filter((r) => r && (r.testId || r.name));
+
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: 'SUCCESS',
+        limitations: ctx.limitations,
+        data: {
+          count: validTests.length,
+          tests: validTests.map((t) => ({
+            test_id: t.testId || t.name,
+            name: t.name,
+            type: t.type,
+            framework: t.framework,
+            file_path: t.filePath,
+            target: t.targetRequirement || t.targetRule || null
+          }))
+        }
+      });
+    } catch (err) {
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: 'FAILED',
+        limitations: [...ctx.limitations, `GET_EXISTING_TESTS_ERROR: ${err.message}`],
+        data: { tests: [], count: 0 }
+      });
+    }
+  }
+
+  /**
+   * 14. Consolidated Test Generation Context (Phase 1 / ARCH-01, DATA-01)
+   *
+   * Assembles the full, prompt-ready graph slice:
+   *   Workflow -> Business Rules -> Code Contracts -> API Endpoints -> Database Entities -> Existing Tests -> Fixture Specs
+   */
+  async getTestGenerationContext(args = {}) {
+    const ctx = await this._assessContext();
+    const workflowId = args.workflow_id || args.workflowId || 'WF_PAYROLL_RUN';
+    const featureId = args.feature_id || args.featureId || null;
+    const includeExistingTests = args.include_existing_tests !== false;
+
+    if (!ctx.graphAvailable) {
+      return buildIntelligenceEnvelope({
+        snapshot: null,
+        completeness: ctx.completeness,
+        analysisStatus: 'UNAVAILABLE',
+        limitations: ctx.limitations,
+        data: {
+          workflow: null,
+          business_rules: [],
+          code_contracts: [],
+          api_endpoints: [],
+          database_entities: [],
+          existing_tests: [],
+          synthetic_data_recommendations: []
+        }
+      });
+    }
+
+    try {
+      // 1. Business context
+      const bizEnv = await this.getBusinessContext({ workflow_id: workflowId, feature_id: featureId });
+      const bizData = bizEnv?.data || {};
+
+      // 2. Mapped code contracts & API endpoints
+      const codeRows = await this._safeRunQuery(`
+        MATCH (w:BusinessWorkflow {workflow_id: $workflowId})
+        OPTIONAL MATCH (w)-[:DECOMPOSES_TO|COMPOSES_TO*0..2]->(f:Feature)
+        OPTIONAL MATCH (f)-[:HAS_REQUIREMENT]->(r:Requirement)
+        OPTIONAL MATCH (f)-[:INCLUDES_ENDPOINT]->(fep:ApiEndpoint)
+        OPTIONAL MATCH (m:Method)-[:SATISFIES|IMPLEMENTS_REQUIREMENT|TRACES_TO]->(r)
+        OPTIONAL MATCH (ep:ApiEndpoint)-[:DISPATCHES_TO|HANDLED_BY]->(m)
+        OPTIONAL MATCH (m)-[:ACCESSES_COLUMN]->(col:DatabaseColumn)
+        RETURN collect(DISTINCT CASE WHEN m IS NOT NULL THEN { method_id: m.method_id, name: m.name, class_name: m.class_name, file_path: m.file_path } END)[0..20] AS methods,
+               collect(DISTINCT CASE WHEN coalesce(ep, fep) IS NOT NULL THEN { route: coalesce(ep.url_pattern, fep.url_pattern), method: coalesce(ep.http_method, fep.http_method), route_name: coalesce(ep.route_name, fep.route_name) } END)[0..15] AS endpoints,
+               collect(DISTINCT CASE WHEN col IS NOT NULL THEN { table: col.table_name, column: col.column_name } END)[0..20] AS columns
+        LIMIT 1
+      `, { workflowId: String(workflowId) });
+
+      const codeContracts = (codeRows && codeRows[0]?.methods || []).filter(Boolean);
+      const apiEndpoints = (codeRows && codeRows[0]?.endpoints || []).filter(Boolean);
+      const dbColumns = (codeRows && codeRows[0]?.columns || []).filter(Boolean);
+
+      // Group columns by table
+      const dbEntitiesMap = {};
+      dbColumns.forEach((c) => {
+        if (!dbEntitiesMap[c.table]) dbEntitiesMap[c.table] = [];
+        if (!dbEntitiesMap[c.table].includes(c.column)) dbEntitiesMap[c.table].push(c.column);
+      });
+      const databaseEntities = Object.entries(dbEntitiesMap).map(([table, cols]) => ({
+        table_name: table,
+        columns: cols
+      }));
+
+      // 3. Existing tests
+      let existingTests = [];
+      if (includeExistingTests) {
+        const testEnv = await this.getExistingTests({ workflow_id: workflowId });
+        existingTests = testEnv?.data?.tests || [];
+      }
+
+      // 4. Privacy-safe synthetic data recommendations based on rules
+      const syntheticRecommendations = [
+        {
+          factory: 'PayrollEmployeeFactory::createStandardSalaried()',
+          description: 'Standard full-time employee with Basic (INR 50,000) + HRA (INR 25,000)',
+          target_rules: ['BR_PAY_001', 'BR_PAY_009']
+        },
+        {
+          factory: 'PayrollEmployeeFactory::createVariableAllowanceWorker()',
+          description: 'Employee with variable performance allowances, shift allowances, and overtime',
+          target_rules: ['BR_PAY_007', 'BR_PAY_010']
+        },
+        {
+          factory: 'TaxDeclarationFactory::createSection80CExemption()',
+          description: 'New vs Old Tax Regime FY 2026-27 with Sec 87A rebate and Sec 288B rounding',
+          target_rules: ['BR_PAY_012']
+        }
+      ];
+
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: bizData.workflow ? 'SUCCESS' : 'PARTIAL',
+        limitations: bizData.workflow ? ctx.limitations : [`WORKFLOW_INCOMPLETE: ${workflowId}`],
+        data: {
+          workflow: bizData.workflow,
+          business_rules: bizData.businessRules || [],
+          requirements: bizData.requirements || [],
+          personas: bizData.personas || [],
+          code_contracts: codeContracts,
+          api_endpoints: apiEndpoints,
+          database_entities: databaseEntities,
+          existing_tests: existingTests,
+          synthetic_data_recommendations: syntheticRecommendations
+        }
+      });
+    } catch (err) {
+      return buildIntelligenceEnvelope({
+        snapshot: ctx.snapshot,
+        completeness: ctx.completeness,
+        analysisStatus: 'FAILED',
+        limitations: [...ctx.limitations, `GET_TEST_GEN_CONTEXT_ERROR: ${err.message}`],
+        data: {
+          workflow: null,
+          business_rules: [],
+          code_contracts: [],
+          api_endpoints: [],
+          database_entities: [],
+          existing_tests: [],
+          synthetic_data_recommendations: []
+        }
+      });
+    }
+  }
 }
 
 module.exports = new QeIntelligenceService();
