@@ -20,6 +20,11 @@ Thumbs.db
 .env
 tools/.env
 tools/node_modules/
+tools/qe_app/logs/
+tools/qkg_engine/logs/
+tools/qkg_engine/snapshots/
+tools/qkg_engine/artifacts/
+tools/qkg_engine/output/
 
 __pycache__/
 *.py[cod]

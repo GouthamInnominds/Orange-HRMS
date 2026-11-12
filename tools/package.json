@@ -4,8 +4,11 @@
   "description": "Quality Knowledge Graph Parser & Ingestion Engine for OrangeHRM",
   "main": "qkg_engine/index.js",
   "scripts": {
-    "ingest:pim": "node qkg_engine/run_pim_slice.js",
-    "tia:simulate": "node qkg_engine/run_tia_simulation.js"
+    "test": "node --test test/*.test.js",
+    "ingest:staging": "node qkg_engine/ingest_pipeline.js --staging --clean",
+    "ingest:promote": "node qkg_engine/ingest_pipeline.js --promote",
+    "validate:golden": "node qkg_engine/validate_golden_dataset.js",
+    "mcp": "node qkg_mcp/index.js"
   },
   "dependencies": {
     "cors": "^2.8.6",
