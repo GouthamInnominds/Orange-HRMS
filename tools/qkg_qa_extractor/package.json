@@ -1,0 +1,11 @@
+{
+  "name": "@orangehrm/qkg-extractor",
+  "version": "1.0.0",
+  "description": "TypeScript Compiler API AST extractor for external Playwright / QA automation specs",
+  "main": "index.js",
+  "scripts": {
+    "extract": "node index.js"
+  },
+  "license": "MIT"
+}
+

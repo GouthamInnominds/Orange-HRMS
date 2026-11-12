@@ -1,0 +1,14 @@
+{
+  "name": "@orangehrm/qkg-mcp",
+  "version": "1.0.0",
+  "description": "Read-only Model Context Protocol (MCP) server for OrangeHRM Quality Knowledge Graph",
+  "main": "index.js",
+  "bin": {
+    "qkg-mcp": "index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "MIT"
+}
+

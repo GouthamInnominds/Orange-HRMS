@@ -36,9 +36,19 @@ function auditLog(action, details = {}) {
 // REST API - DETERMINISTIC QUALITY SERVICES
 // ==========================================
 
-// 1. Quality Metrics
-app.get('/api/v2/quality/metrics', (req, res) => {
-  res.json(metricsService.getExecutiveQualityMetrics());
+// 1. Quality Metrics & Telemetry Runs
+app.get('/api/v2/quality/metrics', async (req, res) => {
+  res.json(await metricsService.getExecutiveQualityMetrics());
+});
+
+app.get('/api/v2/quality/coverage', async (req, res) => {
+  const limit = parseInt(req.query.limit || '10', 10);
+  res.json({ runs: await testService.getCoverageRuns(limit) });
+});
+
+app.get('/api/v2/quality/runs', async (req, res) => {
+  const limit = parseInt(req.query.limit || '10', 10);
+  res.json({ runs: await testService.getTestRuns(limit) });
 });
 
 // 2. Knowledge Graph
@@ -77,6 +87,17 @@ app.get('/api/v2/graph/compare', async (req, res) => {
   const tgt = req.query.target || 'v2.2-india-payroll';
   const data = await neo4jService.compareGraphBaselines(src, tgt);
   res.json(data);
+});
+
+app.get('/api/v2/graph/cross-module/:plugin', async (req, res) => {
+  try {
+    const maxHops = Number(req.query.maxHops || 3);
+    const limit = Number(req.query.limit || 50);
+    const data = await tiaService.engine.analyzeCrossPluginImpact(req.params.plugin, { maxHops, limit });
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // 3. Database & Drift Studio
@@ -123,14 +144,15 @@ app.post('/api/v2/database/query', async (req, res) => {
 });
 
 // 4. Test Intelligence & Full Catalogue
-app.get('/api/v2/tests/catalogue', (req, res) => {
+app.get('/api/v2/tests/catalogue', async (req, res) => {
   const page = parseInt(req.query.page || '1', 10);
   const limit = parseInt(req.query.limit || '50', 10);
   const moduleFilter = req.query.module || '';
   const layerFilter = req.query.layer || '';
   const search = req.query.search || '';
+  const includeBaseline = req.query.includeBaseline === 'true';
 
-  const data = metricsService.getTestCatalogue(page, limit, moduleFilter, layerFilter, search);
+  const data = await metricsService.getTestCatalogue(page, limit, moduleFilter, layerFilter, search, includeBaseline);
   res.json(data);
 });
 
@@ -162,8 +184,12 @@ app.post('/api/v2/tia/analyze', async (req, res) => {
   res.json(data);
 });
 
-app.post('/api/v2/tests/plan', (req, res) => {
-  const plan = testService.createTestPlan(req.body.scope || 'targeted', req.body.tests || []);
+app.post('/api/v2/tests/plan', async (req, res) => {
+  const plan = await testService.createTestPlan(
+    req.body.scope || 'targeted',
+    req.body.tests || [],
+    { files: req.body.files || [] }
+  );
   auditLog('TEST_PLAN_CREATED', { planId: plan.planId });
   res.json(plan);
 });
@@ -226,11 +252,11 @@ app.get('/api/v2/events/sse', (req, res) => {
   });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', async () => {
+  const metrics = await metricsService.getExecutiveQualityMetrics().catch(() => null);
+  const totalTests = metrics?.overview?.totalVerifiedTests ?? 'N/A';
   console.log(`================================================================`);
-  console.log(`🚀 QE Intelligence Platform & Agentic Chatbot Online!`);
-  console.log(`🌐 Web URL: http://127.0.0.1:${PORT}`);
-  console.log(`📡 Azure OpenAI LLM: Connected (${process.env.AZURE_DEPLOYMENT || 'gpt-4.1'})`);
-  console.log(`📊 Total Verified Automated Tests: ${metricsService.grandTotal.toLocaleString()} (6,893 baseline + ${metricsService.payrollTotal} executed Payroll v2.2 tests)`);
+  console.log(`QE Intelligence Platform Online at http://127.0.0.1:${PORT}`);
+  console.log(`Live Neo4j Status: ${metrics?.status || 'UNKNOWN'} | Code-Linked Tests: ${totalTests}`);
   console.log(`================================================================`);
 });
